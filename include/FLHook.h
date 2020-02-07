@@ -335,7 +335,7 @@ struct CLIENT_INFO
 
 	bool		bSpawnProtected;
 	bool		bUseServersideHitDetection; //used by AC Plugin
-	byte		unused_data[127];
+	uchar		unused_data[127];
 };
 
 struct INISECTIONVALUE
