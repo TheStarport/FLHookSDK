@@ -3,30 +3,12 @@
 
 #pragma warning(disable: 4311 4786)
 
-// include library files
-#ifndef __NOINCFLHOOKLIBS__
-#pragma comment(lib,"../flhookplugin_sdk/libs/FLCoreDALib.lib")
-#pragma comment(lib,"../flhookplugin_sdk/libs/FLCoreCommon.lib")
-#pragma comment(lib,"../flhookplugin_sdk/libs/FLCoreDACom.lib")
-#pragma comment(lib,"../flhookplugin_sdk/libs/FLCoreFLServerEXE.lib")
-#pragma comment(lib,"../flhookplugin_sdk/libs/FLCoreRemoteClient.lib")
-#pragma comment(lib,"../flhookplugin_sdk/libs/FLCoreServer.lib")
-#if _MSC_VER >= 1900
-#pragma comment(lib,"../flhookplugin_sdk/libs/FLHook-vc14.lib")
-#elif _MSC_VER == 1800
-#pragma comment(lib,"../flhookplugin_sdk/libs/FLHook-vc12.lib")
-#else
-#pragma comment(lib,"../flhookplugin_sdk/libs/FLHook.lib")
-#endif
-#endif
-
 #include <windows.h>
 #include <stdio.h>
 #include <string>
 #include <list>
 #include <time.h>
 using namespace std;
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // defines

@@ -579,7 +579,7 @@ public:
 
 namespace SysDB
 {
-	IMPORT  std::map<unsigned int, class StarSystem, struct std::less<unsigned int>, class std::allocator<class StarSystem>> SysMap;
+	IMPORT  std::map<unsigned int, class StarSystem, std::less<unsigned int>, std::allocator<std::pair<const unsigned int, class StarSystem>>> SysMap;
 };
 
 namespace Controller
