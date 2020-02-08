@@ -14,7 +14,7 @@ For development help, please refer to https://the-starport.net (check out the FL
 
 ### Plugin info
 
-Since FLHook 1.6.1 plugin your plugin don't need an ini file anymore. Your plugin DLL needs to be located directly in the "flhook_plugins" folder. It needs to export "Get_PluginInfo" which replaces the old plugin ini file. Normally the function "Get_PluginInfo" should look like this (using tempban.dll as example):
+Your plugin DLL needs to be located directly in the "flhook_plugins" folder. It needs to export `Get_PluginInfo` which replaces the old plugin ini file. Normally the function `Get_PluginInfo` should look something like this (using tempban.dll as example):
 
 ```cpp
 EXPORT PLUGIN_INFO* Get_PluginInfo()
