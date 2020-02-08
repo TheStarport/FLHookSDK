@@ -2182,6 +2182,10 @@ private:
 	_E *_Ptr;
 	size_type _Len, _Res;
 	};
+    template<class _E,
+	class _Tr = char_traits<_E>,
+	class _A = allocator<_E> >
+	inline const typename _A::size_type basic_string<_E, _Tr, _A>::npos = typename _A::size_type(-1);
 
     template<class _E, class _Tr, class _A> inline
     basic_string<_E, _Tr, _A> __cdecl operator+(
