@@ -14,7 +14,7 @@ For development help, please refer to https://the-starport.net (check out the FL
 
 ### Plugin info
 
-Your plugin DLL needs to be located directly in the "flhook_plugins" folder. It needs to export `Get_PluginInfo` which replaces the old plugin ini file. Normally the function `Get_PluginInfo` should look something like this (using tempban.dll as example):
+Your plugin DLL needs to be located directly in the `.\EXE\flhook_plugins` folder. It needs to export `Get_PluginInfo` which replaces the old plugin INI file. Normally the function `Get_PluginInfo` should look something like this (using `tempban.dll` as example):
 
 ```cpp
 EXPORT PLUGIN_INFO* Get_PluginInfo()
@@ -24,19 +24,36 @@ EXPORT PLUGIN_INFO* Get_PluginInfo()
 	p_PI->sShortName = "tempban";
 	p_PI->bMayPause = true;
 	p_PI->bMayUnload = true;
-	p_PI->mapHooks.insert(pair<string, int>("HkTimerCheckKick", 0));
-	p_PI->mapHooks.insert(pair<string, int>("HkIServerImpl::Login", 0));
-	p_PI->mapHooks.insert(pair<string, int>("Plugin_Communication_CallBack", 0));
-	p_PI->mapHooks.insert(pair<string, int>("ExecuteCommandString_Callback", 0));
-	p_PI->mapHooks.insert(pair<string, int>("CmdHelp_Callback", 0));
-
+	p_PI->ePluginReturnCode = &returncode;
+	p_PI->lstHooks.push_back(PLUGIN_HOOKINFO((FARPROC*)&HkTimerCheckKick, PLUGIN_HkTimerCheckKick, 0));
+	p_PI->lstHooks.push_back(PLUGIN_HOOKINFO((FARPROC*)&HkIServerImpl::Login, PLUGIN_HkIServerImpl_Login, 0));
+	p_PI->lstHooks.push_back(PLUGIN_HOOKINFO((FARPROC*)&Plugin_Communication_CallBack, PLUGIN_Plugin_Communication, 0));
+	p_PI->lstHooks.push_back(PLUGIN_HOOKINFO((FARPROC*)&ExecuteCommandString_Callback, PLUGIN_ExecuteCommandString_Callback, 0));
+	p_PI->lstHooks.push_back(PLUGIN_HOOKINFO((FARPROC*)&CmdHelp_Callback, PLUGIN_CmdHelp_Callback, 0));
 	return p_PI;
 }
 ```
 
-You should check the example plugins in order to get used to the new plugin info function.
+You should check the example plugins in order to get used to the plugin info function.
 
-The `p_PI->mapHooks` part needs further explanation: This is where you tell FLHook which functions you want to have hooked into your plugin. You must export all the functions you list here. You can see a complete list of all available hooks along with a short description of what they do (if available) at the bottom of this documentation. The second parameter is a priority setting. This defines the order in which multiple plugins are called on the same function. For example, if an anticheat plugin hooks a function with a priority of 3 and a simple logging plugin hooks the same function with a priority of 0, the anticheat plugin will receive the callback before the logging plugin.
+The `p_PI->lstHooks` part needs further explanation: This is where you tell FLHook which functions you want to have hooked into your plugin. You must export all the functions you list here. You can see a complete list of all available hooks along with a short description of what they do (if available) in `plugin.h`. The last parameter is a priority setting. This defines the order in which multiple plugins are called on the same function. For example, if an anticheat plugin hooks a function with a priority of 3 and a simple logging plugin hooks the same function with a priority of 0, the anticheat plugin will receive the callback before the logging plugin.
+
+The `ePluginReturnCode` is also important. It is of type `PLUGIN_RETURNCODE`, an enum defined in the `plugin.h` header file. Here's an example of how it could be used:
+```cpp
+PLUGIN_RETURNCODE returncode;
+
+EXPORT int __stdcall A_Hooked_Function(unsigned int iSomething)
+{
+	// do something here
+	// now we don't want FLHook to call the original function and we don't want other plugins to be called either, so we change the return code
+	returncode = SKIPPLUGINS_NOFUNCTIONCALL;
+	return 0;
+}
+```
+
+In the example above, FLHook will skip any plugin and return the current hooked function. If the return value is not void, it will return what you return (in this example, it's `0`). FLHook queries the value of your return code directly after your hooked function. You should now see the use of the priority setting in the plugin config: this way, high priority plugins can force FLHook to skip other plugins, as well as Freelancer's own function calls.
+
+If you ever change the return code, you must **always** set the return code in every hooked function. It is *not* reset after a call.
 
 ### Hooking functions
 
@@ -53,34 +70,11 @@ namespace HkIServerImpl
 }
 ```
 
-That's it! Now, if you want to do some advanced stuff, like returning a function without letting FLHook call the original function, things get a little more complicated. To tell FLHook what to do after your plugin was called, you need to export a function that reports the desired behaviour. This function is called `Get_PluginReturnCode`. Here is an example of how to use it:
-
-```cpp
-PLUGIN_RETURNCODE returncode;
-
-EXPORT PLUGIN_RETURNCODE Get_PluginReturnCode()
-{
-	return returncode;
-}
-
-EXPORT int __stdcall A_Hooked_Function(unsigned int iSomething)
-{
-	// do something here
-	// now we don't want FLHook to call the original function and we don't want other plugins to be called either, so we change the return code
-	returncode = SKIPPLUGINS_NOFUNCTIONCALL;
-	return 0;
-}
-```
-
-`PLUGIN_RETURNCODE` is an enum defined in the `plugin.h` header file. In the example above, FLHook will skip any plugin and return the current hooked function. If the return value is not void, it will return what you return (in the example, it's `0`). On the coding side, FLHook calls the `Get_PluginReturnCode` function directly after your hooked function. You should now see the use of the priority setting in the plugin config. This way, high priority plugins can force FLHook to skip other plugins, as well as Freelancer's own function call.
-
-Some important notes on the `Get_PluginReturnCode` function: If it is not exported by your DLL, FLHook always assumes standard procedure (call every plugin and original function). Also, if you define the function, remember to **always** set the return code in every hooked function. It is *not* reset after a call.
-
 Some words about
 ```cpp
 extern IMPORT bool g_bPlugin_nofunctioncall;
 ```
-(in plugin.h): `g_bPlugin_nofunctioncall == true` indicates to your plugin that the original function should not be called because either it has been called by a previous plugin, or a previous plugin wants to prevent the function from being called. This adds a layer of compatability for plugin functions that need to be executed after certain server methods, like `IServerImpl::PlayerLaunch`.
+(in `plugin.h`): `g_bPlugin_nofunctioncall == true` indicates to your plugin that the original function should not be called because either it has been called by a previous plugin, or a previous plugin wants to prevent the function from being called. This adds a layer of compatability for plugin functions that need to be executed after certain server methods, like `IServerImpl::PlayerLaunch`.
 
 ### Plugin intercommunication
 
