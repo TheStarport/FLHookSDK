@@ -13,11 +13,6 @@
 #ifndef _FLCORESERVER_H_
 #define _FLCORESERVER_H_
 
-#include <string>
-#include <list>
-#include <vector>
-#include <map>
-#include "flmap.h"
 
 #include "FLCoreDefs.h"
 #include "FLCoreCommon.h"
@@ -187,8 +182,8 @@ public:
 	 CAccount(void);
 	 virtual ~CAccount(void);
 	 class CAccount & operator=(class CAccount const &);
-	 void AppendCharacterNames(std::list<std::basic_string<unsigned short,struct ci_wchar_traits> &> &);
-	 void DeleteCharacterFromID(std::basic_string<char,struct ci_char_traits> &);
+	 void AppendCharacterNames(st6::list<st6::wstring &> &);
+	 void DeleteCharacterFromID(st6::string &);
 	 void ForceLogout(void);
 	 void InitFromFolder(char const *);
 
@@ -235,10 +230,10 @@ public:
 	 void SetMissionID(unsigned int,unsigned int);
 	 void SetMissionMessage(struct CSetMissionMessage &);
 	 void SetMissionObjectives(struct CMissionObjectives &);
-	 void StoreMemberList(std::vector<unsigned int> &);
+	 void StoreMemberList(st6::vector<unsigned int> &);
 
 protected:
-	 static class std::map<unsigned int const, class CPlayerGroup *, struct std::less<unsigned int const>, class std::allocator<class CPlayerGroup *>>  s_GroupIDToGroupPtrMap;
+	 static class st6::map<unsigned int const, class CPlayerGroup *, struct st6::less<unsigned int const>, class st6::allocator<class CPlayerGroup *>>  s_GroupIDToGroupPtrMap;
 	 static unsigned int  s_uiGroupID;
 
 public:
@@ -302,7 +297,7 @@ struct IMPORT IServerImpl
 	 virtual void ReqAddItem(unsigned int,char const *,int,float,bool,unsigned int);
 	 virtual void ReqCargo(class EquipDescList const &,unsigned int);
 	 virtual void ReqChangeCash(int,unsigned int);
-	 virtual void ReqCollisionGroups(class std::list<struct CollisionGroupDesc,class std::allocator<struct CollisionGroupDesc> > const &,unsigned int);
+	 virtual void ReqCollisionGroups(class st6::list<struct CollisionGroupDesc,class st6::allocator<struct CollisionGroupDesc> > const &,unsigned int);
 	 virtual void ReqDifficultyScale(float,unsigned int);
 	 virtual void ReqEquipment(class EquipDescList const &,unsigned int);
 	 virtual void ReqHullStatus(float,unsigned int);
@@ -352,18 +347,13 @@ public:
 
 struct CollisionGroupDescList
 {
-	// std::list<CollisionGroupDesc> data; // FIXME: std::list is not compatible with VC9 libs
-	CollisionGroupDesc *iter;
-	CollisionGroupDesc *first;
-	UINT count;
+	st6::list<CollisionGroupDesc> data;
 };	
 
 struct FLString
 {
-	// std::string
-	UINT iDunno1;
-	char *value;
-	UINT iDunno2[14];
+	st6::string value;
+	UINT iDunno2[12];
 };
 
 struct CHARACTER_ID
@@ -486,35 +476,35 @@ public:
 	 ~PlayerDB(void);
 	 class PlayerDB & operator=(class PlayerDB const &);
 	 struct PlayerData & operator[](unsigned int const &);
-	 bool BanAccount(std::basic_string<unsigned short,struct ci_wchar_traits> &,bool);
+	 bool BanAccount(st6::wstring &,bool);
 	 void BuildLocalUserDir(void);
 	 unsigned int CountPlayersInSystem(int);
-	 bool CreateAccount(std::basic_string<unsigned short,struct ci_wchar_traits> &);
-	 void DeleteAccount(std::basic_string<unsigned short,struct ci_wchar_traits> &);
-	 void DeleteCharacterFromID(std::basic_string<unsigned short,struct ci_wchar_traits> &);
-	 bool DeleteCharacterFromName(std::basic_string<unsigned short,struct ci_wchar_traits> &);
-	 class CAccount * FindAccountFromCharacterID(std::basic_string<char,struct ci_char_traits> &);
-	 class CAccount * FindAccountFromCharacterName(std::basic_string<unsigned short,struct ci_wchar_traits> &);
+	 bool CreateAccount(st6::wstring &);
+	 void DeleteAccount(st6::wstring &);
+	 void DeleteCharacterFromID(st6::wstring &);
+	 bool DeleteCharacterFromName(st6::wstring &);
+	 class CAccount * FindAccountFromCharacterID(st6::string &);
+	 class CAccount * FindAccountFromCharacterName(st6::wstring &);
 	 class CAccount * FindAccountFromClientID(unsigned int);
-	 class CAccount * FindAccountFromName(std::basic_string<unsigned short,struct ci_wchar_traits> &);
-	 bool GetAccountAdminRights(std::basic_string<unsigned short,struct ci_wchar_traits> &);
-	 bool GetAccountBanned(std::basic_string<unsigned short,struct ci_wchar_traits> &);
+	 class CAccount * FindAccountFromName(st6::wstring &);
+	 bool GetAccountAdminRights(st6::wstring &);
+	 bool GetAccountBanned(st6::wstring &);
 	 unsigned short const * GetActiveCharacterName(unsigned int)const ;
-	 bool GetCharactersForAccount(std::basic_string<unsigned short,struct ci_wchar_traits> &,class std::list<std::basic_string<unsigned short,struct ci_wchar_traits> > &);
+	 bool GetCharactersForAccount(st6::wstring &,class st6::list<st6::wstring> &);
 	 unsigned int GetGroupID(unsigned int);
-	 std::wstring & GetMOTD(void);
+	 st6::wstring & GetMOTD(void);
 	 unsigned int GetMaxPlayerCount(void);
 	 unsigned int GetServerID(void);
 	 char const * GetServerSig(void);
-	 void LockAccountAccess(std::basic_string<unsigned short,struct ci_wchar_traits> &);
+	 void LockAccountAccess(st6::wstring &);
 	 bool MakeLocalUserPath(char *,char const *);
-	 void ReadCharacterName(char const *,std::basic_string<unsigned short,struct ci_wchar_traits> &);
+	 void ReadCharacterName(char const *,st6::wstring &);
 	 void SendGroupID(unsigned int,unsigned int);
 	 void SendSystemID(unsigned int,unsigned int);
-	 bool SetAccountAdminRights(std::basic_string<unsigned short,struct ci_wchar_traits> &,bool);
-	 bool SetAccountPassword(std::basic_string<unsigned short,struct ci_wchar_traits> &,std::basic_string<unsigned short,struct ci_wchar_traits> &);
-	 void SetMOTD(std::wstring &);
-	 void UnlockAccountAccess(std::basic_string<unsigned short,struct ci_wchar_traits> &);
+	 bool SetAccountAdminRights(st6::wstring &,bool);
+	 bool SetAccountPassword(st6::wstring &,st6::wstring &);
+	 void SetMOTD(st6::wstring &);
+	 void UnlockAccountAccess(st6::wstring &);
 	 void cleanup(unsigned int);
 	 bool create_new_character(struct SCreateCharacterInfo const &,unsigned int);
 	 bool create_restart_file(char const *);
@@ -579,7 +569,7 @@ public:
 
 namespace SysDB
 {
-	IMPORT  std::map<unsigned int, class StarSystem, std::less<unsigned int>, std::allocator<std::pair<const unsigned int, class StarSystem>>> SysMap;
+	IMPORT  st6::map<unsigned int, class StarSystem, st6::less<unsigned int>, st6::allocator<std::pair<const unsigned int, class StarSystem>>> SysMap;
 };
 
 namespace Controller
@@ -775,12 +765,12 @@ namespace pub
 		IMPORT  int GetBody(unsigned int const &,unsigned int &);
 		IMPORT  int GetCharacter(unsigned int const &,unsigned int &);
 		IMPORT  int GetGender(unsigned int const &,int &);
-		IMPORT  int GetGroupMembers(unsigned int,std::vector<unsigned int> &);
+		IMPORT  int GetGroupMembers(unsigned int,st6::vector<unsigned int> &);
 		IMPORT  int GetGroupSize(unsigned int,unsigned int &);
 		IMPORT  int GetLocation(unsigned int const &,unsigned int &);
 		IMPORT  int GetMoneyNeededToNextRank(unsigned int const &,int &);
 		IMPORT  int GetMsnID(unsigned int,unsigned int &);
-		IMPORT  int GetName(unsigned int,std::wstring &);
+		IMPORT  int GetName(unsigned int,st6::wstring &);
 		IMPORT  int GetNumKills(unsigned int const &,int &);
 		IMPORT  int GetNumMissionFailures(unsigned int const &,int &);
 		IMPORT  int GetNumMissionSuccesses(unsigned int const &,int &);

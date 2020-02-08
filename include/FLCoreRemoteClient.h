@@ -14,7 +14,6 @@
 #define _FLCOREREMOTECLIENT_H_
 
 #include "FLCoreDefs.h"
-#include <vector>
 
 #pragma comment( lib, "FLCoreRemoteClient.lib" )
 
@@ -279,7 +278,7 @@ public:
 IMPORT  void  ForceClientLogout(unsigned int);
 IMPORT  int  GetClientStats(struct client_stats_t *,int *);
 IMPORT  int  GetNumClients(void);
-IMPORT  void  GetRemoteClientPort( std::vector<unsigned long> & );
+IMPORT  void  GetRemoteClientPort( st6::vector<unsigned long> & );
 IMPORT  void  SetRemoteClientPassword(unsigned short const *);
 IMPORT  void  SetRemoteClientResponseData(bool,bool,int,unsigned short const *,unsigned int,char const *);
 IMPORT  void  SetRemoteClientSessionName(unsigned short const *);

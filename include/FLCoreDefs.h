@@ -13,7 +13,16 @@
 #ifndef _FLCOREDEFS_H_
 #define _FLCOREDEFS_H_
 
+#include "st6.h"
+
 #pragma warning(disable: 4251 4002 4099 4302)
+
+#ifndef IMPORT
+#define IMPORT __declspec(dllimport)
+#endif
+#ifndef  EXPORT
+#define EXPORT __declspec(dllexport)
+#endif
 
 #define OBJECT_DATA_SIZE	2048
 
@@ -42,5 +51,10 @@ class Quaternion
 public:
 	float w,x,y,z;
 };
+
+using uint = unsigned int;
+using ushort = unsigned short;
+using ulong = unsigned long;
+using uchar = unsigned char;
 
 #endif // _FLCOREDEFS_H_

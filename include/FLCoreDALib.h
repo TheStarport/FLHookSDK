@@ -132,7 +132,7 @@ public:
 	 bool GetConnectionStats(struct _DPN_CONNECTION_INFO *);
 	 bool GetConnectionStats(class CDPClientProxy *,struct _DPN_CONNECTION_INFO *);
 	 static unsigned long __cdecl GetLastMsgTimestamp(void);
-	 void GetPort(std::vector<unsigned long> &);
+	 void GetPort(st6::vector<unsigned long> &);
 	 unsigned int GetSendQBytes(class CDPClientProxy *);
 	 unsigned int GetSendQSize(class CDPClientProxy *);
 	 bool SendTo(class CDPClientProxy *,void *,unsigned long);
