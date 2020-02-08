@@ -1,5 +1,10 @@
 #pragma once
 
+// N.B.: Must be included *after* FLHook.h or global.h; st6_malloc and st6_free must be defined!
+#ifndef ST6_ALLOCATION_DEFINED
+#error st6_malloc and st6_free must be defined before st6.h is included!
+#endif
+
 #include <cstddef>
 #include <stdexcept>
 #include <iterator>
@@ -22,7 +27,7 @@ namespace st6 {
     _Ty* _Allocate(ptrdiff_t _N, _Ty*) {
         if (_N < 0)
             _N = 0;
-        return ((_Ty *)operator new((size_t)_N * sizeof(_Ty)));
+        return ((_Ty *)st6_malloc((size_t)_N * sizeof(_Ty)));
     }
 
     template <class _T1, class _T2>
@@ -54,7 +59,7 @@ namespace st6 {
             return (_Allocate((difference_type)_N, (char *)0));
         }
 
-        void deallocate(void* _P, size_type) { operator delete(_P); }
+        void deallocate(void* _P, size_type) { st6_free(_P); }
         void construct(pointer _P, const _Ty& _V) { _Construct(_P, _V); }
         void destroy(pointer _P) { _Destroy(_P); }
 

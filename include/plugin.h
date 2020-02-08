@@ -9,8 +9,6 @@ enum PLUGIN_RETURNCODE
 	NOFUNCTIONCALL = 3,
 };
 
-
-
 enum PLUGIN_CALLBACKS
 {
 	PLUGIN_HkIServerImpl_Update,

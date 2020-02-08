@@ -8,6 +8,7 @@
 #include <string>
 #include <list>
 #include <time.h>
+#include <map>
 using namespace std;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -21,25 +22,6 @@ using namespace std;
 #define FLSERVER_ADDR(a) ((char*)hProcFL + a)
 #define CONTENT_ADDR(a) ((char*)hModContent + a)
 #define ARG_CLIENTID(a) (wstring(L"id ") + stows(itos(a)))
-
-#define HK_GET_CLIENTID(a, b) \
-	bool bIdString = false; \
-	if(b.find(L"id ") == 0) bIdString = true; \
-	uint a; \
-	{ \
-		HK_ERROR hkErr = HkResolveId(b, a); \
-		if(hkErr != HKE_OK) \
-		{ \
-			if(hkErr == HKE_INVALID_ID_STRING) { \
-				hkErr = HkResolveShortCut(b, a); \
-				if((hkErr == HKE_AMBIGUOUS_SHORTCUT) || (hkErr == HKE_NO_MATCHING_PLAYER)) \
-					return hkErr; \
-				else if(hkErr == HKE_INVALID_SHORTCUT_STRING) \
-					a = HkGetClientIdFromCharname(b); \
-			} else \
-				return hkErr; \
-		} \
-	} \
 
 #define IMPORT __declspec(dllimport)
 #define EXPORT __declspec(dllexport)
@@ -91,20 +73,13 @@ catch (...) { e; AddBothLog("ERROR: Exception in %s on line %d.", __FUNCTION__, 
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// custom fl wstring (vc6 strings)
-typedef class std::basic_string<unsigned short,struct ci_wchar_traits> flstr;
-typedef class std::basic_string<char,struct ci_char_traits> flstrs;
 
-typedef flstr* (*_CreateWString)(const wchar_t *wszStr);
-typedef void (*_FreeWString)(flstr *wscStr);
-typedef flstrs* (*_CreateString)(const char *szStr);
-typedef void (*_FreeString)(flstrs *scStr);
-typedef char* (*_GetCString)(flstrs *scStr);
-typedef wchar_t* (*_GetWCString)(flstr *wscStr);
-typedef wchar_t* (*_WStringAssign)(flstr *wscStr, const wchar_t *wszStr);
-typedef wchar_t* (*_WStringAppend)(flstr *wscStr, const wchar_t *wszStr);
+typedef void*(*st6_malloc_t)(size_t);
+typedef void(*st6_free_t)(void*);
 
-typedef flstr* (*_CPlayerAccount_GetServerSignature)(class CPlayerAccount* cpa, const char* sig);
+extern IMPORT st6_malloc_t st6_malloc;
+extern IMPORT st6_free_t st6_free;
+#define ST6_ALLOCATION_DEFINED
 
 #include "FLCoreCommon.h"
 #include "FLCoreServer.h"
@@ -476,6 +451,11 @@ IMPORT void HkGetItemsForSale(uint iBaseID, list<uint> &lstItems);
 IMPORT IObjInspectImpl* HkGetInspect(uint iClientID);
 IMPORT ENGINE_STATE HkGetEngineState(uint iClientID);
 IMPORT EQ_TYPE HkGetEqType(Archetype::Equipment *eq);
+IMPORT HK_ERROR HkGetClientID(bool& bIdString, uint& iClientID, const wstring &wscCharname);
+
+#define HK_GET_CLIENTID(a, b) \
+	bool bIdString = false; uint a = uint(-1); \
+    if(auto err = HkGetClientID(bIdString, a, b); err != HKE_OK) return err;
 
 // HkFuncMsg
 IMPORT HK_ERROR HkMsg(int iClientID, const wstring &wscMessage);
@@ -762,15 +742,6 @@ extern IMPORT HMODULE hModRemoteClient;
 extern IMPORT HMODULE hModDPNet;
 extern IMPORT HMODULE hModDaLib;
 extern IMPORT HMODULE hModContent;
-extern IMPORT _CreateWString CreateWString;
-extern IMPORT _FreeWString FreeWString;
-extern IMPORT _CreateString CreateString;
-extern IMPORT _FreeString FreeString;
-extern IMPORT _GetCString GetCString;
-extern IMPORT _GetWCString GetWCString;
-extern IMPORT _WStringAssign WStringAssign;
-extern IMPORT _WStringAppend WStringAppend;
-extern IMPORT _CPlayerAccount_GetServerSignature CPlayerAccount_GetServerSignature;
 extern IMPORT FILE *fLog;
 extern IMPORT FILE *fLogDebug;
 extern IMPORT FARPROC fpOldUpdate;
