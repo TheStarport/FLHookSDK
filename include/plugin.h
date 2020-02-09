@@ -226,12 +226,12 @@ struct PLUGIN_HOOKINFO
 
 struct PLUGIN_INFO
 {
-	string sName;
-	string sShortName;
+	std::string sName;
+	std::string sShortName;
 	bool bMayPause;
 	bool bMayUnload;
 	PLUGIN_RETURNCODE* ePluginReturnCode;
-	list<PLUGIN_HOOKINFO> lstHooks;
+	std::list<PLUGIN_HOOKINFO> lstHooks;
 };
 
 enum PLUGIN_MESSAGE
@@ -269,9 +269,9 @@ enum ANTICHEAT_CHEAT_CODE
 struct ANTICHEAT_CHEATER_STRUCT
 {
 	uint iClientID; 
-	wstring wscCharname;
+	std::wstring wscCharname;
 	ANTICHEAT_CHEAT_CODE CheatCode;
-	wstring wscLog;
+	std::wstring wscLog;
 	bool bKilled;
 };
 
@@ -288,7 +288,7 @@ struct	CONDATA_EXCEPTION_STRUCT // in
 {
 	uint iClientID;
 	bool bException;
-    string sReason;
+    std::string sReason;
 };
 
 struct	TEMPBAN_BAN_STRUCT // in
@@ -301,7 +301,7 @@ struct DSACE_CHANGE_INFOCARD_STRUCT
 {
 	uint iClientID;
 	uint ids;
-	wstring text;
+	std::wstring text;
 };
 
 struct DSACE_SPEED_EXCEPTION_STRUCT
