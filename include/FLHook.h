@@ -21,7 +21,7 @@
 #define DALIB_ADDR(a) ((char*)hModDaLib + a)
 #define FLSERVER_ADDR(a) ((char*)hProcFL + a)
 #define CONTENT_ADDR(a) ((char*)hModContent + a)
-#define ARG_CLIENTID(a) (std::wstring(L"id ") + stows(itos(a)))
+#define ARG_CLIENTID(a) (std::wstring(L"id ") + std::to_wstring(a))
 
 #define IMPORT __declspec(dllimport)
 #define EXPORT __declspec(dllexport)
@@ -58,8 +58,9 @@ struct SEHException
 	}
 };
 
-EXPORT extern void WriteMiniDump(SEHException* ex);
-EXPORT extern void AddExceptionInfoLog(SEHException* ex);
+IMPORT void WriteMiniDump(SEHException* ex);
+IMPORT void AddExceptionInfoLog();
+IMPORT void AddExceptionInfoLog(SEHException* ex);
 #define TRY_HOOK try { _set_se_translator(SEHException::Translator);
 #define CATCH_HOOK(e) } \
 catch(SEHException& ex) { e; AddBothLog("ERROR: SEH Exception in %s on line %d; minidump may contain more information.", __FUNCTION__, __LINE__); AddExceptionInfoLog(&ex); } \
@@ -423,6 +424,7 @@ struct PLUGIN_DATA
 
 // plugin
 IMPORT void Plugin_Communication(PLUGIN_MESSAGE msgtype, void* msg);
+#define LOG_EXCEPTION { AddLog("ERROR Exception in %s", __FUNCTION__); AddExceptionInfoLog(); }
 
 // HkFuncTools
 IMPORT uint HkGetClientIdFromAccount(CAccount *acc);
@@ -450,6 +452,17 @@ IMPORT IObjInspectImpl* HkGetInspect(uint iClientID);
 IMPORT ENGINE_STATE HkGetEngineState(uint iClientID);
 IMPORT EQ_TYPE HkGetEqType(Archetype::Equipment *eq);
 IMPORT HK_ERROR HkGetClientID(bool& bIdString, uint& iClientID, const std::wstring &wscCharname);
+IMPORT float HkDistance3D(Vector v1, Vector v2);
+IMPORT float HkDistance3DByShip(uint iShip1, uint iShip2);
+IMPORT Quaternion HkMatrixToQuaternion(Matrix m);
+template<typename Str>
+IMPORT Str VectorToSectorCoord(uint iSystemID, Vector vPos);
+IMPORT float degrees(float rad);
+IMPORT Vector MatrixToEuler(const Matrix& mat);
+IMPORT void Rotate180(Matrix &rot);
+IMPORT void TranslateY(Vector &pos, Matrix &rot, float y);
+IMPORT void TranslateX(Vector &pos, Matrix &rot, float x);
+IMPORT void TranslateZ(Vector &pos, Matrix &rot, float z);
 
 #define HK_GET_CLIENTID(a, b) \
 	bool bIdString = false; uint a = uint(-1); \
@@ -466,6 +479,14 @@ IMPORT HK_ERROR HkFMsg(uint iClientID, const std::wstring &wscXML);
 IMPORT HK_ERROR HkFMsg(const std::wstring &wscCharname, const std::wstring &wscXML);
 IMPORT HK_ERROR HkFMsgS(const std::wstring &wscSystemname, const std::wstring &wscXML);
 IMPORT HK_ERROR HkFMsgU(const std::wstring &wscXML);
+IMPORT std::wstring HkGetWStringFromIDS(uint iIDS);
+IMPORT void HkLoadStringDLLs();
+IMPORT void HkUnloadStringDLLs();
+IMPORT void FormatSendChat(uint iToClientID, const std::wstring &wscSender, const std::wstring &wscText, const std::wstring &wscTextColor);
+IMPORT void SendGroupChat(uint iFromClientID, const std::wstring &wscText);
+IMPORT void SendLocalSystemChat(uint iFromClientID, const std::wstring &wscText);
+IMPORT void SendPrivateChat(uint iFromClientID, uint iToClientID, const std::wstring &wscText);
+IMPORT void SendSystemChat(uint iFromClientID, const std::wstring &wscText);
 
 // HkFuncPlayers
 IMPORT HK_ERROR HkGetCash(const std::wstring &wscCharname, int &iCash);
@@ -493,6 +514,20 @@ IMPORT HK_ERROR HkGetRep(const std::wstring &wscCharname, const std::wstring &ws
 IMPORT HK_ERROR HkReadCharFile(const std::wstring &wscCharname, std::list<std::wstring> &lstOutput);
 IMPORT HK_ERROR HkWriteCharFile(const std::wstring &wscCharname, std::wstring wscData);
 IMPORT HK_ERROR HkPlayerRecalculateCRC(uint iClientID);
+IMPORT std::string HkGetPlayerSystemS(uint iClientID);
+IMPORT bool IsInRange(uint iClientID, float fDistance);
+IMPORT std::wstring GetLocation(unsigned int iClientID);
+IMPORT HK_ERROR HkAddEquip(const std::wstring &wscCharname, uint iGoodID, const std::string &scHardpoint);
+IMPORT HK_ERROR HkAntiCheat(uint iClientID);
+IMPORT void HkDelayedKick(uint iClientID, uint secs);
+IMPORT HK_ERROR HkDeleteCharacter(CAccount *acc, std::wstring &wscCharname);
+IMPORT HK_ERROR HkNewCharacter(CAccount *acc, std::wstring &wscCharname);
+IMPORT std::wstring HkGetAccountIDByClientID(uint iClientID);
+IMPORT HK_ERROR HkGetOnlineTime(const std::wstring &wscCharname, int &iSecs);
+IMPORT HK_ERROR HkGetRank(const std::wstring &wscCharname, int &iRank);
+IMPORT HK_ERROR HKGetShipValue(const std::wstring &wscCharname, float &fValue);
+IMPORT void HkRelocateClient(uint iClientID, Vector vDestination, Matrix mOrientation);
+IMPORT void HkSaveChar(uint iClientID);
 
 // HkFuncLog
 #define AddBothLog(s, ...) { AddLog(s, __VA_ARGS__); AddDebugLog(s, __VA_ARGS__);  }
@@ -517,6 +552,10 @@ IMPORT HK_ERROR HkGetAdmin(const std::wstring &wscCharname, std::wstring &wscRig
 IMPORT HK_ERROR HkDelAdmin(const std::wstring &wscCharname);
 IMPORT HK_ERROR HkChangeNPCSpawn(bool bDisable);
 IMPORT HK_ERROR HkGetBaseStatus(const std::wstring &wscBasename, float &fHealth, float &fMaxHealth);
+IMPORT bool HkLightFuse(IObjRW* ship, uint iFuseID, float fDelay, float fLifetime, float fSkip);
+IMPORT bool HkUnLightFuse(IObjRW* ship, uint iFuseID);
+IMPORT CEqObj* HkGetEqObjFromObjRW(struct IObjRW *objRW);
+IMPORT uint HkGetClientIDFromArg(const std::wstring &wscArg);
 
 // HkFLIni
 IMPORT HK_ERROR HkFLIniGet(const std::wstring &wscCharname, const std::wstring &wscKey, std::wstring &wscRet);
@@ -530,23 +569,22 @@ IMPORT void UserCmd_SetChatFont(uint iClientID, const std::wstring &wscParam);
 IMPORT void ProcessEvent(std::wstring wscText, ...);
 
 IMPORT void PrintUserCmdText(uint iClientID, std::wstring wscText, ...);
+IMPORT void PrintLocalUserCmdText(uint iClientID, const std::wstring &wscMsg, float fDistance);
 
 // tools
 IMPORT std::wstring stows(const std::string &scText);
 IMPORT std::string wstos(const std::wstring &wscText);
-IMPORT std::string itos(int i);
 IMPORT std::string IniGetS(const std::string &scFile, const std::string &scApp, const std::string &scKey, const std::string &scDefault);
 IMPORT int IniGetI(const std::string &scFile, const std::string &scApp, const std::string &scKey, int iDefault);
 IMPORT bool IniGetB(const std::string &scFile, const std::string &scApp, const std::string &scKey, bool bDefault);
 IMPORT void IniWrite(const std::string &scFile, const std::string &scApp, const std::string &scKey, const std::string &scValue);
 IMPORT void WriteProcMem(void *pAddress, void *pMem, int iSize);
 IMPORT void ReadProcMem(void *pAddress, void *pMem, int iSize);
-IMPORT std::wstring ToLower(const std::wstring &wscStr);
-IMPORT std::string ToLower(const std::string &scStr);
 IMPORT int ToInt(const std::wstring &wscStr);
 IMPORT void ConPrint(std::wstring wscText, ...);
 IMPORT std::wstring XMLText(const std::wstring &wscText);
 IMPORT std::wstring GetParam(const std::wstring &wscLine, wchar_t wcSplitChar, uint iPos);
+IMPORT std::string GetParam(std::string scLine, char cSplitChar, uint iPos);
 IMPORT std::wstring ReplaceStr(const std::wstring &wscSource, const std::wstring &wscSearchFor, const std::wstring &wscReplaceWith);
 IMPORT void IniDelSection(const std::string &scFile, const std::string &scApp);
 IMPORT void IniWriteW(const std::string &scFile, const std::string &scApp, const std::string &scKey, const std::wstring &wscValue);
@@ -558,6 +596,16 @@ IMPORT float ToFloat(const std::wstring &wscStr);
 IMPORT mstime timeInMS();
 IMPORT void SwapBytes(void *ptr, uint iLen);
 IMPORT FARPROC PatchCallAddr(char *hMod, DWORD dwInstallAddress, char *dwHookFunction);
+IMPORT std::wstring ToLower(std::wstring wscStr);
+IMPORT std::string ToLower(std::string wscStr);
+IMPORT std::wstring GetParamToEnd(const std::wstring &wscLine, wchar_t wcSplitChar, uint iPos);
+IMPORT void ini_write_wstring(FILE *file, const std::string &parmname, const std::wstring &in);
+IMPORT void ini_get_wstring(INI_Reader &ini, std::wstring &wscValue);
+template<typename Str>
+IMPORT Str Trim(const Str& scIn);
+IMPORT std::wstring GetTimeString(bool bLocalTime);
+IMPORT std::string GetUserFilePath(const std::wstring &wscCharname, const std::string &scExtension);
+IMPORT mstime GetTimeInMS();
 
 // flcodec
 IMPORT bool flc_decode(const char *ifile, const char *ofile);
@@ -839,5 +887,123 @@ IMPORT void Blowfish_Init(BLOWFISH_CTX *ctx, unsigned char *key, int keyLen);
 IMPORT char Blowfish_Encrypt(BLOWFISH_CTX *ctx, void *ptr, unsigned long dataLen);
 IMPORT char Blowfish_Decrypt(BLOWFISH_CTX *ctx, void *ptr, unsigned long dataLen);
 
+struct SYSTEMINFO
+{
+	/** The system nickname */
+	std::string sysNick;
+
+	/** The system id */
+	uint systemId;
+
+	/** The system scale */
+	float scale;
+};
+
+struct TransformMatrix
+{
+	float d[4][4];
+};
+
+struct ZONE
+{
+	/** The system nickname */
+	std::string sysNick;
+
+	/** The zone nickname */
+	std::string zoneNick;
+
+	/** The id of the system for this zone */
+	uint systemId;
+
+	/** The zone transformation matrix */
+	TransformMatrix transform;
+
+	/** The zone ellipsoid size */
+	Vector size;
+
+	/** The zone position */
+	Vector pos;
+
+	/** The damage this zone causes per second */
+	int damage;
+
+	/** Is this an encounter zone */
+	bool encounter;
+};
+
+class JUMPPOINT
+{
+public:
+	/** The system nickname */
+	std::string sysNick;
+
+	/** The jump point nickname */
+	std::string jumpNick;
+
+	/** The jump point destination system nickname */
+	std::string jumpDestSysNick;
+
+	/** The id of the system for this jump point. */
+	uint System;
+
+	/** The id of the jump point. */
+	uint jumpID;
+
+	/** The jump point destination system id */
+	uint jumpDestSysID;
+};
+
+struct LOOTABLE_ZONE
+{
+	/** The zone nickname */
+	std::string zoneNick;
+
+	/** The id of the system for this lootable zone */
+	uint systemID;
+
+	/** The nickname and arch id of the loot dropped by the asteroids */
+	std::string lootNick;
+	uint iLootID;
+
+	/** The arch id of the crate the loot is dropped in */
+	uint iCrateID;
+
+	/** The minimum number of loot items to drop */
+	uint iMinLoot;
+
+	/** The maximum number of loot items to drop */
+	uint iMaxLoot;
+
+	/** The drop difficultly */
+	uint iLootDifficulty;
+
+	/** The lootable zone ellipsoid size */
+	Vector size;
+
+	/** The lootable zone position */
+	Vector pos;
+};
+typedef std::multimap<uint, LOOTABLE_ZONE, std::less<>> zone_map_t;
+
+/** A map of system id to system info */
+extern IMPORT std::map<uint, SYSTEMINFO> mapSystems;
+
+/** A map of system id to zones */
+extern IMPORT std::multimap<uint, ZONE> zones;
+
+/** A map of system id to jumppoint info */
+extern IMPORT std::multimap<uint, JUMPPOINT> jumpPoints;
+
+namespace ZoneUtilities
+{
+	IMPORT void ReadUniverse(zone_map_t* set_mmapZones);
+    IMPORT void ReadLootableZone(zone_map_t &set_mmapZones, const std::string &systemNick, const std::string &defaultZoneNick, const std::string &file);
+    IMPORT void ReadSystemLootableZones(zone_map_t &set_mmapZones, const std::string &systemNick, const std::string &file);
+    IMPORT void ReadSystemZones(zone_map_t &set_mmapZones, const std::string &systemNick, const std::string &file);
+	IMPORT bool InZone(uint systemID, const Vector &pos, ZONE &rlz);
+	IMPORT bool InDeathZone(uint systemID, const Vector &pos, ZONE &rlz);
+	IMPORT SYSTEMINFO *GetSystemInfo(uint systemID);
+    IMPORT void PrintZones();
+}
 
 #endif
