@@ -48,6 +48,8 @@ struct SEHException
 		: code(code), record(*ep->ExceptionRecord), context(*ep->ContextRecord)
 	{ }
 
+    SEHException() = default;
+
 	uint code;
 	EXCEPTION_RECORD record;
 	CONTEXT context;

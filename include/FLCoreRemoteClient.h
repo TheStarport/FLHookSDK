@@ -17,6 +17,15 @@
 
 #pragma comment( lib, "FLCoreRemoteClient.lib" )
 
+struct SSPObjUpdateInfo;
+struct XJettisonCargo;
+struct XGoTradelane;
+struct XSetTarget;
+struct XActivateEquip;
+struct XActivateThrusters;
+struct XActivateCruise;
+struct XFireWeaponInfo;
+
 class IMPORT IClient
 {
 public:
@@ -147,7 +156,7 @@ public:
 	void* pDunno[2];
 	CDPServer* cdpserver;
 	virtual bool Send_FLPACKET_COMMON_FIREWEAPON(uint iClientID, XFireWeaponInfo& fwi);
-	virtual bool Send_FLPACKET_COMMON_ACTIVATEEQUIP(uint iClientID, struct XActivateEquip& aq);
+	virtual bool Send_FLPACKET_COMMON_ACTIVATEEQUIP(uint iClientID, XActivateEquip& aq);
 	virtual bool Send_FLPACKET_COMMON_ACTIVATECRUISE(uint iClientID, XActivateCruise& aq);
 	virtual bool Send_FLPACKET_COMMON_ACTIVATETHRUSTERS(uint iClientID, XActivateThrusters& aq);
 	virtual bool Send_FLPACKET_COMMON_SETTARGET(uint iClientID, XSetTarget& st);
