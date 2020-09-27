@@ -1,4 +1,4 @@
-#ifndef _FLHOOK_
+﻿#ifndef _FLHOOK_
 #define _FLHOOK_
 
 #pragma warning(disable: 4311 4786)

@@ -1,4 +1,4 @@
-#ifndef __PLUGIN_H__
+﻿#ifndef __PLUGIN_H__
 #define __PLUGIN_H__ 1
 
 enum PLUGIN_RETURNCODE

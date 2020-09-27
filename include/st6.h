@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 // N.B.: Must be included *after* FLHook.h or global.h; st6_malloc and st6_free must be defined!
 #ifndef ST6_ALLOCATION_DEFINED
