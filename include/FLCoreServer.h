@@ -112,9 +112,7 @@ struct XFireWeaponInfo
 	uint iObject;
 	Vector vTarget;
 	uint iDunno;
-	ushort* sHpIdsBegin;
-	ushort* sHpIdsEnd;
-	ushort* sHpIdsLast;
+	st6::list<ushort> hpIds;
 };
 
 struct XSetManeuver
