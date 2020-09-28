@@ -1,253 +1,183 @@
-﻿#ifndef __PLUGIN_H__
-#define __PLUGIN_H__ 1
+#pragma once
 
-enum PLUGIN_RETURNCODE
-{
-	DEFAULT_RETURNCODE = 0,
-	SKIPPLUGINS = 1,
-	SKIPPLUGINS_NOFUNCTIONCALL = 2,
-	NOFUNCTIONCALL = 3,
+#define PLUGIN_API_VERSION 210
+
+enum class ReturnCode {
+    Default = 0,
+    SkipPlugins = 1,
+    SkipFunctionCall = 2,
+    SkipAll = SkipPlugins | SkipFunctionCall,
 };
 
-enum PLUGIN_CALLBACKS
-{
-	PLUGIN_HkIServerImpl_Update,
-	PLUGIN_HkIServerImpl_SubmitChat,
-	PLUGIN_HkIServerImpl_SubmitChat_AFTER,
-	PLUGIN_HkIServerImpl_PlayerLaunch,
-	PLUGIN_HkIServerImpl_PlayerLaunch_AFTER,
-	PLUGIN_HkIServerImpl_FireWeapon,
-	PLUGIN_HkIServerImpl_FireWeapon_AFTER,
-	PLUGIN_HkIServerImpl_SPMunitionCollision,
-	PLUGIN_HkIServerImpl_SPMunitionCollision_AFTER,
-	PLUGIN_HkIServerImpl_SPObjUpdate,
-	PLUGIN_HkIServerImpl_SPObjUpdate_AFTER,
-	PLUGIN_HkIServerImpl_SPObjCollision,
-	PLUGIN_HkIServerImpl_SPObjCollision_AFTER,
-	PLUGIN_HkIServerImpl_LaunchComplete,
-	PLUGIN_HkIServerImpl_LaunchComplete_AFTER,
-	PLUGIN_HkIServerImpl_CharacterSelect,
-	PLUGIN_HkIServerImpl_CharacterSelect_AFTER,
-	PLUGIN_HkIServerImpl_BaseEnter,
-	PLUGIN_HkIServerImpl_BaseEnter_AFTER,
-	PLUGIN_HkIServerImpl_BaseExit,
-	PLUGIN_HkIServerImpl_BaseExit_AFTER,
-	PLUGIN_HkIServerImpl_OnConnect,
-	PLUGIN_HkIServerImpl_OnConnect_AFTER,
-	PLUGIN_HkIServerImpl_DisConnect,
-	PLUGIN_HkIServerImpl_DisConnect_AFTER,
-	PLUGIN_HkIServerImpl_TerminateTrade,
-	PLUGIN_HkIServerImpl_TerminateTrade_AFTER,
-	PLUGIN_HkIServerImpl_InitiateTrade,
-	PLUGIN_HkIServerImpl_InitiateTrade_AFTER,
-	PLUGIN_HkIServerImpl_ActivateEquip,
-	PLUGIN_HkIServerImpl_ActivateEquip_AFTER,
-	PLUGIN_HkIServerImpl_ActivateCruise,
-	PLUGIN_HkIServerImpl_ActivateCruise_AFTER,
-	PLUGIN_HkIServerImpl_ActivateThrusters,
-	PLUGIN_HkIServerImpl_ActivateThrusters_AFTER,
-	PLUGIN_HkIServerImpl_GFGoodSell,
-	PLUGIN_HkIServerImpl_GFGoodSell_AFTER,
-	PLUGIN_HkIServerImpl_CharacterInfoReq,
-	PLUGIN_HkIServerImpl_CharacterInfoReq_AFTER,
-	PLUGIN_HkIServerImpl_JumpInComplete,
-	PLUGIN_HkIServerImpl_JumpInComplete_AFTER,
-	PLUGIN_HkIServerImpl_SystemSwitchOutComplete,
-	PLUGIN_HkIServerImpl_SystemSwitchOutComplete_AFTER,
-	PLUGIN_HkIServerImpl_Login,
-	PLUGIN_HkIServerImpl_Login_BEFORE,
-	PLUGIN_HkIServerImpl_Login_AFTER,
-	PLUGIN_HkIServerImpl_MineAsteroid,
-	PLUGIN_HkIServerImpl_MineAsteroid_AFTER,
-	PLUGIN_HkIServerImpl_GoTradelane,
-	PLUGIN_HkIServerImpl_GoTradelane_AFTER,
-	PLUGIN_HkIServerImpl_StopTradelane,
-	PLUGIN_HkIServerImpl_StopTradelane_AFTER,
-	PLUGIN_HkIServerImpl_AbortMission,
-	PLUGIN_HkIServerImpl_AbortMission_AFTER,
-	PLUGIN_HkIServerImpl_AcceptTrade,
-	PLUGIN_HkIServerImpl_AcceptTrade_AFTER,
-	PLUGIN_HkIServerImpl_AddTradeEquip,
-	PLUGIN_HkIServerImpl_AddTradeEquip_AFTER,
-	PLUGIN_HkIServerImpl_BaseInfoRequest,
-	PLUGIN_HkIServerImpl_BaseInfoRequest_AFTER,
-	PLUGIN_HkIServerImpl_CreateNewCharacter,
-	PLUGIN_HkIServerImpl_CreateNewCharacter_AFTER,
-	PLUGIN_HkIServerImpl_DelTradeEquip,
-	PLUGIN_HkIServerImpl_DelTradeEquip_AFTER,
-	PLUGIN_HkIServerImpl_DestroyCharacter,
-	PLUGIN_HkIServerImpl_DestroyCharacter_AFTER,
-	PLUGIN_HkIServerImpl_GFGoodBuy,
-	PLUGIN_HkIServerImpl_GFGoodBuy_AFTER,
-	PLUGIN_HkIServerImpl_GFGoodVaporized,
-	PLUGIN_HkIServerImpl_GFGoodVaporized_AFTER,
-	PLUGIN_HkIServerImpl_GFObjSelect,
-	PLUGIN_HkIServerImpl_GFObjSelect_AFTER,
-	PLUGIN_HkIServerImpl_Hail,
-	PLUGIN_HkIServerImpl_Hail_AFTER,
-	PLUGIN_HkIServerImpl_InterfaceItemUsed,
-	PLUGIN_HkIServerImpl_InterfaceItemUsed_AFTER,
-	PLUGIN_HkIServerImpl_JettisonCargo,
-	PLUGIN_HkIServerImpl_JettisonCargo_AFTER,
-	PLUGIN_HkIServerImpl_LocationEnter,
-	PLUGIN_HkIServerImpl_LocationEnter_AFTER,
-	PLUGIN_HkIServerImpl_LocationExit,
-	PLUGIN_HkIServerImpl_LocationExit_AFTER,
-	PLUGIN_HkIServerImpl_LocationInfoRequest,
-	PLUGIN_HkIServerImpl_LocationInfoRequest_AFTER,
-	PLUGIN_HkIServerImpl_MissionResponse,
-	PLUGIN_HkIServerImpl_MissionResponse_AFTER,
-	PLUGIN_HkIServerImpl_ReqAddItem,
-	PLUGIN_HkIServerImpl_ReqAddItem_AFTER,
-	PLUGIN_HkIServerImpl_ReqChangeCash,
-	PLUGIN_HkIServerImpl_ReqChangeCash_AFTER,
-	PLUGIN_HkIServerImpl_ReqCollisionGroups,
-	PLUGIN_HkIServerImpl_ReqCollisionGroups_AFTER,
-	PLUGIN_HkIServerImpl_ReqEquipment,
-	PLUGIN_HkIServerImpl_ReqEquipment_AFTER,
-	PLUGIN_HkIServerImpl_ReqHullStatus,
-	PLUGIN_HkIServerImpl_ReqHullStatus_AFTER,
-	PLUGIN_HkIServerImpl_ReqModifyItem,
-	PLUGIN_HkIServerImpl_ReqModifyItem_AFTER,
-	PLUGIN_HkIServerImpl_ReqRemoveItem,
-	PLUGIN_HkIServerImpl_ReqRemoveItem_AFTER,
-	PLUGIN_HkIServerImpl_ReqSetCash,
-	PLUGIN_HkIServerImpl_ReqSetCash_AFTER,
-	PLUGIN_HkIServerImpl_ReqShipArch,
-	PLUGIN_HkIServerImpl_ReqShipArch_AFTER,
-	PLUGIN_HkIServerImpl_RequestBestPath,
-	PLUGIN_HkIServerImpl_RequestBestPath_AFTER,
-	PLUGIN_HkIServerImpl_RequestCancel,
-	PLUGIN_HkIServerImpl_RequestCancel_AFTER,
-	PLUGIN_HkIServerImpl_RequestCreateShip,
-	PLUGIN_HkIServerImpl_RequestCreateShip_AFTER,
-	PLUGIN_HkIServerImpl_RequestEvent,
-	PLUGIN_HkIServerImpl_RequestEvent_AFTER,
-	PLUGIN_HkIServerImpl_RequestGroupPositions,
-	PLUGIN_HkIServerImpl_RequestGroupPositions_AFTER,
-	PLUGIN_HkIServerImpl_RequestPlayerStats,
-	PLUGIN_HkIServerImpl_RequestPlayerStats_AFTER,
-	PLUGIN_HkIServerImpl_RequestRankLevel,
-	PLUGIN_HkIServerImpl_RequestRankLevel_AFTER,
-	PLUGIN_HkIServerImpl_RequestTrade,
-	PLUGIN_HkIServerImpl_RequestTrade_AFTER,
-	PLUGIN_HkIServerImpl_SPRequestInvincibility,
-	PLUGIN_HkIServerImpl_SPRequestInvincibility_AFTER,
-	PLUGIN_HkIServerImpl_SPRequestUseItem,
-	PLUGIN_HkIServerImpl_SPRequestUseItem_AFTER,
-	PLUGIN_HkIServerImpl_SPScanCargo,
-	PLUGIN_HkIServerImpl_SPScanCargo_AFTER,
-	PLUGIN_HkIServerImpl_SetInterfaceState,
-	PLUGIN_HkIServerImpl_SetInterfaceState_AFTER,
-	PLUGIN_HkIServerImpl_SetManeuver,
-	PLUGIN_HkIServerImpl_SetManeuver_AFTER,
-	PLUGIN_HkIServerImpl_SetTarget,
-	PLUGIN_HkIServerImpl_SetTarget_AFTER,
-	PLUGIN_HkIServerImpl_SetTradeMoney,
-	PLUGIN_HkIServerImpl_SetTradeMoney_AFTER,
-	PLUGIN_HkIServerImpl_SetVisitedState,
-	PLUGIN_HkIServerImpl_SetVisitedState_AFTER,
-	PLUGIN_HkIServerImpl_SetWeaponGroup,
-	PLUGIN_HkIServerImpl_SetWeaponGroup_AFTER,
-	PLUGIN_HkIServerImpl_Shutdown,
-	PLUGIN_HkIServerImpl_Startup,
-	PLUGIN_HkIServerImpl_Startup_AFTER,
-	PLUGIN_HkIServerImpl_StopTradeRequest,
-	PLUGIN_HkIServerImpl_StopTradeRequest_AFTER,
-	PLUGIN_HkIServerImpl_TractorObjects,
-	PLUGIN_HkIServerImpl_TractorObjects_AFTER,
-	PLUGIN_HkIServerImpl_TradeResponse,
-	PLUGIN_HkIServerImpl_TradeResponse_AFTER,
-	PLUGIN_ClearClientInfo,
-	PLUGIN_LoadUserCharSettings,
-	PLUGIN_HkCb_SendChat,
-	PLUGIN_HkCB_MissileTorpHit,
-	PLUGIN_HkCb_AddDmgEntry,
-	PLUGIN_HkCb_AddDmgEntry_AFTER,
-	PLUGIN_HkCb_GeneralDmg,
-	PLUGIN_AllowPlayerDamage,
-	PLUGIN_SendDeathMsg,
-	PLUGIN_ShipDestroyed,
-	PLUGIN_BaseDestroyed,
-	PLUGIN_HkIClientImpl_Send_FLPACKET_SERVER_CREATESHIP,
-	PLUGIN_HkIClientImpl_Send_FLPACKET_SERVER_CREATESHIP_AFTER,
-	PLUGIN_HkIClientImpl_Send_FLPACKET_SERVER_CREATELOOT,
-	PLUGIN_HkIClientImpl_Send_FLPACKET_SERVER_CREATELOOT_AFTER,
-	PLUGIN_HkIClientImpl_Send_FLPACKET_SERVER_CREATESOLAR,
-	PLUGIN_HkIClientImpl_Send_FLPACKET_SERVER_LAUNCH,
+inline ReturnCode operator&(ReturnCode a, ReturnCode b) {
+    return ReturnCode(uint(a) & uint(b));
+}
 
-	PLUGIN_HkIClientImpl_Send_FLPACKET_COMMON_UPDATEOBJECT,
-	PLUGIN_HkIClientImpl_Send_FLPACKET_SERVER_ACTIVATEOBJECT,
-	PLUGIN_HkIClientImpl_Send_FLPACKET_SERVER_DESTROYOBJECT,
-	PLUGIN_HkIClientImpl_Send_FLPACKET_COMMON_FIREWEAPON,
-	PLUGIN_HkIClientImpl_Send_FLPACKET_COMMON_ACTIVATEEQUIP,
-	PLUGIN_HkIClientImpl_Send_FLPACKET_COMMON_ACTIVATECRUISE,
-	PLUGIN_HkIClientImpl_Send_FLPACKET_COMMON_ACTIVATETHRUSTERS,
+enum class HookedCall {
+    HkCb_AddDmgEntry,
+    HkCb_Dock_Call,
+    HkCb_Elapse_Time,
+    HkCb_GeneralDmg,
+    HkCB_MissileTorpHit,
+    HkCb_SendChat,
+    HkCb_Update_Time,
 
-	PLUGIN_HkIClientImpl_Send_FLPACKET_SERVER_MISCOBJUPDATE_3,
-	PLUGIN_HkIClientImpl_Send_FLPACKET_SERVER_MISCOBJUPDATE_3_AFTER,
-	PLUGIN_HkIClientImpl_Send_FLPACKET_SERVER_MISCOBJUPDATE_5,
-	PLUGIN_HkIClientImpl_Send_FLPACKET_SERVER_REQUESTCREATESHIPRESP,
-	PLUGIN_HkIClientImpl_SendPacket,
-	PLUGIN_HkIEngine_CShip_init,
-	PLUGIN_HkIEngine_CShip_destroy,
-	PLUGIN_HkCb_Update_Time,
-	PLUGIN_HkCb_Update_Time_AFTER,
-	PLUGIN_HkCb_Dock_Call,
-	PLUGIN_HkCb_Dock_Call_AFTER,
-	PLUGIN_HkCb_Elapse_Time,
-	PLUGIN_HkCb_Elapse_Time_AFTER,
-	PLUGIN_LaunchPosHook,
-	PLUGIN_HkTimerCheckKick,
-	PLUGIN_HkTimerNPCAndF1Check,
-	PLUGIN_UserCmd_Help,
-	PLUGIN_UserCmd_Process,
-	PLUGIN_CmdHelp_Callback,
-	PLUGIN_ExecuteCommandString_Callback,
-	PLUGIN_ProcessEvent_BEFORE,
-	PLUGIN_LoadSettings,
-	PLUGIN_Plugin_Communication,
-	PLUGIN_CALLBACKS_AMOUNT,
+    HkIClientImpl_Send_FLPACKET_COMMON_ACTIVATECRUISE,
+    HkIClientImpl_Send_FLPACKET_COMMON_ACTIVATEEQUIP,
+    HkIClientImpl_Send_FLPACKET_COMMON_ACTIVATETHRUSTERS,
+    HkIClientImpl_Send_FLPACKET_COMMON_FIREWEAPON,
+    HkIClientImpl_Send_FLPACKET_COMMON_UPDATEOBJECT,
+    HkIClientImpl_Send_FLPACKET_SERVER_ACTIVATEOBJECT,
+    HkIClientImpl_Send_FLPACKET_SERVER_CREATELOOT,
+    HkIClientImpl_Send_FLPACKET_SERVER_CREATESHIP,
+    HkIClientImpl_Send_FLPACKET_SERVER_CREATESOLAR,
+    HkIClientImpl_Send_FLPACKET_SERVER_DESTROYOBJECT,
+    HkIClientImpl_Send_FLPACKET_SERVER_LAUNCH,
+    HkIClientImpl_Send_FLPACKET_SERVER_MISCOBJUPDATE_3,
+    HkIClientImpl_Send_FLPACKET_SERVER_MISCOBJUPDATE_5,
+    HkIClientImpl_Send_FLPACKET_SERVER_REQUESTCREATESHIPRESP,
+    HkIClientImpl_SendPacket,
+
+    HkIEngine_CShip_destroy,
+    HkIEngine_CShip_init,
+
+    HkIServerImpl_AbortMission,
+    HkIServerImpl_AcceptTrade,
+    HkIServerImpl_ActivateCruise,
+    HkIServerImpl_ActivateEquip,
+    HkIServerImpl_ActivateThrusters,
+    HkIServerImpl_AddTradeEquip,
+    HkIServerImpl_BaseEnter,
+    HkIServerImpl_BaseExit,
+    HkIServerImpl_BaseInfoRequest,
+    HkIServerImpl_CharacterInfoReq,
+    HkIServerImpl_CharacterSelect,
+    HkIServerImpl_CreateNewCharacter,
+    HkIServerImpl_DelTradeEquip,
+    HkIServerImpl_DestroyCharacter,
+    HkIServerImpl_DisConnect,
+    HkIServerImpl_FireWeapon,
+    HkIServerImpl_GFGoodBuy,
+    HkIServerImpl_GFGoodSell,
+    HkIServerImpl_GFGoodVaporized,
+    HkIServerImpl_GFObjSelect,
+    HkIServerImpl_GoTradelane,
+    HkIServerImpl_Hail,
+    HkIServerImpl_InitiateTrade,
+    HkIServerImpl_InterfaceItemUsed,
+    HkIServerImpl_JettisonCargo,
+    HkIServerImpl_JumpInComplete,
+    HkIServerImpl_LaunchComplete,
+    HkIServerImpl_LocationEnter,
+    HkIServerImpl_LocationExit,
+    HkIServerImpl_LocationInfoRequest,
+    HkIServerImpl_Login,
+    HkIServerImpl_MineAsteroid,
+    HkIServerImpl_MissionResponse,
+    HkIServerImpl_OnConnect,
+    HkIServerImpl_ReqAddItem,
+    HkIServerImpl_ReqChangeCash,
+    HkIServerImpl_ReqCollisionGroups,
+    HkIServerImpl_ReqEquipment,
+    HkIServerImpl_ReqHullStatus,
+    HkIServerImpl_ReqModifyItem,
+    HkIServerImpl_ReqRemoveItem,
+    HkIServerImpl_ReqSetCash,
+    HkIServerImpl_ReqShipArch,
+    HkIServerImpl_RequestBestPath,
+    HkIServerImpl_RequestCancel,
+    HkIServerImpl_RequestCreateShip,
+    HkIServerImpl_RequestEvent,
+    HkIServerImpl_RequestGroupPositions,
+    HkIServerImpl_RequestPlayerStats,
+    HkIServerImpl_RequestRankLevel,
+    HkIServerImpl_RequestTrade,
+    HkIServerImpl_SetInterfaceState,
+    HkIServerImpl_SetManeuver,
+    HkIServerImpl_SetTarget,
+    HkIServerImpl_SetTradeMoney,
+    HkIServerImpl_SetVisitedState,
+    HkIServerImpl_SetWeaponGroup,
+    HkIServerImpl_Shutdown,
+    HkIServerImpl_SPMunitionCollision,
+    HkIServerImpl_SPObjCollision,
+    HkIServerImpl_SPObjUpdate,
+    HkIServerImpl_SPRequestInvincibility,
+    HkIServerImpl_SPRequestUseItem,
+    HkIServerImpl_SPScanCargo,
+    HkIServerImpl_Startup,
+    HkIServerImpl_StopTradelane,
+    HkIServerImpl_StopTradeRequest,
+    HkIServerImpl_SystemSwitchOutComplete,
+    HkIServerImpl_TerminateTrade,
+    HkIServerImpl_TractorObjects,
+    HkIServerImpl_TradeResponse,
+
+    HkTimerCheckKick,
+    HkTimerNPCAndF1Check,
+
+    AllowPlayerDamage,
+    BaseDestroyed,
+    ClearClientInfo,
+    CmdHelp,
+    LaunchPosHook,
+    LoadUserCharSettings,
+    SendDeathMsg,
+    ShipDestroyed,
+
+    UserCmd_Help,
+    UserCmd_Process,
+    
+    ExecuteCommandString,
+    LoadSettings,
+    PluginCommunication,
+    ProcessEvent,
+
+    Count
 };
 
-struct PLUGIN_HOOKINFO
-{
-	PLUGIN_HOOKINFO(FARPROC* pFunc, PLUGIN_CALLBACKS eCallbackID, int iPriority)
-	{
-		this->pFunc = pFunc;
-		this->eCallbackID = eCallbackID;
-		this->iPriority = iPriority;
-	}
-
-	FARPROC* pFunc;
-	PLUGIN_CALLBACKS eCallbackID;
-	int iPriority;
+enum class HookStep {
+    Before,
+    After
 };
 
-struct PLUGIN_INFO
-{
-	std::string sName;
-	std::string sShortName;
-	bool bMayPause;
-	bool bMayUnload;
-	PLUGIN_RETURNCODE* ePluginReturnCode;
-	std::list<PLUGIN_HOOKINFO> lstHooks;
+class PluginHook {
+public:
+    using FunctionType = void();
+private:
+    HookedCall targetFunction_;
+    FunctionType *hookFunction_;
+    HookStep step_;
+    int priority_;
+public:
+    template <typename Func>
+    PluginHook(HookedCall targetFunction, Func *hookFunction, HookStep step = HookStep::Before, int priority = 0)
+        : targetFunction_(targetFunction), hookFunction_(hookFunction), step_(step), priority_(priority) {}
+
+    friend class PluginManager;
 };
 
-enum PLUGIN_MESSAGE
-{
-	DEFAULT_MESSAGE = 0,
-	CONDATA_EXCEPTION = 10,
-	CONDATA_DATA = 11,
-	TEMPBAN_BAN = 20,
-	ANTICHEAT_TELEPORT = 30,
-	ANTICHEAT_CHEATER = 31,
-	DSACE_CHANGE_INFOCARD = 40,
-	DSACE_SPEED_EXCEPTION = 41,
-	CUSTOM_BASE_BEAM = 42,
-	CUSTOM_BASE_IS_DOCKED = 43
+#ifndef FLHOOK
+struct PluginInfo {
+    IMPORT void version(int version = PLUGIN_API_VERSION);
+    IMPORT void name(const char* name);
+    IMPORT void shortName(const char* shortName);
+    IMPORT void mayPause(bool pause);
+    IMPORT void mayUnload(bool unload);
+    IMPORT void returnCode(ReturnCode* returnCode);
+    IMPORT void addHook(const PluginHook& hook);
 };
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 #endif
+
+enum PLUGIN_MESSAGE {
+    DEFAULT_MESSAGE = 0,
+    CONDATA_EXCEPTION = 10,
+    CONDATA_DATA = 11,
+    TEMPBAN_BAN = 20,
+    ANTICHEAT_TELEPORT = 30,
+    ANTICHEAT_CHEATER = 31,
+    DSACE_CHANGE_INFOCARD = 40,
+    DSACE_SPEED_EXCEPTION = 41,
+    CUSTOM_BASE_BEAM = 42,
+    CUSTOM_BASE_IS_DOCKED = 43
+};
