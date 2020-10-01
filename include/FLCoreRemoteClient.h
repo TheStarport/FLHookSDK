@@ -99,10 +99,8 @@ struct FLPACKET_CREATESHIP
 		int  accessories;
 	} costume;
 	uint iVoiceID;
-	float fPosX;
-	float fPosY;
-	float fPosZ;
-	float fOrientation[4];
+	Vector vPos;
+	Quaternion qOrientation;
 	int iHealth;
 	uint iDunno3;
 	uint iSize1;
@@ -138,7 +136,7 @@ struct FLPACKET_CREATESOLAR
 	} costume;
 	int iVoiceID;
 	Vector vPos;
-	float fOrientation[4];
+	Quaternion qOrientation;
 	float fHealth;
 
 };
