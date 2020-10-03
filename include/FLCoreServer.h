@@ -238,7 +238,7 @@ public:
 	unsigned char data[OBJECT_DATA_SIZE];
 };
 
-struct IMPORT IServerImpl
+struct IMPORT [[Hook, ServerCall]] IServerImpl
 {
 	 IServerImpl(struct IServerImpl const &);
 	 IServerImpl(void);
