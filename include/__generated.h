@@ -178,5 +178,4 @@ enum class HookedCall {
 	IServerImpl__TerminateTrade,
 	IServerImpl__TractorObjects,
 	IServerImpl__TradeResponse,
-	IServerImpl__Update,
 };
