@@ -163,13 +163,13 @@ public:
 	virtual bool Send_FLPACKET_COMMON_STOPTRADELANE(uint iClientID, uint iShip, uint iArchTradelane1, uint iArchTradelane2);
 	virtual bool Send_FLPACKET_COMMON_JETTISONCARGO(uint iClientID, XJettisonCargo& jc);
 	[[NoPlugins]] virtual bool SendPacket(uint iClientID, void*);
-	virtual bool Startup(uint, uint);
+	[[CallInner, NoLog, NoPlugins]] virtual bool Startup(uint, uint);
 	[[NoPlugins]] virtual void nullsub(uint);
 	virtual bool Send_FLPACKET_SERVER_LOGINRESPONSE(uint iClientID, FLPACKET_UNKNOWN& pDunno);
 	virtual bool Send_FLPACKET_SERVER_CHARACTERINFO(uint iClientID, FLPACKET_UNKNOWN& pDunno);
 	virtual bool Send_FLPACKET_SERVER_CHARSELECTVERIFIED(uint iClientID, FLPACKET_UNKNOWN& pDunno);
-	virtual void Shutdown();
-	virtual bool DispatchMsgs();
+	[[NoPlugins, NoLog]] virtual void Shutdown();
+	[[NoHook]] virtual bool DispatchMsgs();
 	virtual bool CDPClientProxy__Disconnect(uint iClientID);
 	virtual uint CDPClientProxy__GetSendQSize(uint iClientID);
 	virtual uint CDPClientProxy__GetSendQBytes(uint iClientID);
