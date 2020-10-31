@@ -1703,7 +1703,7 @@ namespace PhySys
 		void enable_collisions(bool,bool);
 		bool get_actual_collision_state(void)const ;
 		bool get_desired_collision_state(void)const ;
-		//@@@ int get_intruding_cobjs(bool,struct CheapSet<struct CObject *,struct st6::less<struct CObject *> > &);
+		//@@@ int get_intruding_cobjs(bool,struct CheapSet<struct CObject *,struct st6::less<struct CObject *>> &);
 		virtual void mindist_entered_volume(class IVP_Controller_Phantom *,class IVP_Mindist_Base *);
 		virtual void mindist_left_volume(class IVP_Controller_Phantom *,class IVP_Mindist_Base *);
 		virtual void phantom_is_going_to_be_deleted_event(class IVP_Controller_Phantom *);
@@ -2829,8 +2829,8 @@ public:
 	bool VerifyListSync(class EquipDescList const &)const ;
 
 private:
-	int CleanUp(class st6::list<class CEquip *,class st6::allocator<class CEquip *> > &);
-	static void  Clear(class st6::list<class CEquip *,class st6::allocator<class CEquip *> > &);
+	int CleanUp(class st6::list<class CEquip *,class st6::allocator<class CEquip *>> &);
+	static void  Clear(class st6::list<class CEquip *,class st6::allocator<class CEquip *>> &);
 
 public:
 	unsigned char data[180];
@@ -2875,7 +2875,7 @@ public:
 	virtual void get_equip_desc_list(struct EquipDescVector &)const ;
 	virtual bool add_item(struct EquipDesc const &);
 	virtual enum ObjActivateResult  activate(bool,unsigned int);
-	virtual bool get_activate_state(class st6::vector<bool,class st6::allocator<bool> > &);
+	virtual bool get_activate_state(class st6::vector<bool,class st6::allocator<bool>> &);
 	virtual void disconnect(struct IObjDB *);
 	virtual void disconnect(struct INotify *);
 	virtual void disconnect(struct IObjRW *);
@@ -3456,7 +3456,7 @@ public:
 	virtual void cache_physical_props(void);
 	virtual void init_physics(class Vector const &,class Vector const &);
 	virtual enum ObjActivateResult  activate(bool,unsigned int);
-	virtual bool get_activate_state(class st6::vector<bool,class st6::allocator<bool> > &);
+	virtual bool get_activate_state(class st6::vector<bool,class st6::allocator<bool>> &);
 	virtual void flush_animations(void);
 	virtual class CEquip * alloc_equip(unsigned short,struct Archetype::Equipment *,bool);
 
@@ -4143,7 +4143,7 @@ public:
 	struct GoodInfo const * find_by_id(unsigned int)const ;
 	struct GoodInfo const * find_by_name(char const *)const ;
 	struct GoodInfo const * find_by_ship_arch(unsigned int)const ;
-	class st6::list<struct GoodInfo *,class st6::allocator<struct GoodInfo *> > const * get_list(void)const ;
+	class st6::list<struct GoodInfo *,class st6::allocator<struct GoodInfo *>> const * get_list(void)const ;
 	void load(char const *);
 
 private:
@@ -6090,7 +6090,7 @@ public:
 	SphereIntruderChecker(void);
 	~SphereIntruderChecker(void);
 	class SphereIntruderChecker & operator=(class SphereIntruderChecker const &);
-	void check_sphere(unsigned int,class Vector const &,float,class st6::list<struct CObject *,class st6::allocator<struct CObject *> > &);
+	void check_sphere(unsigned int,class Vector const &,float,class st6::list<struct CObject *,class st6::allocator<struct CObject *>> &);
 
 protected:
 	virtual void added(struct CObject *);

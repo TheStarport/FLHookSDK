@@ -955,7 +955,7 @@ template<class _K, class _Ty, class _Kfn,
         {return (!(_X < _Y)); }
 
     template<class _K, class _Ty, class _Pr = st6::less<_K>,
-	class _A = allocator<_Ty> >
+	class _A = allocator<_Ty>>
 	class map {
 public:
 	typedef map<_K, _Ty, _Pr, _A> _Myt;
@@ -1094,7 +1094,7 @@ template<class _K, class _Ty, class _Pr, class _A> inline
 		const map<_K, _Ty, _Pr, _A>& _Y)
 	{return (!(_X < _Y)); }
 
-    template<class _Ty, class _A = allocator<_Ty> >
+    template<class _Ty, class _A = allocator<_Ty>>
 	class list {
 protected:
 	struct _Node;
@@ -1615,7 +1615,7 @@ typedef streampos wstreampos;
 
     template<class _E,
 	class _Tr = char_traits<_E>,
-	class _A = allocator<_E> >
+	class _A = allocator<_E>>
 	class basic_string {
 public:
 	typedef basic_string<_E, _Tr, _A> _Myt;
@@ -2184,7 +2184,7 @@ private:
 	};
     template<class _E,
 	class _Tr = char_traits<_E>,
-	class _A = allocator<_E> >
+	class _A = allocator<_E>>
 	inline const typename _A::size_type basic_string<_E, _Tr, _A>::npos = typename _A::size_type(-1);
 
     template<class _E, class _Tr, class _A> inline
@@ -2287,6 +2287,6 @@ struct ci_wchar_traits : st6::char_traits<unsigned short> {};
 struct ci_char_traits : st6::char_traits<char> {};
 
 namespace st6 {
-typedef basic_string<char, ci_char_traits, allocator<char> > string;
+typedef basic_string<char, ci_char_traits, allocator<char>> string;
 typedef basic_string<unsigned short, ci_wchar_traits, allocator<unsigned short>> wstring;
 }

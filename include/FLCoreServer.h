@@ -295,7 +295,7 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
 	 virtual void ReqAddItem(unsigned int,char const *,int,float,bool,unsigned int);
 	 virtual void ReqCargo(class EquipDescList const &,unsigned int);
 	 virtual void ReqChangeCash(int,unsigned int);
-	 virtual void ReqCollisionGroups(class st6::list<struct CollisionGroupDesc,class st6::allocator<struct CollisionGroupDesc> > const &,unsigned int);
+	 virtual void ReqCollisionGroups(class st6::list<struct CollisionGroupDesc,class st6::allocator<struct CollisionGroupDesc>> const &,unsigned int);
 	 virtual void ReqDifficultyScale(float,unsigned int);
 	 virtual void ReqEquipment(class EquipDescList const &,unsigned int);
 	 virtual void ReqHullStatus(float,unsigned int);
