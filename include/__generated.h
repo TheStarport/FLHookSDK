@@ -110,8 +110,6 @@ enum class HookedCall {
 	IServerImpl__GFGoodSell,
 	IServerImpl__GFGoodVaporized,
 	IServerImpl__GFObjSelect,
-	IServerImpl__GetServerID,
-	IServerImpl__GetServerSig,
 	IServerImpl__GetServerStats,
 	IServerImpl__GoTradelane,
 	IServerImpl__Hail,
@@ -178,4 +176,5 @@ enum class HookedCall {
 	IServerImpl__TerminateTrade,
 	IServerImpl__TractorObjects,
 	IServerImpl__TradeResponse,
+	Count
 };

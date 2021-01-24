@@ -249,8 +249,8 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
 	virtual void ActivateEquip(unsigned int,struct XActivateEquip const &);
 	virtual void ActivateThrusters(unsigned int,struct XActivateThrusters const &);
 	virtual void AddTradeEquip(unsigned int,struct EquipDesc const &);
-	virtual void BaseEnter(unsigned int,unsigned int);
-	virtual void BaseExit(unsigned int,unsigned int);
+	[[DisconnectCheck, CallInner, CallInnerAfter]] virtual void BaseEnter(unsigned int,unsigned int);
+	[[DisconnectCheck, CallInner, CallInnerAfter]] virtual void BaseExit(unsigned int,unsigned int);
 	virtual void BaseInfoRequest(unsigned int,unsigned int,bool);
 	virtual void CharacterInfoReq(unsigned int,bool);
 	[[DisconnectCheck, CallInner(true), CallInnerAfter]] virtual void CharacterSelect(struct CHARACTER_ID const &,unsigned int);
@@ -269,8 +269,8 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
 	virtual void GFGoodSell(struct SGFGoodSellInfo const &,unsigned int);
 	virtual void GFGoodVaporized(struct SGFGoodVaporizedInfo const &,unsigned int);
 	virtual void GFObjSelect(unsigned int,unsigned int);
-	virtual unsigned int GetServerID(void);
-	virtual char const * GetServerSig(void);
+	[[NoHook]] virtual unsigned int GetServerID(void);
+	[[NoHook]] virtual char const * GetServerSig(void);
 	void GetServerStats(struct ServerStats &);
 	virtual void GoTradelane(unsigned int,struct XGoTradelane const &);
 	virtual void Hail(unsigned int,unsigned int,unsigned int);
@@ -337,7 +337,7 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
 	virtual void TerminateTrade(unsigned int,int);
 	virtual void TractorObjects(unsigned int,struct XTractorObjects const &);
 	virtual void TradeResponse(unsigned char const *,int,unsigned int);
-	[[CallInner, NoPlugins, NoLog]] virtual int Update(void);
+	[[NoHook]] virtual int Update(void);
 
 public:
 	unsigned char data[OBJECT_DATA_SIZE];
