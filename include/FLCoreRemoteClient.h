@@ -153,6 +153,8 @@ struct [[Hook, ClientCall]] HkIClientImpl
 public:
 	void* pDunno[2];
 	CDPServer* cdpserver;
+
+	// N.B. Do not modify order, vtable ordering is fixed by RemoteClient.dll
 	virtual bool Send_FLPACKET_COMMON_FIREWEAPON(uint iClientID, XFireWeaponInfo& fwi);
 	virtual bool Send_FLPACKET_COMMON_ACTIVATEEQUIP(uint iClientID, XActivateEquip& aq);
 	virtual bool Send_FLPACKET_COMMON_ACTIVATECRUISE(uint iClientID, XActivateCruise& aq);
