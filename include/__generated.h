@@ -5,6 +5,12 @@
 //
 
 enum class HookedCall {
+	IEngine__CShip__Init,
+	IEngine__CShip__Destroy,
+	IEngine__UpdateTime,
+	IEngine__ElapseTime,
+	IEngine__DockCall,
+	IEngine__LaunchPosition,
 	IClientImpl__Send_FLPACKET_COMMON_FIREWEAPON,
 	IClientImpl__Send_FLPACKET_COMMON_ACTIVATEEQUIP,
 	IClientImpl__Send_FLPACKET_COMMON_ACTIVATECRUISE,
