@@ -755,8 +755,8 @@ public:
 // namespaces
 namespace HkIServerImpl 
 {
-	IMPORT extern bool g_bInSubmitChat;
-	IMPORT extern uint g_iTextLen;
+	IMPORT extern bool g_InSubmitChat;
+	IMPORT extern uint g_TextLength;
 }
 namespace PluginManager {
 	IMPORT void LoadPlugins(bool, CCmds*);

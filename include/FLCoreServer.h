@@ -400,7 +400,7 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
 	[[NoHook]] virtual void DumpPacketStats(const char*);
 	[[Disable]] virtual void Dock(const uint&, const uint&);
 
-	[[CallInner, Semaphore(g_bInSubmitChat), Address(-0x08)]]
+	[[CallInner(true), Semaphore(g_InSubmitChat), Address(-0x08)]]
 	virtual void SubmitChat(CHAT_ID cidFrom, ulong size, const void* rdlReader, CHAT_ID cidTo, int);
 
 public:
