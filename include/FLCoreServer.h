@@ -300,25 +300,27 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
 
 	// N.B. Do not modify order, vtable ordering is fixed by Server.dll
 	[[DisconnectCheck]] virtual void FireWeapon(uint clientID, const XFireWeaponInfo& fwi);
-	virtual void ActivateEquip(uint clientID, const XActivateEquip& aq);
-	virtual void ActivateCruise(uint clientID, const XActivateCruise& ac);
-	virtual void ActivateThrusters(uint clientID, const XActivateThrusters& at);
+	[[CallInner, DisconnectCheck]] virtual void ActivateEquip(uint clientID, const XActivateEquip& aq);
+	[[CallInner, DisconnectCheck]] virtual void ActivateCruise(uint clientID, const XActivateCruise& ac);
+	[[CallInner, DisconnectCheck]] virtual void ActivateThrusters(uint clientID, const XActivateThrusters& at);
 	virtual void SetTarget(uint clientID, const XSetTarget& st);
 	virtual void TractorObjects(uint clientID, const XTractorObjects& to);
-	virtual void GoTradelane(uint clientID, const XGoTradelane& gt);
-	virtual void StopTradelane(uint clientID, uint shipID, uint tradelaneRing1, uint tradelaneRing2);
+	[[CallInner, CallCatch]] virtual void GoTradelane(uint clientID, const XGoTradelane& gt);
+	[[CallInner]] virtual void StopTradelane(uint clientID, uint shipID, uint tradelaneRing1, uint tradelaneRing2);
 	virtual void JettisonCargo(uint clientID, const XJettisonCargo& jc);
-	virtual bool Startup(const SStartupInfo& si);
-	[[NoHook]] virtual void Shutdown();
+	[[CallInner, CallInnerAfter]] virtual bool Startup(const SStartupInfo& si);
+	[[CallInnerAfter, NoPluginsAfter]] virtual void Shutdown();
 	[[NoHook]] virtual int Update();
 	[[NoHook]] virtual void ElapseTime(float);
 	[[NoHook]] virtual void __nullopt1();
 	[[NoHook]] virtual bool SwapConnections(EFLConnection, EFLConnection);
 	[[NoHook]] virtual void __nullopt2();
-	virtual void DisConnect(uint clientID, EFLConnection conn);
-	virtual void OnConnect(uint clientID);
-	virtual void Login(const SLoginInfo& li, uint clientID);
-	virtual void CharacterInfoReq(uint clientID, bool);
+	[[CallInner]] virtual void DisConnect(uint clientID, EFLConnection conn);
+	[[DisconnectCheck, CallInner(true), CallInnerAfter]]
+    virtual void OnConnect(uint clientID);
+	[[CallInnerAfter]] virtual void Login(const SLoginInfo& li, uint clientID);
+	[[DisconnectCheck, CallInner(true), CallCatch]]
+    virtual void CharacterInfoReq(uint clientID, bool);
 	[[DisconnectCheck, CallInner(true), CallInnerAfter]]
 	virtual void CharacterSelect(const CHARACTER_ID& cid, uint clientID);
 	[[NoHook]] virtual void __nullopt3();
@@ -348,12 +350,12 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
 	virtual void MissionResponse(unsigned int,unsigned long,bool, uint clientID);
 	virtual void TradeResponse(unsigned char const *,int, uint clientID);
 	virtual void GFGoodBuy(const SGFGoodBuyInfo&, uint clientID);
-	virtual void GFGoodSell(const SGFGoodSellInfo&, uint clientID);
-	virtual void SystemSwitchOutComplete(uint shipID, uint clientID);
+	[[CallInner(true), DisconnectCheck]] virtual void GFGoodSell(const SGFGoodSellInfo&, uint clientID);
+	[[CallInnerAfter]] virtual void SystemSwitchOutComplete(uint shipID, uint clientID);
 	[[CallInner, CallInnerAfter, DisconnectCheck]]
 	virtual void PlayerLaunch(uint shipID, uint clientID);
 	[[CallInner]] virtual void LaunchComplete(uint baseID, uint shipID);
-	virtual void JumpInComplete(uint systemID, uint shipID);
+	[[CallInnerAfter]] virtual void JumpInComplete(uint systemID, uint shipID);
 	virtual void Hail(unsigned int,unsigned int,unsigned int);
 	[[CallInner(true), NoLog, DisconnectCheck]]
 	virtual void SPObjUpdate(const SSPObjUpdateInfo& ui, uint clientID);
@@ -386,8 +388,8 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
 	[[NoHook]] virtual void SetMissionLog(uint, uchar*, int);
 	virtual void SetInterfaceState(uint clientID, uchar*, int);
 	virtual void RequestRankLevel(uint clientID, uchar*, int);
-	virtual void InitiateTrade(uint clientID1, uint clientID2);
-	virtual void TerminateTrade(uint clientID, int accepted);
+	[[CallInner]] virtual void InitiateTrade(uint clientID1, uint clientID2);
+	[[CallInnerAfter, DisconnectCheck]] virtual void TerminateTrade(uint clientID, int accepted);
 	virtual void AcceptTrade(uint clientID, bool);
 	virtual void SetTradeMoney(uint clientID, ulong);
 	virtual void AddTradeEquip(uint clientID, const EquipDesc& ed);

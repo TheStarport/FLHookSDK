@@ -580,7 +580,7 @@ IMPORT std::string IniGetS(const std::string &scFile, const std::string &scApp, 
 IMPORT int IniGetI(const std::string &scFile, const std::string &scApp, const std::string &scKey, int iDefault);
 IMPORT bool IniGetB(const std::string &scFile, const std::string &scApp, const std::string &scKey, bool bDefault);
 IMPORT void IniWrite(const std::string &scFile, const std::string &scApp, const std::string &scKey, const std::string &scValue);
-IMPORT void WriteProcMem(void *pAddress, void *pMem, int iSize);
+IMPORT void WriteProcMem(void *pAddress, const void *pMem, int iSize);
 IMPORT void ReadProcMem(void *pAddress, void *pMem, int iSize);
 IMPORT int ToInt(const std::wstring &wscStr);
 IMPORT void ConPrint(std::wstring wscText, ...);

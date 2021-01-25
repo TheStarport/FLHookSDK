@@ -94,6 +94,7 @@ enum class HookedCall {
 	IServerImpl__StopTradelane,
 	IServerImpl__JettisonCargo,
 	IServerImpl__Startup,
+	IServerImpl__Shutdown,
 	IServerImpl__DisConnect,
 	IServerImpl__OnConnect,
 	IServerImpl__Login,

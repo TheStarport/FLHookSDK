@@ -17,7 +17,8 @@ inline ReturnCode operator&(ReturnCode a, ReturnCode b) {
 
 enum class HookStep {
     Before,
-    After
+    After,
+    Mid
 };
 
 class PluginHook {
