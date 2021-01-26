@@ -776,8 +776,8 @@ extern IMPORT HkIClientImpl* FakeClient;
 extern IMPORT HkIClientImpl* HookClient;
 extern IMPORT char* OldClient;
 
-extern IMPORT uint	iDmgTo;
-extern IMPORT uint iDmgToSpaceID;
+extern IMPORT uint	g_DmgTo;
+extern IMPORT uint g_DmgToSpaceID;
 
 extern IMPORT bool g_bMsg;
 extern IMPORT bool g_bMsgS;
@@ -868,7 +868,7 @@ extern IMPORT uint g_iServerLoad;
 extern IMPORT uint g_iPlayerCount;
 extern IMPORT bool g_bNPCDisabled;
 extern IMPORT char *g_FLServerDataPtr;
-extern IMPORT bool g_gNonGunHitsBase;
+extern IMPORT bool g_NonGunHitsBase;
 extern IMPORT float g_LastHitPts;
 
 // help
