@@ -306,6 +306,9 @@ struct CLIENT_INFO
 // bans
 	uint		iConnects; // incremented when player connects
 
+// Group
+    uint iGroupID;
+
 // other
 	std::wstring		wscHostname;
 
