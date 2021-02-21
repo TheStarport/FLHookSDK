@@ -758,13 +758,6 @@ namespace HkIServerImpl
 	IMPORT extern bool g_InSubmitChat;
 	IMPORT extern uint g_TextLength;
 }
-namespace PluginManager {
-	IMPORT void LoadPlugins(bool, CCmds*);
-	IMPORT void LoadPlugin(const std::string &sFileName, CCmds*);
-	IMPORT HK_ERROR PausePlugin(const std::string &sShortName, bool bPause);
-	IMPORT HK_ERROR UnloadPlugin(const std::string &sShortName);
-	IMPORT void UnloadPlugins();
-}
 
 // variables
 extern IMPORT bool g_bPlugin_nofunctioncall;

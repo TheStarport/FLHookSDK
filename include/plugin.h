@@ -18,7 +18,8 @@ inline ReturnCode operator&(ReturnCode a, ReturnCode b) {
 enum class HookStep {
     Before,
     After,
-    Mid
+    Mid,
+    Count
 };
 
 class PluginHook {
@@ -32,13 +33,15 @@ private:
 public:
     template <typename Func>
     PluginHook(HookedCall targetFunction, Func *hookFunction, HookStep step = HookStep::Before, int priority = 0)
-        : targetFunction_(targetFunction), hookFunction_(hookFunction), step_(step), priority_(priority) {}
+        : targetFunction_(targetFunction), hookFunction_(reinterpret_cast<FunctionType*>(hookFunction)), step_(step), priority_(priority) {}
 
     friend class PluginManager;
 };
 
 #ifndef FLHOOK
 struct PluginInfo {
+    PluginInfo() = delete;
+
     IMPORT void version(int version = PLUGIN_API_VERSION);
     IMPORT void name(const char* name);
     IMPORT void shortName(const char* shortName);
@@ -46,6 +49,12 @@ struct PluginInfo {
     IMPORT void mayUnload(bool unload);
     IMPORT void returnCode(ReturnCode* returnCode);
     IMPORT void addHook(const PluginHook& hook);
+
+    template<typename... Args>
+    void emplaceHook(Args&&... args) {
+        PluginHook ph(std::forward<Args>(args)...);
+        addHook(ph);
+    }
 };
 #endif
 

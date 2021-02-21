@@ -17,6 +17,7 @@
 #include "FLCoreDefs.h"
 #include "FLCoreCommon.h"
 
+#pragma warning(disable : 5030)
 #pragma comment( lib, "FLCoreServer.lib" )
 
 #define POPUPDIALOG_BUTTONS_LEFT_YES 1
@@ -310,7 +311,7 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
 	virtual void JettisonCargo(uint clientID, const XJettisonCargo& jc);
 	[[CallInner, CallInnerAfter]] virtual bool Startup(const SStartupInfo& si);
 	[[CallInnerAfter, NoPluginsAfter]] virtual void Shutdown();
-	[[NoHook]] virtual int Update();
+	[[CallInner, NoLog]] virtual int Update();
 	[[NoHook]] virtual void ElapseTime(float);
 	[[NoHook]] virtual void __nullopt1();
 	[[NoHook]] virtual bool SwapConnections(EFLConnection, EFLConnection);

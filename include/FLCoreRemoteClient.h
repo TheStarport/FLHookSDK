@@ -16,6 +16,7 @@
 #include "FLCoreDefs.h"
 #include "FLCoreCommon.h"
 
+#pragma warning(disable : 5030)
 #pragma comment( lib, "FLCoreRemoteClient.lib" )
 
 struct SSPObjUpdateInfo;
