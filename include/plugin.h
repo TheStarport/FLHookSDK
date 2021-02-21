@@ -47,6 +47,7 @@ struct PluginInfo {
     IMPORT void shortName(const char* shortName);
     IMPORT void mayPause(bool pause);
     IMPORT void mayUnload(bool unload);
+    IMPORT void autoResetCode(bool reset);
     IMPORT void returnCode(ReturnCode* returnCode);
     IMPORT void addHook(const PluginHook& hook);
 
