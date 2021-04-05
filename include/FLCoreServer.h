@@ -45,6 +45,12 @@ enum DestroyType
 	FUSE = 1,
 };
 
+enum MissionMessageType {
+    MissionMessageType_Failure, // mission failure
+    MissionMessageType_Type1,   // objective
+    MissionMessageType_Type2,   // objective
+    MissionMessageType_Type3,   // mission success
+};
 
 struct SSPMunitionCollisionInfo
 {
