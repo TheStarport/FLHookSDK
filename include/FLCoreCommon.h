@@ -2287,8 +2287,24 @@ public:
 
 enum FireResult
 {
-	FR_SUCCESS = 9,
-	FR_FAILURE = 5
+	FR_ObjectIsDestroyed = 0,
+	FR_ObjectIsDisabled = 1,
+	FR_RefireDelayNotElapsed = 2,
+	FR_AmmoRequirementsNotMet = 3,
+	FR_PowerRequirementsNotMet = 4,
+
+	// Not sure what kind of failure
+	FR_Failure = 5,
+	
+	// Something to do with this? Not sure the exact reason
+	FR_FailureCruiseActive = 6,
+
+	// Seems to be related to being in a tradelane, uncertain.
+	FR_FailureTradelane = 7,
+	
+	FR_Dunno1 = 8,
+	
+	FR_Success = 9,
 };
 
 class IMPORT CELauncher : public CAttachedEquip
