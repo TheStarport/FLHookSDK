@@ -314,7 +314,7 @@ struct CLIENT_INFO
 
 	bool		bSpawnProtected;
 	bool		bUseServersideHitDetection; //used by AC Plugin
-	uchar		unused_data[127];
+    std::map<PLUGIN_INFO *, std::array<uchar, 40>> mapPluginData;
 };
 
 struct INISECTIONVALUE
@@ -425,10 +425,13 @@ struct PLUGIN_DATA
 	bool bMayPause;
 	bool bMayUnload;
 	bool bPaused;
+    PLUGIN_INFO *info;
 };
 
 // plugin
 IMPORT void Plugin_Communication(PLUGIN_MESSAGE msgtype, void* msg);
+template <typename T>
+IMPORT T *GetPluginClientData(uint iClientID, PLUGIN_INFO *info);
 #define LOG_EXCEPTION { AddLog("ERROR Exception in %s", __FUNCTION__); AddExceptionInfoLog(); }
 
 // HkFuncTools
