@@ -3,6 +3,7 @@
 
 #pragma warning(disable: 4311 4786)
 
+#include <array>
 #include <windows.h>
 #include <stdio.h>
 #include <string>
@@ -430,8 +431,6 @@ struct PLUGIN_DATA
 
 // plugin
 IMPORT void Plugin_Communication(PLUGIN_MESSAGE msgtype, void* msg);
-template <typename T>
-IMPORT T *GetPluginClientData(uint iClientID, PLUGIN_INFO *info);
 #define LOG_EXCEPTION { AddLog("ERROR Exception in %s", __FUNCTION__); AddExceptionInfoLog(); }
 
 // HkFuncTools
@@ -876,6 +875,8 @@ extern IMPORT bool g_bNPCDisabled;
 extern IMPORT char *g_FLServerDataPtr;
 extern IMPORT bool g_gNonGunHitsBase;
 extern IMPORT float g_LastHitPts;
+
+#define GetPluginClientData(id, info) ((&ClientInfo[(id)])->mapPluginData[(info)].data())
 
 // help
 
