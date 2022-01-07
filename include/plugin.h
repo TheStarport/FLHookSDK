@@ -71,21 +71,3 @@ enum PLUGIN_MESSAGE {
     CUSTOM_BASE_BEAM = 42,
     CUSTOM_BASE_IS_DOCKED = 43
 };
-
-// Almost every plugin will handle user commands in the exact same way.
-// Rather than duplicating this code block over and over, lets just macro it.
-#define DefaultUserCommandHandling std::wstring wscCmdLower = ToLower(wscCmd); \
-    for (uint i = 0; (i < sizeof(UserCmds) / sizeof(USERCMD)); i++) { \
-        if (wscCmdLower.find(ToLower(UserCmds[i].wszCmd)) == 0) { \
-            std::wstring wscParam = L""; \
-            if (wscCmd.length() > wcslen(UserCmds[i].wszCmd)) { \
-                if (wscCmd[wcslen(UserCmds[i].wszCmd)] != ' ') \ 
-                    continue; \
-                wscParam = wscCmd.substr(wcslen(UserCmds[i].wszCmd) + 1); \
-            } \
-            UserCmds[i].proc(iClientID, wscParam); \
-            returncode = ReturnCode::SkipAll; \
-            return true; \
-        } \
-    } \
-    return false;

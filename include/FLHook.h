@@ -428,6 +428,37 @@ struct PLUGIN_DATA
 IMPORT void Plugin_Communication(PLUGIN_MESSAGE msgtype, void* msg);
 #define LOG_EXCEPTION { AddLog("ERROR Exception in %s", __FUNCTION__); AddExceptionInfoLog(); }
 
+// Almost every plugin will handle user commands in the exact same way.
+// Rather than duplicating this code block over and over, lets just macro it.
+typedef void (*_UserCmdProc)(uint, const std::wstring &);
+
+struct USERCMD {
+    wchar_t *wszCmd;
+    _UserCmdProc proc;
+};
+
+// Some plugins already define this, just to stop the compiler from getting angry at us
+#ifndef IS_CMD
+#define IS_CMD(a) !wscCmd.compare(L##a)
+#endif
+
+#define DefaultUserCommandHandling(clientId, wscCmd, userCmds, returnCode) \
+    std::wstring wscCmdLower = ToLower(wscCmd);                           \
+    for (uint i = 0; (i < sizeof(userCmds) / sizeof(USERCMD)); i++) {     \
+        if (wscCmdLower.find(ToLower(UserCmds[i].wszCmd)) == 0) {         \
+            std::wstring wscParam = L"";                                  \
+            if ((wscCmd).length() > wcslen(UserCmds[i].wszCmd)) {           \
+                if ((wscCmd)[wcslen(UserCmds[i].wszCmd)] != ' ')            \
+                    continue;                                             \
+                wscParam = (wscCmd).substr(wcslen(UserCmds[i].wszCmd) + 1); \
+            }                                                             \
+            (userCmds)[i].proc(clientId, wscParam);                        \
+            (returnCode) = ReturnCode::SkipAll;                             \
+            return true;                                                  \
+        }                                                                 \
+    }                                                                     \
+    return false;
+
 // HkFuncTools
 IMPORT uint HkGetClientIdFromAccount(CAccount *acc);
 IMPORT uint HkGetClientIdFromPD(struct PlayerData *pPD);
