@@ -84,7 +84,7 @@ inline void HkTempBan(uint iClientID, uint iDuration)
 	TEMPBAN_BAN_STRUCT tempban;
 	tempban.iClientID = iClientID;
 	tempban.iDuration = iDuration;
-	Plugin_Communication(TEMPBAN_BAN,&tempban);
+	PluginCommunication(TEMPBAN_BAN,&tempban);
 }
 
 /** Instructs DSAce to change an IDS std::string */
@@ -94,5 +94,5 @@ inline void HkChangeIDSString(uint iClientID, uint ids, const std::wstring &text
 	info.iClientID = iClientID;
 	info.ids = ids;
 	info.text = text;
-	Plugin_Communication(DSACE_CHANGE_INFOCARD, &info);
+	PluginCommunication(DSACE_CHANGE_INFOCARD, &info);
 }

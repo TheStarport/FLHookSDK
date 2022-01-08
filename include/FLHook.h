@@ -425,7 +425,7 @@ struct PLUGIN_DATA
 };
 
 // plugin
-IMPORT void Plugin_Communication(PLUGIN_MESSAGE msgtype, void* msg);
+IMPORT void PluginCommunication(PLUGIN_MESSAGE msgtype, void* msg);
 #define LOG_EXCEPTION { AddLog("ERROR Exception in %s", __FUNCTION__); AddExceptionInfoLog(); }
 
 // Almost every plugin will handle user commands in the exact same way.
