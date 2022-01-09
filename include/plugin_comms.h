@@ -77,6 +77,11 @@ struct CUSTOM_BASE_IS_DOCKED_STRUCT
 	uint iDockedBaseID;
 };
 
+struct CUSTOM_MAIL_STRUCT {
+    std::wstring wscTargetCharname;
+    std::wstring wscMsg;
+};
+
 /** Send a temp ban request to the tempban plugin */
 inline void HkTempBan(uint iClientID, uint iDuration)
 {
@@ -95,4 +100,12 @@ inline void HkChangeIDSString(uint iClientID, uint ids, const std::wstring &text
 	info.ids = ids;
 	info.text = text;
 	PluginCommunication(DSACE_CHANGE_INFOCARD, &info);
+}
+
+/** Used to send mail to the mail plugin */
+inline void HkSendMail(std::wstring wscTargetCharname, std::wstring wscCharname, std::wstring wscMsg) {
+    CUSTOM_MAIL_STRUCT info;
+    info.wscTargetCharname = wscTargetCharname;
+    info.wscMsg = wscCharname + L": " + wscMsg;
+    PluginCommunication(MAIL, &info);
 }
