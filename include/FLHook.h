@@ -622,7 +622,6 @@ IMPORT void IniWrite(const std::string &scFile, const std::string &scApp, const 
 IMPORT void WriteProcMem(void *pAddress, const void *pMem, int iSize);
 IMPORT void ReadProcMem(void *pAddress, void *pMem, int iSize);
 IMPORT int ToInt(const std::wstring &wscStr);
-IMPORT void ConPrint(std::wstring wscText, ...);
 IMPORT std::wstring XMLText(const std::wstring &wscText);
 IMPORT std::wstring GetParam(const std::wstring &wscLine, wchar_t wcSplitChar, uint iPos);
 IMPORT std::string GetParam(std::string scLine, char cSplitChar, uint iPos);
