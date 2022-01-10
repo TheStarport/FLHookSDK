@@ -66,7 +66,8 @@ public:
 struct PluginInfo {
     PluginInfo() = delete;
 
-    IMPORT void version(int version = PLUGIN_API_VERSION);
+    IMPORT void versionMajor(PluginMajorVersion version);
+    IMPORT void versionMinor(PluginMinorVersion version);
     IMPORT void name(const char* name);
     IMPORT void shortName(const char* shortName);
     IMPORT void mayPause(bool pause);
