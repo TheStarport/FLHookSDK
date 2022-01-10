@@ -311,8 +311,13 @@ struct CLIENT_INFO
 
 	bool		bSpawnProtected;
 	bool		bUseServersideHitDetection; //used by AC Plugin
-	uchar		unused_data[127];
+
+	// Map of PluginData* to array of 10 potential values
+	// PluginData is undefined here, so we need to either forward declare or use a void*.
+    std::map<void*, std::array<uchar, 40>> mapPluginData;
 };
+
+#define GetPluginClientData(id, info) ((&ClientInfo[(id)])->mapPluginData[(info)].data())
 
 struct INISECTIONVALUE
 {
