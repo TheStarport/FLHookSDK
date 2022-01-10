@@ -131,6 +131,7 @@ enum class HookedCall {
 	IServerImpl__SetVisitedState,
 	IServerImpl__RequestBestPath,
 	IServerImpl__RequestPlayerStats,
+	IServerImpl__PopupDialog,
 	IServerImpl__RequestGroupPositions,
 	IServerImpl__SetInterfaceState,
 	IServerImpl__RequestRankLevel,
