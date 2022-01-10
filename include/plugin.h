@@ -2,7 +2,31 @@
 
 #include <__generated.h>
 
-#define PLUGIN_API_VERSION 210
+enum class PluginMajorVersion {
+    UNDEFINED = -1,
+    // We started doing this from 4 onwards
+    VERSION_04 = 4,
+};
+
+// Define most ahead of time
+enum class PluginMinorVersion {
+    UNDEFINED = -1,
+    VERSION_00 = 0,
+    VERSION_01,
+    VERSION_02,
+    VERSION_03,
+    VERSION_04,
+    VERSION_05,
+    VERSION_06,
+    VERSION_07,
+    VERSION_08,
+    VERSION_09,
+};
+
+constexpr PluginMajorVersion CurrentMajorVersion = PluginMajorVersion::VERSION_04;
+constexpr PluginMinorVersion CurrentMinorVersion = PluginMinorVersion::VERSION_00;
+
+const std::wstring VersionInformation = std::to_wstring(static_cast<int>(CurrentMajorVersion)) + L"." + std::to_wstring(static_cast<int>(CurrentMinorVersion));
 
 enum class ReturnCode {
     Default = 0,
