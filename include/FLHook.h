@@ -604,7 +604,15 @@ IMPORT void ProcessEvent(std::wstring wscText, ...);
 IMPORT void PrintUserCmdText(uint iClientID, std::wstring wscText, ...);
 IMPORT void PrintLocalUserCmdText(uint iClientID, const std::wstring &wscMsg, float fDistance);
 
-// tools
+// Tools
+class IMPORT Console {
+  public:
+    static void ConPrint(std::wstring wStr, ...);
+    static void ConErr(std::wstring wStr, ...);
+    static void ConWarn(std::wstring wStr, ...);
+    static void ConInfo(std::wstring wStr, ...);
+};
+
 IMPORT std::wstring stows(const std::string &scText);
 IMPORT std::string wstos(const std::wstring &wscText);
 IMPORT std::string IniGetS(const std::string &scFile, const std::string &scApp, const std::string &scKey, const std::string &scDefault);
