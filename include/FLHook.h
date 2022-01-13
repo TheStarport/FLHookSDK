@@ -10,6 +10,7 @@
 #include <list>
 #include <time.h>
 #include <map>
+#include <filesystem>
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // defines
@@ -1044,5 +1045,8 @@ namespace ZoneUtilities
 	IMPORT SYSTEMINFO *GetSystemInfo(uint systemID);
     IMPORT void PrintZones();
 }
+
+// Serialization
+#include "../../source/Tools/Serialization.hpp"
 
 #endif
