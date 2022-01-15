@@ -618,6 +618,27 @@ class IMPORT Console {
     static void ConInfo(std::wstring wStr, ...);
 };
 
+class IMPORT CharacterHook {
+  public:
+    static CharacterHook *Get();
+
+    std::string IniGetS(uint client, const std::string &name);
+    std::wstring IniGetWS(uint client, const std::string &name);
+    uint IniGetI(uint client, const std::string &name);
+    bool IniGetB(uint client, const std::string &name);
+    float IniGetF(uint client, const std::string &name);
+    void IniSetS(uint client, const std::string &name, const std::string &value);
+    void IniSetWS(uint client, const std::string &name, const std::wstring &value);
+    void IniSetI(uint client, const std::string &name, uint value);
+    void IniSetB(uint client, const std::string &name, bool value);
+    void IniSetF(uint client, const std::string &name, float value);
+    void IniSetS(const std::wstring &charName, const std::string &name, const std::string &value);
+    void IniSetWS(const std::wstring &charName, const std::string &name, const std::wstring &value);
+    void IniSetI(const std::wstring &charName, const std::string &name, uint value);
+    void IniSetB(const std::wstring &charName, const std::string &name, bool value);
+    void IniSetF(const std::wstring &charName, const std::string &name, float value);
+};
+
 IMPORT std::wstring stows(const std::string &scText);
 IMPORT std::string wstos(const std::wstring &wscText);
 IMPORT std::string IniGetS(const std::string &scFile, const std::string &scApp, const std::string &scKey, const std::string &scDefault);
