@@ -616,6 +616,7 @@ class IMPORT Console {
     static void ConErr(std::wstring wStr, ...);
     static void ConWarn(std::wstring wStr, ...);
     static void ConInfo(std::wstring wStr, ...);
+    static void ConDebug(std::wstring wStr, ...);
 };
 
 IMPORT std::wstring stows(const std::string &scText);
