@@ -65,12 +65,12 @@ IMPORT void AddExceptionInfoLog();
 IMPORT void AddExceptionInfoLog(SEHException* ex);
 #define TRY_HOOK try { _set_se_translator(SEHException::Translator);
 #define CATCH_HOOK(e) } \
-catch(SEHException& ex) { e; AddBothLog("ERROR: SEH Exception in %s on line %d; minidump may contain more information.", __FUNCTION__, __LINE__); AddExceptionInfoLog(&ex); } \
-catch(std::exception& ex) { e; AddBothLog("ERROR: STL Exception in %s on line %d: %s.", __FUNCTION__, __LINE__, ex.what()); AddExceptionInfoLog(0); } \
-catch (...) { e; AddBothLog("ERROR: Exception in %s on line %d.", __FUNCTION__, __LINE__); AddExceptionInfoLog(0); }
+catch(SEHException& ex) { e; AddBothLog(L"ERROR: SEH Exception in %s on line %d; minidump may contain more information.", __FUNCTION__, __LINE__); AddExceptionInfoLog(&ex); } \
+catch(std::exception& ex) { e; AddBothLog(L"ERROR: STL Exception in %s on line %d: %s.", __FUNCTION__, __LINE__, ex.what()); AddExceptionInfoLog(0); } \
+catch (...) { e; AddBothLog(L"ERROR: Exception in %s on line %d.", __FUNCTION__, __LINE__); AddExceptionInfoLog(0); }
 #else
 #define TRY_HOOK try
-#define CATCH_HOOK(e) catch(...) { e; AddLog("ERROR: Exception in %s", __FUNCTION__); }
+#define CATCH_HOOK(e) catch(...) { e; AddLog(Normal,L"ERROR: Exception in %s", __FUNCTION__); }
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,6 +99,18 @@ extern IMPORT _GetShipInspect GetShipInspect;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // enums
+
+enum LogType {
+    Normal,
+    Cheater,
+    Kick,
+    Connects,
+    AdminCmds,
+    UserLogCmds,
+    SocketCmds,
+    PerfTimers,
+    Debug
+};
 
 enum HK_ERROR
 {
@@ -431,7 +443,7 @@ struct PLUGIN_DATA
 
 // plugin
 IMPORT void PluginCommunication(PLUGIN_MESSAGE msgtype, void* msg);
-#define LOG_EXCEPTION { AddLog("ERROR Exception in %s", __FUNCTION__); AddExceptionInfoLog(); }
+#define LOG_EXCEPTION { AddLog(Normal,L"ERROR Exception in %s", __FUNCTION__); AddExceptionInfoLog(); }
 
 // Almost every plugin will handle user commands in the exact same way.
 // Rather than duplicating this code block over and over, lets just macro it.
@@ -569,16 +581,11 @@ IMPORT void HkSaveChar(uint iClientID);
 
 // HkFuncLog
 #define AddBothLog(s, ...) { AddLog(s, __VA_ARGS__); AddDebugLog(s, __VA_ARGS__);  }
-IMPORT void AddDebugLog(const char *szString, ...);
-IMPORT void AddLog(const char *szString, ...);
+IMPORT void AddLog(enum LogType, std::wstring wStr, ...);
 IMPORT void HkHandleCheater(uint iClientID, bool bBan, std::wstring wscReason, ...);
 IMPORT bool HkAddCheaterLog(const std::wstring &wscCharname, const std::wstring &wscReason);
-IMPORT bool HkAddCheaterLog(const uint &iClientID, const std::wstring &wscReason);
 IMPORT bool HkAddKickLog(uint iClientID, std::wstring wscReason, ...);
 IMPORT bool HkAddConnectLog(uint iClientID, std::wstring wscReason, ...);
-IMPORT void HkAddAdminCmdLog(const char *szString, ...);
-IMPORT void HkAddUserCmdLog(const char *szString, ...);
-IMPORT void HkAddPerfTimerLog(const char *szString, ...);
 
 // HkFuncOther
 IMPORT void HkGetPlayerIP(uint iClientID, std::wstring &wscIP);
