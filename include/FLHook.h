@@ -101,6 +101,7 @@ extern IMPORT _GetShipInspect GetShipInspect;
 // enums
 
 enum LogType {
+	Error,
     Normal,
     Cheater,
     Kick,
