@@ -20,7 +20,6 @@ enum class HookedCall {
 	IEngine__SendDeathMessage,
 	FLHook__TimerCheckKick,
 	FLHook__TimerNPCAndF1Check,
-	FLHook__PluginCommunication,
 	FLHook__UserCommand__Help,
 	FLHook__UserCommand__Process,
 	FLHook__AdminCommand__Help,

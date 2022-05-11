@@ -2,6 +2,12 @@
 
 #include <__generated.h>
 
+#ifndef FLHOOK
+#define DLL __declspec(dllimport)
+#else
+#define DLL __declspec(dllexport)
+#endif
+
 enum class PluginMajorVersion {
     UNDEFINED = -1,
     // We started doing this from 4 onwards
@@ -62,6 +68,24 @@ public:
     friend class PluginManager;
 };
 
+#define PluginCall(name, ...) (__stdcall * (name))(__VA_ARGS__)
+// Inherit from this to define a IPC (Inter-Plugin Communication) class.
+class DLL PluginCommunicator {
+public:
+    typedef void(__stdcall *EventSubscription)(int id, void *dataPack);
+private:
+    std::map<std::string, EventSubscription> listeners;
+public:
+    void Dispatch(int id, void *dataPack) const;
+    void AddListener(std::string plugin, EventSubscription event);
+
+    std::string plugin;
+    PluginCommunicator(std::string plugin) : plugin(std::move(plugin)) {}
+
+    static void ExportPluginCommunicator(PluginCommunicator *communicator);
+    static PluginCommunicator *ImportPluginCommunicator(std::string plugin, PluginCommunicator::EventSubscription subscription = nullptr);
+};
+
 #ifndef FLHOOK
 struct PluginInfo {
     PluginInfo() = delete;
@@ -84,16 +108,4 @@ struct PluginInfo {
 };
 #endif
 
-enum PLUGIN_MESSAGE {
-    DEFAULT_MESSAGE = 0,
-    CONDATA_EXCEPTION = 10,
-    CONDATA_DATA = 11,
-    TEMPBAN_BAN = 20,
-    ANTICHEAT_TELEPORT = 30,
-    ANTICHEAT_CHEATER = 31,
-    DSACE_CHANGE_INFOCARD = 40,
-    DSACE_SPEED_EXCEPTION = 41,
-    CUSTOM_BASE_BEAM = 42,
-    CUSTOM_BASE_IS_DOCKED = 43,
-    MAIL = 44
-};
+#undef DLL
