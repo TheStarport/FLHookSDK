@@ -626,6 +626,16 @@ class IMPORT Console {
     static void ConDebug(std::wstring wStr, ...);
 };
 
+IMPORT void HkSetCharacterIni(uint client, const std::wstring &name, std::wstring value);
+
+IMPORT std::wstring HkGetCharacterIniString(uint client, const std::wstring &name);
+IMPORT bool HkGetCharacterIniBool(uint client, const std::wstring &name);
+IMPORT int HkGetCharacterIniInt(uint client, const std::wstring &name);
+IMPORT uint HkGetCharacterIniUint(uint client, const std::wstring &name);
+IMPORT float HkGetCharacterIniFloat(uint client, const std::wstring &name);
+IMPORT double HkGetCharacterIniDouble(uint client, const std::wstring &name);
+IMPORT int64_t HkGetCharacterIniInt64(uint client, const std::wstring &name);
+
 IMPORT std::wstring stows(const std::string &scText);
 IMPORT std::string wstos(const std::wstring &wscText);
 IMPORT std::string IniGetS(const std::string &scFile, const std::string &scApp, const std::string &scKey, const std::string &scDefault);
