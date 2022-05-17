@@ -878,6 +878,7 @@ extern IMPORT bool	set_bUserCmdIgnore;
 extern IMPORT bool	set_bUserCmdHelp;
 extern IMPORT uint	set_iDisableNPCSpawns;
 extern IMPORT bool set_bLocalTime;
+extern IMPORT bool set_bDockingMessages;
 extern IMPORT int set_iPort;
 extern IMPORT int	set_iWPort;
 extern IMPORT std::wstring set_wscKickMsg;
