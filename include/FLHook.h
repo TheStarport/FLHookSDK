@@ -71,7 +71,7 @@ catch(std::exception& ex) { e; AddBothLog(L"ERROR: STL Exception in %s on line %
 catch (...) { e; AddBothLog(L"ERROR: Exception in %s on line %d.", __FUNCTION__, __LINE__); AddExceptionInfoLog(0); }
 #else
 #define TRY_HOOK try
-#define CATCH_HOOK(e) catch(...) { e; AddLog(Normal,L"ERROR: Exception in %s", __FUNCTION__); }
+#define CATCH_HOOK(e) catch(...) { e; AddLog(Normal, LogLevel::Info,L"ERROR: Exception in %s", __FUNCTION__); }
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,8 +101,17 @@ extern IMPORT _GetShipInspect GetShipInspect;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // enums
 
+enum class LogLevel : int
+{
+	Trace,
+	Debug,
+	Info,
+	Warn,
+	Err,
+	Critical
+};
+
 enum LogType {
-	Error,
     Normal,
     Cheater,
     Kick,
@@ -111,7 +120,6 @@ enum LogType {
     UserLogCmds,
     SocketCmds,
     PerfTimers,
-    Debug
 };
 
 enum HK_ERROR
@@ -443,7 +451,7 @@ struct PLUGIN_DATA
 	bool bPaused;
 };
 
-#define LOG_EXCEPTION { AddLog(Normal,L"ERROR Exception in %s", __FUNCTION__); AddExceptionInfoLog(); }
+#define LOG_EXCEPTION { AddLog(Normal, LogLevel::Info,L"ERROR Exception in %s", __FUNCTION__); AddExceptionInfoLog(); }
 
 // Almost every plugin will handle user commands in the exact same way.
 // Rather than duplicating this code block over and over, lets just macro it.
@@ -576,7 +584,7 @@ IMPORT void HkSaveChar(uint iClientID);
 
 // HkFuncLog
 #define AddBothLog(s, ...) { AddLog(s, __VA_ARGS__); AddDebugLog(s, __VA_ARGS__);  }
-IMPORT void AddLog(enum LogType, std::wstring wStr, ...);
+IMPORT void AddLog(enum LogType, LogLevel level, std::wstring wStr, ...);
 IMPORT void HkHandleCheater(uint iClientID, bool bBan, std::wstring wscReason, ...);
 IMPORT bool HkAddCheaterLog(std::variant<uint, std::wstring> player, const std::wstring &wscReason);
 IMPORT bool HkAddKickLog(uint iClientID, std::wstring wscReason, ...);
