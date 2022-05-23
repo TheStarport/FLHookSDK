@@ -931,27 +931,14 @@ struct IMPORT FLHookConfig final : Reflectable, Singleton<FLHookConfig>
 		std::vector<std::string> noPVPSystems;
 
 		std::vector<uint> noPVPSystemsHashed;
+		uint antiBaseIdle = 600;
+		uint antiCharMenuIdle = 600;
 	};
 
 	struct Plugins final : Reflectable
 	{
 		bool loadAllPlugins = true;
 		std::vector<std::string> plugins = {};
-	};
-
-	struct Kick final : Reflectable
-	{
-		uint antiBaseIdle = 600;
-		uint antiCharMenuIdle = 600;
-		uint pingKick = 0;
-		uint pingKickFrame = 120;
-		uint fluctKick = 0;
-		uint lossKick = 0;
-		uint lossKickFrame = 120;
-		uint lagKick = 0;
-		uint lagDetectionFrame = 50;
-		uint lagDetectionMin = 50;
-		uint kickThreshold = 0;
 	};
 
 	struct MsgStyle final : Reflectable
@@ -1008,7 +995,6 @@ struct IMPORT FLHookConfig final : Reflectable, Singleton<FLHookConfig>
 
 	General general;
 	Plugins plugins;
-	Kick kick;
 	Socket socket;
 	MsgStyle msgStyle;
 	UserCommands userCommands;
