@@ -255,7 +255,6 @@ class Serializer
 
 			// Get our type with the reference removed
 			typedef std::remove_reference_t<decltype(member(obj))> DeclType;
-
 			if constexpr (IsBool<DeclType> || IsInt<DeclType> || IsFloat<DeclType> || IsString<DeclType> || IsWString<DeclType>)
 			{
 				if constexpr (IsWString<DeclType>)
@@ -312,8 +311,11 @@ class Serializer
 			}
 			else if constexpr (IsMap<DeclType>::value)
 			{
-				constexpr bool IsWide = IsWString<typename DeclType::value_type::first_type>;
-				if constexpr (!IsWide && !IsString<typename DeclType::value_type::first_type>)
+				constexpr bool IsWide = std::is_same_v<class std::basic_string<wchar_t, struct std::char_traits<wchar_t>, class std::allocator<wchar_t>> const,
+				    DeclType::value_type::first_type>;
+				constexpr bool IsNotWide = std::is_same_v<class std::basic_string<char, struct std::char_traits<char>, class std::allocator<char>> const,
+				    DeclType::value_type::first_type>;
+				if constexpr (!IsWide && !IsNotWide)
 				{
 					Console::ConWarn(L"Non-reflectable property (%s) present on %s.", stows(member.name.str()).c_str(), stows(type.name.str()).c_str());
 					return;
