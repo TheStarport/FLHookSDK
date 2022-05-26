@@ -497,7 +497,7 @@ struct USERCMD
 
 #define DefaultUserCommandHandling(clientId, wscCmd, userCmds, returnCode)  \
 	std::wstring wscCmdLower = ToLower(wscCmd);                             \
-	for (uint i = 0; (i < sizeof(userCmds) / sizeof(USERCMD)); i++)         \
+	for (uint i = 0; i < std::size(UserCmds); i++)							\
 	{                                                                       \
 		if (wscCmdLower.find(ToLower(UserCmds[i].wszCmd)) == 0)             \
 		{                                                                   \
