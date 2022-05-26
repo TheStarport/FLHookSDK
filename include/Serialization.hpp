@@ -294,7 +294,7 @@ class Serializer
 				else if constexpr (IsReflectable<typename DeclType::value_type>)
 				{
 					std::vector<nlohmann::json::object_t> objects;
-					auto arr = member.get();
+					auto arr = member(obj);
 					for (auto& i : arr)
 					{
 						auto newObj = nlohmann::json::object();
@@ -323,19 +323,19 @@ class Serializer
 
 				if constexpr (IsReflectable<typename DeclType::value_type::second_type>)
 				{
+					auto map = member(obj);
 					std::map<std::string, nlohmann::json::object_t> objects;
-					auto arr = member.get();
-					for (const auto& [key, value] : arr)
+					for (auto& i : map)
 					{
 						auto newObj = nlohmann::json::object();
-						WriteObject(newObj, value);
+						WriteObject(newObj, i.second);
 						if constexpr (IsWide)
 						{
-							objects[wstos(key)] = value;
+							objects[wstos(i.first)] = newObj;
 						}
 						else
 						{
-							objects[key] = value;
+							objects[i.first] = newObj;
 						}
 					}
 					json[member.name.c_str()] = objects;
