@@ -438,7 +438,7 @@ class Serializer
 		if (!exists)
 		{
 			// Default constructor
-			SaveToJson(ret);
+			SaveToJson(ret, fileName);
 			return ret;
 		}
 
