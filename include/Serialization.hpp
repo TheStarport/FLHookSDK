@@ -342,7 +342,7 @@ class Serializer
 				}
 				else
 				{
-					if (IsWide)
+					if constexpr (IsWide)
 					{
 						std::map<std::string, typename DeclType::value_type::second_type> map;
 						for (const auto& [key, value] : member(obj))
