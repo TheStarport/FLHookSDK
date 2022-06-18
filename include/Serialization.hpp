@@ -153,9 +153,9 @@ class Serializer
 	for (const auto& [key, value] : sMap)                                                               \
 		wMap[stows(key)] = value;                                                                       \
 	*static_cast<std::map<std::wstring, T>*>(ptr) = wMap
-				if constexpr (IsWString<typename DeclType::value_type::first_type> || IsString<typename DeclType::value_type::first_type>)
+				if constexpr (IsWString<std::remove_const<DeclType::value_type::first_type>::type> || IsString<std::remove_const<DeclType::value_type::first_type>::type>)
 				{
-					constexpr bool IsWide = IsWString<typename DeclType::value_type::first_type>;
+					constexpr bool IsWide = IsWString<std::remove_const<DeclType::value_type::first_type>::type>;
 					if constexpr (IsBool<typename DeclType::value_type::second_type>)
 					{
 						if constexpr (IsWide)
@@ -190,13 +190,12 @@ class Serializer
 							GetWide(std::string);
 						}
 						else
-							*static_cast<std::map<std::string, std::string>*>(ptr) =
-							    json[member.name.c_str()].template get<std::map<std::string, std::string>>();
+							*static_cast<std::map<std::string, std::string>*>(ptr) = json[member.name.c_str()].template get<std::map<std::string, std::string>>();
 					}
 					else if constexpr (IsWString<typename DeclType::value_type::second_type>)
 					{
 						std::map<std::string, std::string> mapOfString = json[member.name.c_str()].template get<std::map<std::string, std::string>>();
-						if (IsWide)
+						if constexpr (IsWide)
 						{
 							std::map<std::wstring, std::wstring> mapOfWstring(mapOfString.size());
 							for (auto& i : mapOfString)
@@ -217,16 +216,32 @@ class Serializer
 					}
 					else if constexpr (IsReflectable<typename DeclType::value_type::second_type>)
 					{
-						nlohmann::json::object_t jObj = json[member.name.c_str()].template get<nlohmann::json::object>();
-						auto declMap = std::map<std::string, typename DeclType::value_type::second_type>();
+						nlohmann::json::object_t jObj = json[member.name.c_str()].template get<nlohmann::json::object_t>();
 
-						for (auto& i : jObj)
+						if constexpr (IsWide)
 						{
-							DeclType reflectable;
-							ReadObject(i.second, &reflectable);
-							declMap[i.first] = reflectable;
+							auto declMap = std::map<std::wstring, typename DeclType::value_type::second_type>();
+
+							for (auto& i : jObj)
+							{
+								typename DeclType::value_type::second_type reflectable;
+								ReadObject(i.second, reflectable);
+								declMap[stows(i.first)] = reflectable;
+							}
+							*static_cast<std::map<std::wstring, DeclType::value_type::second_type>*>(ptr) = declMap;
 						}
-						*static_cast<std::vector<DeclType>>(ptr) = declMap;
+						else
+						{
+							auto declMap = std::map<std::string, typename DeclType::value_type::second_type>();
+
+							for (auto& i : jObj)
+							{
+								typename DeclType::value_type::second_type reflectable;
+								ReadObject(i.second, reflectable);
+								declMap[i.first] = reflectable;
+							}
+							*static_cast<std::map<std::string, DeclType::value_type::second_type>*>(ptr) = declMap;
+						}
 					}
 				}
 #undef GetWide
