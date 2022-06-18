@@ -515,6 +515,16 @@ struct USERCMD
 	}                                                                       \
 	return false;
 
+#define HkFunc(Func, clientId, ...)                                      \
+	{                                                                    \
+		if (HK_ERROR err; (err = Func(clientId, __VA_ARGS__)) != HKE_OK) \
+		{                                                                \
+			std::wstring errorString = HkErrGetText(err);                \
+			PrintUserCmdText(clientId, L"ERR:" + errorString);           \
+			return;                                                      \
+		}                                                                \
+	}
+
 // HkFuncTools
 IMPORT uint HkGetClientIdFromAccount(CAccount* acc);
 IMPORT uint HkGetClientIdFromPD(struct PlayerData* pPD);
