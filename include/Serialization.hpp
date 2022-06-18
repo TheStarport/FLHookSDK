@@ -129,15 +129,15 @@ class Serializer
 				else if constexpr (IsReflectable<typename DeclType::value_type>)
 				{
 					auto jArr = json[member.name.c_str()].template get<nlohmann::json::array_t>();
-					auto declArr = std::vector<DeclType>();
-					for (nlohmann::json::iterator iter = jArr.begin(); iter != jArr.end(); ++jArr)
+					auto declArr = std::vector<typename DeclType::value_type>();
+					for (auto iter = jArr.begin(); iter != jArr.end(); ++iter)
 					{
-						DeclType reflectable;
+						typename DeclType::value_type reflectable;
 						ReadObject(*iter, reflectable);
 						declArr.emplace_back(reflectable);
 					}
 
-					*static_cast<std::vector<DeclType>>(ptr) = declArr;
+					*static_cast<std::vector<typename DeclType::value_type>*>(ptr) = declArr;
 				}
 				else
 				{
