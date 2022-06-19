@@ -2,55 +2,20 @@
 
 #include <__generated.h>
 
-#ifndef FLHOOK
-#define DLL __declspec(dllimport)
-#else
-#define DLL __declspec(dllexport)
+#include "Enums.hpp"
+
+#ifndef DLL
+	#ifndef FLHOOK
+	#define DLL __declspec(dllimport)
+	#else
+	#define DLL __declspec(dllexport)
+	#endif
 #endif
-
-enum class PluginMajorVersion {
-    UNDEFINED = -1,
-    // We started doing this from 4 onwards
-    VERSION_04 = 4,
-};
-
-// Define most ahead of time
-enum class PluginMinorVersion {
-    UNDEFINED = -1,
-    VERSION_00 = 0,
-    VERSION_01,
-    VERSION_02,
-    VERSION_03,
-    VERSION_04,
-    VERSION_05,
-    VERSION_06,
-    VERSION_07,
-    VERSION_08,
-    VERSION_09,
-};
 
 constexpr PluginMajorVersion CurrentMajorVersion = PluginMajorVersion::VERSION_04;
 constexpr PluginMinorVersion CurrentMinorVersion = PluginMinorVersion::VERSION_00;
 
 const std::wstring VersionInformation = std::to_wstring(static_cast<int>(CurrentMajorVersion)) + L"." + std::to_wstring(static_cast<int>(CurrentMinorVersion));
-
-enum class ReturnCode {
-    Default = 0,
-    SkipPlugins = 1,
-    SkipFunctionCall = 2,
-    SkipAll = SkipPlugins | SkipFunctionCall,
-};
-
-inline ReturnCode operator&(ReturnCode a, ReturnCode b) {
-    return ReturnCode(uint(a) & uint(b));
-}
-
-enum class HookStep {
-    Before,
-    After,
-    Mid,
-    Count
-};
 
 class PluginHook {
 public:
@@ -86,26 +51,36 @@ public:
     static PluginCommunicator *ImportPluginCommunicator(std::string plugin, PluginCommunicator::EventSubscription subscription = nullptr);
 };
 
-#ifndef FLHOOK
 struct PluginInfo {
-    PluginInfo() = delete;
+    DLL void versionMajor(PluginMajorVersion version);
+	DLL void versionMinor(PluginMinorVersion version);
+	DLL void name(const char* name);
+	DLL void shortName(const char* shortName);
+	DLL void mayPause(bool pause);
+	DLL void mayUnload(bool unload);
+	DLL void autoResetCode(bool reset);
+	DLL void returnCode(ReturnCode* returnCode);
+	DLL void addHook(const PluginHook& hook);
 
-    IMPORT void versionMajor(PluginMajorVersion version);
-    IMPORT void versionMinor(PluginMinorVersion version);
-    IMPORT void name(const char* name);
-    IMPORT void shortName(const char* shortName);
-    IMPORT void mayPause(bool pause);
-    IMPORT void mayUnload(bool unload);
-    IMPORT void autoResetCode(bool reset);
-    IMPORT void returnCode(ReturnCode* returnCode);
-    IMPORT void addHook(const PluginHook& hook);
+    #ifdef FLHOOK
+		template<typename... Args>
+		void addHook(Args&&... args)
+		{
+			addHook(PluginHook(std::forward<Args>(args)...));
+		}
 
-    template<typename... Args>
-    void emplaceHook(Args&&... args) {
-        PluginHook ph(std::forward<Args>(args)...);
-        addHook(ph);
-    }
+		PluginMajorVersion versionMajor_ = PluginMajorVersion::UNDEFINED;
+		PluginMinorVersion versionMinor_ = PluginMinorVersion::UNDEFINED;
+		std::string name_, shortName_;
+		bool mayPause_ = false, mayUnload_ = false, resetCode_ = true;
+		ReturnCode* returnCode_ = nullptr;
+		std::list<PluginHook> hooks_;
+    #else
+		template<typename... Args>
+		void emplaceHook(Args&&... args)
+		{
+			PluginHook ph(std::forward<Args>(args)...);
+			addHook(ph);
+		}
+    #endif
 };
-#endif
-
-#undef DLL

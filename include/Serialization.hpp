@@ -6,9 +6,7 @@
 
 #include "refl.hpp"
 
-#ifndef FLHOOK
-	#include "FLHook.h"
-#endif
+#include "FLHook.hpp"
 
 template<typename T>
 constexpr auto IsBool = std::is_same_v<T, bool>;
@@ -477,19 +475,19 @@ class Serializer
 		catch (nlohmann::json::parse_error& ex)
 		{
 			Console::ConErr(L"Unable to process JSON. It could not be parsed. See log for more detail.");
-			AddLog(Normal, LogLevel::Info,
+			AddLog(LogType::Normal, LogLevel::Info,
 			    L"Unable to process JSON file [" + stows(fileName) + L"]. The JSON could not be parsed. EXCEPTION: " + stows(ex.what()));
 		}
 		catch (nlohmann::json::type_error& ex)
 		{
 			Console::ConErr(L"Unable to process JSON. It could not be parsed. See log for more detail.");
-			AddLog(Normal, LogLevel::Info,
+			AddLog(LogType::Normal, LogLevel::Info,
 			    L"Unable to process JSON file [" + stows(fileName) + L"]. A type within the JSON object did not match. EXCEPTION: " + stows(ex.what()));
 		}
 		catch (nlohmann::json::exception& ex)
 		{
 			Console::ConErr(L"Unable to process JSON. It could not be parsed. See log for more detail.");
-			AddLog(Normal, LogLevel::Info, L"Unable to process JSON file [" + stows(fileName) + L"] EXCEPTION: " + stows(ex.what()));
+			AddLog(LogType::Normal, LogLevel::Info, L"Unable to process JSON file [" + stows(fileName) + L"] EXCEPTION: " + stows(ex.what()));
 		}
 
 		return ret;
