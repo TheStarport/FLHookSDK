@@ -93,6 +93,3 @@ DLL void AddExceptionInfoLog(SEHException* ex);
 			return;                                                      \
 		}                                                                \
 	}
-
-#define DefaultUserCmdHook(commands, returnCode) \
-[](uint& clientId, const std::wstring& wscParam) { return DefaultUserCommandHandling(clientId, wscParam, UserCmds, returnCode); }
