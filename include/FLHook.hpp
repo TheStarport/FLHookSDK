@@ -624,7 +624,7 @@ struct USERCMD
 };
 
 template<std::size_t Size>
-bool DefaultUserCommandHandling(const uint& clientId, const std::wstring& wscCmd, std::array<USERCMD, Size> commands, ReturnCode returnCode)
+bool DefaultUserCommandHandling(const uint& clientId, const std::wstring& wscCmd, std::array<USERCMD, Size> commands, ReturnCode& returnCode)
 {
 	const std::wstring wscCmdLower = ToLower(wscCmd);
 
