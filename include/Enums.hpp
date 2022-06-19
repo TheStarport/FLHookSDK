@@ -1,0 +1,181 @@
+#pragma once
+#include "Typedefs.hpp"
+
+enum class LogLevel : int
+{
+	Trace,
+	Debug,
+	Info,
+	Warn,
+	Err,
+	Critical
+};
+
+enum class LogType : int
+{
+	Normal,
+	Cheater,
+	Kick,
+	Connects,
+	AdminCmds,
+	UserLogCmds,
+	SocketCmds,
+	PerfTimers
+};
+
+enum HK_ERROR
+{
+	HKE_OK,
+	HKE_PLAYER_NOT_LOGGED_IN,
+	HKE_CHAR_DOES_NOT_EXIST,
+	HKE_INVALID_CLIENT_ID,
+	HKE_COULD_NOT_DECODE_CHARFILE,
+	HKE_COULD_NOT_ENCODE_CHARFILE,
+	HKE_INVALID_BASENAME,
+	HKE_INVALID_ID_STRING,
+	HKE_INVALID_SYSTEM,
+	HKE_PLAYER_NOT_IN_SPACE,
+	HKE_PLAYER_NO_ADMIN,
+	HKE_WRONG_XML_SYNTAX,
+	HKE_INVALID_GOOD,
+	HKE_NO_CHAR_SELECTED,
+	HKE_CHARNAME_ALREADY_EXISTS,
+	HKE_CHARNAME_TOO_LONG,
+	HKE_CHARNAME_TOO_SHORT,
+	HKE_AMBIGUOUS_SHORTCUT,
+	HKE_NO_MATCHING_PLAYER,
+	HKE_INVALID_SHORTCUT_STRING,
+	HKE_MPNEWCHARACTERFILE_NOT_FOUND_OR_INVALID,
+	HKE_INVALID_REP_GROUP,
+	HKE_PLUGIN_UNLOADABLE,
+	HKE_PLUGIN_UNPAUSABLE,
+	HKE_PLUGIN_NOT_FOUND,
+	HKE_UNKNOWN_ERROR,
+	HKE_INVALID_GROUP_ID,
+	HKE_CUSTOM_1,
+	HKE_CUSTOM_2,
+	HKE_CUSTOM_3,
+	HKE_CUSTOM_4,
+	HKE_CUSTOM_5,
+	HKE_CUSTOM_6,
+	HKE_CUSTOM_7,
+	HKE_CUSTOM_8,
+	HKE_CUSTOM_9,
+	HKE_CUSTOM_10,
+};
+
+enum DIEMSGTYPE
+{
+	DIEMSG_ALL = 0,
+	DIEMSG_SYSTEM = 1,
+	DIEMSG_NONE = 2,
+	DIEMSG_SELF = 3,
+};
+
+enum CHATSIZE
+{
+	CS_DEFAULT = 0,
+	CS_SMALL = 1,
+	CS_BIG = 2,
+};
+
+enum CHATSTYLE
+{
+	CST_DEFAULT = 0,
+	CST_BOLD = 1,
+	CST_ITALIC = 2,
+	CST_UNDERLINE = 3,
+};
+
+enum ENGINE_STATE
+{
+	ES_CRUISE,
+	ES_THRUSTER,
+	ES_ENGINE,
+	ES_KILLED,
+	ES_TRADELANE
+};
+
+enum EQ_TYPE
+{
+	ET_GUN,
+	ET_TORPEDO,
+	ET_CD,
+	ET_MISSILE,
+	ET_MINE,
+	ET_CM,
+	ET_SHIELDGEN,
+	ET_THRUSTER,
+	ET_SHIELDBAT,
+	ET_NANOBOT,
+	ET_MUNITION,
+	ET_ENGINE,
+	ET_OTHER,
+	ET_SCANNER,
+	ET_TRACTOR,
+	ET_LIGHT
+};
+
+enum CCMDS_RIGHTS
+{
+	RIGHT_NOTHING = 0,
+	RIGHT_SUPERADMIN = 0xFFFFFFFF,
+	RIGHT_MSG = (1 << 0),
+	RIGHT_KICKBAN = (1 << 1),
+	RIGHT_EVENTMODE = (1 << 2),
+	RIGHT_CASH = (1 << 3),
+	RIGHT_BEAMKILL = (1 << 4),
+	RIGHT_REPUTATION = (1 << 5),
+	RIGHT_CARGO = (1 << 6),
+	RIGHT_CHARACTERS = (1 << 7),
+	RIGHT_SETTINGS = (1 << 8),
+	RIGHT_PLUGINS = (1 << 9),
+	RIGHT_OTHER = (1 << 10),
+	RIGHT_SPECIAL1 = (1 << 11),
+	RIGHT_SPECIAL2 = (1 << 12),
+	RIGHT_SPECIAL3 = (1 << 13),
+};
+
+enum class PluginMajorVersion
+{
+	UNDEFINED = -1,
+	// We started doing this from 4 onwards
+	VERSION_04 = 4,
+};
+
+// Define most ahead of time
+enum class PluginMinorVersion
+{
+	UNDEFINED = -1,
+	VERSION_00 = 0,
+	VERSION_01,
+	VERSION_02,
+	VERSION_03,
+	VERSION_04,
+	VERSION_05,
+	VERSION_06,
+	VERSION_07,
+	VERSION_08,
+	VERSION_09,
+};
+
+enum class ReturnCode
+{
+	Default = 0,
+	SkipPlugins = 1,
+	SkipFunctionCall = 2,
+	SkipAll = SkipPlugins | SkipFunctionCall,
+};
+
+inline ReturnCode operator&(ReturnCode a, ReturnCode b)
+{
+	return ReturnCode(static_cast<uint>(a) & static_cast<uint>(b));
+}
+
+enum class HookStep
+{
+	Before,
+	After,
+	Mid,
+	Count
+};

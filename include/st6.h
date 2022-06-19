@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-// N.B.: Must be included *after* FLHook.h or global.h; st6_malloc and st6_free must be defined!
+// N.B.: Must be included *after* FLHook.hpp; st6_malloc and st6_free must be defined!
 #ifndef ST6_ALLOCATION_DEFINED
 #error st6_malloc and st6_free must be defined before st6.h is included!
 #endif
