@@ -786,6 +786,8 @@ DLL void Rotate180(Matrix& rot);
 DLL void TranslateY(Vector& pos, Matrix& rot, float y);
 DLL void TranslateX(Vector& pos, Matrix& rot, float x);
 DLL void TranslateZ(Vector& pos, Matrix& rot, float z);
+DLL uint RgbToBgr(uint color);
+DLL std::wstring UintToHex(uint number, uint width, bool addPrefix = false);
 
 // HkFuncMsg
 DLL HK_ERROR HkMsg(uint iClientID, const std::wstring& wscMessage);
@@ -798,6 +800,7 @@ DLL HK_ERROR HkFMsg(uint iClientID, const std::wstring& wscXML);
 DLL HK_ERROR HkFMsg(std::variant<uint, std::wstring> player, const std::wstring& wscXML);
 DLL HK_ERROR HkFMsgS(const std::wstring& wscSystemname, const std::wstring& wscXML);
 DLL HK_ERROR HkFMsgU(const std::wstring& wscXML);
+DLL void HkFormatMessage(uint clientId, MessageColor color, MessageFormat format, std::wstring& msg, ...);
 DLL std::wstring HkGetWStringFromIDS(uint iIDS);
 DLL void HkLoadStringDLLs();
 DLL void HkUnloadStringDLLs();
