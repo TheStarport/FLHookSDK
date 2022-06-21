@@ -801,7 +801,7 @@ DLL HK_ERROR HkFMsg(uint iClientID, const std::wstring& wscXML);
 DLL HK_ERROR HkFMsg(std::variant<uint, std::wstring> player, const std::wstring& wscXML);
 DLL HK_ERROR HkFMsgS(const std::wstring& wscSystemname, const std::wstring& wscXML);
 DLL HK_ERROR HkFMsgU(const std::wstring& wscXML);
-DLL void HkFormatMessage(uint clientId, MessageColor color, MessageFormat format, std::wstring& msg, ...);
+DLL void HkFormatMessage(uint clientId, MessageColor color, MessageFormat format, std::wstring msg, ...);
 DLL std::wstring HkGetWStringFromIDS(uint iIDS);
 DLL void HkLoadStringDLLs();
 DLL void HkUnloadStringDLLs();
@@ -955,6 +955,7 @@ extern DLL HK_ERROR HkGetClientID(bool& bIdString, uint& iClientID, const std::w
 
 extern DLL _GetShipInspect GetShipInspect;
 extern DLL std::list<BASE_INFO> lstBases;
+extern DLL bool flhookReady;
 
 DLL bool flc_decode(const char* ifile, const char* ofile);
 DLL bool flc_encode(const char* ifile, const char* ofile);

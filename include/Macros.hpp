@@ -67,11 +67,11 @@ DLL void AddExceptionInfoLog(SEHException* ex);
 			AddExceptionInfoLog(0);                                                                                                      \
 		}
 
-	#define LOG_EXCEPTION                                  \
-	{                                                  \
-		AddLog(LogType::Normal, LogLevel::Err, L"ERROR Exception in %s", stows(__FUNCTION__).c_str()); \
-		AddExceptionInfoLog();                         \
-	}
+	#define LOG_EXCEPTION                                                                                  \
+		{                                                                                                  \
+			AddLog(LogType::Normal, LogLevel::Err, L"ERROR Exception in %s", stows(__FUNCTION__).c_str()); \
+			AddExceptionInfoLog();                                                                         \
+		}
 #else
 	#define TRY_HOOK try
 	#define CATCH_HOOK(e)                                                                            \
@@ -93,3 +93,14 @@ DLL void AddExceptionInfoLog(SEHException* ex);
 			return;                                                      \
 		}                                                                \
 	}
+
+#define DefaultDllMain(x)                                                                                                   \
+	BOOL WINAPI DllMain([[maybe_unused]] HINSTANCE dll, [[maybe_unused]] DWORD reason, [[maybe_unused]] LPVOID reserved)    \
+	{                                                                                                                       \
+		if (flhookReady && reason == DLL_PROCESS_ATTACH)                                                                    \
+		{                                                                                                                   \
+			x;                                                                                                              \
+		}                                                                                                                   \
+		return true;                                                                                                        \
+	}
+#define DefaultDllMainSettings(loadSettings) DefaultDllMain(loadSettings())
