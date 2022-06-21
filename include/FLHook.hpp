@@ -788,6 +788,7 @@ DLL void TranslateX(Vector& pos, Matrix& rot, float x);
 DLL void TranslateZ(Vector& pos, Matrix& rot, float z);
 DLL uint RgbToBgr(uint color);
 DLL std::wstring UintToHex(uint number, uint width, bool addPrefix = false);
+DLL HK_ERROR HkGetSystemByNickname(std::variant<std::string, std::wstring> nickname, uint& system);
 
 // HkFuncMsg
 DLL HK_ERROR HkMsg(uint iClientID, const std::wstring& wscMessage);
@@ -852,6 +853,11 @@ DLL HK_ERROR HkGetRank(std::variant<uint, std::wstring> player, int& iRank);
 DLL HK_ERROR HKGetShipValue(std::variant<uint, std::wstring> player, float& fValue);
 DLL void HkRelocateClient(uint iClientID, Vector vDestination, Matrix mOrientation);
 DLL void HkSaveChar(uint iClientID);
+DLL HK_ERROR HkGetTarget(std::variant<uint, std::wstring> player, uint& target);
+DLL HK_ERROR HkGetTargetClientId(std::variant<uint, std::wstring> player, uint& targetClientId);
+DLL HK_ERROR HkGetCurrentBase(std::variant<uint, std::wstring> player, uint& base);
+DLL HK_ERROR HkGetSystem(std::variant<uint, std::wstring> player, uint& system);
+DLL HK_ERROR HkGetShip(std::variant<uint, std::wstring> player, uint& system);
 
 // HkFuncLog
 
