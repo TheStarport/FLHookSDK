@@ -12,6 +12,16 @@
 	#endif
 #endif
 
+struct UserCommand
+{
+	std::wstring command;
+	std::wstring usage;
+	UserCmdProc proc;
+	std::wstring description;
+};
+
+DLL UserCommand CreateUserCommand(const std::wstring& command, const std::wstring& usage, const UserCmdProc& proc, const std::wstring& description);
+
 constexpr PluginMajorVersion CurrentMajorVersion = PluginMajorVersion::VERSION_04;
 constexpr PluginMinorVersion CurrentMinorVersion = PluginMinorVersion::VERSION_00;
 
@@ -61,6 +71,7 @@ struct PluginInfo {
 	DLL void autoResetCode(bool reset);
 	DLL void returnCode(ReturnCode* returnCode);
 	DLL void addHook(const PluginHook& hook);
+	DLL void commands(const std::vector<UserCommand>&);
 
     #ifdef FLHOOK
 		template<typename... Args>
@@ -75,6 +86,7 @@ struct PluginInfo {
 		bool mayPause_ = false, mayUnload_ = false, resetCode_ = true;
 		ReturnCode* returnCode_ = nullptr;
 		std::list<PluginHook> hooks_;
+	    std::vector<UserCommand> commands_;
     #else
 		template<typename... Args>
 		void emplaceHook(Args&&... args)

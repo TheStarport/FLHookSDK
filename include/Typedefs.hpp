@@ -20,3 +20,5 @@ using BLOWFISH_CTX = struct
 	unsigned long P[16 + 2];
 	unsigned long S[4][256];
 };
+
+using UserCmdProc = void(*)(const uint& clientId, const std::wstring_view& param);

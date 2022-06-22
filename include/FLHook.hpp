@@ -98,6 +98,7 @@ DLL int ToInt(const std::wstring& wscStr);
 DLL uint ToUInt(const std::wstring& wscStr);
 DLL std::wstring XMLText(const std::wstring& wscText);
 DLL std::wstring GetParam(const std::wstring& wscLine, wchar_t wcSplitChar, uint iPos);
+DLL std::wstring GetParam(const std::wstring_view& wscLine, wchar_t wcSplitChar, uint iPos);
 DLL std::string GetParam(std::string scLine, char cSplitChar, uint iPos);
 DLL std::wstring ReplaceStr(const std::wstring& wscSource, const std::wstring& wscSearchFor, const std::wstring& wscReplaceWith);
 DLL void IniDelSection(const std::string& scFile, const std::string& scApp);
@@ -115,10 +116,12 @@ template<typename Str>
 Str Trim(const Str& scIn);
 template DLL std::string Trim(const std::string& scIn);
 template DLL std::wstring Trim(const std::wstring& scIn);
+DLL std::wstring ViewToWString(const std::wstring_view&);
+DLL std::string ViewToString(const std::string_view&);
 DLL BOOL FileExists(LPCTSTR szPath);
 DLL std::wstring ToLower(std::wstring wscStr);
 DLL std::string ToLower(std::string wscStr);
-DLL std::wstring GetParamToEnd(const std::wstring& wscLine, wchar_t wcSplitChar, uint iPos);
+DLL std::wstring_view GetParamToEnd(const std::wstring_view& wscLine, wchar_t wcSplitChar, uint iPos);
 DLL void ini_write_wstring(FILE* file, const std::string& parmname, const std::wstring& in);
 DLL void ini_get_wstring(INI_Reader& ini, std::wstring& wscValue);
 DLL std::wstring GetTimeString(bool bLocalTime);
@@ -172,6 +175,7 @@ struct DLL FLHookConfig final : Reflectable, Singleton<FLHookConfig>
 		uint reservedSlots = 0;
 		float torpMissileBaseDamageMultiplier = 1.0f;
 		bool logPerformanceTimers = false;
+		bool echoCommands = true;
 
 		std::vector<std::wstring> chatSuppressList;
 		std::vector<std::string> noPVPSystems;
@@ -190,6 +194,7 @@ struct DLL FLHookConfig final : Reflectable, Singleton<FLHookConfig>
 
 	struct MsgStyle final : Reflectable
 	{
+		std::wstring msgEchoStyle = L"0x00AA0090";
 		std::wstring deathMsgStyle = L"0x19198C01";
 		std::wstring deathMsgStyleSys = L"0x1919BD01";
 		uint kickMsgPeriod = 5000;
@@ -252,10 +257,10 @@ struct DLL FLHookConfig final : Reflectable, Singleton<FLHookConfig>
 REFL_AUTO(type(FLHookConfig::General), field(antiDockKill), field(antiF1), field(changeCruiseDisruptorBehaviour), field(debugMode), field(dieMsg),
     field(disableCharfileEncryption), field(disconnectDelay), field(disableNPCSpawns), field(dockingMessages), field(localTime), field(maxGroupSize),
     field(persistGroup), field(reservedSlots), field(torpMissileBaseDamageMultiplier), field(logPerformanceTimers), field(chatSuppressList),
-    field(noPVPSystems))
+    field(noPVPSystems), field(echoCommands))
 REFL_AUTO(type(FLHookConfig::Plugins), field(loadAllPlugins), field(plugins))
 REFL_AUTO(type(FLHookConfig::Socket), field(activated), field(port), field(wPort), field(ePort), field(eWPort), field(encryptionKey), field(passRightsMap))
-REFL_AUTO(type(FLHookConfig::MsgStyle), field(deathMsgStyle), field(deathMsgStyleSys), field(kickMsgPeriod), field(kickMsg), field(userCmdStyle),
+REFL_AUTO(type(FLHookConfig::MsgStyle), field(msgEchoStyle), field(deathMsgStyle), field(deathMsgStyleSys), field(kickMsgPeriod), field(kickMsg), field(userCmdStyle),
     field(adminCmdStyle), field(deathMsgTextAdminKill), field(deathMsgTextPlayerKill), field(deathMsgTextSelfKill), field(deathMsgTextNPC),
     field(deathMsgTextSuicide))
 REFL_AUTO(type(FLHookConfig::UserCommands), field(userCmdSetDieMsg), field(userCmdSetDieMsgSize), field(userCmdSetChatFont), field(userCmdIgnore),
@@ -615,38 +620,6 @@ struct SpecialChatIDs
 	};
 };
 
-typedef void (*_UserCmdProc)(uint, const std::wstring&);
-
-struct USERCMD
-{
-	std::wstring cmd;
-	_UserCmdProc proc;
-};
-
-template<std::size_t Size>
-bool DefaultUserCommandHandling(const uint& clientId, const std::wstring& wscCmd, std::array<USERCMD, Size> commands, ReturnCode& returnCode)
-{
-	const std::wstring wscCmdLower = ToLower(wscCmd);
-
-	for (const auto& userCmd : commands)
-	{
-		if (wscCmdLower.find(ToLower(userCmd.cmd)) == 0)
-		{
-			std::wstring wscParam = L"";
-			if ((wscCmd).length() > userCmd.cmd.length())
-			{
-				if ((wscCmd)[userCmd.cmd.length()] != ' ')
-					continue;
-				wscParam = (wscCmd).substr(userCmd.cmd.length() + 1);
-			}
-			userCmd.proc(clientId, wscParam);
-			returnCode = ReturnCode::SkipAll;
-			return true;
-		}
-	}
-	return false;
-}
-
 class CCmds
 {
 	bool bID;
@@ -890,8 +863,8 @@ DLL HK_ERROR HkFLIniWrite(std::variant<uint, std::wstring> player, const std::ws
 
 DLL std::wstring HkErrGetText(HK_ERROR hkErr);
 
-DLL void UserCmd_SetDieMsg(uint iClientID, std::wstring& wscParam);
-DLL void UserCmd_SetChatFont(uint iClientID, std::wstring& wscParam);
+DLL void UserCmd_SetDieMsg(const uint& iClientID, const std::wstring_view& wscParam);
+DLL void UserCmd_SetChatFont(const uint& iClientID, const std::wstring_view& wscParam);
 DLL void PrintUserCmdText(uint iClientID, std::wstring wscText, ...);
 DLL void PrintLocalUserCmdText(uint iClientID, const std::wstring& wscMsg, float fDistance);
 
