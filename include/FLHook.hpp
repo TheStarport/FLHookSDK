@@ -879,6 +879,9 @@ DLL float HkGetCharacterIniFloat(uint client, const std::wstring& name);
 DLL double HkGetCharacterIniDouble(uint client, const std::wstring& name);
 DLL int64_t HkGetCharacterIniInt64(uint client, const std::wstring& name);
 
+// HkPersonalities
+DLL pub::AI::Personality HkGetPersonality(const std::string& pilotNickname, HK_ERROR& err);
+
 DLL extern bool g_NonGunHitsBase;
 DLL extern float g_LastHitPts;
 
