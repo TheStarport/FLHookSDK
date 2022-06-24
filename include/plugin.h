@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <__generated.h>
 
 #include "Enums.hpp"
@@ -21,6 +22,13 @@ struct UserCommand
 };
 
 DLL UserCommand CreateUserCommand(const std::wstring& command, const std::wstring& usage, const UserCmdProc& proc, const std::wstring& description);
+
+struct Timer
+{
+	std::function<void()> func;
+	mstime intervalInSeconds;
+	mstime lastTime = 0;
+};
 
 constexpr PluginMajorVersion CurrentMajorVersion = PluginMajorVersion::VERSION_04;
 constexpr PluginMinorVersion CurrentMinorVersion = PluginMinorVersion::VERSION_00;
@@ -72,6 +80,7 @@ struct PluginInfo {
 	DLL void returnCode(ReturnCode* returnCode);
 	DLL void addHook(const PluginHook& hook);
 	DLL void commands(const std::vector<UserCommand>&);
+	DLL void timers(const std::vector<Timer>&);
 
     #ifdef FLHOOK
 		template<typename... Args>
@@ -87,6 +96,7 @@ struct PluginInfo {
 		ReturnCode* returnCode_ = nullptr;
 		std::list<PluginHook> hooks_;
 	    std::vector<UserCommand> commands_;
+	    std::vector<Timer> timers_;
     #else
 		template<typename... Args>
 		void emplaceHook(Args&&... args)

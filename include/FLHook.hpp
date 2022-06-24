@@ -182,7 +182,7 @@ struct DLL FLHookConfig final : Reflectable, Singleton<FLHookConfig>
 		float torpMissileBaseDamageMultiplier = 1.0f;
 		bool logPerformanceTimers = false;
 		bool echoCommands = true;
-		bool supressInvalidCommands = true;
+		bool suppressInvalidCommands = true;
 
 		std::vector<std::wstring> chatSuppressList;
 		std::vector<std::string> noPVPSystems;
@@ -264,7 +264,7 @@ struct DLL FLHookConfig final : Reflectable, Singleton<FLHookConfig>
 REFL_AUTO(type(FLHookConfig::General), field(antiDockKill), field(antiF1), field(changeCruiseDisruptorBehaviour), field(debugMode), field(dieMsg),
     field(disableCharfileEncryption), field(disconnectDelay), field(disableNPCSpawns), field(dockingMessages), field(localTime), field(maxGroupSize),
     field(persistGroup), field(reservedSlots), field(torpMissileBaseDamageMultiplier), field(logPerformanceTimers), field(chatSuppressList),
-    field(noPVPSystems), field(echoCommands), field(supressInvalidCommands))
+    field(noPVPSystems), field(echoCommands), field(suppressInvalidCommands))
 REFL_AUTO(type(FLHookConfig::Plugins), field(loadAllPlugins), field(plugins))
 REFL_AUTO(type(FLHookConfig::Socket), field(activated), field(port), field(wPort), field(ePort), field(eWPort), field(encryptionKey), field(passRightsMap))
 REFL_AUTO(type(FLHookConfig::MsgStyle), field(msgEchoStyle), field(deathMsgStyle), field(deathMsgStyleSys), field(kickMsgPeriod), field(kickMsg), field(userCmdStyle),
