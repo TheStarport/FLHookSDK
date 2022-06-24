@@ -13,6 +13,8 @@ constexpr auto IsBool = std::is_same_v<T, bool>;
 template<typename T>
 constexpr auto IsInt = std::is_same_v<T, int> || std::is_same_v<T, uint>;
 template<typename T>
+constexpr auto IsBigInt = std::is_same_v<T, long long> || std::is_same_v<T, unsigned long long>;
+template<typename T>
 constexpr auto IsFloat = std::is_same_v<T, float>;
 template<typename T>
 constexpr auto IsString = std::is_same_v<T, std::string>;
@@ -77,6 +79,10 @@ class Serializer
 			{
 				*static_cast<int*>(ptr) = json[member.name.c_str()].template get<int>();
 			}
+			else if constexpr (IsBigInt<DeclType>)
+			{
+				*static_cast<long long*>(ptr) = json[member.name.c_str()].template get<long long>();
+			}
 			else if constexpr (IsFloat<DeclType>)
 			{
 				*static_cast<float*>(ptr) = json[member.name.c_str()].template get<float>();
@@ -105,6 +111,10 @@ class Serializer
 				else if constexpr (IsInt<typename DeclType::value_type>)
 				{
 					*static_cast<std::vector<int>*>(ptr) = json[member.name.c_str()].template get<std::vector<int>>();
+				}
+				else if constexpr (IsBigInt<typename DeclType::value_type>)
+				{
+					*static_cast<std::vector<long long>*>(ptr) = json[member.name.c_str()].template get<std::vector<long long>>();
 				}
 				else if constexpr (IsFloat<typename DeclType::value_type>)
 				{
@@ -171,6 +181,15 @@ class Serializer
 						}
 						else
 							*static_cast<std::map<std::string, int>*>(ptr) = json[member.name.c_str()].template get<std::map<std::string, int>>();
+					}
+					else if constexpr (IsBigInt<typename DeclType::value_type::second_type>)
+					{
+						if constexpr (IsWide)
+						{
+							GetWide(int);
+						}
+						else
+							*static_cast<std::map<std::string, long long>*>(ptr) = json[member.name.c_str()].template get<std::map<std::string, long long>>();
 					}
 					else if constexpr (IsFloat<typename DeclType::value_type::second_type>)
 					{
@@ -268,7 +287,7 @@ class Serializer
 
 			// Get our type with the reference removed
 			typedef std::remove_reference_t<decltype(member(obj))> DeclType;
-			if constexpr (IsBool<DeclType> || IsInt<DeclType> || IsFloat<DeclType> || IsString<DeclType> || IsWString<DeclType>)
+			if constexpr (IsBool<DeclType> || IsInt<DeclType> || IsFloat<DeclType> || IsString<DeclType> || IsWString<DeclType> || IsBigInt<DeclType>)
 			{
 				if constexpr (IsWString<DeclType>)
 				{
@@ -288,7 +307,7 @@ class Serializer
 			else if constexpr (IsVector<DeclType>::value)
 			{
 				if constexpr (IsBool<typename DeclType::value_type> || IsInt<typename DeclType::value_type> || IsFloat<typename DeclType::value_type> ||
-				    IsString<typename DeclType::value_type> || IsWString<typename DeclType::value_type>)
+				    IsString<typename DeclType::value_type> || IsWString<typename DeclType::value_type> || IsBigInt<typename DeclType::value_type>)
 				{
 					if constexpr (IsWString<typename DeclType::value_type>)
 					{

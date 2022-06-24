@@ -738,6 +738,7 @@ DLL std::wstring HkGetAccountID(CAccount* acc);
 DLL bool HkIsEncoded(const std::string& scFilename);
 DLL bool HkIsInCharSelectMenu(std::variant<uint, std::wstring> player);
 DLL bool HkIsValidClientID(uint iClientID);
+DLL std::wstring HkGetCharacterNameById(const const uint& iClientId);
 DLL HK_ERROR HkResolveId(const std::wstring& player, uint& iClientID);
 DLL HK_ERROR HkResolveShortCut(const std::wstring& wscShortcut, uint& iClientID);
 DLL uint HkGetClientIDByShip(uint iShip);
