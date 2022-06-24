@@ -19,6 +19,12 @@
 // Libs
 #include "Singleton.h"
 #include "Wildcard.hpp"
+#include "magic_enum.hpp"
+
+// Magic Enum Extensions
+using namespace magic_enum::bitwise_operators;  // NOLINT
+using namespace magic_enum::flags; // NOLINT
+using namespace magic_enum::ostream_operators; // NOLINT
 
 // ST6
 extern DLL st6_malloc_t st6_malloc;
