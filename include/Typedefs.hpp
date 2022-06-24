@@ -26,6 +26,7 @@ using UserCmdProc = void(*)(const uint& clientId, const std::wstring_view& param
 // Common types that can be used to explain what is being used
 using ClientId = uint;
 using SystemId = uint;
+using ShipId = uint;
 using EquipId = uint;
 using BaseId = uint;
 using RepId = ushort;
