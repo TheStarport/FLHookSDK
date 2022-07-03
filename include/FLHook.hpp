@@ -770,6 +770,7 @@ DLL void TranslateZ(Vector& pos, Matrix& rot, float z);
 DLL uint RgbToBgr(uint color);
 DLL std::wstring UintToHex(uint number, uint width, bool addPrefix = false);
 DLL HK_ERROR HkGetSystemByNickname(std::variant<std::string, std::wstring> nickname, uint& system);
+DLL CShip* HkCShipFromShipDestroyed(const DWORD** ecx);
 
 // HkFuncMsg
 DLL HK_ERROR HkMsg(uint iClientID, const std::wstring& wscMessage);
