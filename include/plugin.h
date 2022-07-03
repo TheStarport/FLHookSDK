@@ -46,7 +46,22 @@ private:
 public:
     template <typename Func>
     PluginHook(HookedCall targetFunction, Func *hookFunction, HookStep step = HookStep::Before, int priority = 0)
-        : targetFunction_(targetFunction), hookFunction_(reinterpret_cast<FunctionType*>(hookFunction)), step_(step), priority_(priority) {}
+        : targetFunction_(targetFunction), hookFunction_(reinterpret_cast<FunctionType*>(hookFunction)), step_(step), priority_(priority)
+    {
+	    switch (step) {
+	    	case HookStep::Before:
+				if (targetFunction == HookedCall::FLHook__LoadSettings)
+					throw std::invalid_argument("Load settings can only be called HookStep::After.");
+			    break;
+	    	case HookStep::After:
+			    break;
+	    	case HookStep::Mid:
+				throw std::invalid_argument("Mid hook step is not currently implemented");
+	    	case HookStep::Count:
+				throw std::invalid_argument("Count is not a valid hook step.");
+		    default: ;
+	    }
+    }
 
     friend class PluginManager;
 };
