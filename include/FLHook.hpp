@@ -11,6 +11,9 @@
 #include <filesystem>
 #include <variant>
 
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
+#include "WinSock2.h"
+
 #include "Typedefs.hpp"
 #include "Macros.hpp"
 #include "Enums.hpp"
@@ -629,6 +632,9 @@ struct SpecialChatIDs
 
 class CCmds
 {
+protected:
+	~CCmds() = default;
+private:
 	bool bID;
 	bool bShortCut;
 	bool bSelf;
@@ -713,11 +719,11 @@ class CCmds
 
 	void ExecuteCommandString(const std::wstring& wscCmd);
 	void SetRightsByString(const std::string& scRightStr);
-	virtual void DoPrint(const std::wstring& wscText) = 0;
 	std::wstring wscCurCmdString;
 	#endif
 
 public:
+	virtual void DoPrint(const std::wstring& wscText) = 0;
 	DLL void PrintError();
 	DLL std::wstring ArgCharname(uint iArg);
 	DLL int ArgInt(uint iArg);
@@ -727,7 +733,42 @@ public:
 	DLL std::wstring ArgStrToEnd(uint iArg);
 	DLL void Print(std::wstring wscText, ...);
 	DLL virtual std::wstring GetAdminName() { return L""; };
+	DLL virtual bool IsPlayer() { return false; }
 };
+
+class CInGame final : public CCmds
+{
+  public:
+	uint iClientID;
+	std::wstring wscAdminName;
+	DLL void DoPrint(const std::wstring& wscText) override;
+	DLL void ReadRights(const std::string& scIniFile);
+	DLL std::wstring GetAdminName() override;
+	DLL bool IsPlayer() override { return true; }
+};
+
+class CSocket final : public CCmds
+{
+  public:
+	SOCKET s;
+	BLOWFISH_CTX* bfc;
+	bool bAuthed;
+	bool bEventMode;
+	bool bUnicode;
+	bool bEncrypted;
+	std::string sIP;
+	ushort iPort;
+
+	CSocket()
+	{
+		bAuthed = false;
+		bEventMode = false;
+		bUnicode = false;
+	}
+	DLL void DoPrint(const std::wstring& wscText) override;
+	DLL std::wstring GetAdminName() override;
+};
+
 
 // HkFuncTools
 DLL uint HkGetClientIdFromAccount(CAccount* acc);
