@@ -714,8 +714,6 @@ private:
 	void CmdLoadPlugin(const std::wstring& wscPlugin);
 	void CmdListPlugins();
 	void CmdUnloadPlugin(const std::wstring& wscPlugin);
-	void CmdPausePlugin(const std::wstring& wscPlugin);
-	void CmdUnpausePlugin(const std::wstring& wscPlugin);
 
 	void ExecuteCommandString(const std::wstring& wscCmd);
 	void SetRightsByString(const std::string& scRightStr);

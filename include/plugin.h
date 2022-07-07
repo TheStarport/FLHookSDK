@@ -89,7 +89,6 @@ struct PluginInfo {
 	DLL void versionMinor(PluginMinorVersion version);
 	DLL void name(const char* name);
 	DLL void shortName(const char* shortName);
-	DLL void mayPause(bool pause);
 	DLL void mayUnload(bool unload);
 	DLL void autoResetCode(bool reset);
 	DLL void returnCode(ReturnCode* returnCode);
@@ -107,7 +106,7 @@ struct PluginInfo {
 		PluginMajorVersion versionMajor_ = PluginMajorVersion::UNDEFINED;
 		PluginMinorVersion versionMinor_ = PluginMinorVersion::UNDEFINED;
 		std::string name_, shortName_;
-		bool mayPause_ = false, mayUnload_ = false, resetCode_ = true;
+		bool mayUnload_ = false, resetCode_ = true;
 		ReturnCode* returnCode_ = nullptr;
 		std::list<PluginHook> hooks_;
 	    std::vector<UserCommand> commands_;
