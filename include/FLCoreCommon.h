@@ -3772,6 +3772,25 @@ namespace EngineEquipConsts
 	IMPORT  float  THROTTLE_STEADY_TIME;
 };
 
+#pragma pack(push, 1)
+struct SetEquipmentItem
+{
+	int iCount;
+	float fHealth;
+	int iArchID;
+	ushort sID;
+	byte bMounted;
+	byte bMission;
+	ushort szHardPointLen;
+};
+#pragma pack(pop)
+
+struct FlPacketSetEquipment
+{
+	ushort count;
+	byte items[1];
+};
+
 struct IMPORT EquipDesc
 {
 	EquipDesc(struct EquipDesc const &);
