@@ -24,6 +24,16 @@
 #include "Wildcard.hpp"
 #include "magic_enum.hpp"
 
+#define PCRE2_STATIC
+#include <ext/jpcre2.hpp>
+using jp = jpcre2::select<char>;
+using jpWide = jpcre2::select<wchar_t>;
+
+#pragma comment(lib, "pcre2-8.lib")
+#pragma comment(lib, "pcre2-16.lib")
+#pragma comment(lib, "pcre2-32.lib")
+#pragma comment(lib, "pcre2-posix.lib")
+
 // Magic Enum Extensions
 using namespace magic_enum::bitwise_operators;  // NOLINT
 using namespace magic_enum::flags; // NOLINT
