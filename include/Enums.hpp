@@ -23,48 +23,40 @@ enum class LogType : int
 	PerfTimers
 };
 
-enum HK_ERROR
+enum class HkError
 {
-	HKE_OK,
-	HKE_NICKNAME_NOT_FOUND,
-	HKE_PLAYER_NOT_LOGGED_IN,
-	HKE_CHAR_DOES_NOT_EXIST,
-	HKE_PLAYER_NOT_DOCKED,
-	HKE_NO_TARGET_SELECTED,
-	HKE_TARGET_IS_NOT_PLAYER,
-	HKE_INVALID_CLIENT_ID,
-	HKE_COULD_NOT_DECODE_CHARFILE,
-	HKE_COULD_NOT_ENCODE_CHARFILE,
-	HKE_INVALID_BASENAME,
-	HKE_INVALID_ID_STRING,
-	HKE_INVALID_SYSTEM,
-	HKE_PLAYER_NOT_IN_SPACE,
-	HKE_PLAYER_NO_ADMIN,
-	HKE_WRONG_XML_SYNTAX,
-	HKE_INVALID_GOOD,
-	HKE_NO_CHAR_SELECTED,
-	HKE_CHARNAME_ALREADY_EXISTS,
-	HKE_CHARNAME_TOO_LONG,
-	HKE_CHARNAME_TOO_SHORT,
-	HKE_AMBIGUOUS_SHORTCUT,
-	HKE_NO_MATCHING_PLAYER,
-	HKE_INVALID_SHORTCUT_STRING,
-	HKE_MPNEWCHARACTERFILE_NOT_FOUND_OR_INVALID,
-	HKE_INVALID_REP_GROUP,
-	HKE_PLUGIN_UNLOADABLE,
-	HKE_PLUGIN_NOT_FOUND,
-	HKE_UNKNOWN_ERROR,
-	HKE_INVALID_GROUP_ID,
-	HKE_CUSTOM_1,
-	HKE_CUSTOM_2,
-	HKE_CUSTOM_3,
-	HKE_CUSTOM_4,
-	HKE_CUSTOM_5,
-	HKE_CUSTOM_6,
-	HKE_CUSTOM_7,
-	HKE_CUSTOM_8,
-	HKE_CUSTOM_9,
-	HKE_CUSTOM_10,
+	NicknameNotFound,
+	PlayerNotInSpace,
+	PlayerNotLoggedIn,
+	PlayerNotDocked,
+	CharacterNotSelected,
+	CharacterDoesNotExist,
+	CannotGetAccount,
+	MpNewCharacterFileNotFoundOrInvalid,
+	NoTargetSelected,
+	TargetIsNotPlayer,
+	CouldNotDecodeCharFile,
+	CouldNotEncodeCharFile,
+	NoAdmin,
+	WrongXmlSyntax,
+	InvalidClientId,
+	InvalidGood,
+	InvalidShip,
+	InvalidBase,
+	InvalidBaseName,
+	InvalidIdString,
+	InvalidSystem,
+	InvalidRepGroup,
+	InvalidGroupId,
+	AlreadyExists,
+	CharacterNameTooLong,
+	CharacterNameTooShort,
+	AmbiguousShortcut,
+	NoMatchingPlayer,
+	InvalidShortcutString,
+	PluginCannotBeLoaded,
+	PluginNotFound,
+	UnknownError = 1000,
 };
 
 enum DIEMSGTYPE
@@ -90,7 +82,7 @@ enum CHATSTYLE
 	CST_UNDERLINE = 3,
 };
 
-enum ENGINE_STATE
+enum EngineState
 {
 	ES_CRUISE,
 	ES_THRUSTER,
@@ -99,7 +91,7 @@ enum ENGINE_STATE
 	ES_TRADELANE
 };
 
-enum EQ_TYPE
+enum EquipmentType
 {
 	ET_GUN,
 	ET_TORPEDO,

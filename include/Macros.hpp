@@ -14,9 +14,6 @@
 	#define EXTERN
 #endif
 
-#define HKHKSUCCESS(a) ((a) == HKE_OK)
-#define HKSUCCESS(a) ((hkLastErr = (a)) == HKE_OK)
-
 #define SRV_ADDR(a) ((char*)hModServer + (a))
 #define DALIB_ADDR(a) ((char*)hModDaLib + (a))
 #define FLSERVER_ADDR(a) ((char*)hProcFL + (a))

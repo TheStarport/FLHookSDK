@@ -1368,11 +1368,11 @@ namespace Universe
 	struct IBase
 	{
 		uint iDunno1;
-		uint iBaseID;
+		uint baseId;
 		uint iDunno2;
-		uint iBaseIDS;
+		uint baseIdS;
 		uint iDunno3;
-		uint iSystemID;
+		uint systemId;
 		uint iDunno4[4];
 		ulong lSpaceObjID;
 		uint iDunno5[10];
@@ -1407,7 +1407,7 @@ namespace Universe
 
 		uint iDunno1[1];
 		uint iZoneID;
-		uint iSystemID;
+		uint systemId;
 		Matrix mRot;
 		Vector vPos;
 		uint iShapeType; // 1 = sphere, 5 = ring
@@ -1605,7 +1605,7 @@ namespace CmnAsteroid
 		/* 13 */ uint iDunno1;
 		/* 14 */ uint iDunno2;
 		/* 15 */ uint iDunno3;
-		/* 16 */ uint iSystemID;
+		/* 16 */ uint systemId;
 		/* 17 */ int iCubeSize;
 		/* 18 */ int iFillDist;
 		/* 19 */ float fEmptyFreq;

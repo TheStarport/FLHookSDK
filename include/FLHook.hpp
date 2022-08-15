@@ -14,26 +14,12 @@
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include "WinSock2.h"
 
-#include "Typedefs.hpp"
-#include "Macros.hpp"
-#include "Enums.hpp"
-#include "Constexpr.hpp"
-#include "Helpers.hpp"
-
-// Libs
-#include "Singleton.h"
-#include "Wildcard.hpp"
-#include "magic_enum.hpp"
-
-#define PCRE2_STATIC
-#include <ext/jpcre2.hpp>
-using jp = jpcre2::select<char>;
-using jpWide = jpcre2::select<wchar_t>;
-
 #pragma comment(lib, "pcre2-8.lib")
 #pragma comment(lib, "pcre2-16.lib")
 #pragma comment(lib, "pcre2-32.lib")
 #pragma comment(lib, "pcre2-posix.lib")
+
+#include "Hk.hpp"
 
 // Magic Enum Extensions
 using namespace magic_enum::bitwise_operators;  // NOLINT
@@ -41,15 +27,6 @@ using namespace magic_enum::flags; // NOLINT
 using namespace magic_enum::ostream_operators; // NOLINT
 
 // ST6
-extern DLL st6_malloc_t st6_malloc;
-extern DLL st6_free_t st6_free;
-#define ST6_ALLOCATION_DEFINED
-
-#include "FLCoreCommon.h"
-#include "FLCoreServer.h"
-#include "FLCoreRemoteClient.h"
-#include "FLCoreDALib.h"
-#include "plugin.h"
 
 struct INISECTIONVALUE
 {
@@ -145,7 +122,7 @@ DLL std::wstring_view GetParamToEnd(const std::wstring_view& wscLine, wchar_t wc
 DLL void ini_write_wstring(FILE* file, const std::string& parmname, const std::wstring& in);
 DLL void ini_get_wstring(INI_Reader& ini, std::wstring& wscValue);
 DLL std::wstring GetTimeString(bool bLocalTime);
-DLL std::string GetUserFilePath(std::variant<uint, std::wstring> player, const std::string& scExtension);
+DLL std::string GetUserFilePath(const std::variant<uint, std::wstring>& player, const std::string& scExtension);
 DLL mstime GetTimeInMS();
 DLL void AddLog(LogType LogType, LogLevel level, std::wstring wStr, ...);
 
@@ -203,7 +180,7 @@ struct DLL FLHookConfig final : Reflectable, Singleton<FLHookConfig>
 
 		std::vector<uint> noPVPSystemsHashed;
 
-		uint antiBaseIdle = 600;
+		uint antbaseIdle = 600;
 		uint antiCharMenuIdle = 600;
 	};
 
@@ -443,12 +420,12 @@ struct CARGO_INFO
 // money stuff
 struct MONEY_FIX
 {
-	std::wstring wscCharname;
+	std::wstring character;
 	int iAmount;
 
 	bool operator==(MONEY_FIX mf1) const
 	{
-		if (!wscCharname.compare(mf1.wscCharname))
+		if (!character.compare(mf1.character))
 			return true;
 
 		return false;
@@ -458,14 +435,14 @@ struct MONEY_FIX
 // ignore
 struct IGNORE_INFO
 {
-	std::wstring wscCharname;
+	std::wstring character;
 	std::wstring wscFlags;
 };
 
 // resolver
 struct RESOLVE_IP
 {
-	uint iClientID;
+	uint clientId;
 	uint iConnects;
 	std::wstring wscIP;
 	std::wstring wscHostname;
@@ -573,8 +550,8 @@ typedef struct _DPN_CONNECTION_INFO
 
 struct HKPLAYERINFO
 {
-	uint iClientID;
-	std::wstring wscCharname;
+	uint clientId;
+	std::wstring character;
 	std::wstring wscBase;
 	std::wstring wscSystem;
 	uint iSystem;
@@ -814,7 +791,7 @@ class FLPACKET
 	DLL static FLPACKET* Create(uint size, CLIENT kind);
 
 	// Returns true if sent succesfully, false if not. Frees memory allocated for packet.
-	DLL bool SendTo(uint iClientID);
+	DLL bool SendTo(uint clientId);
 };
 #pragma pack(pop)
 
@@ -844,7 +821,7 @@ struct DATA_MARKETITEM
 
 struct BASE_INFO
 {
-	uint iBaseID;
+	uint baseId;
 	std::string scBasename;
 	uint iObjectID;
 	bool bDestroyed;
@@ -853,8 +830,8 @@ struct BASE_INFO
 
 struct GROUP_MEMBER
 {
-	uint iClientID;
-	std::wstring wscCharname;
+	uint clientId;
+	std::wstring character;
 };
 
 struct SpecialChatIDs
@@ -887,71 +864,71 @@ private:
 
   public:
 	DWORD rights;
-	HK_ERROR hkLastErr;
+	HkError hkLastErr;
 #ifdef FLHOOK
 	// commands
-	void CmdGetCash(std::variant<uint, std::wstring> player);
-	void CmdSetCash(std::variant<uint, std::wstring> player, int iAmount);
-	void CmdSetCashSec(std::variant<uint, std::wstring> player, int iAmountCheck, int iAmount);
-	void CmdAddCash(std::variant<uint, std::wstring> player, int iAmount);
-	void CmdAddCashSec(std::variant<uint, std::wstring> player, int iAmountCheck, int iAmount);
+	void CmdGetCash(const std::variant<uint, std::wstring>& player);
+	void CmdSetCash(const std::variant<uint, std::wstring>& player, int iAmount);
+	void CmdSetCashSec(const std::variant<uint, std::wstring>& player, int iAmountCheck, int iAmount);
+	void CmdAddCash(const std::variant<uint, std::wstring>& player, int iAmount);
+	void CmdAddCashSec(const std::variant<uint, std::wstring>& player, int iAmountCheck, int iAmount);
 
-	void CmdKick(std::variant<uint, std::wstring> player, const std::wstring& wscReason);
-	void CmdBan(std::variant<uint, std::wstring> player);
-	void CmdUnban(std::variant<uint, std::wstring> player);
-	void CmdKickBan(std::variant<uint, std::wstring> player, const std::wstring& wscReason);
+	void CmdKick(const std::variant<uint, std::wstring>& player, const std::wstring& wscReason);
+	void CmdBan(const std::variant<uint, std::wstring>& player);
+	void CmdUnban(const std::variant<uint, std::wstring>& player);
+	void CmdKickBan(const std::variant<uint, std::wstring>& player, const std::wstring& wscReason);
 
-	void CmdBeam(std::variant<uint, std::wstring> player, const std::wstring& wscBasename);
-	void CmdChase(std::wstring wscAdminName, std::variant<uint, std::wstring> player);
-	void CmdPull(std::wstring wscAdminName, std::variant<uint, std::wstring> player);
+	void CmdBeam(const std::variant<uint, std::wstring>& player, const std::wstring& wscBasename);
+	void CmdChase(std::wstring wscAdminName, const std::variant<uint, std::wstring>& player);
+	void CmdPull(std::wstring wscAdminName, const std::variant<uint, std::wstring>& player);
 	void CmdMove(std::wstring wscAdminName, float x, float y, float z);
-	void CmdKill(std::variant<uint, std::wstring> player);
-	void CmdResetRep(std::variant<uint, std::wstring> player);
-	void CmdSetRep(std::variant<uint, std::wstring> player, const std::wstring& wscRepGroup, float fValue);
-	void CmdGetRep(std::variant<uint, std::wstring> player, const std::wstring& wscRepGroup);
+	void CmdKill(const std::variant<uint, std::wstring>& player);
+	void CmdResetRep(const std::variant<uint, std::wstring>& player);
+	void CmdSetRep(const std::variant<uint, std::wstring>& player, const std::wstring& wscRepGroup, float fValue);
+	void CmdGetRep(const std::variant<uint, std::wstring>& player, const std::wstring& wscRepGroup);
 
-	void CmdMsg(std::variant<uint, std::wstring> player, const std::wstring& wscText);
+	void CmdMsg(const std::variant<uint, std::wstring>& player, const std::wstring& wscText);
 	void CmdMsgS(const std::wstring& wscSystemname, const std::wstring& wscText);
 	void CmdMsgU(const std::wstring& wscText);
-	void CmdFMsg(std::variant<uint, std::wstring> player, const std::wstring& wscXML);
+	void CmdFMsg(const std::variant<uint, std::wstring>& player, const std::wstring& wscXML);
 	void CmdFMsgS(const std::wstring& wscSystemname, const std::wstring& wscXML);
 	void CmdFMsgU(const std::wstring& wscXML);
 
-	void CmdEnumCargo(std::variant<uint, std::wstring> player);
-	void CmdRemoveCargo(std::variant<uint, std::wstring> player, uint iID, uint iCount);
-	void CmdAddCargo(std::variant<uint, std::wstring> player, const std::wstring& wscGood, uint iCount, uint iMission);
+	void CmdEnumCargo(const std::variant<uint, std::wstring>& player);
+	void CmdRemoveCargo(const std::variant<uint, std::wstring>& player, uint iID, uint iCount);
+	void CmdAddCargo(const std::variant<uint, std::wstring>& player, const std::wstring& wscGood, uint iCount, uint iMission);
 
-	void CmdRename(std::variant<uint, std::wstring> player, const std::wstring& wscNewCharname);
-	void CmdDeleteChar(std::variant<uint, std::wstring> player);
+	void CmdRename(const std::variant<uint, std::wstring>& player, const std::wstring& wscNewCharname);
+	void CmdDeleteChar(const std::variant<uint, std::wstring>& player);
 
-	void CmdReadCharFile(std::variant<uint, std::wstring> player);
-	void CmdWriteCharFile(std::variant<uint, std::wstring> player, const std::wstring& wscData);
+	void CmdReadCharFile(const std::variant<uint, std::wstring>& player);
+	void CmdWriteCharFile(const std::variant<uint, std::wstring>& player, const std::wstring& wscData);
 
 	void CmdGetBaseStatus(const std::wstring& wscBasename);
 	void CmdGetClientId(std::wstring player);
 	void PrintPlayerInfo(HKPLAYERINFO pi);
-	void CmdGetPlayerInfo(std::variant<uint, std::wstring> player);
+	void CmdGetPlayerInfo(const std::variant<uint, std::wstring>& player);
 	void CmdGetPlayers();
 	void XPrintPlayerInfo(HKPLAYERINFO pi);
-	void CmdXGetPlayerInfo(std::variant<uint, std::wstring> player);
+	void CmdXGetPlayerInfo(const std::variant<uint, std::wstring>& player);
 	void CmdXGetPlayers();
 	void CmdGetPlayerIDs();
 	void CmdHelp();
-	void CmdGetAccountDirName(std::variant<uint, std::wstring> player);
-	void CmdGetCharFileName(std::variant<uint, std::wstring> player);
+	void CmdGetAccountDirName(const std::variant<uint, std::wstring>& player);
+	void CmdGetCharFileName(const std::variant<uint, std::wstring>& player);
 	void CmdIsOnServer(std::wstring player);
 	void CmdIsLoggedIn(std::wstring player);
 	void CmdMoneyFixList();
 	void CmdServerInfo();
-	void CmdGetGroupMembers(std::variant<uint, std::wstring> player);
+	void CmdGetGroupMembers(const std::variant<uint, std::wstring>& player);
 
-	void CmdSaveChar(std::variant<uint, std::wstring> player);
+	void CmdSaveChar(const std::variant<uint, std::wstring>& player);
 
-	void CmdGetReservedSlot(std::variant<uint, std::wstring> player);
-	void CmdSetReservedSlot(std::variant<uint, std::wstring> player, int iReservedSlot);
-	void CmdSetAdmin(std::variant<uint, std::wstring> player, const std::wstring& wscRights);
-	void CmdGetAdmin(std::variant<uint, std::wstring> player);
-	void CmdDelAdmin(std::variant<uint, std::wstring> player);
+	void CmdGetReservedSlot(const std::variant<uint, std::wstring>& player);
+	void CmdSetReservedSlot(const std::variant<uint, std::wstring>& player, int iReservedSlot);
+	void CmdSetAdmin(const std::variant<uint, std::wstring>& player, const std::wstring& wscRights);
+	void CmdGetAdmin(const std::variant<uint, std::wstring>& player);
+	void CmdDelAdmin(const std::variant<uint, std::wstring>& player);
 	void CmdRehash();
 	void CmdUnload(const std::wstring& wscParam);
 
@@ -982,7 +959,7 @@ public:
 class CInGame final : public CCmds
 {
   public:
-	uint iClientID;
+	uint clientId;
 	std::wstring wscAdminName;
 	DLL void DoPrint(const std::wstring& wscText) override;
 	DLL void ReadRights(const std::string& scIniFile);
@@ -1012,139 +989,78 @@ class CSocket final : public CCmds
 	DLL std::wstring GetAdminName() override;
 };
 
-
-// HkFuncTools
-DLL uint HkGetClientIdFromAccount(CAccount* acc);
-DLL uint HkGetClientIdFromPD(struct PlayerData* pPD);
-DLL CAccount* HkGetAccountByCharname(const std::wstring& wscCharname);
-DLL uint HkGetClientIdFromCharname(const std::wstring& wscCharname);
-DLL std::wstring HkGetAccountID(CAccount* acc);
-DLL bool HkIsEncoded(const std::string& scFilename);
-DLL bool HkIsInCharSelectMenu(std::variant<uint, std::wstring> player);
-DLL bool HkIsValidClientID(uint iClientID);
-DLL std::wstring HkGetCharacterNameById(const uint& iClientId);
-DLL HK_ERROR HkResolveId(const std::wstring& player, uint& iClientID);
-DLL HK_ERROR HkResolveShortCut(const std::wstring& wscShortcut, uint& iClientID);
-DLL uint HkGetClientIDByShip(uint iShip);
-DLL HK_ERROR HkGetAccountDirName(CAccount* acc, std::wstring& wscDir);
-DLL HK_ERROR HkGetAccountDirName(std::variant<uint, std::wstring> player, std::wstring& wscDir);
-DLL HK_ERROR HkGetCharFileName(std::variant<uint, std::wstring> player, std::wstring& wscFilename);
-DLL std::wstring HkGetBaseNickByID(uint iBaseID);
-DLL std::wstring HkGetPlayerSystem(uint iClientID);
-DLL std::wstring HkGetSystemNickByID(uint iSystemID);
-DLL void HkLockAccountAccess(CAccount* acc, bool bKick);
-DLL void HkUnlockAccountAccess(CAccount* acc);
-DLL void HkGetItemsForSale(uint iBaseID, std::list<uint>& lstItems);
-DLL IObjInspectImpl* HkGetInspect(uint iClientID);
-DLL ENGINE_STATE HkGetEngineState(uint iClientID);
-DLL EQ_TYPE HkGetEqType(Archetype::Equipment* eq);
-DLL float HkDistance3D(Vector v1, Vector v2);
-DLL float HkDistance3DByShip(uint iShip1, uint iShip2);
-DLL Quaternion HkMatrixToQuaternion(Matrix m);
-template<typename Str>
-Str VectorToSectorCoord(uint iSystemID, Vector vPos);
-template DLL std::string VectorToSectorCoord(uint iSystemID, Vector vPos);
-template DLL std::wstring VectorToSectorCoord(uint iSystemID, Vector vPos);
-DLL float degrees(float rad);
-DLL Vector MatrixToEuler(const Matrix& mat);
-DLL void Rotate180(Matrix& rot);
-DLL void TranslateY(Vector& pos, Matrix& rot, float y);
-DLL void TranslateX(Vector& pos, Matrix& rot, float x);
-DLL void TranslateZ(Vector& pos, Matrix& rot, float z);
-DLL uint RgbToBgr(uint color);
-DLL std::wstring UintToHex(uint number, uint width, bool addPrefix = false);
-DLL HK_ERROR HkGetSystemByNickname(std::variant<std::string, std::wstring> nickname, uint& system);
+DLL HkError HkGetSystemByNickname(std::variant<std::string, std::wstring> nickname, uint& system);
 DLL CShip* HkCShipFromShipDestroyed(const DWORD** ecx);
 
-// HkFuncMsg
-DLL HK_ERROR HkMsg(uint iClientID, const std::wstring& wscMessage);
-DLL HK_ERROR HkMsg(std::variant<uint, std::wstring> player, const std::wstring& wscMessage);
-DLL HK_ERROR HkMsgS(const std::wstring& wscSystemname, const std::wstring& wscMessage);
-DLL HK_ERROR HkMsgU(const std::wstring& wscMessage);
-DLL HK_ERROR HkFMsgEncodeXML(const std::wstring& wscXML, char* szBuf, uint iSize, uint& iRet);
-DLL HK_ERROR HkFMsgSendChat(uint iClientID, char* szBuf, uint iSize);
-DLL HK_ERROR HkFMsg(uint iClientID, const std::wstring& wscXML);
-DLL HK_ERROR HkFMsg(std::variant<uint, std::wstring> player, const std::wstring& wscXML);
-DLL HK_ERROR HkFMsgS(const std::wstring& wscSystemname, const std::wstring& wscXML);
-DLL HK_ERROR HkFMsgU(const std::wstring& wscXML);
-DLL void HkFormatMessage(uint clientId, MessageColor color, MessageFormat format, std::wstring msg, ...);
-DLL std::wstring HkGetWStringFromIDS(uint iIDS);
-DLL void HkLoadStringDLLs();
-DLL void HkUnloadStringDLLs();
-DLL void FormatSendChat(uint iToClientID, const std::wstring& wscSender, const std::wstring& wscText, const std::wstring& wscTextColor);
-DLL void SendGroupChat(uint iFromClientID, const std::wstring& wscText);
-DLL void SendLocalSystemChat(uint iFromClientID, const std::wstring& wscText);
-DLL void SendPrivateChat(uint iFromClientID, uint iToClientID, const std::wstring& wscText);
-DLL void SendSystemChat(uint iFromClientID, const std::wstring& wscText);
 
 // HkFuncPlayers
-DLL HK_ERROR HkAddToGroup(uint iClientID, uint iGroupID);
-DLL HK_ERROR HkGetGroupID(uint iClientID, uint& iGroupID);
-DLL HK_ERROR HkGetCash(std::variant<uint, std::wstring> player, int& iCash);
-DLL HK_ERROR HkAddCash(std::variant<uint, std::wstring> player, int iAmount);
-DLL HK_ERROR HkKick(CAccount* acc);
-DLL HK_ERROR HkKick(std::variant<uint, std::wstring> player);
-DLL HK_ERROR HkKickReason(std::variant<uint, std::wstring> player, const std::wstring& wscReason);
-DLL HK_ERROR HkBan(std::variant<uint, std::wstring> player, bool bBan);
-DLL HK_ERROR HkBeam(std::variant<uint, std::wstring> player, const std::wstring& wscBasename);
-DLL HK_ERROR HkSaveChar(std::variant<uint, std::wstring> player);
-DLL HK_ERROR HkEnumCargo(std::variant<uint, std::wstring> player, std::list<CARGO_INFO>& lstCargo, int& iRemainingHoldSize);
-DLL HK_ERROR HkRemoveCargo(std::variant<uint, std::wstring> player, uint iID, int iCount);
-DLL HK_ERROR HkAddCargo(std::variant<uint, std::wstring> player, uint iGoodID, int iCount, bool bMission);
-DLL HK_ERROR HkAddCargo(std::variant<uint, std::wstring> player, const std::wstring& wscGood, int iCount, bool bMission);
-DLL HK_ERROR HkRename(std::variant<uint, std::wstring> player, const std::wstring& wscNewCharname, bool bOnlyDelete);
-DLL HK_ERROR HkMsgAndKick(uint iClientID, const std::wstring& wscReason, uint iIntervall);
-DLL HK_ERROR HkKill(std::variant<uint, std::wstring> player);
-DLL HK_ERROR HkGetReservedSlot(std::variant<uint, std::wstring> player, bool& bResult);
-DLL HK_ERROR HkSetReservedSlot(std::variant<uint, std::wstring> player, bool bReservedSlot);
-DLL void HkPlayerAutoBuy(uint iClientID, uint iBaseID);
-DLL HK_ERROR HkResetRep(std::variant<uint, std::wstring> player);
-DLL HK_ERROR HkGetGroupMembers(std::variant<uint, std::wstring> player, std::list<GROUP_MEMBER>& lstMembers);
-DLL HK_ERROR HkSetRep(std::variant<uint, std::wstring> player, const std::wstring& wscRepGroup, float fValue);
-DLL HK_ERROR HkGetRep(std::variant<uint, std::wstring> player, const std::wstring& wscRepGroup, float& fValue);
-DLL HK_ERROR HkReadCharFile(std::variant<uint, std::wstring> player, std::list<std::wstring>& lstOutput);
-DLL HK_ERROR HkWriteCharFile(std::variant<uint, std::wstring> player, std::wstring wscData);
-DLL HK_ERROR HkPlayerRecalculateCRC(uint iClientID);
-DLL std::string HkGetPlayerSystemS(uint iClientID);
-DLL bool IsInRange(uint iClientID, float fDistance);
-DLL std::wstring GetLocation(unsigned int iClientID);
-DLL HK_ERROR HkSetEquip(std::variant<uint, std::wstring> player, const st6::list<EquipDesc>& equip);
-DLL HK_ERROR HkAddEquip(std::variant<uint, std::wstring> player, uint iGoodID, const std::string& scHardpoint);
-DLL HK_ERROR HkAntiCheat(uint iClientID);
-DLL void HkDelayedKick(uint iClientID, uint secs);
-DLL HK_ERROR HkDeleteCharacter(CAccount* acc, std::wstring& wscCharname);
-DLL HK_ERROR HkNewCharacter(CAccount* acc, std::wstring& wscCharname);
-DLL std::wstring HkGetAccountIDByClientID(uint iClientID);
-DLL HK_ERROR HkGetOnlineTime(std::variant<uint, std::wstring> player, int& iSecs);
-DLL HK_ERROR HkGetRank(std::variant<uint, std::wstring> player, int& iRank);
-DLL HK_ERROR HKGetShipValue(std::variant<uint, std::wstring> player, float& fValue);
-DLL void HkRelocateClient(uint iClientID, Vector vDestination, Matrix mOrientation);
-DLL void HkSaveChar(uint iClientID);
-DLL HK_ERROR HkGetTarget(std::variant<uint, std::wstring> player, uint& target);
-DLL HK_ERROR HkGetTargetClientId(std::variant<uint, std::wstring> player, uint& targetClientId);
-DLL HK_ERROR HkGetCurrentBase(std::variant<uint, std::wstring> player, uint& base);
-DLL HK_ERROR HkGetSystem(std::variant<uint, std::wstring> player, uint& system);
-DLL HK_ERROR HkGetShip(std::variant<uint, std::wstring> player, uint& system);
+DLL HkError HkAddToGroup(uint clientId, uint iGroupID);
+DLL HkError HkGetGroupID(uint clientId, uint& iGroupID);
+DLL HkError HkGetCash(const std::variant<uint, std::wstring>& player, int& iCash);
+DLL HkError HkAddCash(const std::variant<uint, std::wstring>& player, int iAmount);
+DLL HkError HkKick(CAccount* acc);
+DLL HkError HkKick(const std::variant<uint, std::wstring>& player);
+DLL HkError HkKickReason(const std::variant<uint, std::wstring>& player, const std::wstring& wscReason);
+DLL HkError HkBan(const std::variant<uint, std::wstring>& player, bool bBan);
+DLL HkError HkBeam(const std::variant<uint, std::wstring>& player, const std::wstring& wscBasename);
+DLL HkError HkSaveChar(const std::variant<uint, std::wstring>& player);
+DLL HkError HkEnumCargo(const std::variant<uint, std::wstring>& player, std::list<CARGO_INFO>& lstCargo, int& iRemainingHoldSize);
+DLL HkError HkRemoveCargo(const std::variant<uint, std::wstring>& player, uint iID, int iCount);
+DLL HkError HkAddCargo(const std::variant<uint, std::wstring>& player, uint iGoodID, int iCount, bool bMission);
+DLL HkError HkAddCargo(const std::variant<uint, std::wstring>& player, const std::wstring& wscGood, int iCount, bool bMission);
+DLL HkError HkRename(const std::variant<uint, std::wstring>& player, const std::wstring& wscNewCharname, bool bOnlyDelete);
+DLL HkError HkMsgAndKick(uint clientId, const std::wstring& wscReason, uint iIntervall);
+DLL HkError HkKill(const std::variant<uint, std::wstring>& player);
+DLL HkError HkGetReservedSlot(const std::variant<uint, std::wstring>& player, bool& bResult);
+DLL HkError HkSetReservedSlot(const std::variant<uint, std::wstring>& player, bool bReservedSlot);
+DLL void HkPlayerAutoBuy(uint clientId, uint baseId);
+DLL HkError HkResetRep(const std::variant<uint, std::wstring>& player);
+DLL HkError HkGetGroupMembers(const std::variant<uint, std::wstring>& player, std::list<GROUP_MEMBER>& lstMembers);
+DLL HkError HkSetRep(const std::variant<uint, std::wstring>& player, const std::wstring& wscRepGroup, float fValue);
+DLL HkError HkGetRep(const std::variant<uint, std::wstring>& player, const std::wstring& wscRepGroup, float& fValue);
+DLL HkError HkReadCharFile(const std::variant<uint, std::wstring>& player, std::list<std::wstring>& lstOutput);
+DLL HkError HkWriteCharFile(const std::variant<uint, std::wstring>& player, std::wstring wscData);
+DLL HkError HkPlayerRecalculateCRC(uint clientId);
+DLL std::string HkGetPlayerSystemS(uint clientId);
+DLL bool IsInRange(uint clientId, float fDistance);
+DLL std::wstring GetLocation(unsigned int clientId);
+DLL HkError HkSetEquip(const std::variant<uint, std::wstring>& player, const st6::list<EquipDesc>& equip);
+DLL HkError HkAddEquip(const std::variant<uint, std::wstring>& player, uint iGoodID, const std::string& scHardpoint);
+DLL HkError HkAntiCheat(uint clientId);
+DLL void HkDelayedKick(uint clientId, uint secs);
+DLL HkError HkDeleteCharacter(CAccount* acc, std::wstring& character);
+DLL HkError HkNewCharacter(CAccount* acc, std::wstring& character);
+DLL std::wstring HkGetAccountIDByClientID(uint clientId);
+DLL HkError HkGetOnlineTime(const std::variant<uint, std::wstring>& player, int& iSecs);
+DLL HkError HkGetRank(const std::variant<uint, std::wstring>& player, int& iRank);
+DLL HkError HKGetShipValue(const std::variant<uint, std::wstring>& player, float& fValue);
+DLL void HkRelocateClient(uint clientId, Vector vDestination, Matrix mOrientation);
+DLL void HkSaveChar(uint clientId);
+DLL HkError HkGetTarget(const std::variant<uint, std::wstring>& player, uint& target);
+DLL HkError HkGetTargetClientId(const std::variant<uint, std::wstring>& player, uint& targetClientId);
+DLL HkError HkGetCurrentBase(const std::variant<uint, std::wstring>& player, uint& base);
+DLL HkError HkGetSystem(const std::variant<uint, std::wstring>& player, uint& system);
+DLL HkError HkGetShip(const std::variant<uint, std::wstring>& player, uint& system);
 
 // HkFuncLog
 
 DLL bool InitLogs();
 
-DLL void HkHandleCheater(uint iClientID, bool bBan, std::wstring wscReason, ...);
-DLL bool HkAddCheaterLog(std::variant<uint, std::wstring> player, const std::wstring& wscReason);
-DLL bool HkAddKickLog(uint iClientID, std::wstring wscReason, ...);
-DLL bool HkAddConnectLog(uint iClientID, std::wstring wscReason, ...);
+DLL void HkHandleCheater(uint clientId, bool bBan, std::wstring wscReason, ...);
+DLL bool HkAddCheaterLog(const std::variant<uint, std::wstring>& player, const std::wstring& wscReason);
+DLL bool HkAddKickLog(uint clientId, std::wstring wscReason, ...);
+DLL bool HkAddConnectLog(uint clientId, std::wstring wscReason, ...);
 
 // HkFuncOther
-DLL void HkGetPlayerIP(uint iClientID, std::wstring& wscIP);
-DLL HK_ERROR HkGetPlayerInfo(std::variant<uint, std::wstring> player, HKPLAYERINFO& pi, bool bAlsoCharmenu);
+DLL void HkGetPlayerIP(uint clientId, std::wstring& wscIP);
+DLL HkError HkGetPlayerInfo(const std::variant<uint, std::wstring>& player, HKPLAYERINFO& pi, bool bAlsoCharmenu);
 DLL std::list<HKPLAYERINFO> HkGetPlayers();
-DLL HK_ERROR HkGetConnectionStats(uint iClientID, DPN_CONNECTION_INFO& ci);
-DLL HK_ERROR HkSetAdmin(std::variant<uint, std::wstring> player, const std::wstring& wscRights);
-DLL HK_ERROR HkGetAdmin(std::variant<uint, std::wstring> player, std::wstring& wscRights);
-DLL HK_ERROR HkDelAdmin(std::variant<uint, std::wstring> player);
-DLL HK_ERROR HkChangeNPCSpawn(bool bDisable);
-DLL HK_ERROR HkGetBaseStatus(const std::wstring& wscBasename, float& fHealth, float& fMaxHealth);
+DLL HkError HkGetConnectionStats(uint clientId, DPN_CONNECTION_INFO& ci);
+DLL HkError HkSetAdmin(const std::variant<uint, std::wstring>& player, const std::wstring& wscRights);
+DLL HkError HkGetAdmin(const std::variant<uint, std::wstring>& player, std::wstring& wscRights);
+DLL HkError HkDelAdmin(const std::variant<uint, std::wstring>& player);
+DLL HkError HkChangeNPCSpawn(bool bDisable);
+DLL HkError HkGetBaseStatus(const std::wstring& wscBasename, float& fHealth, float& fMaxHealth);
 DLL Fuse* HkGetFuseFromID(uint iFuseID);
 DLL bool HkLightFuse(IObjRW* ship, uint iFuseID, float fDelay, float fLifetime, float fSkip);
 DLL bool HkUnLightFuse(IObjRW* ship, uint iFuseID);
@@ -1152,15 +1068,15 @@ DLL CEqObj* HkGetEqObjFromObjRW(struct IObjRW* objRW);
 DLL uint HkGetClientIDFromArg(const std::wstring& wscArg);
 
 // HkFLIni
-DLL HK_ERROR HkFLIniGet(std::variant<uint, std::wstring> player, const std::wstring& wscKey, std::wstring& wscRet);
-DLL HK_ERROR HkFLIniWrite(std::variant<uint, std::wstring> player, const std::wstring& wscKey, std::wstring wscValue);
+DLL HkError HkFLIniGet(const std::variant<uint, std::wstring>& player, const std::wstring& wscKey, std::wstring& wscRet);
+DLL HkError HkFLIniWrite(const std::variant<uint, std::wstring>& player, const std::wstring& wscKey, std::wstring wscValue);
 
-DLL std::wstring HkErrGetText(HK_ERROR hkErr);
+DLL std::wstring HkErrGetText(HkError hkErr);
 
-DLL void UserCmd_SetDieMsg(const uint& iClientID, const std::wstring_view& wscParam);
-DLL void UserCmd_SetChatFont(const uint& iClientID, const std::wstring_view& wscParam);
-DLL void PrintUserCmdText(uint iClientID, std::wstring wscText, ...);
-DLL void PrintLocalUserCmdText(uint iClientID, const std::wstring& wscMsg, float fDistance);
+DLL void UserCmd_SetDieMsg(const uint& clientId, const std::wstring_view& wscParam);
+DLL void UserCmd_SetChatFont(const uint& clientId, const std::wstring_view& wscParam);
+DLL void PrintUserCmdText(uint clientId, std::wstring wscText, ...);
+DLL void PrintLocalUserCmdText(uint clientId, const std::wstring& wscMsg, float fDistance);
 
 DLL void HkSetCharacterIni(uint client, const std::wstring& name, std::wstring value);
 
@@ -1173,7 +1089,7 @@ DLL double HkGetCharacterIniDouble(uint client, const std::wstring& name);
 DLL int64_t HkGetCharacterIniInt64(uint client, const std::wstring& name);
 
 // HkPersonalities
-DLL pub::AI::Personality HkGetPersonality(const std::string& pilotNickname, HK_ERROR& err);
+DLL pub::AI::Personality HkGetPersonality(const std::string& pilotNickname, HkError& err);
 
 DLL extern bool g_NonGunHitsBase;
 DLL extern float g_LastHitPts;
@@ -1216,12 +1132,12 @@ extern DLL char* g_FLServerDataPtr;
 
 extern DLL bool g_bPlugin_nofunctioncall;
 
-extern DLL bool get_bTrue(uint iClientID);
+extern DLL bool get_bTrue(uint clientId);
 extern DLL void HkAddHelpEntry(const std::wstring& wscCommand, const std::wstring& wscArguments, const std::wstring& wscShortHelp,
     const std::wstring& wscLongHelp, _HelpEntryDisplayed fnIsDisplayed);
 extern DLL void HkRemoveHelpEntry(const std::wstring& wscCommand, const std::wstring& wscArguments);
 
-extern DLL HK_ERROR HkGetClientID(bool& bIdString, uint& iClientID, const std::wstring& wscCharName);
+extern DLL HkError HkGetClientID(bool& bIdString, uint& clientId, const std::wstring& wscCharName);
 
 extern DLL _GetShipInspect GetShipInspect;
 extern DLL std::list<BASE_INFO> lstBases;
