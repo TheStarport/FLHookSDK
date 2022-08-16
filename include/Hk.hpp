@@ -74,13 +74,67 @@ namespace Hk
 
 	namespace Client
 	{
+
+		/**
+		 * Gets the current client id of the account.
+		 * @param acc CAccount
+		 * @returns On success : Client id of the active user of the account.
+		 * @returns On fail : [PlayerNotLoggedIn] The function could not find a client id associated with the account id.
+		 * @see
+		 */
 		DLL cpp::result<const uint, HkError> HkGetClientIdFromAccount(CAccount* acc);
+
+		/**
+		 * Gets the current client id of the character.
+		 * @param character Wide string of the character name
+		 * @returns On success : current client Id associated with that character name
+		 * @returns On fail : [CharacterDoesNotExist] The function could not find a client id associated with this character name.
+		 * @see
+		 */
 		DLL cpp::result<const uint, HkError> HkGetClientIdFromCharname(const std::wstring& character);
+
+		/**
+		 * Checks to see if the client Id is valid
+		 * @param clientId Client Id
+		 * @returns If Valid: true
+		 * @returns If Not Valid: false
+		 * @see
+		 */
 		DLL bool HkIsValidClientID(uint clientId);
+
+		/**
+		 * Gets the account of the character
+		 * @param character Wide string of the character name
+		 * @returns On success : the account Id for that character
+		 * @returns On fail : [CharacterDoesNotExist] The function could not find the account id associated with this character name.
+		 * @see
+		 */
 		DLL cpp::result<CAccount*, HkError> HkGetAccountByCharName(const std::wstring& character);
+
+		/**
+		 * Gets the account id in a wide string
+		 * @param acc The account
+		 * @returns On success : wide string of account Id
+		 * @returns On fail : [CannotGetAccount] The function could not find the account.
+		 * @see
+		 */
 		DLL cpp::result<const std::wstring, HkError> HkGetAccountID(CAccount* acc);
-		DLL bool HkIsEncoded(const std::string& scFilename);
+
+
+		/**
+		 * Gets the account id in a wide string
+		 * @param fileName The account
+		 * @returns On success : wide string of account Id
+		 * @returns On fail : [CannotGetAccount] The function could not find the account.
+		 * @see
+		 */
+		DLL bool HkIsEncoded(const std::string& fileName);
+
+		//TODO: The params of this function make no sense, you would not know who the player is if they're in char select.
 		DLL bool HkIsInCharSelectMenu(const std::variant<uint, std::wstring>& player);
+
+
+
 		DLL cpp::result<const std::wstring, HkError> HkGetCharacterNameById(const uint& clientId);
 		DLL cpp::result<const uint, HkError> HkResolveId(const std::wstring& player, uint& clientId);
 		DLL cpp::result<const uint, HkError> HkResolveShortCut(const std::wstring& wscShortcut, uint& clientId);
@@ -97,12 +151,28 @@ namespace Hk
 		DLL cpp::result<IObjInspectImpl*, HkError> HkGetInspect(uint clientId);
 		DLL cpp::result<const EngineState, HkError> HkGetEngineState(uint clientId);
 		DLL cpp::result<const EquipmentType, HkError> HkGetEqType(Archetype::Equipment* eq);
-	}
+	} // namespace Client
 
 	namespace Math
 	{
+		/**
+		 * Computes the difference between two points in 3d space,
+		 * @param v1 3d vector 1
+		 * @param v2 3d vector 2
+		 * @returns a scalar of the distance between point v2 and v1
+		 * @see
+		 */
 		DLL float HkDistance3D(Vector v1, Vector v2);
-		DLL cpp::result<float, HkError> HkDistance3DByShip(uint iShip1, uint iShip2);
+
+		/**
+		 * See HkDistance3D for more information
+		 * @see HkDistance3D
+		 */
+		DLL cpp::result<float, HkError> HkDistance3DByShip(uint ship1, uint ship2);
+
+		/**
+		 * Converts a 3x3 rotation matrix into an equivalent quaternion.
+		 */
 		DLL Quaternion HkMatrixToQuaternion(Matrix m);
 		template<typename Str>
 		Str VectorToSectorCoord(uint systemId, Vector vPos);
@@ -110,13 +180,9 @@ namespace Hk
 		template DLL std::wstring VectorToSectorCoord(uint systemId, Vector vPos);
 		DLL float degrees(float rad);
 		DLL Vector MatrixToEuler(const Matrix& mat);
-		DLL void Rotate180(Matrix& rot);
-		DLL void TranslateY(Vector& pos, Matrix& rot, float y);
-		DLL void TranslateX(Vector& pos, Matrix& rot, float x);
-		DLL void TranslateZ(Vector& pos, Matrix& rot, float z);
 		DLL uint RgbToBgr(uint color);
-		DLL std::wstring UintToHex(uint number, uint width, bool addPrefix = false);
-	}
+		DLL std::wstring UintToHexString(uint number, uint width, bool addPrefix = false);
+	} // namespace Math
 
 	namespace Message
 	{
@@ -139,5 +205,5 @@ namespace Hk
 		DLL void SendLocalSystemChat(uint iFromClientID, const std::wstring& wscText);
 		DLL void SendPrivateChat(uint iFromClientID, uint iToClientID, const std::wstring& wscText);
 		DLL void SendSystemChat(uint iFromClientID, const std::wstring& wscText);
-	}
+	} // namespace Message
 } // namespace Hk
