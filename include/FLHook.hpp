@@ -40,7 +40,7 @@ struct MULTIKILLMESSAGE
 	std::wstring wscMessage;
 };
 
-DLL void ProcessEvent(std::wstring wscText, ...);
+DLL void ProcessEvent(std::wstring text, ...);
 
 // Tools
 class DLL Console
@@ -84,7 +84,7 @@ class DLL Console
 };
 
 DLL std::wstring stows(const std::string& scText);
-DLL std::string wstos(const std::wstring& wscText);
+DLL std::string wstos(const std::wstring& text);
 DLL std::string IniGetS(const std::string& scFile, const std::string& scApp, const std::string& scKey, const std::string& scDefault);
 DLL int IniGetI(const std::string& scFile, const std::string& scApp, const std::string& scKey, int iDefault);
 DLL bool IniGetB(const std::string& scFile, const std::string& scApp, const std::string& scKey, bool bDefault);
@@ -93,7 +93,7 @@ DLL void WriteProcMem(void* pAddress, const void* pMem, int iSize);
 DLL void ReadProcMem(void* pAddress, void* pMem, int iSize);
 DLL int ToInt(const std::wstring& wscStr);
 DLL uint ToUInt(const std::wstring& wscStr);
-DLL std::wstring XMLText(const std::wstring& wscText);
+DLL std::wstring XMLText(const std::wstring& text);
 DLL std::wstring GetParam(const std::wstring& wscLine, wchar_t wcSplitChar, uint iPos);
 DLL std::wstring GetParam(const std::wstring_view& wscLine, wchar_t wcSplitChar, uint iPos);
 DLL std::string GetParam(std::string scLine, char cSplitChar, uint iPos);
@@ -267,113 +267,6 @@ REFL_AUTO(type(FLHookConfig::MultiKillMessages), field(active), field(multiKillM
 REFL_AUTO(type(FLHookConfig::Bans), field(banAccountOnMatch), field(banWildcardsAndIPs))
 REFL_AUTO(type(FLHookConfig), field(general), field(plugins), field(socket), field(msgStyle), field(userCommands), field(multiKillMessages), field(bans))
 
-struct SYSTEMINFO
-{
-	/** The system nickname */
-	std::string sysNick;
-
-	/** The system id */
-	uint systemId;
-
-	/** The system scale */
-	float scale;
-};
-
-struct TransformMatrix
-{
-	float d[4][4];
-};
-
-struct ZONE
-{
-	/** The system nickname */
-	std::string sysNick;
-
-	/** The zone nickname */
-	std::string zoneNick;
-
-	/** The id of the system for this zone */
-	uint systemId;
-
-	/** The zone transformation matrix */
-	TransformMatrix transform;
-
-	/** The zone ellipsoid size */
-	Vector size;
-
-	/** The zone position */
-	Vector pos;
-
-	/** The damage this zone causes per second */
-	int damage;
-
-	/** Is this an encounter zone */
-	bool encounter;
-};
-
-class JUMPPOINT
-{
-  public:
-	/** The system nickname */
-	std::string sysNick;
-
-	/** The jump point nickname */
-	std::string jumpNick;
-
-	/** The jump point destination system nickname */
-	std::string jumpDestSysNick;
-
-	/** The id of the system for this jump point. */
-	uint System;
-
-	/** The id of the jump point. */
-	uint jumpID;
-
-	/** The jump point destination system id */
-	uint jumpDestSysID;
-};
-
-struct LOOTABLE_ZONE
-{
-	/** The zone nickname */
-	std::string zoneNick;
-
-	/** The id of the system for this lootable zone */
-	uint systemID;
-
-	/** The nickname and arch id of the loot dropped by the asteroids */
-	std::string lootNick;
-	uint iLootID;
-
-	/** The arch id of the crate the loot is dropped in */
-	uint iCrateID;
-
-	/** The minimum number of loot items to drop */
-	uint iMinLoot;
-
-	/** The maximum number of loot items to drop */
-	uint iMaxLoot;
-
-	/** The drop difficultly */
-	uint iLootDifficulty;
-
-	/** The lootable zone ellipsoid size */
-	Vector size;
-
-	/** The lootable zone position */
-	Vector pos;
-};
-typedef std::multimap<uint, LOOTABLE_ZONE, std::less<>> zone_map_t;
-
-/** A map of system id to system info */
-extern DLL std::map<uint, SYSTEMINFO> mapSystems;
-
-/** A map of system id to zones */
-extern DLL std::multimap<uint, ZONE> zones;
-
-/** A map of system id to jumppoint info */
-extern DLL std::multimap<uint, JUMPPOINT> jumpPoints;
-
 namespace ZoneUtilities
 {
 	DLL void ReadUniverse(zone_map_t* set_mmapZones);
@@ -394,171 +287,6 @@ struct stHelpEntry
 	std::wstring wszShortHelp;
 	std::wstring wszLongHelp;
 	_HelpEntryDisplayed fnIsDisplayed;
-};
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// structs
-
-struct HookEntry
-{
-	FARPROC fpProc;
-	long dwRemoteAddress;
-	FARPROC fpOldProc;
-};
-
-struct CARGO_INFO
-{
-	uint iID;
-	int iCount;
-	uint iArchID;
-	float fStatus;
-	bool bMission;
-	bool bMounted;
-	CacheString hardpoint;
-};
-
-// money stuff
-struct MONEY_FIX
-{
-	std::wstring character;
-	int iAmount;
-
-	bool operator==(MONEY_FIX mf1) const
-	{
-		if (!character.compare(mf1.character))
-			return true;
-
-		return false;
-	};
-};
-
-// ignore
-struct IGNORE_INFO
-{
-	std::wstring character;
-	std::wstring wscFlags;
-};
-
-// resolver
-struct RESOLVE_IP
-{
-	uint clientId;
-	uint iConnects;
-	std::wstring wscIP;
-	std::wstring wscHostname;
-};
-
-struct CLIENT_INFO
-{
-	// kill msgs
-	uint iShip;
-	uint iShipOld;
-	mstime tmSpawnTime;
-
-	DamageList dmgLast;
-
-	// money cmd
-	std::list<MONEY_FIX> lstMoneyFix;
-
-	// anticheat
-	uint iTradePartner;
-
-	// change cruise disruptor behaviour
-	bool bCruiseActivated;
-	bool bThrusterActivated;
-	bool bEngineKilled;
-	bool bTradelane;
-
-	// idle kicks
-	uint iBaseEnterTime;
-	uint iCharMenuEnterTime;
-
-	// msg, wait and kick
-	mstime tmKickTime;
-
-	// eventmode
-	uint iLastExitedBaseID;
-	bool bDisconnected;
-
-	// f1 laming
-	bool bCharSelected;
-	mstime tmF1Time;
-	mstime tmF1TimeDisconnect;
-
-	// ignore usercommand
-	std::list<IGNORE_INFO> lstIgnore;
-
-	// user settings
-	DIEMSGTYPE dieMsg;
-	CHATSIZE dieMsgSize;
-	CHATSTYLE dieMsgStyle;
-	CHATSIZE chatSize;
-	CHATSTYLE chatStyle;
-
-	// autobuy
-	bool bAutoBuyMissiles;
-	bool bAutoBuyMines;
-	bool bAutoBuyTorps;
-	bool bAutoBuyCD;
-	bool bAutoBuyCM;
-	bool bAutoBuyReload;
-
-	// MultiKillMessages
-	uint iKillsInARow;
-
-	// bans
-	uint iConnects; // incremented when player connects
-
-	// Group
-	uint iGroupID;
-
-	// other
-	std::wstring wscHostname;
-
-	bool bSpawnProtected;
-	bool bUseServersideHitDetection; // used by AC Plugin
-	std::map<PluginInfo*, std::array<uchar, 40>> mapPluginData;
-};
-
-// taken from directplay
-typedef struct _DPN_CONNECTION_INFO
-{
-	DWORD dwSize;
-	DWORD dwRoundTripLatencyMS;
-	DWORD dwThroughputBPS;
-	DWORD dwPeakThroughputBPS;
-	DWORD dwBytesSentGuaranteed;
-	DWORD dwPacketsSentGuaranteed;
-	DWORD dwBytesSentNonGuaranteed;
-	DWORD dwPacketsSentNonGuaranteed;
-	DWORD dwBytesRetried;
-	DWORD dwPacketsRetried;
-	DWORD dwBytesDropped;
-	DWORD dwPacketsDropped;
-	DWORD dwMessagesTransmittedHighPriority;
-	DWORD dwMessagesTimedOutHighPriority;
-	DWORD dwMessagesTransmittedNormalPriority;
-	DWORD dwMessagesTimedOutNormalPriority;
-	DWORD dwMessagesTransmittedLowPriority;
-	DWORD dwMessagesTimedOutLowPriority;
-	DWORD dwBytesReceivedGuaranteed;
-	DWORD dwPacketsReceivedGuaranteed;
-	DWORD dwBytesReceivedNonGuaranteed;
-	DWORD dwPacketsReceivedNonGuaranteed;
-	DWORD dwMessagesReceived;
-} DPN_CONNECTION_INFO, *PDPN_CONNECTION_INFO;
-
-struct HKPLAYERINFO
-{
-	uint clientId;
-	std::wstring character;
-	std::wstring wscBase;
-	std::wstring wscSystem;
-	uint iSystem;
-	uint iShip;
-	DPN_CONNECTION_INFO ci;
-	std::wstring wscIP;
-	std::wstring wscHostname;
 };
 
 // Use the class to create and send packets of inconstant size.
@@ -795,63 +523,6 @@ class FLPACKET
 };
 #pragma pack(pop)
 
-// patch stuff
-struct PATCH_INFO_ENTRY
-{
-	ulong pAddress;
-	void* pNewValue;
-	uint iSize;
-	void* pOldValue;
-	bool bAlloced;
-};
-
-struct PATCH_INFO
-{
-	char* szBinName;
-	ulong pBaseAddress;
-
-	PATCH_INFO_ENTRY piEntries[128];
-};
-
-struct DATA_MARKETITEM
-{
-	uint iArchID;
-	float fRep;
-};
-
-struct BASE_INFO
-{
-	uint baseId;
-	std::string scBasename;
-	uint iObjectID;
-	bool bDestroyed;
-	std::list<DATA_MARKETITEM> lstMarketMisc;
-};
-
-struct GROUP_MEMBER
-{
-	uint clientId;
-	std::wstring character;
-};
-
-struct SpecialChatIDs
-{
-	enum : uint
-	{
-		CONSOLE = 0,
-
-		PLAYER_MIN = 1,
-		PLAYER_MAX = 249,
-
-		SPECIAL_BASE = 0x10000,
-		UNIVERSE = SPECIAL_BASE | 0,
-		SYSTEM = SPECIAL_BASE | 1,
-		LOCAL = SPECIAL_BASE | 2,
-		GROUP = SPECIAL_BASE | 3,
-		GROUP_EVENT = SPECIAL_BASE | 4
-	};
-};
-
 class CCmds
 {
 protected:
@@ -864,19 +535,15 @@ private:
 
   public:
 	DWORD rights;
-	HkError hkLastErr;
 #ifdef FLHOOK
 	// commands
 	void CmdGetCash(const std::variant<uint, std::wstring>& player);
 	void CmdSetCash(const std::variant<uint, std::wstring>& player, int iAmount);
-	void CmdSetCashSec(const std::variant<uint, std::wstring>& player, int iAmountCheck, int iAmount);
 	void CmdAddCash(const std::variant<uint, std::wstring>& player, int iAmount);
-	void CmdAddCashSec(const std::variant<uint, std::wstring>& player, int iAmountCheck, int iAmount);
 
 	void CmdKick(const std::variant<uint, std::wstring>& player, const std::wstring& wscReason);
 	void CmdBan(const std::variant<uint, std::wstring>& player);
 	void CmdUnban(const std::variant<uint, std::wstring>& player);
-	void CmdKickBan(const std::variant<uint, std::wstring>& player, const std::wstring& wscReason);
 
 	void CmdBeam(const std::variant<uint, std::wstring>& player, const std::wstring& wscBasename);
 	void CmdChase(std::wstring wscAdminName, const std::variant<uint, std::wstring>& player);
@@ -887,16 +554,16 @@ private:
 	void CmdSetRep(const std::variant<uint, std::wstring>& player, const std::wstring& wscRepGroup, float fValue);
 	void CmdGetRep(const std::variant<uint, std::wstring>& player, const std::wstring& wscRepGroup);
 
-	void CmdMsg(const std::variant<uint, std::wstring>& player, const std::wstring& wscText);
-	void CmdMsgS(const std::wstring& wscSystemname, const std::wstring& wscText);
-	void CmdMsgU(const std::wstring& wscText);
+	void CmdMsg(const std::variant<uint, std::wstring>& player, const std::wstring& text);
+	void CmdMsgS(const std::wstring& wscSystemname, const std::wstring& text);
+	void CmdMsgU(const std::wstring& text);
 	void CmdFMsg(const std::variant<uint, std::wstring>& player, const std::wstring& wscXML);
 	void CmdFMsgS(const std::wstring& wscSystemname, const std::wstring& wscXML);
 	void CmdFMsgU(const std::wstring& wscXML);
 
 	void CmdEnumCargo(const std::variant<uint, std::wstring>& player);
 	void CmdRemoveCargo(const std::variant<uint, std::wstring>& player, uint iID, uint iCount);
-	void CmdAddCargo(const std::variant<uint, std::wstring>& player, const std::wstring& wscGood, uint iCount, uint iMission);
+	void CmdAddCargo(const std::variant<uint, std::wstring>& player, const std::wstring& wscGood, uint iCount, bool iMission);
 
 	void CmdRename(const std::variant<uint, std::wstring>& player, const std::wstring& wscNewCharname);
 	void CmdDeleteChar(const std::variant<uint, std::wstring>& player);
@@ -904,12 +571,11 @@ private:
 	void CmdReadCharFile(const std::variant<uint, std::wstring>& player);
 	void CmdWriteCharFile(const std::variant<uint, std::wstring>& player, const std::wstring& wscData);
 
-	void CmdGetBaseStatus(const std::wstring& wscBasename);
-	void CmdGetClientId(std::wstring player);
-	void PrintPlayerInfo(HKPLAYERINFO pi);
+	void CmdGetClientId(const std::wstring& player);
+	void PrintPlayerInfo(PLAYERINFO& pi);
 	void CmdGetPlayerInfo(const std::variant<uint, std::wstring>& player);
 	void CmdGetPlayers();
-	void XPrintPlayerInfo(HKPLAYERINFO pi);
+	void XPrintPlayerInfo(const PLAYERINFO& pi);
 	void CmdXGetPlayerInfo(const std::variant<uint, std::wstring>& player);
 	void CmdXGetPlayers();
 	void CmdGetPlayerIDs();
@@ -917,7 +583,6 @@ private:
 	void CmdGetAccountDirName(const std::variant<uint, std::wstring>& player);
 	void CmdGetCharFileName(const std::variant<uint, std::wstring>& player);
 	void CmdIsOnServer(std::wstring player);
-	void CmdIsLoggedIn(std::wstring player);
 	void CmdMoneyFixList();
 	void CmdServerInfo();
 	void CmdGetGroupMembers(const std::variant<uint, std::wstring>& player);
@@ -943,15 +608,15 @@ private:
 	#endif
 
 public:
-	virtual void DoPrint(const std::wstring& wscText) = 0;
-	DLL void PrintError();
+	virtual void DoPrint(const std::wstring& text) = 0;
+	DLL void PrintError(Error err);
 	DLL std::wstring ArgCharname(uint iArg);
 	DLL int ArgInt(uint iArg);
 	DLL uint ArgUInt(uint iArg);
 	DLL float ArgFloat(uint iArg);
 	DLL std::wstring ArgStr(uint iArg);
 	DLL std::wstring ArgStrToEnd(uint iArg);
-	DLL void Print(std::wstring wscText, ...);
+	DLL void Print(std::wstring text, ...);
 	DLL virtual std::wstring GetAdminName() { return L""; };
 	DLL virtual bool IsPlayer() { return false; }
 };
@@ -961,7 +626,7 @@ class CInGame final : public CCmds
   public:
 	uint clientId;
 	std::wstring wscAdminName;
-	DLL void DoPrint(const std::wstring& wscText) override;
+	DLL void DoPrint(const std::wstring& text) override;
 	DLL void ReadRights(const std::string& scIniFile);
 	DLL std::wstring GetAdminName() override;
 	DLL bool IsPlayer() override { return true; }
@@ -985,126 +650,41 @@ class CSocket final : public CCmds
 		bEventMode = false;
 		bUnicode = false;
 	}
-	DLL void DoPrint(const std::wstring& wscText) override;
+	DLL void DoPrint(const std::wstring& text) override;
 	DLL std::wstring GetAdminName() override;
 };
 
-DLL HkError HkGetSystemByNickname(std::variant<std::string, std::wstring> nickname, uint& system);
-DLL CShip* HkCShipFromShipDestroyed(const DWORD** ecx);
+DLL Error GetSystemByNickname(std::variant<std::string, std::wstring> nickname, uint& system);
+DLL CShip* CShipFromShipDestroyed(const DWORD** ecx);
 
-
-// HkFuncPlayers
-DLL HkError HkAddToGroup(uint clientId, uint iGroupID);
-DLL HkError HkGetGroupID(uint clientId, uint& iGroupID);
-DLL HkError HkGetCash(const std::variant<uint, std::wstring>& player, int& iCash);
-DLL HkError HkAddCash(const std::variant<uint, std::wstring>& player, int iAmount);
-DLL HkError HkKick(CAccount* acc);
-DLL HkError HkKick(const std::variant<uint, std::wstring>& player);
-DLL HkError HkKickReason(const std::variant<uint, std::wstring>& player, const std::wstring& wscReason);
-DLL HkError HkBan(const std::variant<uint, std::wstring>& player, bool bBan);
-DLL HkError HkBeam(const std::variant<uint, std::wstring>& player, const std::wstring& wscBasename);
-DLL HkError HkSaveChar(const std::variant<uint, std::wstring>& player);
-DLL HkError HkEnumCargo(const std::variant<uint, std::wstring>& player, std::list<CARGO_INFO>& lstCargo, int& iRemainingHoldSize);
-DLL HkError HkRemoveCargo(const std::variant<uint, std::wstring>& player, uint iID, int iCount);
-DLL HkError HkAddCargo(const std::variant<uint, std::wstring>& player, uint iGoodID, int iCount, bool bMission);
-DLL HkError HkAddCargo(const std::variant<uint, std::wstring>& player, const std::wstring& wscGood, int iCount, bool bMission);
-DLL HkError HkRename(const std::variant<uint, std::wstring>& player, const std::wstring& wscNewCharname, bool bOnlyDelete);
-DLL HkError HkMsgAndKick(uint clientId, const std::wstring& wscReason, uint iIntervall);
-DLL HkError HkKill(const std::variant<uint, std::wstring>& player);
-DLL HkError HkGetReservedSlot(const std::variant<uint, std::wstring>& player, bool& bResult);
-DLL HkError HkSetReservedSlot(const std::variant<uint, std::wstring>& player, bool bReservedSlot);
-DLL void HkPlayerAutoBuy(uint clientId, uint baseId);
-DLL HkError HkResetRep(const std::variant<uint, std::wstring>& player);
-DLL HkError HkGetGroupMembers(const std::variant<uint, std::wstring>& player, std::list<GROUP_MEMBER>& lstMembers);
-DLL HkError HkSetRep(const std::variant<uint, std::wstring>& player, const std::wstring& wscRepGroup, float fValue);
-DLL HkError HkGetRep(const std::variant<uint, std::wstring>& player, const std::wstring& wscRepGroup, float& fValue);
-DLL HkError HkReadCharFile(const std::variant<uint, std::wstring>& player, std::list<std::wstring>& lstOutput);
-DLL HkError HkWriteCharFile(const std::variant<uint, std::wstring>& player, std::wstring wscData);
-DLL HkError HkPlayerRecalculateCRC(uint clientId);
-DLL std::string HkGetPlayerSystemS(uint clientId);
-DLL bool IsInRange(uint clientId, float fDistance);
-DLL std::wstring GetLocation(unsigned int clientId);
-DLL HkError HkSetEquip(const std::variant<uint, std::wstring>& player, const st6::list<EquipDesc>& equip);
-DLL HkError HkAddEquip(const std::variant<uint, std::wstring>& player, uint iGoodID, const std::string& scHardpoint);
-DLL HkError HkAntiCheat(uint clientId);
-DLL void HkDelayedKick(uint clientId, uint secs);
-DLL HkError HkDeleteCharacter(CAccount* acc, std::wstring& character);
-DLL HkError HkNewCharacter(CAccount* acc, std::wstring& character);
-DLL std::wstring HkGetAccountIDByClientID(uint clientId);
-DLL HkError HkGetOnlineTime(const std::variant<uint, std::wstring>& player, int& iSecs);
-DLL HkError HkGetRank(const std::variant<uint, std::wstring>& player, int& iRank);
-DLL HkError HKGetShipValue(const std::variant<uint, std::wstring>& player, float& fValue);
-DLL void HkRelocateClient(uint clientId, Vector vDestination, Matrix mOrientation);
-DLL void HkSaveChar(uint clientId);
-DLL HkError HkGetTarget(const std::variant<uint, std::wstring>& player, uint& target);
-DLL HkError HkGetTargetClientId(const std::variant<uint, std::wstring>& player, uint& targetClientId);
-DLL HkError HkGetCurrentBase(const std::variant<uint, std::wstring>& player, uint& base);
-DLL HkError HkGetSystem(const std::variant<uint, std::wstring>& player, uint& system);
-DLL HkError HkGetShip(const std::variant<uint, std::wstring>& player, uint& system);
-
-// HkFuncLog
+// FuncLog
 
 DLL bool InitLogs();
 
-DLL void HkHandleCheater(uint clientId, bool bBan, std::wstring wscReason, ...);
-DLL bool HkAddCheaterLog(const std::variant<uint, std::wstring>& player, const std::wstring& wscReason);
-DLL bool HkAddKickLog(uint clientId, std::wstring wscReason, ...);
-DLL bool HkAddConnectLog(uint clientId, std::wstring wscReason, ...);
-
-// HkFuncOther
-DLL void HkGetPlayerIP(uint clientId, std::wstring& wscIP);
-DLL HkError HkGetPlayerInfo(const std::variant<uint, std::wstring>& player, HKPLAYERINFO& pi, bool bAlsoCharmenu);
-DLL std::list<HKPLAYERINFO> HkGetPlayers();
-DLL HkError HkGetConnectionStats(uint clientId, DPN_CONNECTION_INFO& ci);
-DLL HkError HkSetAdmin(const std::variant<uint, std::wstring>& player, const std::wstring& wscRights);
-DLL HkError HkGetAdmin(const std::variant<uint, std::wstring>& player, std::wstring& wscRights);
-DLL HkError HkDelAdmin(const std::variant<uint, std::wstring>& player);
-DLL HkError HkChangeNPCSpawn(bool bDisable);
-DLL HkError HkGetBaseStatus(const std::wstring& wscBasename, float& fHealth, float& fMaxHealth);
-DLL Fuse* HkGetFuseFromID(uint iFuseID);
-DLL bool HkLightFuse(IObjRW* ship, uint iFuseID, float fDelay, float fLifetime, float fSkip);
-DLL bool HkUnLightFuse(IObjRW* ship, uint iFuseID);
-DLL CEqObj* HkGetEqObjFromObjRW(struct IObjRW* objRW);
-DLL uint HkGetClientIDFromArg(const std::wstring& wscArg);
-
-// HkFLIni
-DLL HkError HkFLIniGet(const std::variant<uint, std::wstring>& player, const std::wstring& wscKey, std::wstring& wscRet);
-DLL HkError HkFLIniWrite(const std::variant<uint, std::wstring>& player, const std::wstring& wscKey, std::wstring wscValue);
-
-DLL std::wstring HkErrGetText(HkError hkErr);
+DLL void HandleCheater(uint clientId, bool bBan, std::wstring wscReason, ...);
+DLL bool AddCheaterLog(const std::variant<uint, std::wstring>& player, const std::wstring& wscReason);
+DLL bool AddKickLog(uint clientId, std::wstring wscReason, ...);
+DLL bool AddConnectLog(uint clientId, std::wstring wscReason, ...);
 
 DLL void UserCmd_SetDieMsg(const uint& clientId, const std::wstring_view& wscParam);
 DLL void UserCmd_SetChatFont(const uint& clientId, const std::wstring_view& wscParam);
-DLL void PrintUserCmdText(uint clientId, std::wstring wscText, ...);
+DLL void PrintUserCmdText(uint clientId, std::wstring text, ...);
 DLL void PrintLocalUserCmdText(uint clientId, const std::wstring& wscMsg, float fDistance);
-
-DLL void HkSetCharacterIni(uint client, const std::wstring& name, std::wstring value);
-
-DLL std::wstring HkGetCharacterIniString(uint client, const std::wstring& name);
-DLL bool HkGetCharacterIniBool(uint client, const std::wstring& name);
-DLL int HkGetCharacterIniInt(uint client, const std::wstring& name);
-DLL uint HkGetCharacterIniUint(uint client, const std::wstring& name);
-DLL float HkGetCharacterIniFloat(uint client, const std::wstring& name);
-DLL double HkGetCharacterIniDouble(uint client, const std::wstring& name);
-DLL int64_t HkGetCharacterIniInt64(uint client, const std::wstring& name);
-
-// HkPersonalities
-DLL pub::AI::Personality HkGetPersonality(const std::string& pilotNickname, HkError& err);
 
 DLL extern bool g_NonGunHitsBase;
 DLL extern float g_LastHitPts;
 
 // namespaces
-namespace HkIServerImpl
+namespace IServerImplHook
 {
 	DLL extern bool g_InSubmitChat;
 	DLL extern uint g_TextLength;
-} // namespace HkIServerImpl
+} // namespace IServerImplHook
 
 // variables
 
-extern DLL HkIClientImpl* FakeClient;
-extern DLL HkIClientImpl* HookClient;
+extern DLL IClientImpl* FakeClient;
+extern DLL IClientImpl* HookClient;
 extern DLL char* OldClient;
 
 extern DLL uint g_DmgTo;
@@ -1133,11 +713,11 @@ extern DLL char* g_FLServerDataPtr;
 extern DLL bool g_bPlugin_nofunctioncall;
 
 extern DLL bool get_bTrue(uint clientId);
-extern DLL void HkAddHelpEntry(const std::wstring& wscCommand, const std::wstring& wscArguments, const std::wstring& wscShortHelp,
+extern DLL void AddHelpEntry(const std::wstring& wscCommand, const std::wstring& wscArguments, const std::wstring& wscShortHelp,
     const std::wstring& wscLongHelp, _HelpEntryDisplayed fnIsDisplayed);
-extern DLL void HkRemoveHelpEntry(const std::wstring& wscCommand, const std::wstring& wscArguments);
+extern DLL void RemoveHelpEntry(const std::wstring& wscCommand, const std::wstring& wscArguments);
 
-extern DLL HkError HkGetClientID(bool& bIdString, uint& clientId, const std::wstring& wscCharName);
+extern DLL Error GetClientID(bool& bIdString, uint& clientId, const std::wstring& wscCharName);
 
 extern DLL _GetShipInspect GetShipInspect;
 extern DLL std::list<BASE_INFO> lstBases;

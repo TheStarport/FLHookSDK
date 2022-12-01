@@ -81,11 +81,11 @@ DLL void AddExceptionInfoLog(SEHException* ex);
 
 #define GetPluginClientData(id, info) ((&ClientInfo[(id)])->mapPluginData[(info)].data())
 
-#define HkFunc(Func, clientId, ...)                                      \
+#define Func(Func, clientId, ...)                                      \
 	{                                                                    \
-		if (HK_ERROR err; (err = Func(clientId, __VA_ARGS__)) != HKE_OK) \
+		if (_ERROR err; (err = Func(clientId, __VA_ARGS__)) != E_OK) \
 		{                                                                \
-			std::wstring errorString = HkErrGetText(err);                \
+			std::wstring errorString = ErrGetText(err);                \
 			PrintUserCmdText(clientId, L"ERR:" + errorString);           \
 			return;                                                      \
 		}                                                                \

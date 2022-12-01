@@ -23,7 +23,7 @@ enum class LogType : int
 	PerfTimers
 };
 
-enum class HkError
+enum class Error
 {
 	NicknameNotFound,
 	PlayerNotInSpace,

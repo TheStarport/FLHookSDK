@@ -150,7 +150,7 @@ struct FLPACKET_LAND
 	uint iTargetBase;
 };
 
-struct [[Hook, ClientCall]] HkIClientImpl
+struct [[Hook, ClientCall]] IClientImpl
 {
 public:
 	void* unknown[2];
@@ -295,7 +295,7 @@ IMPORT  void  SetRemoteClientResponseData(bool,bool,int,unsigned short const *,u
 IMPORT  void  SetRemoteClientSessionName(unsigned short const *);
 IMPORT  void  SetServerLogFunction(int (*)(struct ErrorCode,char const *,...));
 
-extern "C" IMPORT HkIClientImpl Client;
-extern "C" IMPORT HkIClientImpl * GetClientInterface();
+extern "C" IMPORT IClientImpl Client;
+extern "C" IMPORT IClientImpl * GetClientInterface();
 
 #endif // _FLCOREREMOTECLIENT_H_
