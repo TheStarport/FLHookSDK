@@ -192,7 +192,7 @@ namespace Hk
 		DLL cpp::result<void, Error> FMsg(const std::variant<uint, std::wstring>& player, const std::wstring& wscXML);
 		DLL cpp::result<void, Error> FMsgS(const std::wstring& wscSystemname, const std::wstring& wscXML);
 		DLL cpp::result<void, Error> FMsgU(const std::wstring& wscXML);
-		DLL cpp::result<void, Error> FormatMsg(uint clientId, MessageColor color, MessageFormat format, std::wstring msg, ...);
+		DLL const std::wstring FormatMsg(MessageColor color, MessageFormat format, std::wstring msg, ...);
 		DLL std::wstring GetWStringFromIDS(uint iIDS);
 		DLL void LoadStringDLLs();
 		DLL void UnloadStringDLLs();
