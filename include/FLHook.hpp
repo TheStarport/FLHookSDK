@@ -656,9 +656,6 @@ class CSocket final : public CCmds
 	DLL std::wstring GetAdminName() override;
 };
 
-DLL Error GetSystemByNickname(std::variant<std::string, std::wstring> nickname, uint& system);
-DLL CShip* CShipFromShipDestroyed(const DWORD** ecx);
-
 // FuncLog
 
 DLL bool InitLogs();
