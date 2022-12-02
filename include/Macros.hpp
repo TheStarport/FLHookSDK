@@ -81,16 +81,6 @@ DLL void AddExceptionInfoLog(SEHException* ex);
 
 #define GetPluginClientData(id, info) ((&ClientInfo[(id)])->mapPluginData[(info)].data())
 
-#define Func(Func, clientId, ...)                                      \
-	{                                                                    \
-		if (_ERROR err; (err = Func(clientId, __VA_ARGS__)) != E_OK) \
-		{                                                                \
-			std::wstring errorString = ErrGetText(err);                \
-			PrintUserCmdText(clientId, L"ERR:" + errorString);           \
-			return;                                                      \
-		}                                                                \
-	}
-
 #define DefaultDllMain(x)                                                                                                   \
 	BOOL WINAPI DllMain([[maybe_unused]] HINSTANCE dll, [[maybe_unused]] DWORD reason, [[maybe_unused]] LPVOID reserved)    \
 	{                                                                                                                       \

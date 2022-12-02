@@ -11,9 +11,9 @@ struct HookEntry
 
 struct CARGO_INFO
 {
-	uint iID;
+	uint iId;
 	int iCount;
-	uint iArchID;
+	uint iArchId;
 	float fStatus;
 	bool bMission;
 	bool bMounted;
@@ -45,7 +45,7 @@ struct IGNORE_INFO
 // resolver
 struct RESOLVE_IP
 {
-	uint clientId;
+	ClientId client;
 	uint iConnects;
 	std::wstring wscIP;
 	std::wstring wscHostname;
@@ -54,8 +54,8 @@ struct RESOLVE_IP
 struct CLIENT_INFO
 {
 	// kill msgs
-	uint iShip;
-	uint iShipOld;
+	uint ship;
+	uint shipOld;
 	mstime tmSpawnTime;
 
 	DamageList dmgLast;
@@ -80,7 +80,7 @@ struct CLIENT_INFO
 	mstime tmKickTime;
 
 	// eventmode
-	uint iLastExitedBaseID;
+	uint iLastExitedBaseId;
 	bool bDisconnected;
 
 	// f1 laming
@@ -113,7 +113,7 @@ struct CLIENT_INFO
 	uint iConnects; // incremented when player connects
 
 	// Group
-	uint iGroupID;
+	uint iGroupId;
 
 	// other
 	std::wstring wscHostname;
@@ -153,12 +153,12 @@ typedef struct _DPN_CONNECTION_INFO
 
 struct PLAYERINFO
 {
-	uint clientId;
+	uint client;
 	std::wstring character;
 	std::wstring wscBase;
 	std::wstring wscSystem;
 	uint iSystem;
-	uint iShip;
+	uint ship;
 	DPN_CONNECTION_INFO connectionInfo;
 	std::wstring wscIP;
 	std::wstring wscHostname;
@@ -189,7 +189,7 @@ struct PATCH_INFO
 
 struct DATA_MARKETITEM
 {
-	uint iArchID;
+	uint iArchId;
 	float fRep;
 };
 
@@ -197,18 +197,18 @@ struct BASE_INFO
 {
 	uint baseId;
 	std::string scBasename;
-	uint iObjectID;
+	uint iObjectId;
 	bool bDestroyed;
 	std::list<DATA_MARKETITEM> lstMarketMisc;
 };
 
 struct GROUP_MEMBER
 {
-	uint clientId;
+	ClientId client;
 	std::wstring character;
 };
 
-struct SpecialChatIDs
+struct SpecialChatIds
 {
 	enum : uint
 	{
@@ -286,10 +286,10 @@ class JUMPPOINT
 	uint System;
 
 	/** The id of the jump point. */
-	uint jumpID;
+	uint jumpId;
 
 	/** The jump point destination system id */
-	uint jumpDestSysID;
+	uint jumpDestSysId;
 };
 
 struct LOOTABLE_ZONE
@@ -298,14 +298,14 @@ struct LOOTABLE_ZONE
 	std::string zoneNick;
 
 	/** The id of the system for this lootable zone */
-	uint systemID;
+	uint systemId;
 
 	/** The nickname and arch id of the loot dropped by the asteroids */
 	std::string lootNick;
-	uint iLootID;
+	uint iLootId;
 
 	/** The arch id of the crate the loot is dropped in */
-	uint iCrateID;
+	uint iCrateId;
 
 	/** The minimum number of loot items to drop */
 	uint iMinLoot;

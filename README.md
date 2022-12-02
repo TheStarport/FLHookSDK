@@ -57,12 +57,12 @@ If you ever change the return code, you must **always** set the return code in e
 
 ### Hooking functions
 
-So, this is where the fun starts. First the very basics: Taking the example from above, the plugin defines a hook on `IServerImpl::Login`. Taking a look at the documentation about that hook gives us `void __stdcall Login(struct SLoginInfo const &li, unsigned int clientId)`. This is what the function prototype must look like. You now need to define that function with a dll export, like this:
+So, this is where the fun starts. First the very basics: Taking the example from above, the plugin defines a hook on `IServerImpl::Login`. Taking a look at the documentation about that hook gives us `void __stdcall Login(struct SLoginInfo const &li, unsigned int client)`. This is what the function prototype must look like. You now need to define that function with a dll export, like this:
 
 ```cpp
 namespace IServerImplHook
 {
-	EXPORT void __stdcall Login(struct SLoginInfo const &li, unsigned int clientId)
+	EXPORT void __stdcall Login(struct SLoginInfo const &li, unsigned int client)
 	{
 		// do something here
 		return;

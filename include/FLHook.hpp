@@ -1,5 +1,7 @@
 #pragma once
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #define _WINSOCKAPI_
 #include <Windows.h>
 #include <cstdio>
@@ -273,9 +275,9 @@ namespace ZoneUtilities
 	DLL void ReadLootableZone(zone_map_t& set_mmapZones, const std::string& systemNick, const std::string& defaultZoneNick, const std::string& file);
 	DLL void ReadSystemLootableZones(zone_map_t& set_mmapZones, const std::string& systemNick, const std::string& file);
 	DLL void ReadSystemZones(zone_map_t& set_mmapZones, const std::string& systemNick, const std::string& file);
-	DLL bool InZone(uint systemID, const Vector& pos, ZONE& rlz);
-	DLL bool InDeathZone(uint systemID, const Vector& pos, ZONE& rlz);
-	DLL SYSTEMINFO* GetSystemInfo(uint systemID);
+	DLL bool InZone(uint systemId, const Vector& pos, ZONE& rlz);
+	DLL bool InDeathZone(uint systemId, const Vector& pos, ZONE& rlz);
+	DLL SYSTEMINFO* GetSystemInfo(uint systemId);
 	DLL void PrintZones();
 } // namespace ZoneUtilities
 
@@ -388,7 +390,7 @@ class FLPACKET
 		FLPACKET_SERVER_SETADDITEM,
 		FLPACKET_SERVER_SETREMOVEITEM,
 		FLPACKET_SERVER_SETCASH,
-		FLPACKET_SERVER_EXPLODEASTEROIDMINE,
+		FLPACKET_SERVER_EXPLODEASTEROIdMINE,
 		FLPACKET_SERVER_REQUESTSPACESCRIPT,
 		FLPACKET_SERVER_SETMISSIONOBJECTIVESTATE,
 		FLPACKET_SERVER_REPLACEMISSIONOBJECTIVE,
@@ -467,7 +469,7 @@ class FLPACKET
 		FLPACKET_CLIENT_1D,
 		FLPACKET_CLIENT_SAVEGAME,
 		FLPACKET_CLIENT_1F,
-		FLPACKET_CLIENT_MINEASTEROID,
+		FLPACKET_CLIENT_MINEASTEROId,
 		FLPACKET_CLIENT_21,
 		FLPACKET_CLIENT_DBGCREATESHIP,
 		FLPACKET_CLIENT_DBGLOADSYSTEM,
@@ -519,7 +521,7 @@ class FLPACKET
 	DLL static FLPACKET* Create(uint size, CLIENT kind);
 
 	// Returns true if sent succesfully, false if not. Frees memory allocated for packet.
-	DLL bool SendTo(uint clientId);
+	DLL bool SendTo(ClientId client);
 };
 #pragma pack(pop)
 
@@ -528,7 +530,7 @@ class CCmds
 protected:
 	~CCmds() = default;
 private:
-	bool bID;
+	bool bId;
 	bool bShortCut;
 	bool bSelf;
 	bool bTarget;
@@ -562,7 +564,7 @@ private:
 	void CmdFMsgU(const std::wstring& wscXML);
 
 	void CmdEnumCargo(const std::variant<uint, std::wstring>& player);
-	void CmdRemoveCargo(const std::variant<uint, std::wstring>& player, uint iID, uint iCount);
+	void CmdRemoveCargo(const std::variant<uint, std::wstring>& player, uint iId, uint iCount);
 	void CmdAddCargo(const std::variant<uint, std::wstring>& player, const std::wstring& wscGood, uint iCount, bool iMission);
 
 	void CmdRename(const std::variant<uint, std::wstring>& player, const std::wstring& wscNewCharname);
@@ -571,14 +573,14 @@ private:
 	void CmdReadCharFile(const std::variant<uint, std::wstring>& player);
 	void CmdWriteCharFile(const std::variant<uint, std::wstring>& player, const std::wstring& wscData);
 
-	void CmdGetClientId(const std::wstring& player);
+	void CmdGetClientID(const std::wstring& player);
 	void PrintPlayerInfo(PLAYERINFO& pi);
 	void CmdGetPlayerInfo(const std::variant<uint, std::wstring>& player);
 	void CmdGetPlayers();
 	void XPrintPlayerInfo(const PLAYERINFO& pi);
 	void CmdXGetPlayerInfo(const std::variant<uint, std::wstring>& player);
 	void CmdXGetPlayers();
-	void CmdGetPlayerIDs();
+	void CmdGetPlayerIds();
 	void CmdHelp();
 	void CmdGetAccountDirName(const std::variant<uint, std::wstring>& player);
 	void CmdGetCharFileName(const std::variant<uint, std::wstring>& player);
@@ -624,7 +626,7 @@ public:
 class CInGame final : public CCmds
 {
   public:
-	uint clientId;
+	uint client;
 	std::wstring wscAdminName;
 	DLL void DoPrint(const std::wstring& text) override;
 	DLL void ReadRights(const std::string& scIniFile);
@@ -661,15 +663,15 @@ DLL CShip* CShipFromShipDestroyed(const DWORD** ecx);
 
 DLL bool InitLogs();
 
-DLL void HandleCheater(uint clientId, bool bBan, std::wstring wscReason, ...);
+DLL void HandleCheater(ClientId client, bool bBan, std::wstring wscReason, ...);
 DLL bool AddCheaterLog(const std::variant<uint, std::wstring>& player, const std::wstring& wscReason);
-DLL bool AddKickLog(uint clientId, std::wstring wscReason, ...);
-DLL bool AddConnectLog(uint clientId, std::wstring wscReason, ...);
+DLL bool AddKickLog(ClientId client, std::wstring wscReason, ...);
+DLL bool AddConnectLog(ClientId client, std::wstring wscReason, ...);
 
-DLL void UserCmd_SetDieMsg(const uint& clientId, const std::wstring_view& wscParam);
-DLL void UserCmd_SetChatFont(const uint& clientId, const std::wstring_view& wscParam);
-DLL void PrintUserCmdText(uint clientId, std::wstring text, ...);
-DLL void PrintLocalUserCmdText(uint clientId, const std::wstring& wscMsg, float fDistance);
+DLL void UserCmd_SetDieMsg(ClientId& client, const std::wstring_view& wscParam);
+DLL void UserCmd_SetChatFont(ClientId& client, const std::wstring_view& wscParam);
+DLL void PrintUserCmdText(ClientId client, std::wstring text, ...);
+DLL void PrintLocalUserCmdText(ClientId client, const std::wstring& wscMsg, float fDistance);
 
 DLL extern bool g_NonGunHitsBase;
 DLL extern float g_LastHitPts;
@@ -688,7 +690,7 @@ extern DLL IClientImpl* HookClient;
 extern DLL char* OldClient;
 
 extern DLL uint g_DmgTo;
-extern DLL uint g_DmgToSpaceID;
+extern DLL uint g_DmgToSpaceId;
 
 extern DLL bool g_bMsg;
 extern DLL bool g_bMsgS;
@@ -712,12 +714,12 @@ extern DLL char* g_FLServerDataPtr;
 
 extern DLL bool g_bPlugin_nofunctioncall;
 
-extern DLL bool get_bTrue(uint clientId);
+extern DLL bool get_bTrue(ClientId client);
 extern DLL void AddHelpEntry(const std::wstring& wscCommand, const std::wstring& wscArguments, const std::wstring& wscShortHelp,
     const std::wstring& wscLongHelp, _HelpEntryDisplayed fnIsDisplayed);
 extern DLL void RemoveHelpEntry(const std::wstring& wscCommand, const std::wstring& wscArguments);
 
-extern DLL Error GetClientID(bool& bIdString, uint& clientId, const std::wstring& wscCharName);
+extern DLL Error GetClientID(bool& bIdString, ClientId& client, const std::wstring& wscCharName);
 
 extern DLL _GetShipInspect GetShipInspect;
 extern DLL std::list<BASE_INFO> lstBases;

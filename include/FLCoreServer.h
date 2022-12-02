@@ -28,7 +28,7 @@
 
 struct CHAT_ID
 {
-	uint iID;
+	uint iId;
 };
 
 enum DOCK_HOST_RESPONSE
@@ -53,7 +53,7 @@ struct SGFGoodVaporizedInfo
 
 struct SSPMunitionCollisionInfo
 {
-	uint iProjectileArchID;
+	uint iProjectileArchId;
 	DWORD dw2;
 	DWORD dwTargetShip;
 	ushort s1;
@@ -67,10 +67,10 @@ struct SSPBadLandsObjCollisionInfo
 
 struct SSPObjCollisionInfo
 {
-	uint iColliderObjectID;
-	uint iColliderSubObjID;
-	uint iDamagedObjectID;
-	uint iDamagedSubObjID;
+	uint iColliderObjectId;
+	uint iColliderSubObjId;
+	uint iDamagedObjectId;
+	uint iDamagedSubObjId;
 	float fDamage;
 };
 
@@ -81,36 +81,36 @@ struct SSPUseItem
 
 struct XActivateEquip
 {
-	uint	iSpaceID;
-	ushort	sID;
+	uint	iSpaceId;
+	ushort	sId;
 	bool	bActivate;
 };
 
 struct XActivateCruise
 {
-	uint	iShip;
+	uint	ship;
 	bool	bActivate;
 };
 
 struct XActivateThrusters
 {
-	uint	iShip;
+	uint	ship;
 	bool	bActivate;
 };
 
 struct XTractorObjects
 {
 	int iDunno[3];
-	// This points to the start of the array of space IDs
-	int *pArraySpaceID;
-	// This points to the end of the array of space IDs
-	int *pArraySpaceIDEnd;
+	// This points to the start of the array of space Ids
+	int *pArraySpaceId;
+	// This points to the end of the array of space Ids
+	int *pArraySpaceIdEnd;
 };
 
 struct SGFGoodSellInfo
 {
 	long	l1;
-	uint	iArchID;
+	uint	iArchId;
 	int		iCount;
 };
 
@@ -118,7 +118,7 @@ struct SGFGoodBuyInfo
 {
 	uint baseId;
 	ulong lNull;
-	uint iGoodID;
+	uint iGoodId;
 	int iCount;
 };
 
@@ -132,22 +132,22 @@ struct XFireWeaponInfo
 
 struct XSetManeuver
 {
-	uint iShipFrom;
-	uint IShipTo;
+	uint shipFrom;
+	uint shipTo;
 	uint iFlag;
 };
 
 struct XSetTarget
 {
-	uint iShip;
+	uint ship;
 	uint iSlot;
-	uint iSpaceID;
-	uint iSubObjID;
+	uint iSpaceId;
+	uint iSubObjId;
 };
 
 struct SSPObjUpdateInfo
 {
-	uint iShip;
+	uint ship;
 	Quaternion vDir;
 	Vector vPos;
 	float fTimestamp;
@@ -162,14 +162,14 @@ struct SSPObjUpdateInfo
 
 struct XJettisonCargo
 {
-	uint iShip;
+	uint ship;
 	uint iSlot;
 	uint iCount;
 };
 
 struct XGoTradelane
 {
-	uint iShip;
+	uint ship;
 	uint iTradelaneSpaceObj1;
 	uint iTradelaneSpaceObj2;
 };
@@ -242,7 +242,7 @@ public:
 
 public:
 	uint iDunno1;
-	wchar_t *wszAccID;
+	wchar_t *wszAccId;
 	uint iDunno2[7];
 	CAccountListNode *pFirstListNode;
 	uint iNumberOfCharacters;
@@ -286,8 +286,8 @@ public:
 	 void StoreMemberList(st6::vector<unsigned int> &);
 
 protected:
-	 static class st6::map<unsigned int const, class CPlayerGroup *, struct st6::less<unsigned int const>, class st6::allocator<class CPlayerGroup *>>  s_GroupIDToGroupPtrMap;
-	 static unsigned int  s_uiGroupID;
+	 static class st6::map<unsigned int const, class CPlayerGroup *, struct st6::less<unsigned int const>, class st6::allocator<class CPlayerGroup *>>  s_GroupIdToGroupPtrMap;
+	 static unsigned int  s_uiGroupId;
 
 public:
 	unsigned char data[OBJECT_DATA_SIZE];
@@ -300,15 +300,15 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
 	IServerImpl& operator=(const IServerImpl&);
 
 	// N.B. Do not modify order, vtable ordering is fixed by Server.dll
-	[[DisconnectCheck]] virtual void FireWeapon(uint clientId, const XFireWeaponInfo& fwi);
-	[[CallInner, DisconnectCheck]] virtual void ActivateEquip(uint clientId, const XActivateEquip& aq);
-	[[CallInner, DisconnectCheck]] virtual void ActivateCruise(uint clientId, const XActivateCruise& ac);
-	[[CallInner, DisconnectCheck]] virtual void ActivateThrusters(uint clientId, const XActivateThrusters& at);
-	virtual void SetTarget(uint clientId, const XSetTarget& st);
-	virtual void TractorObjects(uint clientId, const XTractorObjects& to);
-	[[CallInner, CallCatch]] virtual void GoTradelane(uint clientId, const XGoTradelane& gt);
-	[[CallInner]] virtual void StopTradelane(uint clientId, uint shipID, uint tradelaneRing1, uint tradelaneRing2);
-	virtual void JettisonCargo(uint clientId, const XJettisonCargo& jc);
+	[[DisconnectCheck]] virtual void FireWeapon(uint client, const XFireWeaponInfo& fwi);
+	[[CallInner, DisconnectCheck]] virtual void ActivateEquip(uint client, const XActivateEquip& aq);
+	[[CallInner, DisconnectCheck]] virtual void ActivateCruise(uint client, const XActivateCruise& ac);
+	[[CallInner, DisconnectCheck]] virtual void ActivateThrusters(uint client, const XActivateThrusters& at);
+	virtual void SetTarget(uint client, const XSetTarget& st);
+	virtual void TractorObjects(uint client, const XTractorObjects& to);
+	[[CallInner, CallCatch]] virtual void GoTradelane(uint client, const XGoTradelane& gt);
+	[[CallInner]] virtual void StopTradelane(uint client, uint shipID, uint tradelaneRing1, uint tradelaneRing2);
+	virtual void JettisonCargo(uint client, const XJettisonCargo& jc);
 	[[CallInner, CallInnerAfter]] virtual bool Startup(const SStartupInfo& si);
 	[[CallInnerAfter, NoPluginsAfter]] virtual void Shutdown();
 	[[CallInner, NoLog]] virtual int Update();
@@ -316,87 +316,87 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
 	[[NoHook]] virtual void __nullopt1();
 	[[NoHook]] virtual bool SwapConnections(EFLConnection, EFLConnection);
 	[[NoHook]] virtual void __nullopt2();
-	[[CallInner]] virtual void DisConnect(uint clientId, EFLConnection conn);
+	[[CallInner]] virtual void DisConnect(uint client, EFLConnection conn);
 	[[DisconnectCheck, CallInner(true), CallInnerAfter]]
-    virtual void OnConnect(uint clientId);
-	[[CallInnerAfter]] virtual void Login(const SLoginInfo& li, uint clientId);
+    virtual void OnConnect(uint client);
+	[[CallInnerAfter]] virtual void Login(const SLoginInfo& li, uint client);
 	[[DisconnectCheck, CallInner(true), CallCatch]]
-    virtual void CharacterInfoReq(uint clientId, bool);
+    virtual void CharacterInfoReq(uint client, bool);
 	[[DisconnectCheck, CallInner(true), CallInnerAfter]]
-	virtual void CharacterSelect(const CHARACTER_ID& cid, uint clientId);
+	virtual void CharacterSelect(const CHARACTER_ID& cid, uint client);
 	[[NoHook]] virtual void __nullopt3();
-	virtual void CreateNewCharacter(const SCreateCharacterInfo&, uint clientId);
-	virtual void DestroyCharacter(struct CHARACTER_ID const &, uint clientId);
+	virtual void CreateNewCharacter(const SCreateCharacterInfo&, uint client);
+	virtual void DestroyCharacter(struct CHARACTER_ID const &, uint client);
 	[[NoHook]] virtual void CharacterSkipAutosave(uint);
-	virtual void ReqShipArch(uint archID, uint clientId);
-	virtual void ReqHullStatus(float status, uint clientId);
-	virtual void ReqCollisionGroups(const st6::list<CollisionGroupDesc>& collisionGroups, uint clientId);
-	virtual void ReqEquipment(const EquipDescList& edl, uint clientId);
+	virtual void ReqShipArch(uint archID, uint client);
+	virtual void ReqHullStatus(float status, uint client);
+	virtual void ReqCollisionGroups(const st6::list<CollisionGroupDesc>& collisionGroups, uint client);
+	virtual void ReqEquipment(const EquipDescList& edl, uint client);
 	[[NoHook]] virtual void ReqCargo(const EquipDescList&, uint);
-	virtual void ReqAddItem(uint goodID, const char* hardpoint, int count, float status, bool mounted, uint clientId);
-	virtual void ReqRemoveItem(ushort slotID, int count, uint clientId);
-	virtual void ReqModifyItem(ushort slotID, const char* hardpoint, int count, float status, bool mounted, uint clientId);
-	virtual void ReqSetCash(int cash, uint clientId);
-	virtual void ReqChangeCash(int cashAdd, uint clientId);
+	virtual void ReqAddItem(uint goodID, const char* hardpoint, int count, float status, bool mounted, uint client);
+	virtual void ReqRemoveItem(ushort slotID, int count, uint client);
+	virtual void ReqModifyItem(ushort slotID, const char* hardpoint, int count, float status, bool mounted, uint client);
+	virtual void ReqSetCash(int cash, uint client);
+	virtual void ReqChangeCash(int cashAdd, uint client);
 	[[DisconnectCheck, CallInner, CallInnerAfter]]
-	virtual void BaseEnter(uint baseID, uint clientId);
+	virtual void BaseEnter(uint baseID, uint client);
 	[[DisconnectCheck, CallInner, CallInnerAfter]]
-	virtual void BaseExit(uint baseID, uint clientId);
-	virtual void LocationEnter(uint locationID, uint clientId);
-	virtual void LocationExit(uint locationID, uint clientId);
+	virtual void BaseExit(uint baseID, uint client);
+	virtual void LocationEnter(uint locationID, uint client);
+	virtual void LocationExit(uint locationID, uint client);
 	virtual void BaseInfoRequest(unsigned int,unsigned int,bool);
 	virtual void LocationInfoRequest(unsigned int,unsigned int,bool);
 	virtual void GFObjSelect(unsigned int,unsigned int);
-	virtual void GFGoodVaporized(const SGFGoodVaporizedInfo& gvi, uint clientId);
-	virtual void MissionResponse(unsigned int,unsigned long,bool, uint clientId);
-	virtual void TradeResponse(unsigned char const *,int, uint clientId);
-	virtual void GFGoodBuy(const SGFGoodBuyInfo&, uint clientId);
-	[[CallInner(true), DisconnectCheck]] virtual void GFGoodSell(const SGFGoodSellInfo&, uint clientId);
-	[[CallInnerAfter]] virtual void SystemSwitchOutComplete(uint shipID, uint clientId);
+	virtual void GFGoodVaporized(const SGFGoodVaporizedInfo& gvi, uint client);
+	virtual void MissionResponse(unsigned int,unsigned long,bool, uint client);
+	virtual void TradeResponse(unsigned char const *,int, uint client);
+	virtual void GFGoodBuy(const SGFGoodBuyInfo&, uint client);
+	[[CallInner(true), DisconnectCheck]] virtual void GFGoodSell(const SGFGoodSellInfo&, uint client);
+	[[CallInnerAfter]] virtual void SystemSwitchOutComplete(uint shipID, uint client);
 	[[CallInner, CallInnerAfter, DisconnectCheck]]
-	virtual void PlayerLaunch(uint shipID, uint clientId);
+	virtual void PlayerLaunch(uint shipID, uint client);
 	[[CallInner]] virtual void LaunchComplete(uint baseID, uint shipID);
 	[[CallInnerAfter]] virtual void JumpInComplete(uint systemID, uint shipID);
 	virtual void Hail(unsigned int,unsigned int,unsigned int);
 	[[CallInner(true), NoLog, DisconnectCheck]]
-	virtual void SPObjUpdate(const SSPObjUpdateInfo& ui, uint clientId);
+	virtual void SPObjUpdate(const SSPObjUpdateInfo& ui, uint client);
 	[[CallInner, DisconnectCheck]]
-	virtual void SPMunitionCollision(const SSPMunitionCollisionInfo& mci, uint clientId);
+	virtual void SPMunitionCollision(const SSPMunitionCollisionInfo& mci, uint client);
 	[[NoHook]] virtual void SPBadLandsObjCollision(const SSPBadLandsObjCollisionInfo&, uint);
-	[[DisconnectCheck]] virtual void SPObjCollision(const SSPObjCollisionInfo& oci, uint clientId);
-	virtual void SPRequestUseItem(const SSPUseItem& ui, uint clientId);
-	virtual void SPRequestInvincibility(uint shipID, bool enable, InvincibilityReason reason, uint clientId);
+	[[DisconnectCheck]] virtual void SPObjCollision(const SSPObjCollisionInfo& oci, uint client);
+	virtual void SPRequestUseItem(const SSPUseItem& ui, uint client);
+	virtual void SPRequestInvincibility(uint shipID, bool enable, InvincibilityReason reason, uint client);
 	[[NoHook]] virtual void SaveGame(const CHARACTER_ID&, const ushort*, uint);
 	[[NoHook]] virtual void MissionSaveB(uint, ulong);
 	// eventType: 0 = docking, 1 = formation
-	virtual void RequestEvent(int eventType, uint shipID, uint dockTarget, uint, ulong, uint clientId);
+	virtual void RequestEvent(int eventType, uint shipID, uint dockTarget, uint, ulong, uint client);
 	// eventType: 0 = docking, 1 = formation
-	virtual void RequestCancel(int eventType, uint shipID, uint, ulong, uint clientId);
-	virtual void MineAsteroid(uint systemID, const Vector& pos, uint crateID, uint lootID, uint count, uint clientId);
+	virtual void RequestCancel(int eventType, uint shipID, uint, ulong, uint client);
+	virtual void MineAsteroid(uint systemID, const Vector& pos, uint crateID, uint lootID, uint count, uint client);
 	[[NoHook]] virtual void CommComplete(uint, uint, uint, enum CommResult);
-	virtual void RequestCreateShip(uint clientId);
+	virtual void RequestCreateShip(uint client);
 	virtual void SPScanCargo(const uint&, const uint&, uint);
-	virtual void SetManeuver(uint clientId, const XSetManeuver& sm);
+	virtual void SetManeuver(uint client, const XSetManeuver& sm);
 	virtual void InterfaceItemUsed(uint, uint);
-	virtual void AbortMission(uint clientId, uint);
+	virtual void AbortMission(uint client, uint);
 	[[NoHook]] virtual void RTCDone(uint, uint);
-	virtual void SetWeaponGroup(uint clientId, uchar*, int);
-	virtual void SetVisitedState(uint clientId, uchar*, int);
-	virtual void RequestBestPath(uint clientId, uchar*, int);
-	virtual void RequestPlayerStats(uint clientId, uchar*, int);
+	virtual void SetWeaponGroup(uint client, uchar*, int);
+	virtual void SetVisitedState(uint client, uchar*, int);
+	virtual void RequestBestPath(uint client, uchar*, int);
+	virtual void RequestPlayerStats(uint client, uchar*, int);
 	[[NoHook]] virtual void PopUpDialog(uint, uint);
-	virtual void RequestGroupPositions(uint clientId, uchar*, int);
+	virtual void RequestGroupPositions(uint client, uchar*, int);
 	[[NoHook]] virtual void SetMissionLog(uint, uchar*, int);
-	virtual void SetInterfaceState(uint clientId, uchar*, int);
-	virtual void RequestRankLevel(uint clientId, uchar*, int);
-	[[CallInner]] virtual void InitiateTrade(uint clientId1, uint clientId2);
-	[[CallInnerAfter, DisconnectCheck]] virtual void TerminateTrade(uint clientId, int accepted);
-	virtual void AcceptTrade(uint clientId, bool);
-	virtual void SetTradeMoney(uint clientId, ulong);
-	virtual void AddTradeEquip(uint clientId, const EquipDesc& ed);
-	virtual void DelTradeEquip(uint clientId, const EquipDesc& ed);
+	virtual void SetInterfaceState(uint client, uchar*, int);
+	virtual void RequestRankLevel(uint client, uchar*, int);
+	[[CallInner]] virtual void InitiateTrade(uint client1, uint client2);
+	[[CallInnerAfter, DisconnectCheck]] virtual void TerminateTrade(uint client, int accepted);
+	virtual void AcceptTrade(uint client, bool);
+	virtual void SetTradeMoney(uint client, ulong);
+	virtual void AddTradeEquip(uint client, const EquipDesc& ed);
+	virtual void DelTradeEquip(uint client, const EquipDesc& ed);
 	virtual void RequestTrade(uint, uint);
-	virtual void StopTradeRequest(uint clientId);
+	virtual void StopTradeRequest(uint client);
 	[[NoHook]] virtual void ReqDifficultyScale(float, uint);
 	[[NoHook]] virtual unsigned int GetServerID();
 	[[NoHook]] virtual char const * GetServerSig();
@@ -422,11 +422,11 @@ struct CHARACTER_ID
 
 struct PlayerData
 {
-	wchar_t wszAccID[40];
+	wchar_t wszAccId[40];
 	long x050, x054, x058, x05C;
 	uint iNumberOfCharacters;
 	CHARACTER_ID charFile;
-	uint iShipArchetype;
+	uint shipArchetype;
 	float fRelativeHealth;
 	CollisionGroupDescList collisionGroupDesc;
 	EquipDescList equipDescList;
@@ -447,7 +447,7 @@ struct PlayerData
 	uint iReputation;
 	int iInspectCash;
 	int iWorth;
-	uint iShipArchetypeWhenLanding;
+	uint shipArchetypeWhenLanding;
 	EquipDescList lShadowEquipDescList;
 	int iNumKills;
 	int iNumMissionSuccesses;
@@ -455,7 +455,7 @@ struct PlayerData
 	bool bSkipAutosave;
 	char __padding0[3];
 	uint iSaveCount;
-	uint iOnlineID;
+	uint iOnlineId;
 	bool bCheated;
 	char __padding1[3];
 	Vector vPosition;
@@ -463,26 +463,26 @@ struct PlayerData
 	FLString weaponGroup; // 0x10 bytes
 	uint iSetToZero;
 	float fDifficulty;
-	ushort sLastEquipID;
+	ushort sLastEquipId;
 	char __padding2[2];
 	uint aMenuItem;
-	uint iOnlineID2;
+	uint iOnlineId2;
 	long x3D4, x3D8;
 	uint iTradeRequestCount;
 	uint systemId;
-	uint iShipID;
-	uint iCreatedShipID;
+	uint shipId;
+	uint iCreatedShipId;
 	uint baseId;
-	uint iLastBaseID;
+	uint iLastBaseId;
 	uint iEnteredBase;
-	uint iBaseRoomID;
-	uint iCharacterID;
+	uint iBaseRoomId;
+	uint iCharacterId;
 	class CAccount* Account;
 	class CPlayerGroup* PlayerGroup;
-	uint iMissionID;
+	uint iMissionId;
 	uint iMissionSetBy;
 	uint iExitedBase;
-	uint iUnknownLocID;
+	uint iUnknownLocId;
 };
 
 struct PlayerDBTreeNode
@@ -700,7 +700,7 @@ namespace pub
 			uint iDunno;
 			uint iDunno2;
 			uint iDunno3;
-			uint iMusicID;
+			uint iMusicId;
 		};
 
 		IMPORT  int CancelMusic(unsigned int);
@@ -713,7 +713,7 @@ namespace pub
 		struct CreateParms
 		{
 			void* pFreeFunc;
-			uint clientId;
+			uint client;
 		};
 
 		enum PRIORITY;
@@ -885,7 +885,7 @@ namespace pub
 		{
 			uint iFlag;
 			uint iSystem;
-			uint iShipArchetype;
+			uint shipArchetype;
 			Vector vPos;
 			Vector vUnk1; // all 0
 			Vector vUnk2; // all 0
@@ -918,11 +918,11 @@ namespace pub
 
 		struct SolarInfo{
 			int iFlag; //0x290; ShipInfo has this too, no clue whether actually a flag
-			uint iArchID;
+			uint iArchId;
 			uint systemId;
 			Vector vPos;
 			Matrix mOrientation;
-			uint iLoadoutID;
+			uint iLoadoutId;
 			struct structCostume
 			{
 			  UINT head;
@@ -934,7 +934,7 @@ namespace pub
 			};
 			structCostume Costume;
 			int iRep;
-			int iVoiceID;
+			int iVoiceId;
 			uint iUnk8; //0
 			uint iUnk9; //Boolean, only last byte is used
 			int iHitPointsLeft;
@@ -945,7 +945,7 @@ namespace pub
 
 		struct LootInfo {
 			uint iDunno; // "Flag" like the others?
-			uint iArchID;
+			uint iArchId;
 		};
 
 		struct TerminalInfo {
