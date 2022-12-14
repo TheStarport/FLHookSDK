@@ -2,7 +2,7 @@
 
 #ifdef SERVER
 	#include "fmt/format.h"
-	#include "SQLiteCpp/SQLiteCpp.h"
+	#include <ext/Sql.hpp>
 	#include <ext/jpcre2.hpp>
 using jp = jpcre2::select<char>;
 using jpWide = jpcre2::select<wchar_t>;
@@ -17,13 +17,12 @@ using jpWide = jpcre2::select<wchar_t>;
 	#pragma comment(lib, "pcre2-32.lib")
 	#pragma comment(lib, "pcre2-posix.lib")
 #else
-
 	#ifdef FMT
 		#include "fmt/format.h"
 	#endif
 
 	#ifdef SQL
-		#include "SQLiteCpp/SQLiteCpp.h"
+		#include <ext/Sql.hpp>
 	#endif
 
 	#ifdef PCRE2
