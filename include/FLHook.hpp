@@ -16,11 +16,6 @@
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include "WinSock2.h"
 
-#pragma comment(lib, "pcre2-8.lib")
-#pragma comment(lib, "pcre2-16.lib")
-#pragma comment(lib, "pcre2-32.lib")
-#pragma comment(lib, "pcre2-posix.lib")
-
 #include "Hk.hpp"
 
 // Magic Enum Extensions
@@ -305,7 +300,7 @@ class FLPACKET
 	// This is content of your packet. You may want to reinterpretate it as pointer to packet data struct for convenience.
 	byte content[1];
 
-	enum COMMON
+	enum CommonPacket
 	{
 		FLPACKET_COMMON_00,
 		FLPACKET_COMMON_UPDATEOBJECT,
@@ -339,7 +334,7 @@ class FLPACKET
 		FLPACKET_COMMON_TRACTOROBJECTS
 	};
 
-	enum SERVER
+	enum ServerPacket
 	{
 		FLPACKET_SERVER_00,
 		FLPACKET_SERVER_CONNECTRESPONSE,
@@ -435,7 +430,7 @@ class FLPACKET
 		FLPACKET_SERVER_MISSIONSAVEA
 	};
 
-	enum CLIENT
+	enum ClientPacket
 	{
 		FLPACKET_CLIENT_00,
 		FLPACKET_CLIENT_LOGIN,
@@ -512,13 +507,13 @@ class FLPACKET
 	};
 
 		// Common packets are being sent from server to client and from client to server.
-	DLL static FLPACKET* Create(uint size, COMMON kind);
+	DLL static FLPACKET* Create(uint size, CommonPacket kind);
 
 	// Server packets are being sent only from server to client.
-	DLL static FLPACKET* Create(uint size, SERVER kind);
+	DLL static FLPACKET* Create(uint size, ServerPacket kind);
 
 	// Client packets are being sent only from client to server. Can't imagine why you ever need to create such a packet at side of server.
-	DLL static FLPACKET* Create(uint size, CLIENT kind);
+	DLL static FLPACKET* Create(uint size, ClientPacket kind);
 
 	// Returns true if sent succesfully, false if not. Frees memory allocated for packet.
 	DLL bool SendTo(ClientId client);
