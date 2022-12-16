@@ -29,4 +29,3 @@ struct CARGO_INFO;
 #ifdef CLIENT
 #include "Client.hpp"
 #endif
-

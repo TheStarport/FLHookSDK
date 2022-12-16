@@ -48,19 +48,19 @@ DLL void AddExceptionInfoLog(SEHException* ex);
 		catch (SEHException & ex)                                                                                                        \
 		{                                                                                                                                \
 			e;                                                                                                                           \
-			AddBothLog(L"ERROR: SEH Exception in %s on line %d; minidump may contain more information.", stows(__FUNCTION__), __LINE__); \
+			AddLog(LogType::Normal, LogLevel::Err, L"ERROR: SEH Exception in %s on line %d; minidump may contain more information.", stows(__FUNCTION__), __LINE__); \
 			AddExceptionInfoLog(&ex);                                                                                                    \
 		}                                                                                                                                \
 		catch (std::exception & ex)                                                                                                      \
 		{                                                                                                                                \
 			e;                                                                                                                           \
-			AddBothLog(L"ERROR: STL Exception in %s on line %d: %s.", stows(__FUNCTION__), __LINE__, stows(ex.what()));                  \
+			AddLog(LogType::Normal, LogLevel::Err, L"ERROR: STL Exception in %s on line %d: %s.", stows(__FUNCTION__), __LINE__, stows(ex.what()));                  \
 			AddExceptionInfoLog(0);                                                                                                      \
 		}                                                                                                                                \
 		catch (...)                                                                                                                      \
 		{                                                                                                                                \
 			e;                                                                                                                           \
-			AddBothLog(L"ERROR: Exception in %s on line %d.", stows(__FUNCTION__), __LINE__);                                            \
+			AddLog(LogType::Normal, LogLevel::Err, L"ERROR: Exception in ads on line %d.", stows(__FUNCTION__), __LINE__);                                            \
 			AddExceptionInfoLog(0);                                                                                                      \
 		}
 
@@ -75,7 +75,7 @@ DLL void AddExceptionInfoLog(SEHException* ex);
 		catch (...)                                                                                  \
 		{                                                                                            \
 			e;                                                                                       \
-			AddLog(LogType::Normal, LogLevel::Info, L"ERROR: Exception in %s", stows(__FUNCTION__)); \
+			AddLog(LogType::Normal, LogLevel::Err, L"ERROR: Exception in %s", stows(__FUNCTION__)); \
 		}
 #endif
 

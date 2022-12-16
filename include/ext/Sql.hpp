@@ -1,15 +1,22 @@
 #pragma once
 
-#include "SQLiteCpp/SQLiteCpp.h"
+#pragma warning(push)
+#pragma warning(disable : 4067)
+#include <SQLiteCpp/SQLiteCpp.h>
+#pragma warning(pop)
 
-class DLL SqlManager : Singleton<SqlManager>
+#pragma comment(lib, "sqlite3.lib")
+#pragma comment(lib, "SQLiteCpp.lib")
+
+namespace SqlHelpers
 {
-	static SQLite::Database Create(const std::string& path);
+	inline SQLite::Database Create(const std::string_view& path)
+	{
+		char dataPath[MAX_PATH];
+		GetUserDataPath(dataPath);
 
-public:
-	SqlManager();
-	explicit SqlManager(const std::string& path);
+		const auto dir = fmt::format("{}\\{}", dataPath, path);
 
-	SQLite::Database db;
-	static std::unique_ptr<SqlManager> GetDatabase(const std::string& path);
-};
+		return {dir, SQLite::OPEN_CREATE | SQLite::OPEN_READWRITE};
+	};
+}; // namespace SqlHelpers
