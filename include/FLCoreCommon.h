@@ -6372,8 +6372,8 @@ namespace Timing
 	IMPORT  void  UpdateGlobalTime(double);
 	IMPORT  void  init(void);
 	IMPORT  double  read(void);
-	IMPORT  __int64  read_ticks(void);
-	IMPORT  double  seconds(__int64 const &);
+	IMPORT  int64  read_ticks(void);
+	IMPORT  double  seconds(int64 const &);
 };
 
 class IMPORT TractorArm

@@ -4,7 +4,9 @@ using uint = unsigned int;
 using uchar = unsigned char;
 using ushort = unsigned short;
 using ulong = unsigned long;
-using mstime = unsigned long long;
+using int64 = long long;
+using uint64 = unsigned long long;
+using mstime = uint64;
 
 // Common types that can be used to explain what is being used
 
