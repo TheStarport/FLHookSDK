@@ -9,10 +9,10 @@ extern DLL st6_malloc_t st6_malloc;
 extern DLL st6_free_t st6_free;
 #define ST6_ALLOCATION_DEFINED
 
-#include "FLCoreCommon.h"
-#include "FLCoreServer.h"
-#include "FLCoreRemoteClient.h"
-#include "FLCoreDALib.h"
+#include "FLCore/FLCoreCommon.h"
+#include "FLCore/FLCoreServer.h"
+#include "FLCore/FLCoreRemoteClient.h"
+#include "FLCore/FLCoreDALib.h"
 
 #include <ext/Singleton.h>
 

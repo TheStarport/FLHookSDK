@@ -1,9 +1,9 @@
 #pragma once
 
 #include <functional>
-#include <__generated.h>
+#include <FLCore/HookedCall.h>
 
-#include "Enums.hpp"
+#include "Tools/Enums.hpp"
 
 #ifndef DLL
 	#ifndef FLHOOK

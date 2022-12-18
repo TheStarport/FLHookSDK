@@ -16,7 +16,8 @@
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include "WinSock2.h"
 
-#include "Hk.hpp"
+#include "Tools/Hk.hpp"
+#include "Tools/Utils.hpp"
 
 // Magic Enum Extensions
 using namespace magic_enum::bitwise_operators;  // NOLINT
@@ -80,48 +81,24 @@ class DLL Console
 	static void ConDebug(std::wstring wStr, ...);
 };
 
-DLL std::wstring stows(const std::string& scText);
-DLL std::string wstos(const std::wstring& text);
 DLL std::string IniGetS(const std::string& scFile, const std::string& scApp, const std::string& scKey, const std::string& scDefault);
 DLL int IniGetI(const std::string& scFile, const std::string& scApp, const std::string& scKey, int iDefault);
 DLL bool IniGetB(const std::string& scFile, const std::string& scApp, const std::string& scKey, bool bDefault);
 DLL void IniWrite(const std::string& scFile, const std::string& scApp, const std::string& scKey, const std::string& scValue);
-DLL void WriteProcMem(void* pAddress, const void* pMem, int iSize);
-DLL void ReadProcMem(void* pAddress, void* pMem, int iSize);
-DLL int ToInt(const std::wstring& wscStr);
-DLL uint ToUInt(const std::wstring& wscStr);
-DLL std::wstring XMLText(const std::wstring& text);
-DLL std::wstring GetParam(const std::wstring& wscLine, wchar_t wcSplitChar, uint iPos);
-DLL std::wstring GetParam(const std::wstring_view& wscLine, wchar_t wcSplitChar, uint iPos);
-DLL std::string GetParam(std::string scLine, char cSplitChar, uint iPos);
-DLL std::wstring ReplaceStr(const std::wstring& wscSource, const std::wstring& wscSearchFor, const std::wstring& wscReplaceWith);
 DLL void IniDelSection(const std::string& scFile, const std::string& scApp);
 DLL void IniDelete(const std::string& scFile, const std::string& scApp, const std::string& scKey);
 DLL void IniWriteW(const std::string& scFile, const std::string& scApp, const std::string& scKey, const std::wstring& wscValue);
 DLL std::wstring IniGetWS(const std::string& scFile, const std::string& scApp, const std::string& scKey, const std::wstring& wscDefault);
-DLL std::wstring ToMoneyStr(int iCash);
 DLL float IniGetF(const std::string& scFile, const std::string& scApp, const std::string& scKey, float fDefault);
 DLL void IniGetSection(const std::string& scFile, const std::string& scApp, std::list<INISECTIONVALUE>& lstValues);
-DLL float ToFloat(const std::wstring& wscStr);
-DLL mstime timeInMS();
-DLL void SwapBytes(void* ptr, uint iLen);
-DLL FARPROC PatchCallAddr(char* hMod, DWORD dwInstallAddress, char* dwHookFunction);
-template<typename Str>
-Str Trim(const Str& scIn);
-template DLL std::string Trim(const std::string& scIn);
-template DLL std::wstring Trim(const std::wstring& scIn);
-DLL std::wstring ViewToWString(const std::wstring_view&);
-DLL std::string ViewToString(const std::string_view&);
 DLL BOOL FileExists(LPCTSTR szPath);
-DLL std::wstring ToLower(std::wstring wscStr);
-DLL std::string ToLower(std::string wscStr);
-DLL std::wstring_view GetParamToEnd(const std::wstring_view& wscLine, wchar_t wcSplitChar, uint iPos);
 DLL void ini_write_wstring(FILE* file, const std::string& parmname, const std::wstring& in);
 DLL void ini_get_wstring(INI_Reader& ini, std::wstring& wscValue);
 DLL std::wstring GetTimeString(bool bLocalTime);
 DLL std::string GetUserFilePath(const std::variant<uint, std::wstring>& player, const std::string& scExtension);
 DLL mstime GetTimeInMS();
 DLL void AddLog(LogType LogType, LogLevel level, std::wstring wStr, ...);
+DLL mstime timeInMS();
 
 // variables
 extern DLL HANDLE hProcFL;
@@ -145,7 +122,7 @@ struct DLL Reflectable
 	virtual std::string File() { return {}; }
 };
 
-#include <Serialization.hpp>
+#include <Tools/Serialization.hpp>
 
 struct DLL FLHookConfig final : Reflectable, Singleton<FLHookConfig>
 {
@@ -660,8 +637,8 @@ DLL bool AddCheaterLog(const std::variant<uint, std::wstring>& player, const std
 DLL bool AddKickLog(ClientId client, std::wstring wscReason, ...);
 DLL bool AddConnectLog(ClientId client, std::wstring wscReason, ...);
 
-DLL void UserCmd_SetDieMsg(ClientId& client, const std::wstring_view& wscParam);
-DLL void UserCmd_SetChatFont(ClientId& client, const std::wstring_view& wscParam);
+DLL void UserCmd_SetDieMsg(ClientId& client, const std::wstring& wscParam);
+DLL void UserCmd_SetChatFont(ClientId& client, const std::wstring& wscParam);
 DLL void PrintUserCmdText(ClientId client, std::wstring text, ...);
 DLL void PrintLocalUserCmdText(ClientId client, const std::wstring& wscMsg, float fDistance);
 
