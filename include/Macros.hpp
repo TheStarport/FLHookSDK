@@ -60,7 +60,7 @@ DLL void AddExceptionInfoLog(SEHException* ex);
 		catch (...)                                                                                                                      \
 		{                                                                                                                                \
 			e;                                                                                                                           \
-			AddLog(LogType::Normal, LogLevel::Err, L"ERROR: Exception in ads on line %d.", stows(__FUNCTION__), __LINE__);                                            \
+			AddLog(LogType::Normal, LogLevel::Err, L"ERROR: Exception in %s on line %d.", stows(__FUNCTION__), __LINE__);                                            \
 			AddExceptionInfoLog(0);                                                                                                      \
 		}
 
