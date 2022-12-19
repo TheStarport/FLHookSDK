@@ -1,7 +1,9 @@
 #pragma once
 
 #ifdef SERVER
+	#include "fmt/core.h"
 	#include "fmt/format.h"
+	#include "fmt/xchar.h"
 	#include <ext/Sql.hpp>
 	#include <ext/jpcre2.hpp>
 using jp = jpcre2::select<char>;
@@ -18,7 +20,9 @@ using jpWide = jpcre2::select<wchar_t>;
 	#pragma comment(lib, "pcre2-posix.lib")
 #else
 	#ifdef FMT
+		#include "fmt/core.h"
 		#include "fmt/format.h"
+		#include "fmt/xchar.h"
 	#endif
 
 	#ifdef SQL

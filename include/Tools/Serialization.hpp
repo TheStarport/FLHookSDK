@@ -494,19 +494,17 @@ class Serializer
 		catch (nlohmann::json::parse_error& ex)
 		{
 			Console::ConErr(L"Unable to process JSON. It could not be parsed. See log for more detail.");
-			AddLog(LogType::Normal, LogLevel::Warn,
-			    L"Unable to process JSON file [" + stows(fileName) + L"]. The JSON could not be parsed. EXCEPTION: " + stows(ex.what()));
+			AddLog(LogType::Normal, LogLevel::Warn, fmt::format("Unable to process JSON file [{}]. The JSON could not be parsed. EXCEPTION: {}", fileName, ex.what()));
 		}
 		catch (nlohmann::json::type_error& ex)
 		{
 			Console::ConErr(L"Unable to process JSON. It could not be parsed. See log for more detail.");
-			AddLog(LogType::Normal, LogLevel::Warn,
-			    L"Unable to process JSON file [" + stows(fileName) + L"]. A type within the JSON object did not match. EXCEPTION: " + stows(ex.what()));
+			AddLog(LogType::Normal, LogLevel::Warn, fmt::format("Unable to process JSON file [{}]. A type within the JSON object did not match. EXCEPTION: {}", fileName, ex.what()));
 		}
 		catch (nlohmann::json::exception& ex)
 		{
 			Console::ConErr(L"Unable to process JSON. It could not be parsed. See log for more detail.");
-			AddLog(LogType::Normal, LogLevel::Warn, L"Unable to process JSON file [" + stows(fileName) + L"] EXCEPTION: " + stows(ex.what()));
+			AddLog(LogType::Normal, LogLevel::Warn, fmt::format("Unable to process JSON file [{}] EXCEPTION: {}", fileName, ex.what()));
 		}
 
 		return ret;

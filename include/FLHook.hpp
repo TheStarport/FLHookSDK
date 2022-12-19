@@ -97,7 +97,7 @@ DLL void ini_get_wstring(INI_Reader& ini, std::wstring& wscValue);
 DLL std::wstring GetTimeString(bool bLocalTime);
 DLL std::string GetUserFilePath(const std::variant<uint, std::wstring>& player, const std::string& scExtension);
 DLL mstime GetTimeInMS();
-DLL void AddLog(LogType LogType, LogLevel level, std::wstring wStr, ...);
+DLL void AddLog(LogType LogType, LogLevel lvl, const std::string& str);
 DLL mstime timeInMS();
 
 // variables
@@ -632,10 +632,10 @@ class CSocket final : public CCmds
 
 DLL bool InitLogs();
 
-DLL void HandleCheater(ClientId client, bool bBan, std::wstring wscReason, ...);
-DLL bool AddCheaterLog(const std::variant<uint, std::wstring>& player, const std::wstring& wscReason);
-DLL bool AddKickLog(ClientId client, std::wstring wscReason, ...);
-DLL bool AddConnectLog(ClientId client, std::wstring wscReason, ...);
+DLL void HandleCheater(ClientId client, bool bBan, const std::string& reason);
+DLL bool AddCheaterLog(const std::variant<uint, std::wstring>& player, const std::string& reason);
+DLL bool AddKickLog(ClientId client, const std::string& reason);
+DLL bool AddConnectLog(ClientId client, const std::string& reason);
 
 DLL void UserCmd_SetDieMsg(ClientId& client, const std::wstring& wscParam);
 DLL void UserCmd_SetChatFont(ClientId& client, const std::wstring& wscParam);
