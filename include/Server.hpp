@@ -173,7 +173,7 @@ namespace Hk
 	{
 		DLL cpp::result<void, Error> AddToGroup(ClientId client, uint iGroupId);
 		DLL cpp::result<const uint, Error> GetGroupID(ClientId client);
-		DLL cpp::result<const int, Error> GetCash(const std::variant<uint, std::wstring>& player);
+		DLL cpp::result<const uint, Error> GetCash(const std::variant<uint, std::wstring>& player);
 		DLL cpp::result<void, Error> AddCash(const std::variant<uint, std::wstring>& player, int iAmount);
 		DLL cpp::result<void, Error> Kick(const std::variant<uint, std::wstring>& player);
 		DLL cpp::result<void, Error> KickReason(const std::variant<uint, std::wstring>& player, const std::wstring& wscReason);
@@ -208,7 +208,7 @@ namespace Hk
 		DLL cpp::result<void, Error> NewCharacter(CAccount* acc, std::wstring& character);
 		DLL cpp::result<int, Error> GetOnlineTime(const std::variant<uint, std::wstring>& player);
 		DLL cpp::result<int, Error> GetRank(const std::variant<uint, std::wstring>& player);
-		DLL cpp::result<const float, Error> GetShipValue(const std::variant<uint, std::wstring>& player);
+		DLL cpp::result<const uint, Error> GetShipValue(const std::variant<uint, std::wstring>& player);
 		DLL void RelocateClient(ClientId client, Vector vDestination, Matrix mOrientation);
 		DLL void SaveChar(ClientId client);
 		DLL cpp::result<const ShipId, Error> GetTarget(const std::variant<uint, std::wstring>& player);
