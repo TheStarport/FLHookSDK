@@ -512,8 +512,8 @@ private:
 #ifdef FLHOOK
 	// commands
 	void CmdGetCash(const std::variant<uint, std::wstring>& player);
-	void CmdSetCash(const std::variant<uint, std::wstring>& player, int iAmount);
-	void CmdAddCash(const std::variant<uint, std::wstring>& player, int iAmount);
+	void CmdSetCash(const std::variant<uint, std::wstring>& player, uint iAmount);
+	void CmdAddCash(const std::variant<uint, std::wstring>& player, uint iAmount);
 
 	void CmdKick(const std::variant<uint, std::wstring>& player, const std::wstring& wscReason);
 	void CmdBan(const std::variant<uint, std::wstring>& player);
