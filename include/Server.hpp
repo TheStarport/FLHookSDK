@@ -174,7 +174,9 @@ namespace Hk
 		DLL cpp::result<void, Error> AddToGroup(ClientId client, uint iGroupId);
 		DLL cpp::result<const uint, Error> GetGroupID(ClientId client);
 		DLL cpp::result<const uint, Error> GetCash(const std::variant<uint, std::wstring>& player);
-		DLL cpp::result<void, Error> AddCash(const std::variant<uint, std::wstring>& player, int iAmount);
+		DLL cpp::result<void, Error> AddCash(const std::variant<uint, std::wstring>& player, uint uAmount);
+		DLL cpp::result<void, Error> RemoveCash(const std::variant<uint, std::wstring>& player, uint uAmount);
+		DLL cpp::result<void, Error> AdjustCash(const std::variant<uint, std::wstring>& player, int iAmount);
 		DLL cpp::result<void, Error> Kick(const std::variant<uint, std::wstring>& player);
 		DLL cpp::result<void, Error> KickReason(const std::variant<uint, std::wstring>& player, const std::wstring& wscReason);
 		DLL cpp::result<void, Error> Ban(const std::variant<uint, std::wstring>& player, bool bBan);
