@@ -42,6 +42,9 @@ inline int ToInt(const std::wstring& wscStr)
 
 inline uint ToUInt(const std::wstring& wscStr)
 {
+	if (wscStr.find(L"-") != std::wstring::npos) {
+		return 0;
+	}
 	return wcstoul(wscStr.c_str(), nullptr, 10);
 }
 
