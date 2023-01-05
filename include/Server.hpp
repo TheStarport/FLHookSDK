@@ -217,6 +217,7 @@ namespace Hk
 		DLL cpp::result<ClientId, Error> GetTargetClientID(const std::variant<uint, std::wstring>& player);
 		DLL cpp::result<const BaseId, Error> GetCurrentBase(const std::variant<uint, std::wstring>& player);
 		DLL cpp::result<const SystemId, Error> GetSystem(const std::variant<uint, std::wstring>& player);
+		DLL cpp::result<const SystemId, Error> GetSystemByShipId(ShipId shipId);
 		DLL cpp::result<const ShipId, Error> GetShip(const std::variant<uint, std::wstring>& player);
 		DLL Error GetSystemByNickname(std::variant<std::string, std::wstring> nickname, uint& system);
 		DLL CShip* CShipFromShipDestroyed(const DWORD** ecx);
