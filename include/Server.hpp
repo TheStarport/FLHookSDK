@@ -224,7 +224,7 @@ namespace Hk
 
 	namespace Solar
 	{
-		DLL cpp::result<const SystemId, Error> GetSystemByShipId(uint spaceObjId);
+		DLL cpp::result<const SystemId, Error> GetSystemBySpaceId(uint spaceObjId);
 	} // namespace Solar
 
 	namespace Ini
