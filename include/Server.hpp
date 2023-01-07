@@ -220,6 +220,9 @@ namespace Hk
 		DLL cpp::result<const ShipId, Error> GetShip(const std::variant<uint, std::wstring>& player);
 		DLL cpp::result<const uint, Error> GetShipID(const std::variant<uint, std::wstring>& player);
 		DLL cpp::result<void, Error> MarkObj(const std::variant<uint, std::wstring>& player, uint objId, int markStatus);
+		DLL cpp::result<int, Error> GetPvpKills(const std::variant<uint, std::wstring>& player);
+		DLL cpp::result<void, Error> SetPvpKills(const std::variant<uint, std::wstring>& player, int killAmount);
+		DLL cpp::result<int, Error> IncrementPvpKills(const std::variant<uint, std::wstring>& player);
 		DLL Error GetSystemByNickname(std::variant<std::string, std::wstring> nickname, uint& system);
 		DLL CShip* CShipFromShipDestroyed(const DWORD** ecx);
 	} // namespace Player
