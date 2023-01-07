@@ -56,6 +56,7 @@ enum class Error
 	InvalidShortcutString,
 	PluginCannotBeLoaded,
 	PluginNotFound,
+	InvalidIdType,
 	UnknownError = 1000,
 };
 
@@ -337,4 +338,14 @@ enum class MessageFormat
 	BoldAndUnderline = Bold | Underline,
 	ItalicAndUnderline = Italic | Underline,
 	BigAndBold = Big | Bold,
+};
+
+enum class IdType
+{
+	Client,
+	Ship = 1,
+	Solar = 1,
+	Equip,
+	Arch,
+	Reputation
 };
