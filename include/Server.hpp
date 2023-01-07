@@ -201,7 +201,6 @@ namespace Hk
 		DLL cpp::result<void, Error> PlayerRecalculateCRC(ClientId client);
 		DLL std::string GetPlayerSystemS(ClientId client);
 		DLL bool IsInRange(ClientId client, float fDistance);
-		DLL std::wstring GetLocation(unsigned int client);
 		DLL cpp::result<void, Error> SetEquip(const std::variant<uint, std::wstring>& player, const st6::list<EquipDesc>& equip);
 		DLL cpp::result<void, Error> AddEquip(const std::variant<uint, std::wstring>& player, uint iGoodId, const std::string& scHardpoint);
 		DLL cpp::result<void, Error> AntiCheat(ClientId client);
@@ -230,6 +229,7 @@ namespace Hk
 	namespace Solar
 	{
 		DLL cpp::result<const SystemId, Error> GetSystemBySpaceId(uint spaceObjId);
+		DLL cpp::result<std::pair<Vector, Matrix>, Error> GetLocation(uint id, IdType type);
 	} // namespace Solar
 
 	namespace Ini
