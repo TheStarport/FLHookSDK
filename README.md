@@ -14,7 +14,7 @@ For development help, please refer to https://the-starport.net (check out the FL
 
 ### Plugin info
 
-Your plugin DLL needs to be located directly in the `.\EXE\flhook_plugins` folder. It needs to export `Get_PluginInfo` which replaces the old plugin INI file. Normally the function `Get_PluginInfo` should look something like this (using `tempban.dll` as example):
+Your plugin DLL needs to be located directly in the `.\EXE\plugins` folder. It needs to export `Get_PluginInfo` which replaces the old plugin INI file. Normally the function `Get_PluginInfo` should look something like this (using `tempban.dll` as example):
 
 ```cpp
 EXPORT PLUGIN_INFO* Get_PluginInfo()
@@ -106,7 +106,7 @@ Plugin_Communication(DO_SOMETHING, &outgoing_data);
 
 ### Debugging
 
-To spot bugs in your plugins, you should always have a look at the `flhook.log` in `.\EXE\flhook_logs\`. If one of your callback functions throws an exception to FLHook, it is logged in this log file. Feel free to implement your own exception handling for more detailed error reporting.
+To spot bugs in your plugins, you should always have a look at the `flhook.log` in `.\EXE\logs\`. If one of your callback functions throws an exception to FLHook, it is logged in this log file. Feel free to implement your own exception handling for more detailed error reporting.
 
 **IMPORTANT NOTE:** If you want to debug your plugins and you are using STL classes that are being shared with FLHook (i.e. FLHook allocates a string and your plugin deallocates it) you *need* to make sure you set the compiler to use the "Multi-threaded DLL (/MD)" runtime library (in VC C++ project settings under "Code Generation"), otherwise you will get debug assertion crashes! You can also compile FLHook in debug mode and then also compile your plugin with "Multi-threaded Debug DLL (/MDd)". Just make sure, whatever runtime library setting you use, it *must* match the one of FLHook.
 

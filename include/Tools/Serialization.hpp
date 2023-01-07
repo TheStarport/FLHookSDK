@@ -9,9 +9,11 @@
 #include "FLHook.hpp"
 
 template<typename T>
+constexpr auto IsEnum = std::is_enum_v<T>;
+template<typename T>
 constexpr auto IsBool = std::is_same_v<T, bool>;
 template<typename T>
-constexpr auto IsInt = std::is_same_v<T, int> || std::is_same_v<T, uint>;
+constexpr auto IsInt = std::is_same_v<T, int> || std::is_same_v<T, uint> || IsEnum<T>;
 template<typename T>
 constexpr auto IsBigInt = std::is_same_v<T, long long> || std::is_same_v<T, unsigned long long>;
 template<typename T>
@@ -127,7 +129,7 @@ class Serializer
 				else if constexpr (IsWString<typename DeclType::value_type>)
 				{
 					std::vector<std::string> vectorOfString = json[member.name.c_str()].template get<std::vector<std::string>>();
-					std::vector<std::wstring> vectorOfWstring(vectorOfString.size());
+					std::vector<std::wstring> vectorOfWstring;
 					for (auto& i : vectorOfString)
 					{
 						vectorOfWstring.emplace_back(stows(i));
@@ -426,6 +428,14 @@ class Serializer
 		auto json = nlohmann::json::object();
 
 		WriteObject(json, t);
+
+		std::filesystem::path folderPath(fileToSave);
+		folderPath.remove_filename();
+		if (!std::filesystem::create_directories(folderPath) && !std::filesystem::exists(folderPath))
+		{
+			Console::ConWarn(fmt::format(L"Unable to create directories for {} when serializing json.", folderPath.wstring()));
+			return;
+		}
 
 		std::ofstream out(fileToSave);
 		if (!out.good() || !out.is_open())
