@@ -24,6 +24,8 @@ template<typename T>
 constexpr auto IsWString = std::is_same_v<T, std::wstring>;
 template<typename T>
 constexpr auto IsReflectable = std::is_base_of_v<Reflectable, T>;
+template<typename T>
+constexpr auto IsAnyValidType = IsBool<T> || IsInt<T> || IsBigInt<T> || IsFloat<T> || IsString<T> || IsWString<T> || IsReflectable<T>;
 
 template<typename>
 struct IsVector : std::false_type
@@ -49,6 +51,192 @@ constexpr auto IsMapOfType = std::is_same_v<T, std::map<TT, TTT>>;
 
 class Serializer
 {
+	template<typename DeclType, typename Json, typename Member, typename ReturnVector = std::vector<typename DeclType::value_type>>
+	static ReturnVector ReadVector(Json json, Member member)
+	{
+		if constexpr (IsBool<typename DeclType::value_type> ||IsInt<typename DeclType::value_type> || IsBigInt<typename DeclType::value_type>
+			|| IsFloat<typename DeclType::value_type> || IsString<typename DeclType::value_type>)
+		{
+			if (json.is_array())
+			{
+				return json.get<std::vector<DeclType::value_type>>();
+			}
+			return json[member.name.c_str()].template get<std::vector<DeclType::value_type>>();
+		}
+		else if constexpr (IsWString<typename DeclType::value_type>)
+		{
+			std::vector<std::string> vectorOfString = json.is_array()
+				? json.get<std::vector<std::string>>()
+				: json[member.name.c_str()].template get<std::vector<std::string>>();
+			
+			std::vector<std::wstring> vectorOfWstring;
+			for (auto& i : vectorOfString)
+			{
+				vectorOfWstring.emplace_back(stows(i));
+			}
+			return vectorOfWstring;
+		}
+		else if constexpr (IsReflectable<typename DeclType::value_type>)
+		{
+			auto jArr = json.is_array() 
+				? json.get<nlohmann::json::array_t>()
+				: json[member.name.c_str()].template get<nlohmann::json::array_t>();
+
+			auto declArr = std::vector<typename DeclType::value_type>();
+			for (auto iter = jArr.begin(); iter != jArr.end(); ++iter)
+			{
+				typename DeclType::value_type reflectable;
+				ReadObject(*iter, reflectable);
+				declArr.emplace_back(reflectable);
+			}
+
+			return declArr;
+		}
+		else
+		{
+			Console::ConWarn(L"Non-reflectable property (%s) present within vector on %s.", stows(member.name.str()).c_str(), stows(type.name.str()).c_str());
+			return std::vector<DeclType::value_type>();
+		}
+	}
+
+	template<typename StrType, typename Target, typename Json, typename Ptr, typename Member>
+	static void ReadMap(Json json, Ptr ptr, Member member)
+	{
+		if constexpr (IsReflectable<Target>)
+		{
+			nlohmann::json::object_t jObj = json[member.name.c_str()].template get<nlohmann::json::object_t>();
+			if constexpr (IsWString<StrType>)
+			{
+				auto declMap = std::map<std::wstring, Target>();
+
+				for (auto& i : jObj)
+				{
+					Target reflectable;
+					ReadObject(i.second, reflectable);
+					declMap[stows(i.first)] = reflectable;
+				}
+				*static_cast<std::map<std::wstring, Target>*>(ptr) = declMap;
+			}
+			else
+			{
+				auto declMap = std::map<std::string, Target>();
+
+				for (auto& i : jObj)
+				{
+					Target reflectable;
+					ReadObject(i.second, reflectable);
+					declMap[i.first] = reflectable;
+				}
+				*static_cast<std::map<std::string, Target>*>(ptr) = declMap;
+			}
+		}
+		else if constexpr (IsVector<Target>::value)
+		{
+			nlohmann::json::object_t jObj = json[member.name.c_str()].template get<nlohmann::json::object_t>();
+			if constexpr (IsWString<StrType>)
+			{
+				auto declMap = std::map<std::wstring, Target>();
+				for (auto& i : jObj)
+				{
+					declMap[stows(i.first)] = ReadVector<Target>(json, member);
+				}
+				*static_cast<std::map<std::wstring, Target>*>(ptr) = declMap;
+			}
+			else
+			{
+				auto declMap = std::map<std::string, Target>();
+				for (auto& i : jObj)
+				{
+					declMap[i.first] = ReadVector<Target>(i.second, member);
+				}
+				*static_cast<std::map<std::string, Target>*>(ptr) = declMap;
+			}
+		}
+		else if constexpr (IsWString<Target>)
+		{
+			std::map<std::string, std::string> mapOfString = json[member.name.c_str()].template get<std::map<std::string, std::string>>();
+			if constexpr (IsWString<StrType>)
+			{
+				std::map<std::wstring, std::wstring> mapOfWstring(mapOfString.size());
+				for (auto& i : mapOfString)
+				{
+					mapOfWstring[stows(i.first)] = stows(i.second);
+				}
+				*static_cast<std::map<std::wstring, std::wstring>*>(ptr) = mapOfWstring;
+			}
+			else
+			{
+				std::map<std::string, std::wstring> mapOfWstring(mapOfString.size());
+				for (auto& i : mapOfString)
+				{
+					mapOfWstring[i.first] = stows(i.second);
+				}
+				*static_cast<std::map<std::string, std::wstring>*>(ptr) = mapOfWstring;
+			}
+		}
+		// The next two handle all primitive types
+		else if constexpr (IsString<StrType>)
+		{
+			*static_cast<std::map<std::string, Target>*>(ptr) = json[member.name.c_str()].template get<std::map<std::string, Target>>();
+		}
+		else if constexpr (IsWString<StrType>)
+		{
+			std::map<std::string, Target> sMap = json[member.name.c_str()].template get<std::map<std::string, Target>>();
+			std::map<std::wstring, Target> wMap;
+			for (const auto& [key, value] : sMap)
+				wMap[stows(key)] = value;
+			*static_cast<std::map<std::wstring, Target>*>(ptr) = wMap;
+		}
+		else
+		{
+			static_assert(false, "Non string passed into HandleMapKey");
+		}
+	}
+
+	template<typename DeclType, typename Json, typename Ptr, typename Member>
+	static void ReadType(Json json, Ptr ptr, Member member)
+	{
+		if constexpr (IsBool<DeclType>)
+		{
+			*static_cast<bool*>(ptr) = json[member.name.c_str()].template get<bool>();
+		}
+		else if constexpr (IsInt<DeclType>)
+		{
+			*static_cast<int*>(ptr) = json[member.name.c_str()].template get<int>();
+		}
+		else if constexpr (IsBigInt<DeclType>)
+		{
+			*static_cast<long long*>(ptr) = json[member.name.c_str()].template get<long long>();
+		}
+		else if constexpr (IsFloat<DeclType>)
+		{
+			*static_cast<float*>(ptr) = json[member.name.c_str()].template get<float>();
+		}
+		else if constexpr (IsString<DeclType>)
+		{
+			*static_cast<std::string*>(ptr) = json[member.name.c_str()].template get<std::string>();
+		}
+		else if constexpr (IsWString<DeclType>)
+		{
+			*static_cast<std::wstring*>(ptr) = stows(json[member.name.c_str()].template get<std::string>());
+		}
+		else if constexpr (IsReflectable<DeclType>)
+		{
+			nlohmann::json jObj = json[member.name.c_str()].template get<nlohmann::json::object_t>();
+			DeclType reflectable;
+			ReadObject(jObj, reflectable);
+			*static_cast<DeclType*>(ptr) = reflectable;
+		}
+		else if constexpr (IsVector<DeclType>::value)
+		{
+			*static_cast<std::vector<typename DeclType::value_type>*>(ptr) = ReadVector<DeclType>(json, member);
+		}
+		else if constexpr (IsMap<DeclType>::value)
+		{
+			ReadMap<DeclType>(json, ptr, member);
+		}
+	}
+
 	template<typename T>
 	static void ReadObject(nlohmann::json& json, T& obj)
 	{
@@ -73,197 +261,21 @@ class Serializer
 				return;
 			}
 
-			if constexpr (IsBool<DeclType>)
+			if constexpr (IsAnyValidType<DeclType>)
 			{
-				*static_cast<bool*>(ptr) = json[member.name.c_str()].template get<bool>();
-			}
-			else if constexpr (IsInt<DeclType>)
-			{
-				*static_cast<int*>(ptr) = json[member.name.c_str()].template get<int>();
-			}
-			else if constexpr (IsBigInt<DeclType>)
-			{
-				*static_cast<long long*>(ptr) = json[member.name.c_str()].template get<long long>();
-			}
-			else if constexpr (IsFloat<DeclType>)
-			{
-				*static_cast<float*>(ptr) = json[member.name.c_str()].template get<float>();
-			}
-			else if constexpr (IsString<DeclType>)
-			{
-				*static_cast<std::string*>(ptr) = json[member.name.c_str()].template get<std::string>();
-			}
-			else if constexpr (IsWString<DeclType>)
-			{
-				*static_cast<std::wstring*>(ptr) = stows(json[member.name.c_str()].template get<std::string>());
-			}
-			else if constexpr (IsReflectable<DeclType>)
-			{
-				nlohmann::json jObj = json[member.name.c_str()].template get<nlohmann::json::object_t>();
-				DeclType reflectable;
-				ReadObject(jObj, reflectable);
-				*static_cast<DeclType*>(ptr) = reflectable;
+				ReadType<DeclType>(json, ptr, member);
 			}
 			else if constexpr (IsVector<DeclType>::value)
 			{
-				if constexpr (IsBool<typename DeclType::value_type>)
-				{
-					*static_cast<std::vector<bool>*>(ptr) = json[member.name.c_str()].template get<std::vector<bool>>();
-				}
-				else if constexpr (IsInt<typename DeclType::value_type>)
-				{
-					*static_cast<std::vector<int>*>(ptr) = json[member.name.c_str()].template get<std::vector<int>>();
-				}
-				else if constexpr (IsBigInt<typename DeclType::value_type>)
-				{
-					*static_cast<std::vector<long long>*>(ptr) = json[member.name.c_str()].template get<std::vector<long long>>();
-				}
-				else if constexpr (IsFloat<typename DeclType::value_type>)
-				{
-					*static_cast<std::vector<float>*>(ptr) = json[member.name.c_str()].template get<std::vector<float>>();
-				}
-				else if constexpr (IsString<typename DeclType::value_type>)
-				{
-					*static_cast<std::vector<std::string>*>(ptr) = json[member.name.c_str()].template get<std::vector<std::string>>();
-				}
-				else if constexpr (IsWString<typename DeclType::value_type>)
-				{
-					std::vector<std::string> vectorOfString = json[member.name.c_str()].template get<std::vector<std::string>>();
-					std::vector<std::wstring> vectorOfWstring;
-					for (auto& i : vectorOfString)
-					{
-						vectorOfWstring.emplace_back(stows(i));
-					}
-					*static_cast<std::vector<std::wstring>*>(ptr) = vectorOfWstring;
-				}
-				else if constexpr (IsReflectable<typename DeclType::value_type>)
-				{
-					auto jArr = json[member.name.c_str()].template get<nlohmann::json::array_t>();
-					auto declArr = std::vector<typename DeclType::value_type>();
-					for (auto iter = jArr.begin(); iter != jArr.end(); ++iter)
-					{
-						typename DeclType::value_type reflectable;
-						ReadObject(*iter, reflectable);
-						declArr.emplace_back(reflectable);
-					}
-
-					*static_cast<std::vector<typename DeclType::value_type>*>(ptr) = declArr;
-				}
-				else
-				{
-					Console::ConWarn(
-					    L"Non-reflectable property (%s) present within vector on %s.", stows(member.name.str()).c_str(), stows(type.name.str()).c_str());
-				}
+				*static_cast<std::vector<typename DeclType::value_type>*>(ptr) = ReadVector<DeclType>(json, member);
 			}
 			else if constexpr (IsMap<DeclType>::value)
 			{
-#define GetWide(T)                                                                                      \
-	std::map<std::string, T> sMap = json[member.name.c_str()].template get<std::map<std::string, T>>(); \
-	std::map<std::wstring, T> wMap;                                                                     \
-	for (const auto& [key, value] : sMap)                                                               \
-		wMap[stows(key)] = value;                                                                       \
-	*static_cast<std::map<std::wstring, T>*>(ptr) = wMap
-				if constexpr (IsWString<std::remove_const<DeclType::value_type::first_type>::type> || IsString<std::remove_const<DeclType::value_type::first_type>::type>)
+				typedef std::remove_const<DeclType::value_type::first_type>::type MapType;
+				if constexpr (IsWString<MapType> || IsString<MapType>)
 				{
-					constexpr bool IsWide = IsWString<std::remove_const<DeclType::value_type::first_type>::type>;
-					if constexpr (IsBool<typename DeclType::value_type::second_type>)
-					{
-						if constexpr (IsWide)
-						{
-							GetWide(bool);
-						}
-						else
-							*static_cast<std::map<std::string, bool>*>(ptr) = json[member.name.c_str()].template get<std::map<std::string, bool>>();
-					}
-					else if constexpr (IsInt<typename DeclType::value_type::second_type>)
-					{
-						if constexpr (IsWide)
-						{
-							GetWide(int);
-						}
-						else
-							*static_cast<std::map<std::string, int>*>(ptr) = json[member.name.c_str()].template get<std::map<std::string, int>>();
-					}
-					else if constexpr (IsBigInt<typename DeclType::value_type::second_type>)
-					{
-						if constexpr (IsWide)
-						{
-							GetWide(int);
-						}
-						else
-							*static_cast<std::map<std::string, long long>*>(ptr) = json[member.name.c_str()].template get<std::map<std::string, long long>>();
-					}
-					else if constexpr (IsFloat<typename DeclType::value_type::second_type>)
-					{
-						if constexpr (IsWide)
-						{
-							GetWide(float);
-						}
-						else
-							*static_cast<std::map<std::string, float>*>(ptr) = json[member.name.c_str()].template get<std::map<std::string, float>>();
-					}
-					else if constexpr (IsString<typename DeclType::value_type::second_type>)
-					{
-						if constexpr (IsWide)
-						{
-							GetWide(std::string);
-						}
-						else
-							*static_cast<std::map<std::string, std::string>*>(ptr) = json[member.name.c_str()].template get<std::map<std::string, std::string>>();
-					}
-					else if constexpr (IsWString<typename DeclType::value_type::second_type>)
-					{
-						std::map<std::string, std::string> mapOfString = json[member.name.c_str()].template get<std::map<std::string, std::string>>();
-						if constexpr (IsWide)
-						{
-							std::map<std::wstring, std::wstring> mapOfWstring(mapOfString.size());
-							for (auto& i : mapOfString)
-							{
-								mapOfWstring[stows(i.first)] = stows(i.second);
-							}
-							*static_cast<std::map<std::wstring, std::wstring>*>(ptr) = mapOfWstring;
-						}
-						else
-						{
-							std::map<std::string, std::wstring> mapOfWstring(mapOfString.size());
-							for (auto& i : mapOfString)
-							{
-								mapOfWstring[i.first] = stows(i.second);
-							}
-							*static_cast<std::map<std::string, std::wstring>*>(ptr) = mapOfWstring;
-						}
-					}
-					else if constexpr (IsReflectable<typename DeclType::value_type::second_type>)
-					{
-						nlohmann::json::object_t jObj = json[member.name.c_str()].template get<nlohmann::json::object_t>();
-
-						if constexpr (IsWide)
-						{
-							auto declMap = std::map<std::wstring, typename DeclType::value_type::second_type>();
-
-							for (auto& i : jObj)
-							{
-								typename DeclType::value_type::second_type reflectable;
-								ReadObject(i.second, reflectable);
-								declMap[stows(i.first)] = reflectable;
-							}
-							*static_cast<std::map<std::wstring, DeclType::value_type::second_type>*>(ptr) = declMap;
-						}
-						else
-						{
-							auto declMap = std::map<std::string, typename DeclType::value_type::second_type>();
-
-							for (auto& i : jObj)
-							{
-								typename DeclType::value_type::second_type reflectable;
-								ReadObject(i.second, reflectable);
-								declMap[i.first] = reflectable;
-							}
-							*static_cast<std::map<std::string, DeclType::value_type::second_type>*>(ptr) = declMap;
-						}
-					}
+					ReadMap<MapType, DeclType::value_type::second_type>(json, ptr, member);
 				}
-#undef GetWide
 				else
 				{
 					Console::ConWarn(L"Key of map (%s) is not a wstring or string.", stows(member.name.str()).c_str());
