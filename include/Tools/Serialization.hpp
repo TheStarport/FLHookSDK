@@ -129,7 +129,7 @@ class Serializer
 				else if constexpr (IsWString<typename DeclType::value_type>)
 				{
 					std::vector<std::string> vectorOfString = json[member.name.c_str()].template get<std::vector<std::string>>();
-					std::vector<std::wstring> vectorOfWstring(vectorOfString.size());
+					std::vector<std::wstring> vectorOfWstring;
 					for (auto& i : vectorOfString)
 					{
 						vectorOfWstring.emplace_back(stows(i));
