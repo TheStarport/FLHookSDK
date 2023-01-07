@@ -57,6 +57,7 @@ enum class Error
 	PluginCannotBeLoaded,
 	PluginNotFound,
 	InvalidIdType,
+	InvalidSpaceObjId,
 	UnknownError = 1000,
 };
 
