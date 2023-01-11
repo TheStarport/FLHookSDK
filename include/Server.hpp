@@ -234,6 +234,7 @@ namespace Hk
 		DLL cpp::result<float, Error> GetMass(uint spaceObjId);
 		DLL cpp::result<std::pair<Vector, Vector>, Error> GetMotion(uint spaceObjId);
 		DLL cpp::result<uint, Error> GetType(uint spaceObjId);
+		DLL cpp::result<Universe::IBase*, Error> GetBaseByWildcard(const std::wstring& targetBaseName);
 	} // namespace Solar
 
 	namespace Ini
