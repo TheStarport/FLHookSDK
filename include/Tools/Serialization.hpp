@@ -5,7 +5,6 @@
 #include <nlohmann/json.hpp>
 
 #include "refl.hpp"
-
 #include "FLHook.hpp"
 
 template<typename T>
@@ -51,7 +50,7 @@ constexpr auto IsMapOfType = std::is_same_v<T, std::map<TT, TTT>>;
 
 class Serializer
 {
-	template<typename DeclType, typename Json, typename Member, typename ReturnVector = std::vector<typename DeclType::value_type>>
+	template<typename DeclType, typename Json = nlohmann::json, typename Member, typename ReturnVector = std::vector<typename DeclType::value_type>>
 	static ReturnVector ReadVector(Json json, Member member)
 	{
 		if constexpr (IsBool<typename DeclType::value_type> ||IsInt<typename DeclType::value_type> || IsBigInt<typename DeclType::value_type>
@@ -59,9 +58,9 @@ class Serializer
 		{
 			if (json.is_array())
 			{
-				return json.get<std::vector<DeclType::value_type>>();
+				return json.get<std::vector<typename DeclType::value_type>>();
 			}
-			return json[member.name.c_str()].template get<std::vector<DeclType::value_type>>();
+			return json[member.name.c_str()].template get<std::vector<typename DeclType::value_type>>();
 		}
 		else if constexpr (IsWString<typename DeclType::value_type>)
 		{
@@ -94,8 +93,7 @@ class Serializer
 		}
 		else
 		{
-			Console::ConWarn(L"Non-reflectable property (%s) present within vector on %s.", stows(member.name.str()).c_str(), stows(type.name.str()).c_str());
-			return std::vector<DeclType::value_type>();
+			AssertPropertyIsReflectable(member.name.str().c_str(), typeid(DeclType::value_type).name());
 		}
 	}
 
@@ -188,8 +186,8 @@ class Serializer
 			*static_cast<std::map<std::wstring, Target>*>(ptr) = wMap;
 		}
 		else
-		{
-			static_assert(false, "Non string passed into HandleMapKey");
+		{	
+			static_assert(IsString<StrType>, "Non string passed into HandleMapKey");
 		}
 	}
 
@@ -278,12 +276,12 @@ class Serializer
 				}
 				else
 				{
-					Console::ConWarn(L"Key of map (%s) is not a wstring or string.", stows(member.name.str()).c_str());
+					static_assert(!IsWString<MapType> && !IsString<MapType>, "Key in reflectable map is not a string or wide string.");
 				}
 			}
 			else
 			{
-				Console::ConWarn(L"Non-reflectable property (%s) present on %s.", stows(member.name.str()).c_str(), stows(type.name.str()).c_str());
+				static_assert(!IsMap<DeclType>::value, "Non-reflectable property present on reflectable object.");
 			}
 		});
 	}
@@ -351,8 +349,7 @@ class Serializer
 				}
 				else
 				{
-					Console::ConWarn(
-					    L"Non-reflectable property (%s) present within vector on %s.", stows(member.name.str()).c_str(), stows(type.name.str()).c_str());
+					static_assert(IsReflectable<typename DeclType::value_type>, "Non-reflectable property present on reflectable object.");
 				}
 			}
 			else if constexpr (IsMap<DeclType>::value)
@@ -361,11 +358,8 @@ class Serializer
 				    DeclType::value_type::first_type>;
 				constexpr bool IsNotWide = std::is_same_v<class std::basic_string<char, struct std::char_traits<char>, class std::allocator<char>> const,
 				    DeclType::value_type::first_type>;
-				if constexpr (!IsWide && !IsNotWide)
-				{
-					Console::ConWarn(L"Non-reflectable property (%s) present on %s.", stows(member.name.str()).c_str(), stows(type.name.str()).c_str());
-					return;
-				}
+
+				static_assert(IsWide || IsNotWide, "Non-reflectable property present on reflectable object.");
 
 				if constexpr (IsReflectable<typename DeclType::value_type::second_type>)
 				{
@@ -405,7 +399,7 @@ class Serializer
 			}
 			else
 			{
-				Console::ConWarn(L"Non-reflectable property (%s) present on %s.", stows(member.name.str()).c_str(), stows(type.name.str()).c_str());
+				static_assert(!IsMap<DeclType>::value, "Non-reflectable property present on reflectable object.");
 			}
 		});
 	}

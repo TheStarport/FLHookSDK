@@ -13,6 +13,8 @@
 #ifndef _FLCOREDEFS_H_
 #define _FLCOREDEFS_H_
 
+#
+
 #include "st6.h"
 
 #pragma warning(disable: 4251 4002 4099 4302)
