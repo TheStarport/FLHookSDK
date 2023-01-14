@@ -98,14 +98,6 @@ struct CLIENT_INFO
 	CHATSIZE chatSize;
 	CHATSTYLE chatStyle;
 
-	// autobuy
-	bool bAutoBuyMissiles;
-	bool bAutoBuyMines;
-	bool bAutoBuyTorps;
-	bool bAutoBuyCD;
-	bool bAutoBuyCM;
-	bool bAutoBuyReload;
-
 	// MultiKillMessages
 	uint iKillsInARow;
 

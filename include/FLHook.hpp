@@ -130,7 +130,6 @@ struct DLL FLHookConfig final : Reflectable, Singleton<FLHookConfig>
 
 	struct General final : Reflectable
 	{
-		bool autobuy = false;
 		uint antiDockKill = 4000;
 		uint antiF1 = 0;
 		bool changeCruiseDisruptorBehaviour = 0;
