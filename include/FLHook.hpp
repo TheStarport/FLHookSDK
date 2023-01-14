@@ -133,7 +133,7 @@ struct DLL FLHookConfig final : Reflectable, Singleton<FLHookConfig>
 		bool autobuy = false;
 		uint antiDockKill = 4000;
 		uint antiF1 = 0;
-		bool changeCruiseDisruptorBehaviour = 0;
+		bool changeCruiseDisruptorBehaviour = false;
 		bool debugMode = false;
 		bool dieMsg = true;
 		bool disableCharfileEncryption = false;
@@ -154,7 +154,7 @@ struct DLL FLHookConfig final : Reflectable, Singleton<FLHookConfig>
 
 		std::vector<uint> noPVPSystemsHashed;
 
-		uint antbaseIdle = 600;
+		uint antiBaseIdle = 600;
 		uint antiCharMenuIdle = 600;
 	};
 
@@ -229,7 +229,7 @@ struct DLL FLHookConfig final : Reflectable, Singleton<FLHookConfig>
 REFL_AUTO(type(FLHookConfig::General), field(antiDockKill), field(antiF1), field(changeCruiseDisruptorBehaviour), field(debugMode), field(dieMsg),
     field(disableCharfileEncryption), field(disconnectDelay), field(disableNPCSpawns), field(dockingMessages), field(localTime), field(maxGroupSize),
     field(persistGroup), field(reservedSlots), field(torpMissileBaseDamageMultiplier), field(logPerformanceTimers), field(chatSuppressList),
-    field(noPVPSystems), field(echoCommands), field(suppressInvalidCommands))
+    field(noPVPSystems), field(echoCommands), field(suppressInvalidCommands), field(antiBaseIdle), field(antiCharMenuIdle))
 REFL_AUTO(type(FLHookConfig::Plugins), field(loadAllPlugins), field(plugins))
 REFL_AUTO(type(FLHookConfig::Socket), field(activated), field(port), field(wPort), field(ePort), field(eWPort), field(encryptionKey), field(passRightsMap))
 REFL_AUTO(type(FLHookConfig::MsgStyle), field(msgEchoStyle), field(deathMsgStyle), field(deathMsgStyleSys), field(kickMsgPeriod), field(kickMsg), field(userCmdStyle),
