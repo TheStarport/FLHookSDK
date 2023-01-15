@@ -688,14 +688,15 @@ extern DLL void AddHelpEntry(const std::wstring& wscCommand, const std::wstring&
     const std::wstring& wscLongHelp, _HelpEntryDisplayed fnIsDisplayed);
 extern DLL void RemoveHelpEntry(const std::wstring& wscCommand, const std::wstring& wscArguments);
 
-extern DLL Error GetClientID(bool& bIdString, ClientId& client, const std::wstring& wscCharName);
-
 extern DLL _GetShipInspect GetShipInspect;
 extern DLL std::list<BASE_INFO> lstBases;
 extern DLL bool flhookReady;
 
-DLL bool flc_decode(const char* ifile, const char* ofile);
-DLL bool flc_encode(const char* ifile, const char* ofile);
+DLL std::string FlcDecode(std::string& input);
+DLL std::string FlcEncode(std::string& input);
+DLL bool EncodeDecode(const char* input, const char* output, bool encode);
+DLL bool FlcDecodeFile(const char* input, const char* outputFile);
+DLL bool FlcEncodeFile(const char* input, const char* outputFile);
 
 DLL void Blowfish_Init(BLOWFISH_CTX* ctx, unsigned char* key, int keyLen);
 DLL char Blowfish_Encrypt(BLOWFISH_CTX* ctx, void* ptr, unsigned long dataLen);
