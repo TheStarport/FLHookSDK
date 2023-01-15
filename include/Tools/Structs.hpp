@@ -173,7 +173,7 @@ struct PATCH_INFO_ENTRY
 
 struct PATCH_INFO
 {
-	char* szBinName;
+	const char* szBinName;
 	ulong pBaseAddress;
 
 	PATCH_INFO_ENTRY piEntries[128];
