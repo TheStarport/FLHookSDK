@@ -188,6 +188,9 @@ Str Trim(const Str& scIn)
 	auto start = scIn.find_first_not_of(trimmable);
 	auto end = scIn.find_last_not_of(trimmable);
 
+	if (start == end)
+		return scIn;
+
 	return scIn.substr(start, end - start + 1);
 }
 
