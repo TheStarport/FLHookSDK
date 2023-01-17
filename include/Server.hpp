@@ -196,7 +196,7 @@ namespace Hk
 		DLL cpp::result<void, Error> ResetRep(const std::variant<uint, std::wstring>& player);
 		DLL cpp::result<std::vector<GROUP_MEMBER>, Error> GetGroupMembers(const std::variant<uint, std::wstring>& player);
 		DLL cpp::result<void, Error> SetRep(const std::variant<uint, std::wstring>& player, const std::wstring& wscRepGroup, float fValue);
-		DLL cpp::result<float, Error> GetRep(const std::variant<uint, std::wstring>& player, const std::wstring& repGroup);
+		DLL cpp::result<float, Error> GetRep(const std::variant<uint, std::wstring>& player, const std::variant<uint, std::wstring>& repGroup);
 		DLL cpp::result<std::list<std::wstring>, Error> ReadCharFile(const std::variant<uint, std::wstring>& player);
 		DLL cpp::result<void, Error> WriteCharFile(const std::variant<uint, std::wstring>& player, std::wstring wscData);
 		DLL cpp::result<void, Error> PlayerRecalculateCRC(ClientId client);
@@ -235,6 +235,8 @@ namespace Hk
 		DLL cpp::result<std::pair<Vector, Vector>, Error> GetMotion(uint spaceObjId);
 		DLL cpp::result<uint, Error> GetType(uint spaceObjId);
 		DLL cpp::result<Universe::IBase*, Error> GetBaseByWildcard(const std::wstring& targetBaseName);
+		DLL cpp::result<uint, Error> GetAffiliation(BaseId solarId);
+		DLL cpp::result<float, Error> GetCommodityPrice(BaseId baseId, GoodId goodId);
 	} // namespace Solar
 
 	namespace Ini
