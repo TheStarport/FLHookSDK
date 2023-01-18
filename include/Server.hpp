@@ -108,6 +108,7 @@ namespace Hk
 		DLL cpp::result<ClientId, Error> GetClientIdByShip(ShipId ship);
 		DLL std::wstring GetAccountDirName(const CAccount* acc);
 		DLL cpp::result<const std::wstring, Error> GetCharFileName(const std::variant<uint, std::wstring>& player);
+		DLL cpp::result<const std::wstring, Error> GetCharFileName(const std::variant<uint, std::wstring>& player, bool returnValueIfNoFile);
 		DLL cpp::result<const std::wstring, Error> GetBaseNickByID(uint baseId);
 		DLL cpp::result<const std::wstring, Error> GetPlayerSystem(ClientId client);
 		DLL cpp::result<const std::wstring, Error> GetSystemNickByID(uint systemId);
