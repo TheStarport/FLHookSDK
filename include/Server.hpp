@@ -6,6 +6,8 @@ namespace Hk
 	{
 		std::chrono::seconds Unix();
 		std::chrono::milliseconds UnixMilliseconds();
+		
+		uint GetUnix();
 
 		template<typename T>
 		std::chrono::microseconds ToMicroseconds(T duration)
