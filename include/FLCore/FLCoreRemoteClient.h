@@ -244,7 +244,7 @@ public:
 	[[NoPlugins]] virtual bool Send_FLPACKET_SERVER_REQUEST_RETURNED(uint client, uint shipID, uint flag, uint, uint);
 	[[NoPlugins]] virtual void unknown_85(uint client, FLPACKET_UNKNOWN&);
 	[[NoPlugins]] virtual void unknown_86(uint client, uint, uint, uint);
-	[[NoPlugins]] virtual bool Send_FLPACKET_SERVER_OBJECTCARGOUPDATE(uint client, uint, uint);
+	[[NoPlugins]] virtual bool Send_FLPACKET_SERVER_OBJECTCARGOUPDATE(SObjectCargoUpdate & cargoUpdate, uint iDunno1, uint iDunno2);
 	virtual bool Send_FLPACKET_SERVER_BURNFUSE(uint client, FLPACKET_BURNFUSE& burnFuse);
 	[[NoPlugins]] virtual void unknown_89(uint client, FLPACKET_UNKNOWN&);
 	[[NoPlugins]] virtual void unknown_90(uint client);

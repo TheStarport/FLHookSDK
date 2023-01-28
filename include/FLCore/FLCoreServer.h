@@ -60,6 +60,35 @@ struct SSPMunitionCollisionInfo
 
 };
 
+struct SObjectCargoUpdate
+{
+	uint client;
+	Vector position;
+	uint iDunno01;
+	uint iDunno02;
+	uint iDunno03;
+	uint iDunno04;
+	uint iDunno05;
+	uint iDunno06;
+	uint iDunno07;
+	uint iDunno08;
+	uint iDunno09;
+	uint iDunno10;
+	uint iDunno11;
+	uint iDunno13;
+	uint iDunno14;
+	uint iDunno15;
+	uint iDunno16;
+	uint iDunno17;
+	uint iDunno18;
+	uint iDunno19;
+	uint iDunno20;
+	uint iDunno21;
+	uint iDunno22;
+	uint iDunno23;
+	uint iDunno24;
+};
+
 struct SSPBadLandsObjCollisionInfo
 {
     uint iDunno[128];
