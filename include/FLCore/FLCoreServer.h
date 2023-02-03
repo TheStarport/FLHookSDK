@@ -156,6 +156,12 @@ struct XFireWeaponInfo
 	st6::list<ushort> hpIds;
 };
 
+struct XCollisionGroup
+{
+	ushort componentId;
+	float componentHP;
+};
+
 struct XSetManeuver
 {
 	uint shipFrom;
