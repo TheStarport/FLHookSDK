@@ -27,6 +27,7 @@ struct XActivateEquip;
 struct XActivateThrusters;
 struct XActivateCruise;
 struct XFireWeaponInfo;
+struct XCollisionGroup;
 
 class IMPORT IClient
 {
@@ -180,8 +181,8 @@ public:
 	virtual double CDPClientProxy__GetLinkSaturation(uint client);
 	virtual bool Send_FLPACKET_SERVER_SETSHIPARCH(uint client, uint shipArch);
 	virtual bool Send_FLPACKET_SERVER_SETHULLSTATUS(uint client, float status);
-	virtual bool Send_FLPACKET_SERVER_SETCOLLISIONGROUPS(uint client, FLPACKET_UNKNOWN&);
 	virtual bool Send_FLPACKET_SERVER_SETEQUIPMENT(uint client, FLPACKET_UNKNOWN&);
+	virtual bool Send_FLPACKET_SERVER_SETCOLLISIONGROUPS(uint client, st6::list<XCollisionGroup>&);
 	[[NoPlugins]] virtual void unknown_26(uint client, uint);
 	virtual bool Send_FLPACKET_SERVER_SETADDITEM(uint client, FLPACKET_UNKNOWN&, FLPACKET_UNKNOWN&);
 	[[NoPlugins]] virtual void unknown_28(uint client, uint, uint, uint);
