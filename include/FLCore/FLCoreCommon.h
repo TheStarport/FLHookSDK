@@ -279,14 +279,14 @@ namespace Archetype
 
 	public:
 		/*  1 */ uint vtable;
-		/*  2 */ uint iArchID;
+		/*  2 */ uint iArchId;
 		/*  3 */ char* szName;
 		/*  4 */ uint iArchType;
 		/*  5 */ uint iIdsName;
 		/*  6 */ uint iIdsInfo;
 		/*  7 */ float fHitPoints;
 		/*  8 */ float fMass;
-		/*  9 */ int iExplosionArchID;
+		/*  9 */ int iExplosionArchId;
 		/* 10 */ float fExplosionResistance;
 		/* 11x4 */ union
 		{
@@ -322,7 +322,7 @@ namespace Archetype
 		/* 23 */ float fVolume;
 		/* 24 */ uint bUseCount;
 		/* 25 */ uint iUnitsPerContainer;
-		/* 26 */ uint iTractoredExplosionID;
+		/* 26 */ uint iTractoredExplosionId;
 		/* 27 */ uint bLootable;
 	};
 
@@ -368,8 +368,8 @@ namespace Archetype
 		virtual bool read(class INI_Reader &);
 		virtual void redefine(struct Root const &);
 	public:
-		/* 28 */ uint iSeparationExplosionID;
-		/* 29 */ uint iDebrisTypeID;
+		/* 28 */ uint iSeparationExplosionId;
+		/* 29 */ uint iDebrisTypeId;
 		/* 30 */ float fChildImpulse;
 		/* 31 */ float fParentImpulse;
 		/* 32 */ char* szHpChild;
@@ -448,8 +448,8 @@ namespace Archetype
 		/* 34 */ float fPowerUsage;
 		/* 35 */ float fCloakinTime;
 		/* 36 */ float fCloakoutTime;
-		/* 37 */ uint iCloakinFxID;
-		/* 38 */ uint iCloakoutFxID;
+		/* 37 */ uint iCloakinFxId;
+		/* 38 */ uint iCloakoutFxId;
 
 	};
 
@@ -482,8 +482,8 @@ namespace Archetype
 
 	public:
 		/* 28 */ float fDecayPerSecond;
-		/* 29 */ uint iLootAppearanceID;
-		/* 30 */ uint iPodAppearanceID;
+		/* 29 */ uint iLootAppearanceId;
+		/* 30 */ uint iPodAppearanceId;
 	};
 
 	struct IMPORT DamageObjInfo
@@ -580,7 +580,7 @@ namespace Archetype
 		/* 35 */ float fPowerUsage;
 		/* 36 */ float fRefireDelay;
 		/* 37 */ float fMuzzleVelocity;
-		/* 38 */ uint iProjectileArchID;
+		/* 38 */ uint iProjectileArchId;
 		/* 39 */ char* szUseAnimation;
 	};
 
@@ -695,7 +695,7 @@ namespace Archetype
 		/* 29 */ float fOwnerSafeTime;
 		/* 30 */ bool bRequiresAmmo;
 		         bool bForceGunOri;
-		/* 31 */ uint iLootAppearanceID;
+		/* 31 */ uint iLootAppearanceId;
 	};
 
 
@@ -753,8 +753,8 @@ namespace Archetype
 	public:
 		/* 32 */ float fHullDamage;
 		/* 33 */ float fEnergyDamage;
-		/* 34 */ uint iWeaponTypeID;
-		/* 35 */ uint iMotorID;
+		/* 34 */ uint iWeaponTypeId;
+		/* 35 */ uint iMotorId;
 		/* 36 */ uint iSeeker; // 2 = lock, dumb = 1, ? = 0
 		/* 37 */ float fTimeToLock;
 		/* 38 */ float fSeekerRange;
@@ -845,7 +845,7 @@ namespace Archetype
 		virtual bool read(class INI_Reader &);
 
 	public:
-		/* 28 */ uint iLootAppearanceID;
+		/* 28 */ uint iLootAppearanceId;
 	};
 
 	struct IMPORT RepairKit : ShieldBattery
@@ -878,7 +878,7 @@ namespace Archetype
 
 	public:
 		/* 34 */ uint iHpType;
-		/* 35 */ uint iShieldTypeID;
+		/* 35 */ uint iShieldTypeId;
 		/* 36 */ float fRegenerationRate;
 		/* 37 */ float fMaxCapacity;
 		/* 38 */ float fConstantPowerDraw;
@@ -960,7 +960,7 @@ namespace Archetype
 		/* 39 */ uint iToughness;
 		/* 40 */ char* szOpenAnim;
 		/* 41 */ char* szJumpOutHp;
-		/* 42 */ uint iLoadoutID;
+		/* 42 */ uint iLoadoutId;
 	};
 
 	struct IMPORT Thruster : public AttachedEquipment
@@ -1046,7 +1046,7 @@ namespace Archetype
 	IMPORT  int  LoadShips(char const *,bool,struct ICliObjFactory *);
 	IMPORT  int  LoadSimples(char const *,bool,struct ICliObjFactory *);
 	IMPORT  int  LoadSolar(char const *,bool,struct ICliObjFactory *);
-	IMPORT  unsigned int  SmallIDToLargeID(unsigned short);
+	IMPORT  unsigned int  SmallIdToLargeID(unsigned short);
 
 };
 
@@ -1219,7 +1219,19 @@ public:
 	SubObjFate fate;
 };
 
-enum DamageCause;
+enum class DamageCause 
+{
+	Unknown = 0x0,
+	Collision = 0x1,
+	Gun = 0x2,
+	MissileTorpedo = 0x5,
+	CruiseDisrupter = 0x6,
+	Mine = 0x7,
+	Suicide = 0x8,
+	DummyDisrupter = 0xC0,
+	UnkDisrupter = 0x15,
+	Admin = 0x18
+};
 
 struct IMPORT DamageList
 {
@@ -1230,7 +1242,7 @@ struct IMPORT DamageList
 	struct DamageList & operator=(struct DamageList const &);
 	static char const *  DmgCauseToString(enum DamageCause);
 	void add_damage_entry(unsigned short,float,enum DamageEntry::SubObjFate);
-	enum DamageCause  get_cause(void)const ;
+	DamageCause  get_cause(void)const ;
 	float get_hit_pts_left(unsigned short)const ;
 	unsigned int get_inflictor_id(void)const ;
 	unsigned int get_inflictor_owner_player(void)const ;
@@ -1246,8 +1258,8 @@ public:
 	st6::list<DamageEntry> damageentries; // 4
 	bool bDestroyed; // 12
 	uint iDunno2; // 16
-	uint iInflictorID; // 20
-	uint iInflictorPlayerID; // 24
+	uint iInflictorId; // 20
+	uint iInflictorPlayerId; // 24
 };
 
 class IMPORT CArchGroup
@@ -1356,13 +1368,13 @@ namespace Universe
 	struct IBase
 	{
 		uint iDunno1;
-		uint iBaseID;
+		uint baseId;
 		uint iDunno2;
-		uint iBaseIDS;
+		uint baseIdS;
 		uint iDunno3;
-		uint iSystemID;
+		uint systemId;
 		uint iDunno4[4];
-		ulong lSpaceObjID;
+		ulong lSpaceObjId;
 		uint iDunno5[10];
 	};
 	struct IMPORT ISystem
@@ -1372,7 +1384,7 @@ namespace Universe
 		size_t msgidprefix_len;	// TString<64>
 		char   msgidprefix_str[64];
 
-		uint   id;				// ID_String
+		uint   id;				// Id_String
 		const char* nickname;		// CacheString
 		st6::vector<ISystem*> connections;
 		uchar   visit;
@@ -1389,13 +1401,13 @@ namespace Universe
 	{
 		struct FactionSpawn
 		{
-			uint iFaction; // Faction ID, obtainable with e.g. pub::Reputation::GetReputationGroup()
+			uint iFaction; // Faction Id, obtainable with e.g. pub::Reputation::GetReputationGroup()
 			float fChance; // Spawn chance
 		};
 
 		uint iDunno1[1];
-		uint iZoneID;
-		uint iSystemID;
+		uint iZoneId;
+		uint systemId;
 		Matrix mRot;
 		Vector vPos;
 		uint iShapeType; // 1 = sphere, 5 = ring
@@ -1593,7 +1605,7 @@ namespace CmnAsteroid
 		/* 13 */ uint iDunno1;
 		/* 14 */ uint iDunno2;
 		/* 15 */ uint iDunno3;
-		/* 16 */ uint iSystemID;
+		/* 16 */ uint systemId;
 		/* 17 */ int iCubeSize;
 		/* 18 */ int iFillDist;
 		/* 19 */ float fEmptyFreq;
@@ -1703,7 +1715,7 @@ namespace PhySys
 		void enable_collisions(bool,bool);
 		bool get_actual_collision_state(void)const ;
 		bool get_desired_collision_state(void)const ;
-		//@@@ int get_intruding_cobjs(bool,struct CheapSet<struct CObject *,struct st6::less<struct CObject *> > &);
+		//@@@ int get_intruding_cobjs(bool,struct CheapSet<struct CObject *,struct st6::less<struct CObject *>> &);
 		virtual void mindist_entered_volume(class IVP_Controller_Phantom *,class IVP_Mindist_Base *);
 		virtual void mindist_left_volume(class IVP_Controller_Phantom *,class IVP_Mindist_Base *);
 		virtual void phantom_is_going_to_be_deleted_event(class IVP_Controller_Phantom *);
@@ -2083,7 +2095,7 @@ public:
 	uint iDunnoScanner; // 0xA4
 	uint iDunnoCSimple3; // 0xA8
 	IObjDB* objDB; // 0xAC
-	uint iID; // 0xB0
+	uint iId; // 0xB0
 	uint iOwnerPlayer; // 0xB4
 	float fHitPoints; // 0xB8
 	uint iDunnoCSimple4[0x5];
@@ -2845,8 +2857,8 @@ public:
 	bool VerifyListSync(class EquipDescList const &)const ;
 
 private:
-	int CleanUp(class st6::list<class CEquip *,class st6::allocator<class CEquip *> > &);
-	static void  Clear(class st6::list<class CEquip *,class st6::allocator<class CEquip *> > &);
+	int CleanUp(class st6::list<class CEquip *,class st6::allocator<class CEquip *>> &);
+	static void  Clear(class st6::list<class CEquip *,class st6::allocator<class CEquip *>> &);
 
 public:
 	unsigned char data[180];
@@ -2891,7 +2903,7 @@ public:
 	virtual void get_equip_desc_list(struct EquipDescVector &)const ;
 	virtual bool add_item(struct EquipDesc const &);
 	virtual enum ObjActivateResult  activate(bool,unsigned int);
-	virtual bool get_activate_state(class st6::vector<bool,class st6::allocator<bool> > &);
+	virtual bool get_activate_state(class st6::vector<bool,class st6::allocator<bool>> &);
 	virtual void disconnect(struct IObjDB *);
 	virtual void disconnect(struct INotify *);
 	virtual void disconnect(struct IObjRW *);
@@ -3436,7 +3448,7 @@ public:
 		  int  accessories;
 		};
 		structCostume Costume;
-		int iVoiceID;
+		int iVoiceId;
 		int iDunnoLoadout[4];
 		//class st6::list<struct CollisionGroupDesc> collision;
 		int iDunno3[3];
@@ -3472,7 +3484,7 @@ public:
 	virtual void cache_physical_props(void);
 	virtual void init_physics(class Vector const &,class Vector const &);
 	virtual enum ObjActivateResult  activate(bool,unsigned int);
-	virtual bool get_activate_state(class st6::vector<bool,class st6::allocator<bool> > &);
+	virtual bool get_activate_state(class st6::vector<bool,class st6::allocator<bool>> &);
 	virtual void flush_animations(void);
 	virtual class CEquip * alloc_equip(unsigned short,struct Archetype::Equipment *,bool);
 
@@ -3776,6 +3788,25 @@ namespace EngineEquipConsts
 	IMPORT  float  THROTTLE_STEADY_TIME;
 };
 
+#pragma pack(push, 1)
+struct SetEquipmentItem
+{
+	int iCount;
+	float fHealth;
+	int iArchId;
+	ushort sId;
+	byte bMounted;
+	byte bMission;
+	ushort szHardPointLen;
+};
+#pragma pack(pop)
+
+struct FlPacketSetEquipment
+{
+	ushort count;
+	byte items[1];
+};
+
 struct IMPORT EquipDesc
 {
 	EquipDesc(struct EquipDesc const &);
@@ -3809,8 +3840,8 @@ struct IMPORT EquipDesc
 
 public:
 	USHORT iDunno;
-	USHORT sID;
-	UINT iArchID;
+	USHORT sId;
+	UINT iArchId;
 	CacheString szHardPoint;
 	bool bMounted;
 	float fHealth;
@@ -4121,10 +4152,10 @@ public:
 	uint i1;
 	uint iLen;
 	uint iDunno1[16];
-	/* 72 */ uint iArchID;
+	/* 72 */ uint iArchId;
 	/* 76 */ uint iType; // 0=commodity, 2=hull, 3=ship
 	/* 80 */ uint i3;
-	/* 84 */ uint iShipGoodID; // if type = GOODINFO_TYPE_HULL
+	/* 84 */ uint shipGoodId; // if type = GOODINFO_TYPE_HULL
 	/* 88 */ float fPrice;
 	/* 92 */ float fGoodSellPrice;
 	/* 96 */ float fBadBuyPrice;
@@ -4137,13 +4168,13 @@ public:
 	/* 124 */ float iDunno5;
 	/* 128 */ float iDunno6;
 	/* 132 */ float iDunno7;
-	/* 136 */ uint iIDSName;
-	/* 140 */ uint iIDS;
-	/* 144 */ uint iHullGoodID; // if type = GOODINFO_TYPE_SHIP
+	/* 136 */ uint iIdSName;
+	/* 140 */ uint iIdS;
+	/* 144 */ uint iHullGoodId; // if type = GOODINFO_TYPE_SHIP
 	/* 148 */ EquipDescList edl;
 	/* 160 */ EquipDescList edl2;
 	/* 172 */ EquipDescList edl3;
-	/* 184 */ uint iFreeAmmoArchID;
+	/* 184 */ uint iFreeAmmoArchId;
 	/* 188 */ uint iFreeAmmoCount;
 };
 
@@ -4159,7 +4190,7 @@ public:
 	struct GoodInfo const * find_by_id(unsigned int)const ;
 	struct GoodInfo const * find_by_name(char const *)const ;
 	struct GoodInfo const * find_by_ship_arch(unsigned int)const ;
-	class st6::list<struct GoodInfo *,class st6::allocator<struct GoodInfo *> > const * get_list(void)const ;
+	class st6::list<struct GoodInfo *,class st6::allocator<struct GoodInfo *>> const * get_list(void)const ;
 	void load(char const *);
 
 private:
@@ -4785,7 +4816,7 @@ namespace pub
 			Vector vPos;
 			// If iGotoType is 0 then move to this spaceobj. Do not set a vPos if you
 			// set this.
-			uint iTargetID;
+			uint iTargetId;
 			// The 4 points to fly to if iGotoType is 2
 			Vector vSpline[4];
 			// This specifies how close the NPC will attempt to get to the position
@@ -4948,7 +4979,7 @@ namespace pub
 		  int iStateGraph;
 		  ContentCallback* pContentCallback;
 		  DirectiveCallback* pDirectiveCallback;
-		  bool bStateID; // true - state_graph_id, false - state_graph
+		  bool bStateId; // true - state_graph_id, false - state_graph
 		  Personality personality;
 		};
 
@@ -5319,7 +5350,7 @@ struct IMPORT MarketGoodInfo
 	struct MarketGoodInfo & operator=(struct MarketGoodInfo const &);
 
 public:
-	uint iGoodID;
+	uint iGoodId;
 	float fPrice;
 	int iMin;
 	int iStock;
@@ -6106,7 +6137,7 @@ public:
 	SphereIntruderChecker(void);
 	~SphereIntruderChecker(void);
 	class SphereIntruderChecker & operator=(class SphereIntruderChecker const &);
-	void check_sphere(unsigned int,class Vector const &,float,class st6::list<struct CObject *,class st6::allocator<struct CObject *> > &);
+	void check_sphere(unsigned int,class Vector const &,float,class st6::list<struct CObject *,class st6::allocator<struct CObject *>> &);
 
 protected:
 	virtual void added(struct CObject *);
@@ -6357,8 +6388,8 @@ namespace Timing
 	IMPORT  void  UpdateGlobalTime(double);
 	IMPORT  void  init(void);
 	IMPORT  double  read(void);
-	IMPORT  __int64  read_ticks(void);
-	IMPORT  double  seconds(__int64 const &);
+	IMPORT  int64  read_ticks(void);
+	IMPORT  double  seconds(int64 const &);
 };
 
 class IMPORT TractorArm

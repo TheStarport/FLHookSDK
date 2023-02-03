@@ -14,7 +14,7 @@ For development help, please refer to https://the-starport.net (check out the FL
 
 ### Plugin info
 
-Your plugin DLL needs to be located directly in the `.\EXE\flhook_plugins` folder. It needs to export `Get_PluginInfo` which replaces the old plugin INI file. Normally the function `Get_PluginInfo` should look something like this (using `tempban.dll` as example):
+Your plugin DLL needs to be located directly in the `.\EXE\plugins` folder. It needs to export `Get_PluginInfo` which replaces the old plugin INI file. Normally the function `Get_PluginInfo` should look something like this (using `tempban.dll` as example):
 
 ```cpp
 EXPORT PLUGIN_INFO* Get_PluginInfo()
@@ -25,8 +25,8 @@ EXPORT PLUGIN_INFO* Get_PluginInfo()
 	p_PI->bMayPause = true;
 	p_PI->bMayUnload = true;
 	p_PI->ePluginReturnCode = &returncode;
-	p_PI->lstHooks.push_back(PLUGIN_HOOKINFO((FARPROC*)&HkTimerCheckKick, PLUGIN_HkTimerCheckKick, 0));
-	p_PI->lstHooks.push_back(PLUGIN_HOOKINFO((FARPROC*)&HkIServerImpl::Login, PLUGIN_HkIServerImpl_Login, 0));
+	p_PI->lstHooks.push_back(PLUGIN_HOOKINFO((FARPROC*)&TimerCheckKick, PLUGIN_TimerCheckKick, 0));
+	p_PI->lstHooks.push_back(PLUGIN_HOOKINFO((FARPROC*)&IServerImpl::Login, PLUGIN_IServerImpl_Login, 0));
 	p_PI->lstHooks.push_back(PLUGIN_HOOKINFO((FARPROC*)&Plugin_Communication_CallBack, PLUGIN_Plugin_Communication, 0));
 	p_PI->lstHooks.push_back(PLUGIN_HOOKINFO((FARPROC*)&ExecuteCommandString_Callback, PLUGIN_ExecuteCommandString_Callback, 0));
 	p_PI->lstHooks.push_back(PLUGIN_HOOKINFO((FARPROC*)&CmdHelp_Callback, PLUGIN_CmdHelp_Callback, 0));
@@ -57,12 +57,12 @@ If you ever change the return code, you must **always** set the return code in e
 
 ### Hooking functions
 
-So, this is where the fun starts. First the very basics: Taking the example from above, the plugin defines a hook on `HkIServerImpl::Login`. Taking a look at the documentation about that hook gives us `void __stdcall Login(struct SLoginInfo const &li, unsigned int iClientID)`. This is what the function prototype must look like. You now need to define that function with a dll export, like this:
+So, this is where the fun starts. First the very basics: Taking the example from above, the plugin defines a hook on `IServerImpl::Login`. Taking a look at the documentation about that hook gives us `void __stdcall Login(struct SLoginInfo const &li, unsigned int client)`. This is what the function prototype must look like. You now need to define that function with a dll export, like this:
 
 ```cpp
-namespace HkIServerImpl
+namespace IServerImplHook
 {
-	EXPORT void __stdcall Login(struct SLoginInfo const &li, unsigned int iClientID)
+	EXPORT void __stdcall Login(struct SLoginInfo const &li, unsigned int client)
 	{
 		// do something here
 		return;
@@ -106,7 +106,7 @@ Plugin_Communication(DO_SOMETHING, &outgoing_data);
 
 ### Debugging
 
-To spot bugs in your plugins, you should always have a look at the `flhook.log` in `.\EXE\flhook_logs\`. If one of your callback functions throws an exception to FLHook, it is logged in this log file. Feel free to implement your own exception handling for more detailed error reporting.
+To spot bugs in your plugins, you should always have a look at the `flhook.log` in `.\EXE\logs\`. If one of your callback functions throws an exception to FLHook, it is logged in this log file. Feel free to implement your own exception handling for more detailed error reporting.
 
 **IMPORTANT NOTE:** If you want to debug your plugins and you are using STL classes that are being shared with FLHook (i.e. FLHook allocates a string and your plugin deallocates it) you *need* to make sure you set the compiler to use the "Multi-threaded DLL (/MD)" runtime library (in VC C++ project settings under "Code Generation"), otherwise you will get debug assertion crashes! You can also compile FLHook in debug mode and then also compile your plugin with "Multi-threaded Debug DLL (/MDd)". Just make sure, whatever runtime library setting you use, it *must* match the one of FLHook.
 
