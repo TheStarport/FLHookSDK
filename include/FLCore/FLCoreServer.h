@@ -156,7 +156,7 @@ struct XFireWeaponInfo
 	st6::list<ushort> hpIds;
 };
 
-struct XCollisionGroup
+struct XCollision
 {
 	ushort componentId;
 	float componentHP;
