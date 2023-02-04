@@ -181,8 +181,8 @@ public:
 	virtual double CDPClientProxy__GetLinkSaturation(uint client);
 	virtual bool Send_FLPACKET_SERVER_SETSHIPARCH(uint client, uint shipArch);
 	virtual bool Send_FLPACKET_SERVER_SETHULLSTATUS(uint client, float status);
-	virtual bool Send_FLPACKET_SERVER_SETEQUIPMENT(uint client, st6::vector<EquipDesc>&);
 	virtual bool Send_FLPACKET_SERVER_SETCOLLISIONGROUPS(uint client, st6::list<XCollision>&);
+	virtual bool Send_FLPACKET_SERVER_SETEQUIPMENT(uint client, st6::vector<EquipDesc>&);
 	[[NoPlugins]] virtual void unknown_26(uint client, uint);
 	virtual bool Send_FLPACKET_SERVER_SETADDITEM(uint client, FLPACKET_UNKNOWN&, FLPACKET_UNKNOWN&);
 	[[NoPlugins]] virtual void unknown_28(uint client, uint, uint, uint);
