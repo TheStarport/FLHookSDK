@@ -1254,11 +1254,11 @@ struct IMPORT DamageList
 	void set_inflictor_owner_player(unsigned int);
 
 public:
-	st6::list<DamageEntry> damageentries;
-	bool bDestroyed;
+	st6::list<DamageEntry> damageEntries;
+	bool isDestroyed;
 	enum DamageCause damageCause;
-	uint iInflictorId;
-	uint iInflictorPlayerId;
+	uint inflictorId;
+	uint inflictorPlayerId;
 };
 
 class IMPORT CArchGroup
