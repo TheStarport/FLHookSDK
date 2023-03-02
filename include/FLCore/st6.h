@@ -250,7 +250,7 @@ namespace st6
 
 		void insert(iterator _P, size_type _M, const _Ty& _X)
 		{
-			if (_End - _Last < _M)
+			if (static_cast<uint>(_End - _Last) < _M)
 			{
 				size_type _N = size() + (_M < size() ? size() : _M);
 				iterator _S = allocator.allocate(_N, (void*)0);
@@ -263,7 +263,7 @@ namespace st6
 				_Last = _S + size() + _M;
 				_First = _S;
 			}
-			else if (_Last - _P < _M)
+			else if (static_cast<uint>(_Last - _P) < _M)
 			{
 				_Ucopy(_P, _Last, _P + _M);
 				_Ufill(_Last, _M - (_Last - _P), _X);
