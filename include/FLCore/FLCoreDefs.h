@@ -13,8 +13,7 @@
 #ifndef _FLCOREDEFS_H_
 #define _FLCOREDEFS_H_
 
-#
-
+#include "glm/glm.hpp"
 #include "st6.h"
 
 #pragma warning(disable: 4251 4002 4099 4302)
@@ -38,10 +37,15 @@ template <int size> struct TString
 
 class Vector
 {
-public:
-	float x,y,z;
+  public:
+	union {
+		struct
+		{
+			[[deprecated]] float x, y, z;
+		};
+		glm::vec3 v;
+	};
 };
-
 class Matrix
 {
 public:
