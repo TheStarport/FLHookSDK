@@ -5418,7 +5418,7 @@ public:
 	unsigned char data[OBJECT_DATA_SIZE];
 };
 
-struct IMPORT MessageHandler
+/* struct IMPORT MessageHandler
 {
 	MessageHandler(class IMessageRouter *);
 	virtual ~MessageHandler(void);
@@ -5431,7 +5431,7 @@ protected:
 
 public:
 	unsigned char data[OBJECT_DATA_SIZE];
-};
+};*/
 
 class IMPORT MissionVendorAcceptance
 {
