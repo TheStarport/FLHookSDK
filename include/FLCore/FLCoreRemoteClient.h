@@ -32,9 +32,9 @@ struct XCollision;
 class IMPORT IClient
 {
 public:
-	 IClient(class IClient const &);
+	 IClient(IClient const &);
 	 IClient(void);
-	 class IClient & operator=(class IClient const &);
+	 IClient & operator=(IClient const &);
 
 public:
 	unsigned char data[OBJECT_DATA_SIZE];

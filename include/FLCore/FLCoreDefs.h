@@ -39,7 +39,7 @@ class Vector : public glm::vec3
 {
   public:
 	Vector() = default;
-	Vector(const float x, const float y, const float z) : glm::vec3(x, y, z){};
+	Vector(const float a, const float b, const float c) : glm::vec3(a, b, c) {}
 };
 
 class Matrix
@@ -58,5 +58,6 @@ using uint = unsigned int;
 using ushort = unsigned short;
 using ulong = unsigned long;
 using uchar = unsigned char;
+using byte = uchar;
 
 #endif // _FLCOREDEFS_H_

@@ -19,41 +19,44 @@
 #pragma warning(disable : 5030)
 #pragma comment(lib, "FLCoreServer.lib")
 
-#define POPUPDIALOG_BUTTONS_LEFT_YES 1
-#define POPUPDIALOG_BUTTONS_CENTER_NO 2
-#define POPUPDIALOG_BUTTONS_RIGHT_LATER 4
-#define POPUPDIALOG_BUTTONS_CENTER_OK 8
+enum class PopupDialog
+{
+	LeftYes = 1 << 0,
+	CenterNo = 1 << 1,
+	RightLater = 1 << 2,
+	CenterOk = 1 << 3
+};
 
 struct CHAT_ID
 {
-	uint Id;
+	uint id;
 };
 
-enum DOCK_HOST_RESPONSE
+enum class DOCK_HOST_RESPONSE
 {
-	ACCESS_DENIED = 1,
-	DOCK_DENIED = 2,
-	DOCK_IN_USE = 3,
-	PROCEED_DOCK = 4,
-	DOCK = 5,
+	AccessDenied = 1,
+	DockDenied = 2,
+	DockInUse = 3,
+	ProceedDock = 4,
+	Dock = 5,
 };
 
-enum DestroyType
+enum class DestroyType
 {
-	VANISH = 0,
-	FUSE = 1,
+	Vanish = 0,
+	Fuse = 1,
 };
 
 struct SGFGoodVaporizedInfo
 {
-	uint Dunno[128];
+	uint dunno[128];
 };
 
 struct SSPMunitionCollisionInfo
 {
-	uint ProjectileArchId;
-	DWORD dw2;
-	DWORD dwTargetShip;
+	uint projectileArchId;
+	DWORD dunno;
+	DWORD targetShip;
 	ushort s1;
 };
 
@@ -61,134 +64,110 @@ struct SObjectCargoUpdate
 {
 	uint client;
 	Vector position;
-	uint Dunno01;
-	uint Dunno02;
-	uint Dunno03;
-	uint Dunno04;
-	uint Dunno05;
-	uint Dunno06;
-	uint Dunno07;
-	uint Dunno08;
-	uint Dunno09;
-	uint Dunno10;
-	uint Dunno11;
-	uint Dunno13;
-	uint Dunno14;
-	uint Dunno15;
-	uint Dunno16;
-	uint Dunno17;
-	uint Dunno18;
-	uint Dunno19;
-	uint Dunno20;
-	uint Dunno21;
-	uint Dunno22;
-	uint Dunno23;
-	uint Dunno24;
+	uint dunno[24];
 };
 
 struct SSPBadLandsObjCollisionInfo
 {
-	uint Dunno[128];
+	uint dunno[128];
 };
 
 struct SSPObjCollisionInfo
 {
-	uint ColliderObjectId;
-	uint ColliderSubObjId;
-	uint DamagedObjectId;
-	uint DamagedSubObjId;
-	float Damage;
+	uint colliderObjectId;
+	uint colliderSubObjId;
+	uint damagedObjectId;
+	uint damagedSubObjId;
+	float damage;
 };
 
 struct SSPUseItem
 {
-	uint Dunno[128];
+	uint dunno[128];
 };
 
 struct XActivateEquip
 {
-	uint SpaceId;
-	ushort sId;
-	bool bActivate;
+	uint spaceId;
+	ushort id;
+	bool activate;
 };
 
 struct XActivateCruise
 {
 	uint ship;
-	bool bActivate;
+	bool activate;
 };
 
 struct XActivateThrusters
 {
 	uint ship;
-	bool bActivate;
+	bool activate;
 };
 
 struct XTractorObjects
 {
-	int Dunno[3];
+	int dunno[3];
 	// This points to the start of the array of space Ids
-	int* pArraySpaceId;
+	int* arraySpaceId;
 	// This points to the end of the array of space Ids
-	int* pArraySpaceIdEnd;
+	int* arraySpaceIdEnd;
 };
 
 struct SGFGoodSellInfo
 {
-	long l1;
-	uint ArchId;
-	int Count;
+	long dunno1;
+	uint archId;
+	int count;
 };
 
 struct SGFGoodBuyInfo
 {
 	uint baseId;
-	ulong lNull;
-	uint GoodId;
-	int Count;
+	ulong null;
+	uint goodId;
+	int count;
 };
 
 struct XFireWeaponInfo
 {
-	uint Object;
-	Vector vTarget;
-	uint Dunno;
+	uint object;
+	Vector target;
+	uint dunno;
 	st6::list<ushort> hpIds;
 };
 
 struct XCollision
 {
 	ushort componentId;
-	float componentHP;
+	float componentHp;
 };
 
 struct XSetManeuver
 {
 	uint shipFrom;
 	uint shipTo;
-	uint Flag;
+	uint flag;
 };
 
 struct XSetTarget
 {
 	uint ship;
-	uint Slot;
-	uint SpaceId;
-	uint SubObjId;
+	uint slot;
+	uint spaceId;
+	uint subObjId;
 };
 
 struct SSPObjUpdateInfo
 {
 	uint ship;
-	Quaternion vDir;
-	Vector vPos;
-	float Timestamp;
-	float Throttle;
-	union {
-		float StateValue;
-		uint StateValue;
-	};
-	char cState;
+	Quaternion dir;
+	Vector pos;
+	float timestamp;
+	float throttle;
+	uint stateValue;
+	// Enum of some kind
+	char state;
 };
 
 struct XJettisonCargo
@@ -201,30 +180,33 @@ struct XJettisonCargo
 struct XGoTradelane
 {
 	uint ship;
-	uint TradelaneSpaceObj1;
-	uint TradelaneSpaceObj2;
+	uint tradelaneSpaceObj1;
+	uint tradelaneSpaceObj2;
 };
 
 struct CAccountListNode
 {
 	CAccountListNode* next;
 	CAccountListNode* prev;
-	uint Dunno1;
-	wchar_t* Charname;
-	uint Dunno2[32];
+	uint dunno1;
+	wchar_t* charname;
+	uint dunno2[32];
 };
 
-enum ConnectionType
+enum class ConnectionType
 {
-	JUMPHOLE
+	// TODO: Map out other connection types
+	Jumphole
 };
 
-enum EFLConnection
+enum class EFLConnection
 {
+	// TODO: Map out connections
 };
 
-enum InvincibilityReason
+enum class InvincibilityReason
 {
+	// TODO Map out reason
 };
 
 struct CollisionGroupDescList
@@ -234,50 +216,50 @@ struct CollisionGroupDescList
 
 struct SCreateCharacterInfo
 {
-	wchar_t Charname[24];
-	uint NickName; // From [Faction] section of newcharacter.ini
-	uint Base;     // From [Faction] section of newcharacter.ini
-	uint Package;  // From [Faction] section of newcharacter.ini
-	uint Pilot;    // From [Faction] section of newcharacter.ini
-	uint Dunno[96];
+	wchar_t charname[24];
+	uint nickName; // From [Faction] section of newcharacter.ini
+	uint base;     // From [Faction] section of newcharacter.ini
+	uint package;  // From [Faction] section of newcharacter.ini
+	uint pilot;    // From [Faction] section of newcharacter.ini
+	uint dunno[96];
 };
 
 struct SStartupInfo
 {
-	uint Dunno[130];
-	int MaxPlayers;
+	uint dunno[130];
+	int maxPlayers;
 };
 
 struct SLoginInfo
 {
-	wchar_t Account[36];
+	wchar_t account[36];
 };
 
 struct FLString
 {
 	st6::string value;
-	UINT Dunno2[12];
+	UINT dunno2[12];
 };
 
 class IMPORT CAccount
 {
   public:
-	CAccount(class CAccount const&);
+	CAccount(CAccount const&);
 	CAccount(void);
 	virtual ~CAccount(void);
-	class CAccount& operator=(class CAccount const&);
+	CAccount& operator=(CAccount const&);
 	void AppendCharacterNames(st6::list<st6::wstring&>&);
 	void DeleteCharacterFromID(st6::string&);
 	void ForceLogout(void);
 	void InitFromFolder(char const*);
 
   public:
-	uint Dunno1;
-	wchar_t* AccId;
-	uint Dunno2[7];
-	CAccountListNode* pFirstListNode;
-	uint NumberOCharacters;
-	uint Dunno4[32];
+	uint dunno1;
+	wchar_t* accId;
+	uint dunno2[7];
+	CAccountListNode* firstListNode;
+	uint numberOCharacters;
+	uint dunno4[32];
 };
 
 namespace BaseGroupMessage
@@ -288,16 +270,16 @@ namespace BaseGroupMessage
 class IMPORT CPlayerGroup
 {
   public:
-	CPlayerGroup(class CPlayerGroup const&);
+	CPlayerGroup(CPlayerGroup const&);
 	CPlayerGroup(void);
 	virtual ~CPlayerGroup(void);
-	class CPlayerGroup& operator=(class CPlayerGroup const&);
+	CPlayerGroup& operator=(CPlayerGroup const&);
 	bool AddInvite(unsigned int);
 	bool AddMember(unsigned int);
 	bool DelInvite(unsigned int);
 	bool DelMember(unsigned int);
 	void DeliverChat(unsigned long, void const*);
-	static class CPlayerGroup* FromGroupID(unsigned int);
+	static CPlayerGroup* FromGroupID(unsigned int);
 	unsigned int GetID(void);
 	unsigned int GetInviteCount(void);
 	unsigned int GetMember(int) const;
@@ -310,16 +292,15 @@ class IMPORT CPlayerGroup
 	bool IsMember(unsigned int);
 	void RewardMembers(int);
 	void SendChat(int, unsigned short const*, ...);
-	void SendGroup(enum BaseGroupMessage::Type, unsigned int);
+	void SendGroup(BaseGroupMessage::Type, unsigned int);
 	void SetMissionID(unsigned int, unsigned int);
 	void SetMissionMessage(struct CSetMissionMessage&);
 	void SetMissionObjectives(struct CMissionObjectives&);
 	void StoreMemberList(st6::vector<unsigned int>&);
 
   protected:
-	static class st6::map<unsigned int const, class CPlayerGroup*, struct st6::less<unsigned int const>, class st6::allocator<class CPlayerGroup*>>
-	    s_GroupIdToGroupPtrMap;
-	static unsigned int s_uGroupId;
+	static st6::map<unsigned int const, CPlayerGroup*, st6::less<unsigned int const>, st6::allocator<CPlayerGroup*>> groupIdToGroupPtrMap;
+	static unsigned int groupId;
 
   public:
 	unsigned char data[OBJECT_DATA_SIZE];
@@ -355,7 +336,7 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
 	[[DisconnectCheck, CallInner(true), CallInnerAfter]] virtual void CharacterSelect(const CHARACTER_ID& cid, uint client);
 	[[NoHook]] virtual void __nullopt3();
 	virtual void CreateNewCharacter(const SCreateCharacterInfo&, uint client);
-	virtual void DestroyCharacter(struct CHARACTER_ID const&, uint client);
+	virtual void DestroyCharacter(CHARACTER_ID const&, uint client);
 	[[NoHook]] virtual void CharacterSkipAutosave(uint);
 	virtual void ReqShipArch(uint archID, uint client);
 	virtual void ReqHullStatus(float status, uint client);
@@ -434,93 +415,93 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
 	unsigned char data[OBJECT_DATA_SIZE];
 };
 
-struct CHARACTER_ID
+struct CHARACTER_ID final
 {
 	CHARACTER_ID(void);
-	struct CHARACTER_ID const& operator=(struct CHARACTER_ID const&);
+	CHARACTER_ID const& operator=(CHARACTER_ID const&);
 	void invalidate(void);
 	bool is_valid(void) const;
 
-	char CharFilename[512]; // Only first 16 bytes are ever used
+	char charFilename[512]; // Only first 16 bytes are ever used
 };
 
 struct PlayerData
 {
-	wchar_t AccId[40];
+	wchar_t accId[40];
 	long x050, x054, x058, x05C;
-	uint NumberOCharacters;
+	uint numberOCharacters;
 	CHARACTER_ID charFile;
 	uint shipArchetype;
-	float RelativeHealth;
+	float relativeHealth;
 	CollisionGroupDescList collisionGroupDesc;
 	EquipDescList equipDescList;
-	int Rank;
-	int MoneyNeededToNextRank;
-	struct structCostume
+	int rank;
+	int moneyNeededToNextRank;
+	struct StructCostume
 	{
-		UINT Head;
-		UINT Body;
-		UINT Lefthand;
-		UINT Righthand;
-		UINT Accessory[8];
-		int Accessories;
+		UINT head;
+		UINT body;
+		UINT leftHand;
+		UINT rightHand;
+		UINT accessory[8];
+		int accessories;
 	};
-	structCostume costume1;
+	StructCostume costume1;
 	long x2C0, x2C4, x2C8, x2CC, x2D0, x2D4, x2D8, x2DC, x2E0;
-	structCostume costume2;
-	uint Reputation;
-	int InspectCash;
-	int Worth;
+	StructCostume costume2;
+	uint reputation;
+	int inspectCash;
+	int worth;
 	uint shipArchetypeWhenLanding;
 	EquipDescList lShadowEquipDescList;
-	int NumKills;
-	int NumMissionSuccesses;
-	int NumMissionFailures;
-	bool bSkipAutosave;
-	char __padding0[3];
-	uint SaveCount;
-	uint OnlineId;
-	bool bCheated;
-	char __padding1[3];
-	Vector vPosition;
-	Matrix mOrientation;
+	int numKills;
+	int numMissionSuccesses;
+	int numMissionFailures;
+	bool skipAutoSave;
+	char padding0[3];
+	uint saveCount;
+	uint onlineId;
+	bool cheated;
+	char padding1[3];
+	Vector position;
+	Matrix orientation;
 	FLString weaponGroup; // 0x10 bytes
-	uint SetToZero;
-	float Difficulty;
-	ushort sLastEquipId;
-	char __padding2[2];
-	uint aMenuItem;
-	uint OnlineId2;
+	uint setToZero;
+	float difficulty;
+	ushort lastEquipId;
+	char padding2[2];
+	uint menuItem;
+	uint onlineId2;
 	long x3D4, x3D8;
-	uint TradeRequestCount;
+	uint tradeRequestCount;
 	uint systemId;
 	uint shipId;
-	uint CreatedShipId;
+	uint createdShipId;
 	uint baseId;
-	uint LastBaseId;
-	uint EnteredBase;
-	uint BaseRoomId;
-	uint CharacterId;
-	class CAccount* Account;
-	class CPlayerGroup* PlayerGroup;
-	uint MissionId;
-	uint MissionSetBy;
-	uint ExitedBase;
-	uint UnknownLocId;
+	uint lastBaseId;
+	uint enteredBase;
+	uint baseRoomId;
+	uint characterId;
+	CAccount* account;
+	CPlayerGroup* playerGroup;
+	uint missionId;
+	uint missionSetBy;
+	uint exitedBase;
+	uint unknownLocId;
 };
 
-struct PlayerDBTreeNode
+struct PlayerDbTreeNode
 {
-	PlayerDBTreeNode* pLeft;
-	PlayerDBTreeNode* pParent;
-	PlayerDBTreeNode* pRight;
+	PlayerDbTreeNode* left;
+	PlayerDbTreeNode* parent;
+	PlayerDbTreeNode* right;
 	ulong l1;
 	// File name of character
-	char* FLName;
+	char* flName;
 	// Length of file name
-	uint Length;
-	// Always seems to be 0x1F. Possibly max length of FLName
-	uint Dunno;
+	uint length;
+	// Always seems to be 0x1F. Possibly max length of flName
+	uint dunno;
 	// Account for this player
 	CAccount* acc;
 };
@@ -528,11 +509,11 @@ struct PlayerDBTreeNode
 class IMPORT PlayerDB
 {
   public:
-	PlayerDB(class PlayerDB const&);
+	PlayerDB(PlayerDB const&);
 	PlayerDB(void);
 	~PlayerDB(void);
-	class PlayerDB& operator=(class PlayerDB const&);
-	struct PlayerData& operator[](unsigned int const&);
+	PlayerDB& operator=(PlayerDB const&);
+	PlayerData& operator[](unsigned int const&);
 	bool BanAccount(st6::wstring&, bool);
 	void BuildLocalUserDir(void);
 	unsigned int CountPlayersInSystem(int);
@@ -540,14 +521,14 @@ class IMPORT PlayerDB
 	void DeleteAccount(st6::wstring&);
 	void DeleteCharacterFromID(st6::wstring&);
 	bool DeleteCharacterFromName(st6::wstring&);
-	class CAccount* FindAccountFromCharacterID(st6::string&);
-	class CAccount* FindAccountFromCharacterName(st6::wstring&);
-	class CAccount* FindAccountFromClientID(unsigned int);
-	class CAccount* FindAccountFromName(st6::wstring&);
+	CAccount* FindAccountFromCharacterID(st6::string&);
+	CAccount* FindAccountFromCharacterName(st6::wstring&);
+	CAccount* FindAccountFromClientID(unsigned int);
+	CAccount* FindAccountFromName(st6::wstring&);
 	bool GetAccountAdminRights(st6::wstring&);
 	bool GetAccountBanned(st6::wstring&);
 	unsigned short const* GetActiveCharacterName(unsigned int) const;
-	bool GetCharactersForAccount(st6::wstring&, class st6::list<st6::wstring>&);
+	bool GetCharactersForAccount(st6::wstring&, st6::list<st6::wstring>&);
 	unsigned int GetGroupID(unsigned int);
 	st6::wstring& GetMOTD(void);
 	unsigned int GetMaxPlayerCount(void);
@@ -563,28 +544,28 @@ class IMPORT PlayerDB
 	void SetMOTD(st6::wstring&);
 	void UnlockAccountAccess(st6::wstring&);
 	void cleanup(unsigned int);
-	bool create_new_character(struct SCreateCharacterInfo const&, unsigned int);
+	bool create_new_character(SCreateCharacterInfo const&, unsigned int);
 	bool create_restart_file(char const*);
 	void free(void);
 	void init(unsigned int, bool);
 	bool is_valid(unsigned int const&);
 	bool is_valid_ship_owner(unsigned int const&, unsigned int const&);
-	unsigned char login(struct SLoginInfo const&, unsigned int);
+	unsigned char login(SLoginInfo const&, unsigned int);
 	void logout(unsigned int);
 	void logout_all(void);
-	struct PlayerData* traverse_active(struct PlayerData*) const;
+	PlayerData* traverse_active(PlayerData*) const;
 
   private:
-	int create_account(struct SLoginInfo const&);
-	unsigned char load_user_data(struct SLoginInfo const&, unsigned int);
+	int create_account(SLoginInfo const&);
+	unsigned char load_user_data(SLoginInfo const&, unsigned int);
 	unsigned int to_index(unsigned int);
 
   public:
-	uint Dunno1[13];
-	PlayerDBTreeNode* pFirstNode;
-	PlayerDBTreeNode* pLastNode;
-	uint Dunno2;
-	uint NumAccounts;
+	uint dunno1[13];
+	PlayerDbTreeNode* pFirstNode;
+	PlayerDbTreeNode* pLastNode;
+	uint dunno2;
+	uint numAccounts;
 };
 
 namespace CmnAsteroid // from FLCoreCommon.h
@@ -605,7 +586,7 @@ namespace SrvAsteroid
 		int Release(void);
 		void load(char const*);
 		void map_asteroid_fields(void);
-		void set_cmn_system(class CmnAsteroid::CAsteroidSystem*);
+		void set_cmn_system(CmnAsteroid::CAsteroidSystem*);
 		void set_sys_id(unsigned int);
 		void update(void);
 
@@ -625,7 +606,7 @@ struct IMPORT StarSystem
 
 namespace SysDB
 {
-	IMPORT st6::map<unsigned int, class StarSystem, st6::less<unsigned int>, st6::allocator<std::pair<const unsigned int, class StarSystem>>> SysMap;
+	IMPORT st6::map<unsigned int, StarSystem, st6::less<unsigned int>, st6::allocator<std::pair<const unsigned int, StarSystem>>> SysMap;
 };
 
 namespace Controller
@@ -639,7 +620,7 @@ class IMPORT OwnerList
   public:
 	OwnerList<T>();
 	virtual ~OwnerList<T>();
-	class OwnerList<T>& operator=(class OwnerList<T> const&);
+	OwnerList<T>& operator=(OwnerList<T> const&);
 	void free();
 
   protected:
@@ -650,23 +631,23 @@ namespace pub
 {
 	struct CargoEnumerator;
 
-	IMPORT int BuildBaseReader(class INI_Reader&, unsigned int const&);
-	IMPORT int BuildSystemReader(class INI_Reader&, unsigned int const&);
-	IMPORT struct HINSTANCE__* DLL_LoadLibrary(char const*);
+	IMPORT int BuildBaseReader(INI_Reader&, unsigned int const&);
+	IMPORT int BuildSystemReader(INI_Reader&, unsigned int const&);
+	IMPORT HINSTANCE__* DLL_LoadLibrary(char const*);
 	IMPORT void DebugPrint(char const*, int);
-	IMPORT int FindHardpoint(char const*, unsigned int, class Vector&, class Matrix&);
+	IMPORT int FindHardpoint(char const*, unsigned int, Vector&, Matrix&);
 	IMPORT int GetBaseID(unsigned int&, char const*);
 	IMPORT unsigned int GetBaseNickname(char*, unsigned int, unsigned int const&);
 	IMPORT int GetBaseStridName(unsigned int&, unsigned int const&);
 	IMPORT int GetBases(unsigned int const&, unsigned int* const, unsigned int, unsigned int&);
 	IMPORT int GetCargoHoldSize(unsigned int const&, unsigned int&);
 	IMPORT int GetCostumeID(int&, char const*);
-	IMPORT struct IFileSystem* GetDataPath(void);
+	IMPORT IFileSystem* GetDataPath(void);
 	IMPORT int GetEquipmentID(unsigned int&, char const*);
 	IMPORT int GetFullHealth(unsigned int const&, unsigned int&);
 	IMPORT int GetGoodID(unsigned int&, char const*);
 	IMPORT int GetGoodProperties(unsigned int const&, float&, float&);
-	IMPORT int GetLoadout(struct EquipDescVector&, unsigned int const&);
+	IMPORT int GetLoadout(EquipDescVector&, unsigned int const&);
 	IMPORT int GetLoadoutID(unsigned int&, char const*);
 	IMPORT int GetLoadoutName(unsigned int const&, char*, int);
 	IMPORT unsigned int GetLocationNickname(char*, unsigned int, unsigned int const&);
@@ -691,64 +672,48 @@ namespace pub
 	IMPORT bool NextSystemID(unsigned int&);
 	IMPORT int ReportFreeTerminal(unsigned int, int);
 	IMPORT int Save(unsigned int, unsigned int);
-	IMPORT int SetTimer(unsigned int const&, struct Controller::TimerExpired const&, float);
+	//IMPORT int SetTimer(unsigned int const&, Controller::TimerExpired const&, float);
 	IMPORT bool SinglePlayer(void);
 	IMPORT int TranslateArchToGood(unsigned int const&, unsigned int&);
-	IMPORT int TranslateGoodToMsgIdPrefix(unsigned int, struct TString<64>&);
-	IMPORT int TranslateShipToMsgIdPrefix(unsigned int, struct TString<64>&);
-	IMPORT int TranslateSystemToMsgIdPrefix(unsigned int, struct TString<64>&);
+	IMPORT int TranslateGoodToMsgIdPrefix(unsigned int, TString<64>&);
+	IMPORT int TranslateShipToMsgIdPrefix(unsigned int, TString<64>&);
+	IMPORT int TranslateSystemToMsgIdPrefix(unsigned int, TString<64>&);
 
 	namespace AI
 	{
 		class Personality;
 
-		IMPORT enum OP_RTYPE SubmitDirective(unsigned int, class BaseOp*);
-		IMPORT enum OP_RTYPE SubmitState(unsigned int, class BaseOp*);
+		IMPORT OP_RTYPE SubmitDirective(unsigned int, BaseOp*);
+		IMPORT OP_RTYPE SubmitState(unsigned int, BaseOp*);
 		IMPORT bool enable_all_maneuvers(unsigned int);
 		IMPORT bool enable_maneuver(unsigned int, int, bool);
 		IMPORT int get_behavior_id(unsigned int);
-		IMPORT bool get_personality(unsigned int, class Personality&);
-		IMPORT enum ScanResponse get_scan_response(unsigned int, unsigned int, unsigned int);
+		IMPORT bool get_personality(unsigned int, Personality&);
+		IMPORT ScanResponse get_scan_response(unsigned int, unsigned int, unsigned int);
 		IMPORT int get_state_graph_id(unsigned int);
 		IMPORT bool lock_maneuvers(unsigned int, bool);
 		IMPORT void refresh_state_graph(unsigned int);
 		IMPORT int remove_forced_target(unsigned int, unsigned int);
-		IMPORT enum OP_RTYPE set_directive_priority(unsigned int, enum DirectivePriority);
+		IMPORT OP_RTYPE set_directive_priority(unsigned int, DirectivePriority);
 		IMPORT bool set_player_enemy_clamp(unsigned int, int, int);
 		IMPORT int submit_forced_target(unsigned int, unsigned int);
-		IMPORT enum FORMATION_RTYPE update_formation_state(unsigned int, unsigned int, class Vector const&);
+		IMPORT enum FORMATION_RTYPE update_formation_state(unsigned int, unsigned int, Vector const&);
 	}; // namespace AI
 
 	namespace Audio
 	{
 		struct Tryptich
 		{
-			uint Dunno;
-			uint Dunno2;
-			uint Dunno3;
-			uint MusicId;
+			uint dunno;
+			uint dunno2;
+			uint dunno3;
+			uint musicId;
 		};
 
 		IMPORT int CancelMusic(unsigned int);
 		IMPORT int PlaySoundEffect(unsigned int, unsigned int);
-		IMPORT int SetMusic(unsigned int, struct Tryptich const&);
+		IMPORT int SetMusic(unsigned int, Tryptich const&);
 	}; // namespace Audio
-
-	namespace Controller
-	{
-		struct CreateParms
-		{
-			void* pFreeFunc;
-			uint client;
-		};
-
-		enum PRIORITY;
-
-		IMPORT unsigned int Create(char const*, char const*, struct CreateParms const*, enum PRIORITY);
-		IMPORT void Destroy(unsigned int);
-		IMPORT int SetHeartbeatInterval(unsigned int const&, float);
-		IMPORT int _SendMessage(unsigned int const&, int, void const*);
-	}; // namespace Controller
 
 	namespace GF
 	{
@@ -759,28 +724,28 @@ namespace pub
 		IMPORT unsigned int CharacterCreate(struct CharacterDescription const&);
 		IMPORT void CharacterDestroy(unsigned int*);
 		IMPORT void CharacterSetBehavior(unsigned int, unsigned long);
-		IMPORT void EnumerateCharacterPlacementIni(unsigned int, void (*)(int, class INI_Reader*, void*), void*);
+		IMPORT void EnumerateCharacterPlacementIni(unsigned int, void (*)(int, INI_Reader*, void*), void*);
 		IMPORT unsigned int FindBase(char const*);
 		IMPORT unsigned int FindLocation(unsigned int, char const*);
-		IMPORT char const* FormCharacterPlacementName(struct SetpointProperties const*);
+		IMPORT char const* FormCharacterPlacementName(SetpointProperties const*);
 		IMPORT int GetAccessory(char const*);
-		IMPORT int GetBasePosition(unsigned int const&, unsigned int const&, class Vector&);
+		IMPORT int GetBasePosition(unsigned int const&, unsigned int const&, Vector&);
 		IMPORT int GetBodyPart(char const*, int);
 		IMPORT unsigned int GetCharacterOnPlacement(unsigned int, unsigned int, int);
 		IMPORT int GetCharacterPlacementByName(unsigned int, char const*, int&);
 		IMPORT char const* GetCharacterPlacementName(unsigned int, int);
 		IMPORT unsigned long GetCharacterPlacementOccupancy(unsigned int, int);
 		IMPORT int GetCharacterPlacementPosture(unsigned int, int, unsigned long&);
-		IMPORT bool GetCharacterPlacementProperties(unsigned int, int, struct SetpointProperties*);
-		IMPORT void GetCostumeByID(int, struct Costume&);
-		IMPORT int GetCostumeSkeletonGender(struct Costume const&, int&);
+		IMPORT bool GetCharacterPlacementProperties(unsigned int, int, SetpointProperties*);
+		IMPORT void GetCostumeByID(int, Costume&);
+		IMPORT int GetCostumeSkeletonGender(Costume const&, int&);
 		IMPORT int GetMissionVendorOfferCount(unsigned int, unsigned int);
 		IMPORT int GetNumCharacterPlacements(unsigned int);
 		IMPORT float GetRtcPerformanceSlider(void);
 		IMPORT unsigned int GetSpaceflightLocation(void);
 		IMPORT bool IsCharacterPlacementNormal(unsigned int, int);
 		IMPORT bool IsCharacterPlacementSpecial(unsigned int, int);
-		IMPORT void MissionVendorAcceptance(unsigned long, bool, struct FmtStr const&, unsigned int);
+		IMPORT void MissionVendorAcceptance(unsigned long, bool, FmtStr const&, unsigned int);
 		IMPORT unsigned long MissionVendorOfferCreate(struct MissionVendorOfferDescription const&);
 		IMPORT void MissionVendorOfferDestroy(unsigned long*);
 		IMPORT unsigned long NewsBroadcastCreate(struct NewsBroadcastDescription const&);
@@ -804,8 +769,8 @@ namespace pub
 	namespace Phantom
 	{
 		IMPORT int Attach(unsigned int const&, void*);
-		IMPORT int Create(unsigned int, class Vector const&, class Vector const&, class Matrix const&, unsigned int, void*&);
-		IMPORT int Create(unsigned int, float, class Vector const&, unsigned int, void*&);
+		IMPORT int Create(unsigned int, Vector const&, Vector const&, Matrix const&, unsigned int, void*&);
+		IMPORT int Create(unsigned int, float, Vector const&, unsigned int, void*&);
 		IMPORT int Destroy(void*);
 		IMPORT int Detach(void*);
 		IMPORT int SetActive(void*, bool);
@@ -816,8 +781,8 @@ namespace pub
 		IMPORT int AddCargo(unsigned int const&, unsigned int const&, unsigned int, float, bool);
 		IMPORT int AdjustCash(unsigned int const&, int);
 		IMPORT int CfgInterfaceNotification(unsigned int, unsigned int, bool, int);
-		IMPORT int DisplayMissionMessage(unsigned int const&, struct FmtStr const&, enum MissionMessageType, bool);
-		IMPORT int EnumerateCargo(unsigned int const&, struct pub::CargoEnumerator&);
+		IMPORT int DisplayMissionMessage(unsigned int const&, FmtStr const&, enum MissionMessageType, bool);
+		IMPORT int EnumerateCargo(unsigned int const&, pub::CargoEnumerator&);
 		IMPORT int ForceLand(unsigned int, unsigned int);
 		IMPORT int GetAssetValue(unsigned int const&, float&);
 		IMPORT int GetBase(unsigned int const&, unsigned int&);
@@ -842,9 +807,9 @@ namespace pub
 		IMPORT int GetSystem(unsigned int const&, unsigned int&);
 		IMPORT int InspectCash(unsigned int const&, int&);
 		IMPORT int IsGroupMember(unsigned int, unsigned int, bool&);
-		IMPORT int LoadHint(unsigned int, struct BaseHint*);
+		IMPORT int LoadHint(unsigned int, BaseHint*);
 		IMPORT int MarkObj(unsigned int, unsigned int, int);
-		IMPORT int PopUpDialog(unsigned int, struct FmtStr const&, struct FmtStr const&, unsigned int);
+		IMPORT int PopUpDialog(unsigned int, FmtStr const&, FmtStr const&, unsigned int);
 		IMPORT int RemoveCargo(unsigned int const&, unsigned short, unsigned int);
 		IMPORT int RemoveFromGroup(unsigned int);
 		IMPORT int ReplaceMissionObjective(unsigned int const&, unsigned int const&, unsigned int, struct MissionObjective const&);
@@ -853,13 +818,13 @@ namespace pub
 		IMPORT int RevertCamera(unsigned int);
 		IMPORT int RewardGroup(unsigned int, int);
 		IMPORT int SendNNMessage(unsigned int, unsigned int);
-		IMPORT int SetCamera(unsigned int, class Transform const&, float, float);
+		IMPORT int SetCamera(unsigned int, Transform const&, float, float);
 		IMPORT int SetCostume(unsigned int const&, int);
-		IMPORT int SetInitialOrnt(unsigned int const&, class Matrix const&);
-		IMPORT int SetInitialPos(unsigned int const&, class Vector const&);
+		IMPORT int SetInitialOrnt(unsigned int const&, Matrix const&);
+		IMPORT int SetInitialPos(unsigned int const&, Vector const&);
 		IMPORT int SetMissionObjectiveState(unsigned int const&, unsigned int const&, int, unsigned int);
 		IMPORT int SetMissionObjectives(
-		    unsigned int const&, unsigned int const&, struct MissionObjective const*, unsigned int, struct FmtStr const&, unsigned char, struct FmtStr const&);
+		    unsigned int const&, unsigned int const&, MissionObjective const*, unsigned int, FmtStr const&, unsigned char, FmtStr const&);
 		IMPORT int SetMoneyNeededToNextRank(unsigned int, int);
 		IMPORT int SetMonkey(unsigned int);
 		IMPORT int SetMsnID(unsigned int, unsigned int, unsigned int, bool, unsigned int);
@@ -868,23 +833,23 @@ namespace pub
 		IMPORT int SetNumMissionSuccesses(unsigned int const&, int);
 		IMPORT int SetRank(unsigned int, int);
 		IMPORT int SetRobot(unsigned int);
-		IMPORT int SetShipAndLoadout(unsigned int const&, unsigned int, struct EquipDescVector const&);
+		IMPORT int SetShipAndLoadout(unsigned int const&, unsigned int, EquipDescVector const&);
 		IMPORT int SetStoryCue(unsigned int const&, unsigned int);
 		IMPORT int SetTrent(unsigned int);
 	}; // namespace Player
 
 	namespace Reputation
 	{
-		IMPORT int Alloc(int&, struct FmtStr const&, struct FmtStr const&);
+		IMPORT int Alloc(int&, FmtStr const&, FmtStr const&);
 		IMPORT int EnumerateGroups(struct Enumerator&);
 		IMPORT int Free(int const&);
 		IMPORT int GetAffiliation(int const&, unsigned int&);
 		IMPORT int GetAttitude(int const&, int const&, float&);
 		IMPORT int GetGroupFeelingsTowards(int const&, unsigned int const&, float&);
 		IMPORT int GetGroupName(unsigned int const&, unsigned int&);
-		IMPORT int GetName(int const&, struct FmtStr&, struct FmtStr&);
+		IMPORT int GetName(int const&, FmtStr&, FmtStr&);
 		IMPORT int GetRank(int const&, float&);
-		IMPORT int GetReputation(int&, struct ID_String const&);
+		IMPORT int GetReputation(int&, ID_String const&);
 		IMPORT int GetReputation(int&, char const*);
 		IMPORT int GetReputation(int const&, unsigned int const&, float&);
 		IMPORT int GetReputation(unsigned int const&, unsigned int const&, float&);
@@ -902,116 +867,116 @@ namespace pub
 		struct CargoDesc
 		{
 			int vTbl;
-			int Unk1;
-			int Unk2;
-			int Unk3;
-			int Unk4;
+			int unk1;
+			int unk2;
+			int unk3;
+			int unk4;
 		};
 
 		struct ShipInfo
 		{
-			uint Flag;
-			uint System;
+			uint flag;
+			uint system;
 			uint shipArchetype;
-			Vector vPos;
-			Vector vUnk1; // all 0
-			Vector vUnk2; // all 0
+			Vector pos;
+			Vector unk1; // all 0
+			Vector unk2; // all 0
 			Matrix mOrientation;
-			uint Unk1; // 0
-			uint Loadout;
+			uint unk3; // 0
+			uint loadout;
 			OwnerList<pub::SpaceObj::CargoDesc> cargoDesc;
-			uint Look1;
-			uint Look2;
+			uint look1;
+			uint look2;
 			uint unk4; // 0
-			uint unk5; // 0
-			uint Comm;
-			float Unk2;
-			float Unk3;
-			float Unk4;
-			float Unk5;
-			float Unk6;
-			float Unk7;
-			float Unk8;
-			uint Unk2;
+			uint unk6; // 0
+			uint comm;
+			float unk7;
+			float unk8;
+			float unk9;
+			float unk10;
+			float unk11;
+			float unk12;
+			float unk13;
+			uint unk14;
 
-			int Rep; // increases for each NPC spawned, starts at 0 or 1
-			uint PilotVoice;
-			uint unk6;    // 0
-			uint Health; // -1 = max health
-			uint unk7;    // 0
-			uint unk8;    // 0
-			uint Level;
+			int rep; // increases for each NPC spawned, starts at 0 or 1
+			uint pilotVoice;
+			uint unk15;  // 0
+			uint health; // -1 = max health
+			uint unk16;  // 0
+			uint unk17;  // 0
+			uint level;
 		};
 
 		struct SolarInfo
 		{
-			int Flag; // 0x290; ShipInfo has this too, no clue whether actually a flag
-			uint ArchId;
+			int flag; // 0x290; ShipInfo has this too, no clue whether actually a flag
+			uint archId;
 			uint systemId;
-			Vector vPos;
-			Matrix mOrientation;
-			uint LoadoutId;
-			struct structCostume
+			Vector pos;
+			Matrix orientation;
+			uint loadoutId;
+			struct StructCostume
 			{
 				UINT head;
 				UINT body;
-				UINT lefthand;
-				UINT righthand;
+				UINT leftHand;
+				UINT rightHand;
 				UINT accessory[8];
 				int accessories;
 			};
-			structCostume Costume;
-			int Rep;
-			int VoiceId;
-			uint Unk8; // 0
-			uint Unk9; // Boolean, only last byte is used
-			int HitPointsLeft;
-			char cNickName[64]; // Has to be unique
-			uint Unk11;        // 0 unused?
-			uint Unk12;        // 1 = flagged as mission solar, 0 = normal
+			StructCostume costume;
+			int rep;
+			int voiceId;
+			uint unk8; // 0
+			uint unk9; // Boolean, only last byte is used
+			int hitPointsLeft;
+			char nickName[64]; // Has to be unique
+			uint unk11;        // 0 unused?
+			uint unk12;        // 1 = flagged as mission solar, 0 = normal
 		};
 
 		struct LootInfo
 		{
-			uint Dunno; // "Flag" like the others?
-			uint ArchId;
+			uint dunno; // "Flag" like the others?
+			uint archId;
 		};
 
 		struct TerminalInfo
 		{
-			char HardPoint[0x20];
-			uint Type; // 1=berth 4=moor? 7=jump?
+			char hardPoint[0x20];
+			uint type; // 1=berth 4=moor? 7=jump?
 		};
 
 		IMPORT int Activate(unsigned int const&, bool, int);
 		IMPORT enum EQUIPMENT_RTYPE ActivateEquipment(unsigned int const&, struct EQInfo*);
-		IMPORT int AddImpulse(unsigned int const&, class Vector const&, class Vector const&);
+		IMPORT int AddImpulse(unsigned int const&, Vector const&, Vector const&);
 		IMPORT int Create(unsigned int&, struct ShipInfo const&);
 		IMPORT int CreateLoot(unsigned int&, struct LootInfo const&);
 		IMPORT int CreateSolar(unsigned int&, struct SolarInfo const&);
-		IMPORT int Destroy(unsigned int, enum DestroyType);
-		IMPORT int Dock(unsigned int const&, unsigned int const&, int, enum DOCK_HOST_RESPONSE);
+		IMPORT int Destroy(unsigned int, DestroyType);
+		IMPORT int Dock(unsigned int const&, unsigned int const&, int, DOCK_HOST_RESPONSE);
 		IMPORT int DockRequest(unsigned int const&, unsigned int const&);
 		IMPORT int DrainShields(unsigned int);
-		IMPORT int EnumerateCargo(unsigned int const&, struct pub::CargoEnumerator&);
+		IMPORT int EnumerateCargo(unsigned int const&, pub::CargoEnumerator&);
 		IMPORT int ExistsAndAlive(unsigned int);
 		IMPORT int FormationResponse(unsigned int const&, enum FORMATION_RTYPE);
 		IMPORT int GetArchetypeID(unsigned int const&, unsigned int&);
 		IMPORT int GetAtmosphereRange(unsigned int const&, float&);
-		IMPORT int GetBurnRadius(unsigned int const&, float&, class Vector&);
+		IMPORT int GetBurnRadius(unsigned int const&, float&, Vector&);
 		IMPORT int GetCargoSpaceOccupied(unsigned int const&, unsigned int&);
-		IMPORT int GetCenterOMass(unsigned int const&, class Vector&);
+		IMPORT int GetCenterOMass(unsigned int const&, Vector&);
 		IMPORT int GetDockingTarget(unsigned int const&, unsigned int&);
-		IMPORT int GetEmptyPos(unsigned int const&, class Transform const&, float const&, float const&, enum PosSelectionType const&, class Vector&);
+		IMPORT int GetEmptyPos(unsigned int const&, Transform const&, float const&, float const&, enum PosSelectionType const&, Vector&);
 		IMPORT int GetGoodID(unsigned int const&, unsigned int&);
-		IMPORT int GetHardpoint(unsigned int const&, char const*, class Vector*, class Matrix*);
+		IMPORT int GetHardpoint(unsigned int const&, char const*, Vector*, Matrix*);
 		IMPORT int GetHealth(unsigned int const& SpaceObj, float& CurrentHealth, float& MaxHealth);
 		IMPORT int GetInvincible(unsigned int, bool&, bool&, float&);
 		IMPORT int GetJumpTarget(unsigned int const&, unsigned int&, unsigned int&);
-		IMPORT int GetLocation(unsigned int, class Vector&, class Matrix&);
+		IMPORT int GetLocation(unsigned int, Vector&, Matrix&);
 		IMPORT int GetMass(unsigned int const&, float&);
-		IMPORT int GetMotion(unsigned int, class Vector&, class Vector&);
-		IMPORT int GetRadius(unsigned int const&, float&, class Vector&);
+		IMPORT int GetMotion(unsigned int, Vector&, Vector&);
+		IMPORT int GetRadius(unsigned int const&, float&, Vector&);
 		IMPORT int GetRelativeHealth(unsigned int const&, float&);
 		IMPORT int GetRep(unsigned int, int&);
 		IMPORT int GetScannerRange(unsigned int, int&, int&);
@@ -1022,20 +987,20 @@ namespace pub
 		IMPORT int GetSolarRep(unsigned int, int&);
 		IMPORT int GetSystem(unsigned int, unsigned int&);
 		IMPORT int GetTarget(unsigned int const&, unsigned int&);
-		IMPORT int GetTerminalInfo(unsigned int const&, int, struct TerminalInfo&);
+		IMPORT int GetTerminalInfo(unsigned int const&, int, TerminalInfo&);
 		IMPORT int GetTradelaneNextAndPrev(unsigned int const&, unsigned int&, unsigned int&);
 		IMPORT int GetType(unsigned int, unsigned int&);
 		IMPORT int GetVoiceID(unsigned int const&, unsigned int&);
 		IMPORT int InstantDock(unsigned int const&, unsigned int const&, int);
-		IMPORT int IsPosEmpty(unsigned int const&, class Vector const&, float const&, bool&);
+		IMPORT int IsPosEmpty(unsigned int const&, Vector const&, float const&, bool&);
 		IMPORT int JettisonEquipment(unsigned int const&, unsigned short const&, int const&);
 		IMPORT int JumpIn(unsigned int const&, unsigned int const&);
 		IMPORT int LaneResponse(unsigned int const&, int);
 		IMPORT int Launch(unsigned int const&, unsigned int const&, int);
 		IMPORT int LightFuse(unsigned int const&, char const*, float);
-		IMPORT int Relocate(unsigned int const&, unsigned int const&, class Vector const&, class Matrix const&);
-		IMPORT int RequestSpaceScript(unsigned int const&, class Vector const&, int const&, unsigned int, char const*);
-		IMPORT int SendComm(unsigned int, unsigned int, unsigned int, struct Costume const*, unsigned int, unsigned int*, int, unsigned int, float, bool);
+		IMPORT int Relocate(unsigned int const&, unsigned int const&, Vector const&, Matrix const&);
+		IMPORT int RequestSpaceScript(unsigned int const&, Vector const&, int const&, unsigned int, char const*);
+		IMPORT int SendComm(unsigned int, unsigned int, unsigned int, Costume const*, unsigned int, unsigned int*, int, unsigned int, float, bool);
 		IMPORT int SetInvincible2(unsigned int, bool, bool, float);
 		IMPORT int SetInvincible(unsigned int, bool, bool, float);
 		IMPORT int SetRelativeHealth(unsigned int const&, float);
@@ -1047,12 +1012,12 @@ namespace pub
 		{
 			char nick[32]; // NOT NUL-terminated if longer
 			Vector pos;
-			UINT archid;
-			UINT ids_name;
-			UINT ids_info;
+			UINT archId;
+			UINT idsName;
+			UINT idsInfo;
 			char reputation[32];
-			UINT dock_with;
-			UINT goto_system;
+			UINT dockWith;
+			UINT gotoSystem;
 			UINT system;
 			// -------------------
 			// Some nicknames are longer than 32 characters, so take advantage of the
@@ -1076,37 +1041,53 @@ namespace pub
 			virtual bool operator()(const Connection&) = 0;
 		};
 
-		IMPORT int EnumerateConnections(unsigned int const&, struct pub::System::ConnectionEnumerator&, enum ConnectionType);
-		IMPORT int EnumerateObjects(unsigned int const&, struct SysObjEnumerator&);
+		IMPORT int EnumerateConnections(unsigned int const&, pub::System::ConnectionEnumerator&, ConnectionType);
+		IMPORT int EnumerateObjects(unsigned int const&, SysObjEnumerator&);
 		IMPORT int EnumerateZones(unsigned int const&, struct ZoneEnumerator&);
 		IMPORT int Find(unsigned int const&, char const*, unsigned int&);
 		IMPORT int GetName(unsigned int, unsigned int&);
-		IMPORT int GetNestedProperties(unsigned int const&, class Vector const&, unsigned long&);
-		IMPORT int InZones(unsigned int, class Transform const&, float, float, float, unsigned int* const, unsigned int, unsigned int&);
-		IMPORT int InZones(unsigned int, class Vector const&, float, unsigned int* const, unsigned int, unsigned int&);
+		IMPORT int GetNestedProperties(unsigned int const&, Vector const&, unsigned long&);
+		IMPORT int InZones(unsigned int, Transform const&, float, float, float, unsigned int* const, unsigned int, unsigned int&);
+		IMPORT int InZones(unsigned int, Vector const&, float, unsigned int* const, unsigned int, unsigned int&);
 		IMPORT int LoadSystem(unsigned int const&);
-		IMPORT int ScanObjects(unsigned int const&, unsigned int* const, unsigned int, class Vector const&, float, unsigned int, unsigned int&);
+		IMPORT int ScanObjects(unsigned int const&, unsigned int* const, unsigned int, Vector const&, float, unsigned int, unsigned int&);
 	}; // namespace System
 
 	namespace Zone
 	{
-		IMPORT float ClassifyPoint(unsigned int, class Vector const&);
-		IMPORT float GetDistance(unsigned int, class Vector const&);
+		IMPORT float ClassifyPoint(unsigned int, Vector const&);
+		IMPORT float GetDistance(unsigned int, Vector const&);
 		IMPORT unsigned int GetId(unsigned int, char const*);
-		IMPORT int GetLootableInfo(unsigned int, struct ID_String&, struct ID_String&, int&, int&, int&);
+		IMPORT int GetLootableInfo(unsigned int, ID_String&, ID_String&, int&, int&, int&);
 		IMPORT int GetName(unsigned int, unsigned int&);
-		IMPORT int GetOrientation(unsigned int const&, class Matrix&);
+		IMPORT int GetOrientation(unsigned int const&, Matrix&);
 		// IMPORT  int GetPopulation(unsigned int,class weighted_vector<unsigned int> const * &);
-		IMPORT class Vector GetPos(unsigned int);
+		IMPORT Vector GetPos(unsigned int);
 		IMPORT int GetProperties(unsigned int, unsigned long&);
 		IMPORT float GetRadius(unsigned int);
 		IMPORT int GetShape(unsigned int, enum ZoneShape&);
-		IMPORT int GetSize(unsigned int, class Vector&);
+		IMPORT int GetSize(unsigned int, Vector&);
 		IMPORT unsigned int GetSystem(unsigned int);
-		IMPORT bool InZone(unsigned int, class Vector const&, float);
-		IMPORT bool Intersect(unsigned int, class Vector const&, class Vector const&, class Vector&);
+		IMPORT bool InZone(unsigned int, Vector const&, float);
+		IMPORT bool Intersect(unsigned int, Vector const&, Vector const&, Vector&);
 		IMPORT bool VerifyId(unsigned int);
 	}; // namespace Zone
+
+	namespace Controller
+	{
+		struct CreateParms
+		{
+			void* freeFunc;
+			uint client;
+		};
+
+		enum PRIORITY;
+
+		IMPORT unsigned int Create(char const*, char const*, CreateParms const*, PRIORITY);
+		IMPORT void Destroy(unsigned int);
+		IMPORT int SetHeartbeatInterval(unsigned int const&, float);
+		IMPORT int _SendMessage(unsigned int const&, int, void const*);
+	} // namespace Controller
 
 }; // namespace pub
 

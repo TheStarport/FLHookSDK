@@ -21,10 +21,10 @@
 class IMPORT CDPClient
 {
 public:
-	 CDPClient(class CDPClient const &);
+	 CDPClient(CDPClient const &);
 	 CDPClient(void);
 	 virtual ~CDPClient(void);
-	 class CDPClient & operator=(class CDPClient const &);
+	 CDPClient & operator=(CDPClient const &);
 	 bool AddConnectAttempt(unsigned short const *,unsigned short *);
 	 void CancelEnums(void);
 	 void Cleanup(void);
@@ -41,7 +41,7 @@ public:
 	 static bool __cdecl IsPingOutstanding(void);
 	 bool ProcessConnectAttempt(void);
 	 bool Send(unsigned char *,unsigned long);
-	 void SetGUID(struct _GUID &);
+	 void SetGUID(_GUID &);
 	 static void __cdecl SetSourcePort(unsigned long);
 
 protected:
@@ -64,10 +64,10 @@ public:
 class IMPORT CDPClientProxy
 {
 public:
-	 CDPClientProxy(class CDPClientProxy const &);
+	 CDPClientProxy(CDPClientProxy const &);
 	 CDPClientProxy(void);
 	 virtual ~CDPClientProxy(void);
-	 class CDPClientProxy & operator=(class CDPClientProxy const &);
+	 CDPClientProxy & operator=(CDPClientProxy const &);
 	 bool Disconnect(void);
 	 bool GetConnectionStats(struct _DPN_CONNECTION_INFO *);
 	 double GetLinkSaturation(void);
@@ -85,10 +85,10 @@ public:
 class IMPORT CDPMessage
 {
 public:
-	 CDPMessage(class CDPMessage const &);
+	 CDPMessage(CDPMessage const &);
 	 CDPMessage(void);
 	 virtual ~CDPMessage(void);
-	 class CDPMessage & operator=(class CDPMessage const &);
+	 CDPMessage & operator=(CDPMessage const &);
 	 unsigned char * GetData(void);
 	 unsigned long const  GetSize(void);
 
@@ -99,16 +99,16 @@ public:
 class IMPORT CDPMsgList
 {
 public:
-	 CDPMsgList(class CDPMsgList const &);
+	 CDPMsgList(CDPMsgList const &);
 	 CDPMsgList(void);
 	 virtual ~CDPMsgList(void);
-	 class CDPMsgList & operator=(class CDPMsgList const &);
-	 void Add(class CDPMessage *);
-	 void CopyList(class CDPMsgList &);
-	 void ExtractMsgs(unsigned long,class CDPMsgList &);
-	 class CDPMessage * GetNextMsg(void);
+	 CDPMsgList & operator=(CDPMsgList const &);
+	 void Add(CDPMessage *);
+	 void CopyList(CDPMsgList &);
+	 void ExtractMsgs(unsigned long, CDPMsgList &);
+	 CDPMessage * GetNextMsg(void);
 	 void Lock(void);
-	 class CDPMessage * PeekNextMsg(void);
+	 CDPMessage * PeekNextMsg(void);
 	 void SetEmptyEvent(void);
 	 void Unlock(void);
 	 void WaitForMsg(unsigned long);
@@ -120,24 +120,24 @@ public:
 class IMPORT CDPServer
 {
 public:
-	 CDPServer(class CDPServer const &);
+	 CDPServer(CDPServer const &);
 	 CDPServer(void);
 	 virtual ~CDPServer(void);
-	 class CDPServer & operator=(class CDPServer const &);
+	 CDPServer & operator=(CDPServer const &);
 	 bool BeginHosting(unsigned int);
 	 static void __cdecl CrashCleanup(void);
-	 virtual class CDPClientProxy * CreateClientProxy(void);
+	 virtual CDPClientProxy * CreateClientProxy(void);
 	 void DisconnectClient(unsigned long);
 	 void DispatchMsgs(void);
-	 bool GetConnectionStats(struct _DPN_CONNECTION_INFO *);
-	 bool GetConnectionStats(class CDPClientProxy *,struct _DPN_CONNECTION_INFO *);
+	 bool GetConnectionStats(_DPN_CONNECTION_INFO *);
+	 bool GetConnectionStats(CDPClientProxy *, _DPN_CONNECTION_INFO *);
 	 static unsigned long __cdecl GetLastMsgTimestamp(void);
 	 void GetPort(st6::vector<unsigned long> &);
-	 unsigned int GetSendQBytes(class CDPClientProxy *);
-	 unsigned int GetSendQSize(class CDPClientProxy *);
-	 bool SendTo(class CDPClientProxy *,void *,unsigned long);
+	 unsigned int GetSendQBytes(CDPClientProxy *);
+	 unsigned int GetSendQSize(CDPClientProxy *);
+	 bool SendTo(CDPClientProxy *,void *,unsigned long);
 	 bool SetEnumResponse(void *,unsigned long);
-	 void SetGUID(struct _GUID &);
+	 void SetGUID(_GUID &);
 	 void SetMaxPlayers(int);
 	 void SetPassword(unsigned short const *);
 	 void SetSessionName(unsigned short const *);
@@ -149,7 +149,7 @@ protected:
 	 void ReleaseHostAddresses(void);
 	 void UpdateDescription(void);
 	 static unsigned long  m_dwLastMsgReceivedTime;
-	 static class CDPServer *  m_pServer;
+	 static CDPServer *  m_pServer;
 
 public:
 	unsigned char data[OBJECT_DATA_SIZE];
@@ -168,16 +168,16 @@ namespace Gun2
 class IMPORT CGunWrapper
 {
 public:
-	 CGunWrapper(class CGunWrapper const &);
-	 CGunWrapper(char const *,struct _GUID &,char const *,unsigned long,unsigned short *);
+	 CGunWrapper(CGunWrapper const &);
+	 CGunWrapper(char const *, _GUID &,char const *,unsigned long,unsigned short *);
 	 virtual ~CGunWrapper(void);
-	 class CGunWrapper & operator=(class CGunWrapper const &);
+	 CGunWrapper & operator=(CGunWrapper const &);
 	 void DispatchQueue(void);
 	 struct IGunBrowser * GetBrowser(void);
-	 struct IGunConnection * GetConnection(void);
+	 IGunConnection * GetConnection(void);
 	 struct IGunHost * GetHost(void);
-	 enum IGunConnection::ConnectStatus  GetStatus(void);
-	 virtual long __stdcall Read(struct Gun2::GUNQueueMessage *);
+	 IGunConnection::ConnectStatus  GetStatus(void);
+	 virtual long __stdcall Read(Gun2::GUNQueueMessage *);
 	 static void __cdecl Shutdown(void);
 	 void Update(void);
 
@@ -212,42 +212,42 @@ struct IVertexBufferManager;
 
 namespace DALib
 {
-	IMPORT  struct IAlchemy *  Alchemy;
-	IMPORT  struct IAnimation2 *  Anim;
-	IMPORT  struct IChannel *  Channel;
+	IMPORT IAlchemy *  Alchemy;
+	IMPORT IAnimation2 *  Anim;
+	IMPORT IChannel *  Channel;
 	IMPORT  void __cdecl CloseData(void);
-	IMPORT  struct ICOManager *  Dacom;
-	IMPORT  struct IFileSystem *  Data;
-	IMPORT  struct IDeformable *  Deform;
-	IMPORT  struct IEngine2 *  Engine2;
-	IMPORT  struct IEngine *  Engine;
-	IMPORT  struct IFxEffectLibrary *  FxEffectLibrary;
-	IMPORT  struct IFxRuntime *  FxRuntime;
-	IMPORT  struct IHardpoint *  Hardpoint;
-	IMPORT  struct IMatAnimLibrary *  MatAnimLibrary;
-	IMPORT  struct IMaterialBatcher2 *  MaterialBatcher;
-	IMPORT  struct IMaterialLibrary *  MaterialLib;
+	IMPORT ICOManager *  Dacom;
+	IMPORT IFileSystem *  Data;
+	IMPORT IDeformable *  Deform;
+	IMPORT IEngine2 *  Engine2;
+	IMPORT IEngine *  Engine;
+	IMPORT IFxEffectLibrary *  FxEffectLibrary;
+	IMPORT IFxRuntime *  FxRuntime;
+	IMPORT IHardpoint *  Hardpoint;
+	IMPORT IMatAnimLibrary *  MatAnimLibrary;
+	IMPORT IMaterialBatcher2 *  MaterialBatcher;
+	IMPORT IMaterialLibrary *  MaterialLib;
 	IMPORT  void __cdecl OpenData(char const *);
-	IMPORT  struct IRenderPipeline *  Pipeline;
-	IMPORT  struct IRPDraw *  RPDraw;
-	IMPORT  struct IRPIndexBuffer *  RPIndexBuffer;
-	IMPORT  struct IRPVertexBuffer *  RPVertexBuffer;
-	IMPORT  struct IRenderer2 *  Renderer;
-	IMPORT  void __cdecl Shutdown(struct HWND__ *);
-	IMPORT  struct ISoundManager *  Sound;
-	IMPORT  bool __cdecl Startup(struct HWND__ *,char const *);
-	IMPORT  struct IStreamer2 *  Streamer;
-	IMPORT  struct ITextureLibrary2 *  TextureLib;
-	IMPORT  struct IVMeshLibrary *  VMeshLibrary;
-	IMPORT  struct IVertexBufferManager *  VertexBuffer;
+	IMPORT IRenderPipeline *  Pipeline;
+	IMPORT IRPDraw *  RPDraw;
+	IMPORT IRPIndexBuffer *  RPIndexBuffer;
+	IMPORT IRPVertexBuffer *  RPVertexBuffer;
+	IMPORT IRenderer2 *  Renderer;
+	IMPORT  void __cdecl Shutdown(HWND__ *);
+	IMPORT ISoundManager *  Sound;
+	IMPORT  bool __cdecl Startup(HWND__ *,char const *);
+	IMPORT IStreamer2 *  Streamer;
+	IMPORT ITextureLibrary2 *  TextureLib;
+	IMPORT IVMeshLibrary *  VMeshLibrary;
+	IMPORT IVertexBufferManager *  VertexBuffer;
 };
 
 class IMPORT IDPMsgHandler
 {
 public:
-	 IDPMsgHandler(class IDPMsgHandler const &);
+	 IDPMsgHandler(IDPMsgHandler const &);
 	 IDPMsgHandler(void);
-	 class IDPMsgHandler & operator=(class IDPMsgHandler const &);
+	 IDPMsgHandler & operator=(IDPMsgHandler const &);
 	 virtual void OnAddHost(struct _DPNMSG_ENUM_HOSTS_RESPONSE *);
 	 virtual void OnConnect(long);
 	 virtual void OnDisconnect(void);
@@ -260,14 +260,14 @@ public:
 class IMPORT MD5Hash
 {
 public:
-	 MD5Hash(class MD5Hash const &);
+	 MD5Hash(MD5Hash const &);
 	 MD5Hash(void);
 	 virtual ~MD5Hash(void);
-	 class MD5Hash & operator=(class MD5Hash const &);
+	 MD5Hash & operator=(MD5Hash const &);
 	 bool AddData(void * const,unsigned long);
 	 char const * AsString(void);
 	 bool CalcValue(void);
-	 bool Compare(class MD5Hash &);
+	 bool Compare(MD5Hash &);
 	 void FromString(char const *);
 	 unsigned char * GetStatePtr(void);
 
