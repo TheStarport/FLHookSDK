@@ -35,17 +35,11 @@ template <int size> struct TString
 	TString():len(0) { data[0] = 0; }
 };
 
-class Vector
+class Vector : public glm::vec3
 {
-  public:
-	union {
-		struct
-		{
-			[[deprecated]] float x, y, z;
-		};
-		glm::vec3 v;
-	};
+
 };
+
 class Matrix
 {
 public:
