@@ -26,7 +26,7 @@
 
 struct CHAT_ID
 {
-	uint iId;
+	uint Id;
 };
 
 enum DOCK_HOST_RESPONSE
@@ -46,12 +46,12 @@ enum DestroyType
 
 struct SGFGoodVaporizedInfo
 {
-	uint iDunno[128];
+	uint Dunno[128];
 };
 
 struct SSPMunitionCollisionInfo
 {
-	uint iProjectileArchId;
+	uint ProjectileArchId;
 	DWORD dw2;
 	DWORD dwTargetShip;
 	ushort s1;
@@ -61,53 +61,53 @@ struct SObjectCargoUpdate
 {
 	uint client;
 	Vector position;
-	uint iDunno01;
-	uint iDunno02;
-	uint iDunno03;
-	uint iDunno04;
-	uint iDunno05;
-	uint iDunno06;
-	uint iDunno07;
-	uint iDunno08;
-	uint iDunno09;
-	uint iDunno10;
-	uint iDunno11;
-	uint iDunno13;
-	uint iDunno14;
-	uint iDunno15;
-	uint iDunno16;
-	uint iDunno17;
-	uint iDunno18;
-	uint iDunno19;
-	uint iDunno20;
-	uint iDunno21;
-	uint iDunno22;
-	uint iDunno23;
-	uint iDunno24;
+	uint Dunno01;
+	uint Dunno02;
+	uint Dunno03;
+	uint Dunno04;
+	uint Dunno05;
+	uint Dunno06;
+	uint Dunno07;
+	uint Dunno08;
+	uint Dunno09;
+	uint Dunno10;
+	uint Dunno11;
+	uint Dunno13;
+	uint Dunno14;
+	uint Dunno15;
+	uint Dunno16;
+	uint Dunno17;
+	uint Dunno18;
+	uint Dunno19;
+	uint Dunno20;
+	uint Dunno21;
+	uint Dunno22;
+	uint Dunno23;
+	uint Dunno24;
 };
 
 struct SSPBadLandsObjCollisionInfo
 {
-	uint iDunno[128];
+	uint Dunno[128];
 };
 
 struct SSPObjCollisionInfo
 {
-	uint iColliderObjectId;
-	uint iColliderSubObjId;
-	uint iDamagedObjectId;
-	uint iDamagedSubObjId;
-	float fDamage;
+	uint ColliderObjectId;
+	uint ColliderSubObjId;
+	uint DamagedObjectId;
+	uint DamagedSubObjId;
+	float Damage;
 };
 
 struct SSPUseItem
 {
-	uint iDunno[128];
+	uint Dunno[128];
 };
 
 struct XActivateEquip
 {
-	uint iSpaceId;
+	uint SpaceId;
 	ushort sId;
 	bool bActivate;
 };
@@ -126,7 +126,7 @@ struct XActivateThrusters
 
 struct XTractorObjects
 {
-	int iDunno[3];
+	int Dunno[3];
 	// This points to the start of the array of space Ids
 	int* pArraySpaceId;
 	// This points to the end of the array of space Ids
@@ -136,23 +136,23 @@ struct XTractorObjects
 struct SGFGoodSellInfo
 {
 	long l1;
-	uint iArchId;
-	int iCount;
+	uint ArchId;
+	int Count;
 };
 
 struct SGFGoodBuyInfo
 {
 	uint baseId;
 	ulong lNull;
-	uint iGoodId;
-	int iCount;
+	uint GoodId;
+	int Count;
 };
 
 struct XFireWeaponInfo
 {
-	uint iObject;
+	uint Object;
 	Vector vTarget;
-	uint iDunno;
+	uint Dunno;
 	st6::list<ushort> hpIds;
 };
 
@@ -166,15 +166,15 @@ struct XSetManeuver
 {
 	uint shipFrom;
 	uint shipTo;
-	uint iFlag;
+	uint Flag;
 };
 
 struct XSetTarget
 {
 	uint ship;
-	uint iSlot;
-	uint iSpaceId;
-	uint iSubObjId;
+	uint Slot;
+	uint SpaceId;
+	uint SubObjId;
 };
 
 struct SSPObjUpdateInfo
@@ -182,11 +182,11 @@ struct SSPObjUpdateInfo
 	uint ship;
 	Quaternion vDir;
 	Vector vPos;
-	float fTimestamp;
-	float fThrottle;
+	float Timestamp;
+	float Throttle;
 	union {
-		float fStateValue;
-		uint iStateValue;
+		float StateValue;
+		uint StateValue;
 	};
 	char cState;
 };
@@ -194,24 +194,24 @@ struct SSPObjUpdateInfo
 struct XJettisonCargo
 {
 	uint ship;
-	uint iSlot;
-	uint iCount;
+	uint Slot;
+	uint Count;
 };
 
 struct XGoTradelane
 {
 	uint ship;
-	uint iTradelaneSpaceObj1;
-	uint iTradelaneSpaceObj2;
+	uint TradelaneSpaceObj1;
+	uint TradelaneSpaceObj2;
 };
 
 struct CAccountListNode
 {
 	CAccountListNode* next;
 	CAccountListNode* prev;
-	uint iDunno1;
-	wchar_t* wszCharname;
-	uint iDunno2[32];
+	uint Dunno1;
+	wchar_t* Charname;
+	uint Dunno2[32];
 };
 
 enum ConnectionType
@@ -234,29 +234,29 @@ struct CollisionGroupDescList
 
 struct SCreateCharacterInfo
 {
-	wchar_t wszCharname[24];
-	uint iNickName; // From [Faction] section of newcharacter.ini
-	uint iBase;     // From [Faction] section of newcharacter.ini
-	uint iPackage;  // From [Faction] section of newcharacter.ini
-	uint iPilot;    // From [Faction] section of newcharacter.ini
-	uint iDunno[96];
+	wchar_t Charname[24];
+	uint NickName; // From [Faction] section of newcharacter.ini
+	uint Base;     // From [Faction] section of newcharacter.ini
+	uint Package;  // From [Faction] section of newcharacter.ini
+	uint Pilot;    // From [Faction] section of newcharacter.ini
+	uint Dunno[96];
 };
 
 struct SStartupInfo
 {
-	uint iDunno[130];
-	int iMaxPlayers;
+	uint Dunno[130];
+	int MaxPlayers;
 };
 
 struct SLoginInfo
 {
-	wchar_t wszAccount[36];
+	wchar_t Account[36];
 };
 
 struct FLString
 {
 	st6::string value;
-	UINT iDunno2[12];
+	UINT Dunno2[12];
 };
 
 class IMPORT CAccount
@@ -272,12 +272,12 @@ class IMPORT CAccount
 	void InitFromFolder(char const*);
 
   public:
-	uint iDunno1;
-	wchar_t* wszAccId;
-	uint iDunno2[7];
+	uint Dunno1;
+	wchar_t* AccId;
+	uint Dunno2[7];
 	CAccountListNode* pFirstListNode;
-	uint iNumberOfCharacters;
-	uint iDunno4[32];
+	uint NumberOCharacters;
+	uint Dunno4[32];
 };
 
 namespace BaseGroupMessage
@@ -319,7 +319,7 @@ class IMPORT CPlayerGroup
   protected:
 	static class st6::map<unsigned int const, class CPlayerGroup*, struct st6::less<unsigned int const>, class st6::allocator<class CPlayerGroup*>>
 	    s_GroupIdToGroupPtrMap;
-	static unsigned int s_uiGroupId;
+	static unsigned int s_uGroupId;
 
   public:
 	unsigned char data[OBJECT_DATA_SIZE];
@@ -441,72 +441,72 @@ struct CHARACTER_ID
 	void invalidate(void);
 	bool is_valid(void) const;
 
-	char szCharFilename[512]; // Only first 16 bytes are ever used
+	char CharFilename[512]; // Only first 16 bytes are ever used
 };
 
 struct PlayerData
 {
-	wchar_t wszAccId[40];
+	wchar_t AccId[40];
 	long x050, x054, x058, x05C;
-	uint iNumberOfCharacters;
+	uint NumberOCharacters;
 	CHARACTER_ID charFile;
 	uint shipArchetype;
-	float fRelativeHealth;
+	float RelativeHealth;
 	CollisionGroupDescList collisionGroupDesc;
 	EquipDescList equipDescList;
-	int iRank;
-	int iMoneyNeededToNextRank;
+	int Rank;
+	int MoneyNeededToNextRank;
 	struct structCostume
 	{
-		UINT iHead;
-		UINT iBody;
-		UINT iLefthand;
-		UINT iRighthand;
-		UINT iAccessory[8];
-		int iAccessories;
+		UINT Head;
+		UINT Body;
+		UINT Lefthand;
+		UINT Righthand;
+		UINT Accessory[8];
+		int Accessories;
 	};
 	structCostume costume1;
 	long x2C0, x2C4, x2C8, x2CC, x2D0, x2D4, x2D8, x2DC, x2E0;
 	structCostume costume2;
-	uint iReputation;
-	int iInspectCash;
-	int iWorth;
+	uint Reputation;
+	int InspectCash;
+	int Worth;
 	uint shipArchetypeWhenLanding;
 	EquipDescList lShadowEquipDescList;
-	int iNumKills;
-	int iNumMissionSuccesses;
-	int iNumMissionFailures;
+	int NumKills;
+	int NumMissionSuccesses;
+	int NumMissionFailures;
 	bool bSkipAutosave;
 	char __padding0[3];
-	uint iSaveCount;
-	uint iOnlineId;
+	uint SaveCount;
+	uint OnlineId;
 	bool bCheated;
 	char __padding1[3];
 	Vector vPosition;
 	Matrix mOrientation;
 	FLString weaponGroup; // 0x10 bytes
-	uint iSetToZero;
-	float fDifficulty;
+	uint SetToZero;
+	float Difficulty;
 	ushort sLastEquipId;
 	char __padding2[2];
 	uint aMenuItem;
-	uint iOnlineId2;
+	uint OnlineId2;
 	long x3D4, x3D8;
-	uint iTradeRequestCount;
+	uint TradeRequestCount;
 	uint systemId;
 	uint shipId;
-	uint iCreatedShipId;
+	uint CreatedShipId;
 	uint baseId;
-	uint iLastBaseId;
-	uint iEnteredBase;
-	uint iBaseRoomId;
-	uint iCharacterId;
+	uint LastBaseId;
+	uint EnteredBase;
+	uint BaseRoomId;
+	uint CharacterId;
 	class CAccount* Account;
 	class CPlayerGroup* PlayerGroup;
-	uint iMissionId;
-	uint iMissionSetBy;
-	uint iExitedBase;
-	uint iUnknownLocId;
+	uint MissionId;
+	uint MissionSetBy;
+	uint ExitedBase;
+	uint UnknownLocId;
 };
 
 struct PlayerDBTreeNode
@@ -516,11 +516,11 @@ struct PlayerDBTreeNode
 	PlayerDBTreeNode* pRight;
 	ulong l1;
 	// File name of character
-	char* szFLName;
+	char* FLName;
 	// Length of file name
-	uint iLength;
-	// Always seems to be 0x1F. Possibly max length of szFLName
-	uint iDunno;
+	uint Length;
+	// Always seems to be 0x1F. Possibly max length of FLName
+	uint Dunno;
 	// Account for this player
 	CAccount* acc;
 };
@@ -580,11 +580,11 @@ class IMPORT PlayerDB
 	unsigned int to_index(unsigned int);
 
   public:
-	uint iDunno1[13];
+	uint Dunno1[13];
 	PlayerDBTreeNode* pFirstNode;
 	PlayerDBTreeNode* pLastNode;
-	uint iDunno2;
-	uint iNumAccounts;
+	uint Dunno2;
+	uint NumAccounts;
 };
 
 namespace CmnAsteroid // from FLCoreCommon.h
@@ -723,10 +723,10 @@ namespace pub
 	{
 		struct Tryptich
 		{
-			uint iDunno;
-			uint iDunno2;
-			uint iDunno3;
-			uint iMusicId;
+			uint Dunno;
+			uint Dunno2;
+			uint Dunno3;
+			uint MusicId;
 		};
 
 		IMPORT int CancelMusic(unsigned int);
@@ -902,55 +902,55 @@ namespace pub
 		struct CargoDesc
 		{
 			int vTbl;
-			int iUnk1;
-			int iUnk2;
-			int iUnk3;
-			int iUnk4;
+			int Unk1;
+			int Unk2;
+			int Unk3;
+			int Unk4;
 		};
 
 		struct ShipInfo
 		{
-			uint iFlag;
-			uint iSystem;
+			uint Flag;
+			uint System;
 			uint shipArchetype;
 			Vector vPos;
 			Vector vUnk1; // all 0
 			Vector vUnk2; // all 0
 			Matrix mOrientation;
-			uint iUnk1; // 0
-			uint iLoadout;
+			uint Unk1; // 0
+			uint Loadout;
 			OwnerList<pub::SpaceObj::CargoDesc> cargoDesc;
-			uint iLook1;
-			uint iLook2;
+			uint Look1;
+			uint Look2;
 			uint unk4; // 0
 			uint unk5; // 0
-			uint iComm;
-			float fUnk2;
-			float fUnk3;
-			float fUnk4;
-			float fUnk5;
-			float fUnk6;
-			float fUnk7;
-			float fUnk8;
-			uint iUnk2;
+			uint Comm;
+			float Unk2;
+			float Unk3;
+			float Unk4;
+			float Unk5;
+			float Unk6;
+			float Unk7;
+			float Unk8;
+			uint Unk2;
 
-			int iRep; // increases for each NPC spawned, starts at 0 or 1
-			uint iPilotVoice;
+			int Rep; // increases for each NPC spawned, starts at 0 or 1
+			uint PilotVoice;
 			uint unk6;    // 0
-			uint iHealth; // -1 = max health
+			uint Health; // -1 = max health
 			uint unk7;    // 0
 			uint unk8;    // 0
-			uint iLevel;
+			uint Level;
 		};
 
 		struct SolarInfo
 		{
-			int iFlag; // 0x290; ShipInfo has this too, no clue whether actually a flag
-			uint iArchId;
+			int Flag; // 0x290; ShipInfo has this too, no clue whether actually a flag
+			uint ArchId;
 			uint systemId;
 			Vector vPos;
 			Matrix mOrientation;
-			uint iLoadoutId;
+			uint LoadoutId;
 			struct structCostume
 			{
 				UINT head;
@@ -961,26 +961,26 @@ namespace pub
 				int accessories;
 			};
 			structCostume Costume;
-			int iRep;
-			int iVoiceId;
-			uint iUnk8; // 0
-			uint iUnk9; // Boolean, only last byte is used
-			int iHitPointsLeft;
+			int Rep;
+			int VoiceId;
+			uint Unk8; // 0
+			uint Unk9; // Boolean, only last byte is used
+			int HitPointsLeft;
 			char cNickName[64]; // Has to be unique
-			uint iUnk11;        // 0 unused?
-			uint iUnk12;        // 1 = flagged as mission solar, 0 = normal
+			uint Unk11;        // 0 unused?
+			uint Unk12;        // 1 = flagged as mission solar, 0 = normal
 		};
 
 		struct LootInfo
 		{
-			uint iDunno; // "Flag" like the others?
-			uint iArchId;
+			uint Dunno; // "Flag" like the others?
+			uint ArchId;
 		};
 
 		struct TerminalInfo
 		{
-			char szHardPoint[0x20];
-			uint iType; // 1=berth 4=moor? 7=jump?
+			char HardPoint[0x20];
+			uint Type; // 1=berth 4=moor? 7=jump?
 		};
 
 		IMPORT int Activate(unsigned int const&, bool, int);
@@ -1000,12 +1000,12 @@ namespace pub
 		IMPORT int GetAtmosphereRange(unsigned int const&, float&);
 		IMPORT int GetBurnRadius(unsigned int const&, float&, class Vector&);
 		IMPORT int GetCargoSpaceOccupied(unsigned int const&, unsigned int&);
-		IMPORT int GetCenterOfMass(unsigned int const&, class Vector&);
+		IMPORT int GetCenterOMass(unsigned int const&, class Vector&);
 		IMPORT int GetDockingTarget(unsigned int const&, unsigned int&);
 		IMPORT int GetEmptyPos(unsigned int const&, class Transform const&, float const&, float const&, enum PosSelectionType const&, class Vector&);
 		IMPORT int GetGoodID(unsigned int const&, unsigned int&);
 		IMPORT int GetHardpoint(unsigned int const&, char const*, class Vector*, class Matrix*);
-		IMPORT int GetHealth(unsigned int const& iSpaceObj, float& fCurrentHealth, float& fMaxHealth);
+		IMPORT int GetHealth(unsigned int const& SpaceObj, float& CurrentHealth, float& MaxHealth);
 		IMPORT int GetInvincible(unsigned int, bool&, bool&, float&);
 		IMPORT int GetJumpTarget(unsigned int const&, unsigned int&, unsigned int&);
 		IMPORT int GetLocation(unsigned int, class Vector&, class Matrix&);
@@ -1015,7 +1015,7 @@ namespace pub
 		IMPORT int GetRelativeHealth(unsigned int const&, float&);
 		IMPORT int GetRep(unsigned int, int&);
 		IMPORT int GetScannerRange(unsigned int, int&, int&);
-		IMPORT int GetShieldHealth(unsigned int const& iSpaceObj, float& fCurrentShields, float& fMaxShields, bool& bShieldsUp);
+		IMPORT int GetShieldHealth(unsigned int const& SpaceObj, float& CurrentShields, float& MaxShields, bool& bShieldsUp);
 		IMPORT int GetSolarArchetypeID(unsigned int, unsigned int&);
 		IMPORT int GetSolarArchetypeNickname(char*, int, unsigned int);
 		IMPORT int GetSolarParent(unsigned int const&, unsigned int&);
