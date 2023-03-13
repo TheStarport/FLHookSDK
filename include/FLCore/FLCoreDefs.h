@@ -37,7 +37,9 @@ template <int size> struct TString
 
 class Vector : public glm::vec3
 {
-
+  public:
+	Vector() = default;
+	Vector(const float x, const float y, const float z) : glm::vec3(x, y, z){};
 };
 
 class Matrix
