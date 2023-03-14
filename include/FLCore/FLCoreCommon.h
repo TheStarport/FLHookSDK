@@ -4740,7 +4740,7 @@ namespace pub
 			virtual bool validate();
 
 			OpType op_type;
-			int FireWeapons; // Probably a bool, anything non-zero turns it on
+			int fireWeapons; // Probably a bool, anything non-zero turns it on
 		};
 
 		class IMPORT DirectiveCancelOp : public BaseOp
@@ -4819,9 +4819,9 @@ namespace pub
 			DirectiveFollowOp();
 			virtual bool validate();
 
-			uint FollowSpaceObj;
-			float MaxDistance;
-			Vector vOffset;
+			uint followSpaceObj;
+			float maxDistance;
+			Vector offset;
 			float dunno2; // 400
 		};
 

@@ -881,7 +881,7 @@ namespace pub
 			Vector pos;
 			Vector unk1; // all 0
 			Vector unk2; // all 0
-			Matrix mOrientation;
+			Matrix orientation;
 			uint unk3; // 0
 			uint loadout;
 			OwnerList<pub::SpaceObj::CargoDesc> cargoDesc;
