@@ -2,8 +2,8 @@
 
 // N.B.: Must be included *after* FLHook.hpp; st6_malloc and st6_free must be defined!
 
-extern const st6_malloc_t st6_malloc;
-extern const st6_free_t st6_free;
+extern DLL const st6_malloc_t st6_malloc;
+extern DLL const st6_free_t st6_free;
 
 #include <cstddef>
 #include <stdexcept>
