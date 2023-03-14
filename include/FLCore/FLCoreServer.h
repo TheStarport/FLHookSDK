@@ -258,7 +258,7 @@ class IMPORT CAccount
 	wchar_t* accId;
 	uint dunno2[7];
 	CAccountListNode* firstListNode;
-	uint numberOCharacters;
+	uint numberOfCharacters;
 	uint dunno4[32];
 };
 
