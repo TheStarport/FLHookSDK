@@ -980,7 +980,7 @@ namespace pub
 		IMPORT int GetRelativeHealth(unsigned int const&, float&);
 		IMPORT int GetRep(unsigned int, int&);
 		IMPORT int GetScannerRange(unsigned int, int&, int&);
-		IMPORT int GetShieldHealth(unsigned int const& SpaceObj, float& CurrentShields, float& MaxShields, bool& bShieldsUp);
+		IMPORT int GetShieldHealth(unsigned int const& spaceObj, float& currentShields, float& maxShields, bool& shieldsUp);
 		IMPORT int GetSolarArchetypeID(unsigned int, unsigned int&);
 		IMPORT int GetSolarArchetypeNickname(char*, int, unsigned int);
 		IMPORT int GetSolarParent(unsigned int const&, unsigned int&);
