@@ -562,8 +562,8 @@ class IMPORT PlayerDB
 
   public:
 	uint dunno1[13];
-	PlayerDbTreeNode* pFirstNode;
-	PlayerDbTreeNode* pLastNode;
+	PlayerDbTreeNode* firstNode;
+	PlayerDbTreeNode* lastNode;
 	uint dunno2;
 	uint numAccounts;
 };

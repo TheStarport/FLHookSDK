@@ -49,50 +49,50 @@ class CDPServer;
 
 struct FLPACKET_UNKNOWN
 {
-	uint iDunno[20];
+	uint dunno[20];
 };
 
 struct FLPACKET_SETREPUTATION
 {
-	uint iSpaceId;
-	float fRep;
-	uint iRepGroup; // not sure
+	uint spaceId;
+	float rep;
+	uint repGroup; // not sure
 	// there is more (FMTStr? - object name?)
 };
 
 struct FLPACKET_LAUNCH
 {
 	uint ship;
-	uint iBase;
-	uint iState;
-	float fRotate[4];
-	float fPos[3];
+	uint base;
+	uint state;
+	float rotate[4];
+	float pos[3];
 };
 
 struct FLPACKET_BURNFUSE
 {
 	uint shipAttacker;
 	uint ship;
-	uint iFuseId;
-	uint iDunno1;
-	uint iDunno2;
-	float fDunno;
-	bool bActive;
+	uint fuseId;
+	uint dunno1;
+	uint dunno2;
+	float dunno3;
+	bool active;
 };
 
 struct FLPACKET_DESTROYOBJECT
 {
-	uint iSpaceId;
-	uint iDestroyType;
+	uint spaceId;
+	uint destroyType;
 };
 
 struct FLPACKET_CREATESHIP
 {
-	char* pAddress; // ??
-	uint iSpaceId;
+	char* address; // ??
+	uint spaceId;
 	uint shipArch;
-	uint iDunno1;
-	uint iPilot;
+	uint dunno1;
+	uint pilot;
 	struct {
 		uint body;
 		uint head;
@@ -101,34 +101,34 @@ struct FLPACKET_CREATESHIP
 		uint accessory[8];
 		int  accessories;
 	} costume;
-	uint iVoiceId;
-	Vector vPos;
-	Quaternion qOrientation;
-	int iHealth;
-	uint iDunno3;
-	uint iSize1;
+	uint voiceId;
+	Vector pos;
+	Quaternion orientation;
+	int health;
+	uint dunno3;
+	uint size1;
 	EquipDesc* equipBegin;
 	EquipDesc* equipEnd;
 	void* equipPointer3;
-	uint iSize2;
+	uint size2;
 	void* cargoPointer1;
 	void* cargoPointer2;
-	uint iSize3;
+	uint size3;
 	void *dunnoPointer1;
 	void *dunnoPointer2;
-	uint iDunno4[5];
+	uint dunno4[5];
 	uint client;
-	uint iDunno5;
-	uint iLevel;
+	uint dunno5;
+	uint level;
 };
 
 struct FLPACKET_CREATESOLAR
 {
-	char* pAddress; // ??
-	uint iSpaceId;
-	uint iSolarArch;
-	uint iDunno;
-	uint iPilot;
+	char* address; // ??
+	uint spaceId;
+	uint solarArch;
+	uint dunno;
+	uint pilot;
 	struct {
 		uint body;
 		uint head;
@@ -137,18 +137,18 @@ struct FLPACKET_CREATESOLAR
 		uint accessory[8];
 		int  accessories;
 	} costume;
-	int iVoiceId;
-	Vector vPos;
-	Quaternion qOrientation;
-	float fHealth;
+	int voiceId;
+	Vector pos;
+	Quaternion orientation;
+	float health;
 
 };
 
 struct FLPACKET_LAND
 {
-	uint iShip;
-	uint iLandSpaceID;
-	uint iTargetBase;
+	uint ship;
+	uint landSpaceID;
+	uint targetBase;
 };
 
 struct [[Hook, ClientCall]] IClientImpl
@@ -245,7 +245,7 @@ public:
 	[[NoPlugins]] virtual bool Send_FLPACKET_SERVER_REQUEST_RETURNED(uint client, uint shipID, uint flag, uint, uint);
 	[[NoPlugins]] virtual void unknown_85(uint client, FLPACKET_UNKNOWN&);
 	[[NoPlugins]] virtual void unknown_86(uint client, uint, uint, uint);
-	[[NoPlugins]] virtual bool Send_FLPACKET_SERVER_OBJECTCARGOUPDATE(SObjectCargoUpdate & cargoUpdate, uint iDunno1, uint iDunno2);
+	[[NoPlugins]] virtual bool Send_FLPACKET_SERVER_OBJECTCARGOUPDATE(SObjectCargoUpdate & cargoUpdate, uint dunno1, uint dunno2);
 	virtual bool Send_FLPACKET_SERVER_BURNFUSE(uint client, FLPACKET_BURNFUSE& burnFuse);
 	[[NoPlugins]] virtual void unknown_89(uint client, FLPACKET_UNKNOWN&);
 	[[NoPlugins]] virtual void unknown_90(uint client);
