@@ -52,6 +52,32 @@ struct FLPACKET_UNKNOWN
 	uint dunno[20];
 };
 
+struct FLPACKET_SYSTEM_SWITCH_OUT
+{
+	uint shipId;
+	uint jumpObjectId;
+};
+
+struct FLPACKET_SYSTEM_SWITCH_IN
+{
+	uint shipId;
+	uint objType;
+	Vector pos;
+	Quaternion quat;
+};
+
+struct FLPACKET_CREATEGUIDED
+{
+	uint projectileObjId;
+	Vector pos;
+	Quaternion ori;
+	uint targetId;
+	uint iDunno;
+	uint munitionArchId;
+	uint iDunno2; // zero (initial speed?)
+	uint ownerId;
+};
+
 struct FLPACKET_SETREPUTATION
 {
 	uint spaceId;
@@ -208,15 +234,15 @@ public:
 	virtual bool Send_FLPACKET_SERVER_CREATESHIP(uint client, FLPACKET_CREATESHIP& ship);
 	virtual bool Send_FLPACKET_SERVER_CREATELOOT(uint client, FLPACKET_UNKNOWN&);
 	virtual bool Send_FLPACKET_SERVER_CREATEMINE(uint client, FLPACKET_UNKNOWN&);
-	virtual bool Send_FLPACKET_SERVER_CREATEGUIDED(uint client, FLPACKET_UNKNOWN&);
+	virtual bool Send_FLPACKET_SERVER_CREATEGUIDED(uint client, FLPACKET_CREATEGUIDED&);
 	virtual bool Send_FLPACKET_SERVER_CREATECOUNTER(uint client, FLPACKET_UNKNOWN&);
 	[[NoPlugins]] virtual void unknown_53(uint client, FLPACKET_UNKNOWN&);
 	[[NoPlugins]] virtual void unknown_54(uint client, uint, uint, uint);
 	[[NoLog]] virtual bool Send_FLPACKET_COMMON_UPDATEOBJECT(uint client, SSPObjUpdateInfo& update);
 	virtual bool Send_FLPACKET_SERVER_DESTROYOBJECT(uint client, FLPACKET_DESTROYOBJECT& destroy);
 	virtual bool Send_FLPACKET_SERVER_ACTIVATEOBJECT(uint client, XActivateEquip& aq);
-	[[NoPlugins]] virtual bool Send_FLPACKET_SERVER_SYSTEM_SWITCH_OUT(uint client, FLPACKET_UNKNOWN&);
-	[[NoPlugins]] virtual bool Send_FLPACKET_SERVER_SYSTEM_SWITCH_IN(uint client, FLPACKET_UNKNOWN&);
+	[[NoPlugins]] virtual bool Send_FLPACKET_SERVER_SYSTEM_SWITCH_OUT(uint client, FLPACKET_SYSTEM_SWITCH_OUT&);
+	[[NoPlugins]] virtual bool Send_FLPACKET_SERVER_SYSTEM_SWITCH_IN(uint client, FLPACKET_SYSTEM_SWITCH_IN&);
 	[[NoPlugins]] virtual bool Send_FLPACKET_SERVER_LAND(uint client, FLPACKET_LAND& land);
 	virtual bool Send_FLPACKET_SERVER_LAUNCH(uint client, FLPACKET_LAUNCH& launch);
 	virtual bool Send_FLPACKET_SERVER_REQUESTCREATESHIPRESP(uint client, bool response, uint shipID);

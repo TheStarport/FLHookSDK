@@ -1464,7 +1464,10 @@ namespace Universe
 		uint startFaction;    // & 0xFF, always zero
 		uint countMaxFaction; // & 0xFF, appears related to the max number of factions in a given encounter line
 		st6::list<FactionSpawn> factionSpawns;
-		uint dunno5[5];
+		uint dunno5;
+		uint idsName;
+		uint idsInfo;
+		uint iDunno6[2];
 	};
 
 	IMPORT ISystem* GetFirstSystem();
