@@ -565,6 +565,15 @@ namespace Archetype
 		// and some other stuff
 	};
 
+	struct IMPORT MotorData 
+	{
+		/*  0 */ uint vTable;
+		/*  1 */ uint iArchId;
+		/*  2 */ float fDelay;
+		/*  3 */ float fAccel;
+		/*  4 */ float fLifetime;
+	};
+
 	struct IMPORT Launcher : public AttachedEquipment
 	{
 		Launcher(struct Launcher const &);
@@ -713,7 +722,7 @@ namespace Archetype
 	public:
 		/* 32 */ float fLinearDrag;
 		/* 33 */ float fRange;
-		/* 34 */ float fDiversionPctg;
+		/* 34 */ int fDiversionPctg;
 	};
 
 	struct IMPORT CounterMeasureDropper : Launcher
