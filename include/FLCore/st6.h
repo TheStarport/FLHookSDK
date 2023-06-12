@@ -1,9 +1,9 @@
 ﻿#pragma once
 
 // N.B.: Must be included *after* FLHook.hpp; st6_malloc and st6_free must be defined!
-#ifndef ST6_ALLOCATION_DEFINED
-	#error st6_malloc and st6_free must be defined before st6.h is included!
-#endif
+
+extern DLL const st6_malloc_t st6_malloc;
+extern DLL const st6_free_t st6_free;
 
 #include <cstddef>
 #include <stdexcept>
