@@ -109,7 +109,7 @@ class IMPORT AmbientScriptProperties
         void clear();
         void destroy();
         unsigned long get_key() const;
-        void init(struct const AmbientScriptDescription&);
+        void init(const struct AmbientScriptDescription&);
         void marshal(class MarshalBuffer*) const;
         void unmarshal(MarshalBuffer*);
 
@@ -390,7 +390,7 @@ namespace Archetype
             const EqObj& operator=(const EqObj&);
             bool dock_terminal_valid(int) const;
             virtual ClassType get_class_type() const;
-            struct const CollisionGroup* get_group_by_id(unsigned short) const;
+            const struct CollisionGroup* get_group_by_id(unsigned short) const;
             const CollisionGroup* get_group_by_name(const CacheString&) const;
             bool get_undamaged_collision_group_list(st6::list<struct CollisionGroupDesc>&) const;
             virtual bool read(INI_Reader&);
@@ -1085,7 +1085,7 @@ namespace Archetype
     IMPORT Explosion* GetExplosion(const ID_String&);
     IMPORT unsigned int GetId(ClassType, unsigned int);
     IMPORT unsigned int GetIdCount(ClassType);
-    IMPORT struct const MotorData* GetMotor(unsigned int);
+    IMPORT const struct MotorData* GetMotor(unsigned int);
     IMPORT Ship* GetShip(unsigned int);
     IMPORT Ship* GetShipByName(const ID_String&);
     IMPORT unsigned int GetShipID(const ID_String&);
@@ -1219,7 +1219,7 @@ struct IMPORT BaseWatcher
         BaseWatcher();
         ~BaseWatcher();
         BaseWatcher& operator=(const BaseWatcher&);
-        void set(struct const Watchable*);
+        void set(const struct Watchable*);
 
     protected:
         void set_pointer(const Watchable*);
@@ -1611,7 +1611,7 @@ namespace CmnAsteroid
             Matrix get_orient();
             Vector get_pos();
             enum CubeState get_state();
-            void init(const Vector&, unsigned long, struct AsteroidCubeArch*, struct const AxisRotations&, float);
+            void init(const Vector&, unsigned long, struct AsteroidCubeArch*, const struct AxisRotations&, float);
             void set_size(int);
             void set_state(CubeState);
             void set_system(unsigned int);
@@ -1701,7 +1701,7 @@ namespace CmnAsteroid
     IMPORT void Update(struct IObjDB*, float);
     IMPORT int closest_cube_coord(int, int, int);
     IMPORT unsigned long compute_cube_id(const Vector&);
-    IMPORT bool compute_cube_orientation(unsigned long, Matrix*, struct const AxisRotations&, float);
+    IMPORT bool compute_cube_orientation(unsigned long, Matrix*, const struct AxisRotations&, float);
 }; // namespace CmnAsteroid
 
 struct INotify
@@ -1804,7 +1804,7 @@ namespace PhySys
     IMPORT void BeamR(CObject*, const Vector&, const Matrix&, bool);
     IMPORT void BuildIVP_Real(CObject*, const CreateParms&);
     IMPORT void BuildIVP_Sphere(CObject*, float, const CreateParms&);
-    IMPORT int CreatePhantom(struct const PhantomParms&, const PhyArch::Part&, void*&);
+    IMPORT int CreatePhantom(const struct PhantomParms&, const PhyArch::Part&, void*&);
     IMPORT int CreatePhantom(const PhantomParms&, const Vector&, void*&);
     IMPORT int CreatePhantom(const PhantomParms&, float, void*&);
     IMPORT Vector DEFAULT_ANGULAR_DAMPING;
@@ -1812,7 +1812,7 @@ namespace PhySys
     IMPORT void DeactivatePhysics(CObject*);
     IMPORT void DeactivatePhysicsR(CObject*);
     IMPORT void DestroyPhantom(void*);
-    IMPORT void Detach(CObject*, struct const DetachParms&);
+    IMPORT void Detach(CObject*, const struct DetachParms&);
     IMPORT int DetachPhantom(void*);
     IMPORT int FindRayCollisions(unsigned int system, const Vector& origin, const Vector& end, RayHit* rh, int rh_count);
     IMPORT int FindRayIntersect(CObject*, const Vector&, const Vector&, RayHit*, int);
@@ -1889,7 +1889,7 @@ struct IMPORT EngineObject
         virtual const Vector& __stdcall get_position(long) const;
         virtual void __stdcall set_orientation(long, const Matrix&);
         virtual const Matrix& __stdcall get_orientation(long) const;
-        virtual void __stdcall set_transform(long, class const Transform&);
+        virtual void __stdcall set_transform(long, const class Transform&);
         virtual const Transform& __stdcall get_transform(long) const;
         virtual void __stdcall get_centered_radius(long, float*, Vector*) const;
         virtual void __stdcall set_centered_radius(long, float, const Vector&);
@@ -2405,7 +2405,7 @@ class IMPORT CELauncher : public CAttachedEquip
         Vector GetAvgBarrelDirWS() const;
         Vector GetAvgBarrelPosWS() const;
         Vector GetBarrelDirWS(unsigned int) const;
-        struct const Barrel* GetBarrelInfo(unsigned int) const;
+        const struct Barrel* GetBarrelInfo(unsigned int) const;
         Vector GetBarrelPosWS(unsigned int) const;
         unsigned int GetProjectilesPerFire() const;
         const Archetype::Launcher* LauncherArch() const;
@@ -2535,7 +2535,7 @@ class IMPORT CECargo : public CInternalEquip
         CECargo(const CECargo&);
         CECargo(CEqObj*, unsigned short, const Archetype::Equipment*, bool);
         void AddToStack(unsigned int, float);
-        class const CECargoPod* GetContainer() const;
+        const class CECargoPod* GetContainer() const;
         unsigned int GetCount() const;
         float GetDecayDamagePerSecond() const;
         void RemoveFromStack(unsigned int);
@@ -2862,7 +2862,7 @@ class IMPORT CETractor : public CInternalEquip
         int CountActiveArms() const;
         float GetRange() const;
         Vector GetSourcePos() const;
-        class const TractorArm* GetTractorArm(unsigned int) const;
+        const class TractorArm* GetTractorArm(unsigned int) const;
         const st6::vector<TractorArm>& GetTractorArms() const;
         void RemoveTarget(unsigned int);
         TractorFailureCode VerifyTarget(const CLoot*) const;
@@ -2908,7 +2908,7 @@ class IMPORT CEquipManager
         int Size() const;
         CEquip* Traverse(CEquipTraverser&);
         const CEquip* Traverse(CEquipTraverser&) const;
-        bool VerifyListSync(class const EquipDescList&) const;
+        bool VerifyListSync(const class EquipDescList&) const;
 
     private:
         int CleanUp(st6::list<CEquip*, st6::allocator<CEquip*>>&);
@@ -2952,7 +2952,7 @@ struct IMPORT CEqObj : public CSimple
         virtual unsigned int get_name() const;
         virtual bool is_targetable() const;
         virtual void init(const CreateParms&);
-        virtual void load_equip_and_cargo(struct const EquipDescVector&, bool);
+        virtual void load_equip_and_cargo(const struct EquipDescVector&, bool);
         virtual void clear_equip_and_cargo();
         virtual void get_equip_desc_list(EquipDescVector&) const;
         virtual bool add_item(const EquipDesc&);
@@ -3376,7 +3376,7 @@ struct IMPORT CShip : public CEqObj, public PhySys::Controller
         int get_formation_follower_count();
         int get_formation_followers(IObjRW** const, unsigned int);
         unsigned int get_group_name() const;
-        struct const ShipGunStats& get_gun_stats() const;
+        const struct ShipGunStats& get_gun_stats() const;
         float get_initial_speed_to_coast_distance(float, bool) const;
         float get_linear_drag() const;
         float get_max_bank_angle() const;
@@ -3573,7 +3573,7 @@ class IMPORT CharacterProperties
         CharacterProperties& operator=(const CharacterProperties&);
         void destroy();
         unsigned long get_key() const;
-        void init(struct const CharacterDescription&);
+        void init(const struct CharacterDescription&);
         void marshal(MarshalBuffer*) const;
         void unmarshal(MarshalBuffer*);
 
@@ -3647,12 +3647,12 @@ class IMPORT CostumeDescriptions
         CostumeDescriptions();
         ~CostumeDescriptions();
         CostumeDescriptions& operator=(const CostumeDescriptions&);
-        struct const accessory* find_accessory(unsigned long) const;
+        const struct accessory* find_accessory(unsigned long) const;
         const accessory* find_accessory(const char*) const;
         unsigned long find_accessory_id(const char*) const;
-        struct const bodypart* find_bodypart(int, unsigned long) const;
+        const struct bodypart* find_bodypart(int, unsigned long) const;
         const bodypart* find_bodypart(int, const char*) const;
-        struct const costume* find_costume(unsigned long) const;
+        const struct costume* find_costume(unsigned long) const;
         const costume* find_costume(const char*) const;
         unsigned long find_costume_id(const char*) const;
         unsigned long find_part_id(int, const char*) const;
@@ -3746,7 +3746,7 @@ class IMPORT TextRenderContext
         virtual ~TextRenderContext();
         TextRenderContext& operator=(const TextRenderContext&);
         void clear_default_attributes();
-        struct const TextRenderAttributes& get_current_attributes();
+        const struct TextRenderAttributes& get_current_attributes();
         const TextRenderAttributes& get_default_attributes();
         int get_origin_h();
         int get_origin_v();
@@ -4005,7 +4005,7 @@ struct IMPORT FlashLightSetInfo
         FlashLightSetInfo& operator=(const FlashLightSetInfo&);
         void clear();
         void destroy();
-        void fixup(long, class const HardpointSummary*, const RoomData*);
+        void fixup(long, const class HardpointSummary*, const RoomData*);
         void unfixup();
 
     private:
@@ -4051,7 +4051,7 @@ struct IMPORT FmtStr
         void append_installation(int);
         void append_int(unsigned int);
         void append_loot(int);
-        void append_nav_marker(struct const NavMarker&);
+        void append_nav_marker(const struct NavMarker&);
         void append_rep_group(const unsigned int&);
         void append_rep_instance(const int&);
         void append_spaceobj_id(const unsigned int&);
@@ -5077,7 +5077,7 @@ class IMPORT IBehaviorManager
         enum EvaluateResult external_player_evaluate(int);
         bool get_camera_level_status();
         float get_closest_trailing_ship() const;
-        struct const IDirectiveInfo* get_current_directive();
+        const struct IDirectiveInfo* get_current_directive();
         const IObjRW* get_debugger_target() const;
         bool get_docking_port(const IObjRW*&, int&);
         unsigned int get_parent_id();
@@ -5198,7 +5198,7 @@ struct IMPORT IObjInspectImpl
         virtual float get_projected_axis_throttle_XY(float) const;
         virtual float get_projected_axis_throttle_Z(float) const;
         virtual float get_max_bank_angle() const;
-        virtual int get_scanlist(struct const ScanList*&, unsigned int, bool) const;
+        virtual int get_scanlist(const struct ScanList*&, unsigned int, bool) const;
         virtual int get_tgt_lead_fire_pos(const unsigned short&, Vector&) const;
         virtual int is_pointing_at(bool&, const unsigned short&, float) const;
         virtual int can_point_at(bool&, const unsigned short&, const Vector&, float) const;
@@ -5455,7 +5455,7 @@ class IMPORT MissionVendorProperties
         void destroy();
         const char* get_icon_texture() const;
         unsigned long get_key() const;
-        void init(struct const MissionVendorOfferDescription&);
+        void init(const struct MissionVendorOfferDescription&);
         void marshal(MarshalBuffer*) const;
         void unmarshal(MarshalBuffer*);
 
@@ -5479,7 +5479,7 @@ class IMPORT NewsBroadcastProperties
         void destroy();
         unsigned long get_key() const;
         const char* get_logo_texture() const;
-        void init(struct const NewsBroadcastDescription&);
+        void init(const struct NewsBroadcastDescription&);
         void marshal(MarshalBuffer*) const;
         void unmarshal(MarshalBuffer*);
 
@@ -5505,7 +5505,7 @@ class IMPORT PetalInterfaceDatabase
         ~PetalInterfaceDatabase();
         PetalInterfaceDatabase& operator=(const PetalInterfaceDatabase&);
         void destroy();
-        struct const petal_record* find_record(int, unsigned long) const;
+        const struct petal_record* find_record(int, unsigned long) const;
         static int get_category(const char*);
         void load_from_ini(const char*);
 
@@ -5919,7 +5919,7 @@ class IMPORT RoomData
         void enumerate_CharacterPlacement_ini(void (*)(int, INI_Reader*, void*), void*) const;
         const RoomCameraInfo* find_camera(const char*, const char*) const;
         const RoomCameraInfo* find_camera_generic(const char*, const char*) const;
-        struct const SetpointInfo* find_setpoint(const char*, const char*) const;
+        const struct SetpointInfo* find_setpoint(const char*, const char*) const;
         const SetpointInfo* find_setpoint_generic(const char*, const char*) const;
         void fixup(long);
         const RoomCameraInfo* get_camera_info() const;
@@ -5929,11 +5929,11 @@ class IMPORT RoomData
         void unload();
 
     private:
-        void add_set_script_Camera(unsigned long, const Csys&, const char*, struct const ThornCameraProperties*);
+        void add_set_script_Camera(unsigned long, const Csys&, const char*, const struct ThornCameraProperties*);
         void add_set_script_Prop(const char*, const char*, int, const Csys&, bool, bool, bool, bool, unsigned char, signed char, unsigned long, const char*,
                                  unsigned long, bool);
-        void add_set_script_Setpoint(unsigned long, const Csys&, const char*, struct const ThornEntity*);
-        void add_set_script_light(unsigned long, const Csys&, struct const ThornLightProperties*, unsigned char);
+        void add_set_script_Setpoint(unsigned long, const Csys&, const char*, const struct ThornEntity*);
+        void add_set_script_light(unsigned long, const Csys&, const struct ThornLightProperties*, unsigned char);
         const SetpointInfo* apply_setpoint(const char*, char**, Csys*, const char*);
         CharPlaceInfo* find_CharacterPlacement(const char*);
         void fixup_FlashLight_list(long, const HardpointSummary*);
@@ -6057,7 +6057,7 @@ class IMPORT ScriptBehavior
         void clear();
         void destroy();
         unsigned long get_key() const;
-        void init(struct const CharacterBehaviorDescription&);
+        void init(const struct CharacterBehaviorDescription&);
         void marshal(MarshalBuffer*) const;
         void unmarshal(MarshalBuffer*);
 
@@ -6543,7 +6543,7 @@ IMPORT long CompoundInstanceFindFirstName(long, const char*);
 IMPORT void CompoundInstanceList(long, int*, long**);
 IMPORT void ComputeExplosiveImpulses(long, Vector&, Vector&, Vector&);
 IMPORT bool CostumeGenderAdjust(int*, int);
-IMPORT bool Costume_is_equal(struct const Costume&, struct const Costume&);
+IMPORT bool Costume_is_equal(const struct Costume&, const struct Costume&);
 IMPORT unsigned int CreateID(const char*);
 
 IMPORT float Csys_error(const Csys&, const Csys&);
@@ -6599,7 +6599,7 @@ IMPORT bool InitializeRichText(int);
 IMPORT bool IsDescendant(long, long);
 IMPORT bool IsMPServer();
 IMPORT float JETTISONED_CARGO_VELOCITY;
-IMPORT bool JointEnumCallback(long, long, struct const JointInfo*, void*);
+IMPORT bool JointEnumCallback(long, long, const struct JointInfo*, void*);
 IMPORT float LOOT_OWNER_SAFE_TIME;
 IMPORT float LOOT_UNSEEN_LIFE_TIME;
 IMPORT float LOOT_UNSEEN_RADIUS;
@@ -6658,7 +6658,7 @@ IMPORT bool SphereCull(const Geometry::Sphere&, const Universe::IZone*);
 IMPORT char* StringAlloc(const char*, bool);
 IMPORT const char* StringIndex(const char*, unsigned int);
 IMPORT void StringShutdown();
-IMPORT unsigned long ThornGetRenderType(struct const ThornEntity*, const char*);
+IMPORT unsigned long ThornGetRenderType(const struct ThornEntity*, const char*);
 IMPORT bool ThornGetUserFloat(struct IScriptEngine*, int, const char*, float*);
 IMPORT bool ThornGetUserInt(IScriptEngine*, int, const char*, int*);
 IMPORT const char* ThornGetUserString(IScriptEngine*, int, const char*);
