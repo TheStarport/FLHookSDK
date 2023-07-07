@@ -3449,8 +3449,8 @@ struct IMPORT CShip : public CEqObj, public PhySys::Controller
 #ifdef _USE_DEPRECATED_COBJECT_VARIABLES_
         /* 105 */ DWORD vtable;
         DWORD dunno5[3];
-	    /* 109 */ uint playerGroup;
-	    DWORD dunno6[30];
+        /* 109 */ uint playerGroup;
+        DWORD dunno6[30];
         /* 139 */ DWORD BayAnim;
         DWORD dunno7[31];
         /* 170 */ DWORD BayState;
@@ -3554,7 +3554,7 @@ struct IMPORT CSolar : public CEqObj
         void init_continual_anim(const char*);
         void update_system_gate(float);
 
-	    /* 108 uint jumpDestinationSystemId */
+        /* 108 uint jumpDestinationSystemId */
         /* 109 uint jumpDestinationObjectId // must be OBJ_JUMP_GATE or OBJ_JUMP_HOLE */
 };
 
