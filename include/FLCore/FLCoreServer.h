@@ -83,7 +83,9 @@ struct SSPObjCollisionInfo
 
 struct SSPUseItem
 {
-	uint dunno[128];
+	uint userShipId;
+	ushort itemId;
+	ushort amountUsed;
 };
 
 struct XActivateEquip
