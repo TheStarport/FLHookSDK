@@ -109,7 +109,7 @@ struct FLPACKET_BURNFUSE
 struct FLPACKET_DESTROYOBJECT
 {
 	uint spaceId;
-	uint destroyType;
+	DestroyType destroyType;
 };
 
 struct FLPACKET_CREATESHIP
@@ -234,7 +234,7 @@ public:
 	virtual bool Send_FLPACKET_SERVER_CREATESHIP(uint client, FLPACKET_CREATESHIP& ship);
 	virtual bool Send_FLPACKET_SERVER_CREATELOOT(uint client, FLPACKET_UNKNOWN&);
 	virtual bool Send_FLPACKET_SERVER_CREATEMINE(uint client, FLPACKET_UNKNOWN&);
-	virtual bool Send_FLPACKET_SERVER_CREATEGUIDED(uint client, FLPACKET_CREATEGUIDED&);
+	virtual bool Send_FLPACKET_SERVER_CREATEGUIDED(uint& client, FLPACKET_CREATEGUIDED&);
 	virtual bool Send_FLPACKET_SERVER_CREATECOUNTER(uint client, FLPACKET_UNKNOWN&);
 	[[NoPlugins]] virtual void unknown_53(uint client, FLPACKET_UNKNOWN&);
 	[[NoPlugins]] virtual void unknown_54(uint client, uint, uint, uint);
@@ -268,7 +268,7 @@ public:
 	[[NoPlugins]] virtual void unknown_81(uint client, uint);
 	[[NoPlugins]] virtual void unknown_82(uint client, uint);
 	[[NoPlugins]] virtual void unknown_83(uint client, char*);
-	[[NoPlugins]] virtual bool Send_FLPACKET_SERVER_REQUEST_RETURNED(uint client, uint shipID, uint flag, uint, uint);
+	[[NoPlugins]] virtual bool Send_FLPACKET_SERVER_REQUEST_RETURNED(uint& client, uint shipID, uint flag, uint, uint);
 	[[NoPlugins]] virtual void unknown_85(uint client, FLPACKET_UNKNOWN&);
 	[[NoPlugins]] virtual void unknown_86(uint client, uint, uint, uint);
 	[[NoPlugins]] virtual bool Send_FLPACKET_SERVER_OBJECTCARGOUPDATE(SObjectCargoUpdate & cargoUpdate, uint dunno1, uint dunno2);
@@ -285,7 +285,7 @@ public:
 	[[NoPlugins]] virtual bool Send_FLPACKET_COMMON_SET_MISSION_LOG(uint client, uint, int);
 	[[NoPlugins]] virtual bool Send_FLPACKET_COMMON_SET_INTERFACE_STATE(uint client, uint, int);
 	[[NoPlugins]] virtual void unknown_100(uint client, uint, uint);
-	[[NoPlugins]] virtual void unknown_101(uint client, FLPACKET_UNKNOWN&);
+	[[NoPlugins]] virtual void unknown_101(uint& client, FLPACKET_UNKNOWN&);
 	[[NoPlugins]] virtual void unknown_102(uint client, uint);
 	[[NoPlugins]] virtual void unknown_103(uint client, uint);
 	[[NoPlugins]] virtual void unknown_104(uint client, uint, uint);

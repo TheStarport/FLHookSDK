@@ -1477,7 +1477,7 @@ namespace Universe
             uint dunno5;
             uint idsName;
             uint idsInfo;
-            uint iDunno6[2];
+            uint dunno6[2];
     };
 
     IMPORT ISystem* GetFirstSystem();
@@ -3448,9 +3448,11 @@ struct IMPORT CShip : public CEqObj, public PhySys::Controller
 
 #ifdef _USE_DEPRECATED_COBJECT_VARIABLES_
         /* 105 */ DWORD vtable;
-        DWORD dunno5[34];
+        DWORD dunno5[3];
+	    /* 109 */ uint playerGroup;
+	    DWORD dunno6[30];
         /* 139 */ DWORD BayAnim;
-        DWORD dunno6[31];
+        DWORD dunno7[31];
         /* 170 */ DWORD BayState;
         /* 174 */ DWORD BayState2;
 #endif // _USE_DEPRECATED_COBJECT_VARIABLES_
@@ -3551,6 +3553,9 @@ struct IMPORT CSolar : public CEqObj
         void configure_system_gate(const char*);
         void init_continual_anim(const char*);
         void update_system_gate(float);
+
+	    /* 108 uint jumpDestinationSystemId */
+        /* 109 uint jumpDestinationObjectId // must be OBJ_JUMP_GATE or OBJ_JUMP_HOLE */
 };
 
 struct IMPORT CharPlaceInfo
