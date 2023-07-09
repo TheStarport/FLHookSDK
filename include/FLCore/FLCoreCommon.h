@@ -1,4 +1,4 @@
-﻿//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 //	Project FLCoreSDK v1.1, modified for use in FLHook Plugin version
 //--------------------------
 //
@@ -2174,6 +2174,138 @@ public:
 
 };
 
+
+struct IMPORT CEqObj : public CSimple
+{
+  public:
+	struct IMPORT CreateParms
+	{
+		CreateParms(void);
+		struct CreateParms& operator=(struct CreateParms const&);
+
+	  public:
+		unsigned char data[OBJECT_DATA_SIZE];
+	};
+
+	virtual ~CEqObj(void);
+	virtual int update(float, unsigned int);
+	virtual void disable_controllers(void);
+	virtual void enable_controllers(void);
+	virtual void unmake_physical(void);
+	virtual void remake_physical(struct PhySys::CreateParms const&, float);
+	virtual unsigned int get_name(void) const;
+	virtual bool is_targetable(void) const;
+	virtual void init(CEqObj::CreateParms const&);
+	virtual void load_equip_and_cargo(struct EquipDescVector const&, bool);
+	virtual void clear_equip_and_cargo(void);
+	virtual void get_equip_desc_list(struct EquipDescVector&) const;
+	virtual bool add_item(struct EquipDesc const&);
+	virtual enum ObjActivateResult activate(bool, unsigned int);
+	virtual bool get_activate_state(class st6::vector<bool, class st6::allocator<bool>>&);
+	virtual void disconnect(struct IObjDB*);
+	virtual void disconnect(struct INotify*);
+	virtual void disconnect(struct IObjRW*);
+	virtual void connect(struct IObjDB*);
+	virtual void connect(struct INotify*);
+	virtual void notify(enum INotify::Event, void*);
+	virtual void flush_animations(void);
+	virtual float get_total_hit_pts(void) const;
+	virtual float get_total_max_hit_pts(void) const;
+	virtual float get_total_relative_health(void) const;
+	virtual bool get_sub_obj_velocity(unsigned short, class Vector&) const;
+	virtual bool get_sub_obj_center_of_mass(unsigned short, class Vector&) const;
+	virtual bool get_sub_obj_hit_pts(unsigned short, float&) const;
+	virtual bool set_sub_obj_hit_pts(unsigned short, float);
+	virtual bool get_sub_obj_max_hit_pts(unsigned short, float&) const;
+	virtual bool get_sub_obj_relative_health(unsigned short, float&) const;
+	virtual unsigned short inst_to_subobj_id(long) const;
+	virtual long sub_obj_id_to_inst(unsigned short) const;
+	virtual void destroy_sub_objs(struct DamageList const&, bool);
+	virtual int enumerate_sub_objs(void) const;
+	virtual class CEquip* alloc_equip(unsigned short, struct Archetype::Equipment*, bool);
+	virtual void link_shields(void);
+
+	enum Class
+	{
+		None = 0,
+		LightEquip = 1,
+		AttachedFx = 2, // contrails
+		// dunno
+		Mine = 32,
+		CM = 64,
+		Gun = 128,
+		Shield = 256,
+		ShieldGenerator = 512,
+		Thruster = 1024,
+		CargoPod = 2048,
+		CloakingDevice = 4096,
+		Cargo = 65536, // commodities, ammo
+		Engine = 131072,
+		Power = 262144,
+		Scanner = 524288,
+		TractorBeam = 1048576,
+		RepairDroid = 2097152,
+		InternalFX = 4194304,
+		TradeLaneEquip = 8388608,
+		Armor = 16777216,
+	};
+
+	struct IMPORT DockAnimInfo
+	{
+		DockAnimInfo();
+		DockAnimInfo& operator=(const DockAnimInfo&);
+
+	  public:
+		unsigned char data[OBJECT_DATA_SIZE];
+	};
+
+	CEqObj(struct CEqObj const&);
+	CEqObj(enum CObject::Class);
+	void attaching_damaged_obj(struct CacheString const&);
+	float attitude_towards(struct CEqObj const*) const;
+	void attitude_towards_symmetrical(float&, struct CEqObj const*, float&) const;
+	void clear_arch_groups(void);
+	class IBehaviorManager* create_behavior_interface(struct IObjRW*, int);
+	struct Archetype::EqObj* eqobjarch(void) const;
+	unsigned int get_base(void) const;
+	unsigned int get_base_name(void) const;
+	class IBehaviorManager* get_behavior_interface(void);
+	float get_cloak_percentage(void) const;
+	void get_collision_group_description(class st6::list<struct CollisionGroupDesc>&) const;
+	unsigned int const& get_dock_target(void) const;
+	bool get_explosion_dmg_bounding_sphere(float&, class Vector&) const;
+	float get_max_power(void) const;
+	float get_power(void) const;
+	float get_power_ratio(void) const;
+	int get_vibe(void) const;
+	bool is_base(void) const;
+	int is_cloaked(void) const;
+	bool is_control_excluded(unsigned int) const;
+	bool is_damaged_obj_attached(struct CacheString const&) const;
+	bool is_dock(void) const;
+	bool launch_pos(class Vector&, class Matrix&, int) const;
+	void load_arch_groups(class st6::list<struct CollisionGroupDesc> const&);
+	void set_control_exclusion(unsigned int);
+	void set_power(float);
+	bool sync_cargo(class EquipDescList const&);
+	bool add_cargo_item(struct EquipDesc const&);
+	bool add_equipped_item(struct EquipDesc const&);
+	void compute_explosion_dmg_bounding_sphere(float&, class Vector&) const;
+	void init_docking_points(unsigned int);
+	void update_docking_animations(float);
+
+#ifdef _USE_DEPRECATED_COBJECT_VARIABLES_
+	/* 0x088 */ Archetype::Ship* ship_arch;
+	/* 0x08c */ UINT dunno3[0x16];
+	/* 0x0e0 */ CEquipManager equip_manager; // 180 bytes
+	/* 0x194 */ float fPower;
+	/* 0x198 */ float fMaxPower;
+#endif // _USE_DEPRECATED_COBJECT_VARIABLES_
+
+  private:
+	void destroy_equipment(DamageList const&, bool);
+};
+
 class IMPORT CEquip
 {
 public:
@@ -2831,29 +2963,29 @@ public:
 
 class IMPORT CEquipManager
 {
-public:
-	CEquipManager(class CEquipManager const &);
-	CEquipManager(void);
-	~CEquipManager(void);
-	class CEquipManager & operator=(class CEquipManager const &);
-	bool AddNewEquipment(class CEquip *);
-	int CleanUp(void);
-	void Clear(void);
-	class CExternalEquip * FindByHardpoint(struct CacheString const &);
-	class CExternalEquip const * FindByHardpoint(struct CacheString const &)const ;
-	class CEquip * FindByID(unsigned short);
-	class CEquip const * FindByID(unsigned short)const ;
-	class CEquip * FindFirst(unsigned int);
-	class CEquip const * FindFirst(unsigned int)const ;
-	bool HasDecayingCargo(void)const ;
-	bool Init(struct CEqObj *);
-	unsigned short InstToSubObjID(long)const ;
-	class CEquip * ReverseTraverse(class CEquipTraverser &);
-	class CEquip const * ReverseTraverse(class CEquipTraverser &)const ;
-	int Size(void)const ;
-	class CEquip * Traverse(class CEquipTraverser &);
-	class CEquip const * Traverse(class CEquipTraverser &)const ;
-	bool VerifyListSync(class EquipDescList const &)const ;
+    public:
+        CEquipManager(const CEquipManager&);
+        CEquipManager();
+        ~CEquipManager();
+        CEquipManager& operator=(const CEquipManager&);
+        bool AddNewEquipment(CEquip*);
+        int CleanUp();
+        void Clear();
+        CExternalEquip* FindByHardpoint(const CacheString&);
+        const CExternalEquip* FindByHardpoint(const CacheString&) const;
+        CEquip* FindByID(unsigned short);
+        const CEquip* FindByID(unsigned short) const;
+        CEquip* FindFirst(CEqObj::Class);
+	    const CEquip* FindFirst(CEqObj::Class) const;
+        bool HasDecayingCargo() const;
+        bool Init(CEqObj*);
+        unsigned short InstToSubObjID(long) const;
+        CEquip* ReverseTraverse(class CEquipTraverser&);
+        const CEquip* ReverseTraverse(CEquipTraverser&) const;
+        int Size() const;
+        CEquip* Traverse(CEquipTraverser&);
+        const CEquip* Traverse(CEquipTraverser&) const;
+        bool VerifyListSync(const class EquipDescList&) const;
 
 private:
 	int CleanUp(class st6::list<class CEquip *,class st6::allocator<class CEquip *>> &);
@@ -2866,7 +2998,7 @@ public:
 class IMPORT CEquipTraverser
 {
 public:
-	CEquipTraverser(int);
+	CEquipTraverser(CEqObj::Class);
 	CEquipTraverser(int,bool);
 	CEquipTraverser(void);
 	class CEquipTraverser & operator=(class CEquipTraverser const &);
@@ -2874,112 +3006,6 @@ public:
 
 public:
 	unsigned char data[OBJECT_DATA_SIZE];
-};
-
-struct IMPORT CEqObj : public CSimple
-{
-public:
-	struct IMPORT CreateParms
-	{
-		CreateParms(void);
-		struct CreateParms & operator=(struct CreateParms const &);
-
-	public:
-		unsigned char data[OBJECT_DATA_SIZE];
-	};
-
-	virtual ~CEqObj(void);
-	virtual int update(float,unsigned int);
-	virtual void disable_controllers(void);
-	virtual void enable_controllers(void);
-	virtual void unmake_physical(void);
-	virtual void remake_physical(struct PhySys::CreateParms const &,float);
-	virtual unsigned int get_name(void)const ;
-	virtual bool is_targetable(void)const ;
-	virtual void init(CEqObj::CreateParms const &);
-	virtual void load_equip_and_cargo(struct EquipDescVector const &,bool);
-	virtual void clear_equip_and_cargo(void);
-	virtual void get_equip_desc_list(struct EquipDescVector &)const ;
-	virtual bool add_item(struct EquipDesc const &);
-	virtual enum ObjActivateResult  activate(bool,unsigned int);
-	virtual bool get_activate_state(class st6::vector<bool,class st6::allocator<bool>> &);
-	virtual void disconnect(struct IObjDB *);
-	virtual void disconnect(struct INotify *);
-	virtual void disconnect(struct IObjRW *);
-	virtual void connect(struct IObjDB *);
-	virtual void connect(struct INotify *);
-	virtual void notify(enum INotify::Event,void *);
-	virtual void flush_animations(void);
-	virtual float get_total_hit_pts(void)const ;
-	virtual float get_total_max_hit_pts(void)const ;
-	virtual float get_total_relative_health(void)const ;
-	virtual bool get_sub_obj_velocity(unsigned short,class Vector &)const ;
-	virtual bool get_sub_obj_center_of_mass(unsigned short,class Vector &)const ;
-	virtual bool get_sub_obj_hit_pts(unsigned short,float &)const ;
-	virtual bool set_sub_obj_hit_pts(unsigned short,float);
-	virtual bool get_sub_obj_max_hit_pts(unsigned short,float &)const ;
-	virtual bool get_sub_obj_relative_health(unsigned short,float &)const ;
-	virtual unsigned short inst_to_subobj_id(long)const ;
-	virtual long sub_obj_id_to_inst(unsigned short)const ;
-	virtual void destroy_sub_objs(struct DamageList const &,bool);
-	virtual int enumerate_sub_objs(void)const ;
-	virtual class CEquip * alloc_equip(unsigned short,struct Archetype::Equipment *,bool);
-	virtual void link_shields(void);
-
-	struct IMPORT DockAnimInfo
-	{
-		DockAnimInfo(void);
-		struct DockAnimInfo & operator=(struct DockAnimInfo const &);
-
-	public:
-		unsigned char data[OBJECT_DATA_SIZE];
-	};
-
-	CEqObj(struct CEqObj const &);
-	CEqObj(enum CObject::Class);
-	void attaching_damaged_obj(struct CacheString const &);
-	float attitude_towards(struct CEqObj const *)const ;
-	void attitude_towards_symmetrical(float &,struct CEqObj const *,float &)const ;
-	void clear_arch_groups(void);
-	class IBehaviorManager * create_behavior_interface(struct IObjRW *,int);
-	struct Archetype::EqObj * eqobjarch(void)const ;
-	unsigned int get_base(void)const ;
-	unsigned int get_base_name(void)const ;
-	class IBehaviorManager * get_behavior_interface(void);
-	float get_cloak_percentage(void)const ;
-	void get_collision_group_description(class st6::list<struct CollisionGroupDesc> &)const ;
-	unsigned int const & get_dock_target(void)const ;
-	bool get_explosion_dmg_bounding_sphere(float &,class Vector &)const ;
-	float get_max_power(void)const ;
-	float get_power(void)const ;
-	float get_power_ratio(void)const ;
-	int get_vibe(void)const ;
-	bool is_base(void)const ;
-	int is_cloaked(void)const ;
-	bool is_control_excluded(unsigned int)const ;
-	bool is_damaged_obj_attached(struct CacheString const &)const ;
-	bool is_dock(void)const ;
-	bool launch_pos(class Vector &,class Matrix &,int)const ;
-	void load_arch_groups(class st6::list<struct CollisionGroupDesc> const &);
-	void set_control_exclusion(unsigned int);
-	void set_power(float);
-	bool sync_cargo(class EquipDescList const &);
-	bool add_cargo_item(struct EquipDesc const &);
-	bool add_equipped_item(struct EquipDesc const &);
-	void compute_explosion_dmg_bounding_sphere(float &,class Vector &)const ;
-	void init_docking_points(unsigned int);
-	void update_docking_animations(float);
-
-#ifdef _USE_DEPRECATED_COBJECT_VARIABLES_
-	/* 0x088 */ Archetype::Ship* ship_arch;
-	/* 0x08c */ UINT dunno3[0x16];
-	/* 0x0e0 */ CEquipManager equip_manager; // 180 bytes
-	/* 0x194 */ float  fPower;
-	/* 0x198 */ float  fMaxPower;
-#endif // _USE_DEPRECATED_COBJECT_VARIABLES_
-
-private:
-	void destroy_equipment(DamageList const &, bool);
 };
 
 inline CEquipManager* GetEquipManager(CEqObj* ceq)
