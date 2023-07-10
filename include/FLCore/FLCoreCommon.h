@@ -2225,31 +2225,6 @@ struct IMPORT CEqObj : public CSimple
 	virtual class CEquip* alloc_equip(unsigned short, struct Archetype::Equipment*, bool);
 	virtual void link_shields(void);
 
-	enum Class
-	{
-		None = 0,
-		LightEquip = 1,
-		AttachedFx = 2, // contrails
-		// dunno
-		Mine = 32,
-		CM = 64,
-		Gun = 128,
-		Shield = 256,
-		ShieldGenerator = 512,
-		Thruster = 1024,
-		CargoPod = 2048,
-		CloakingDevice = 4096,
-		Cargo = 65536, // commodities, ammo
-		Engine = 131072,
-		Power = 262144,
-		Scanner = 524288,
-		TractorBeam = 1048576,
-		RepairDroid = 2097152,
-		InternalFX = 4194304,
-		TradeLaneEquip = 8388608,
-		Armor = 16777216,
-	};
-
 	struct IMPORT DockAnimInfo
 	{
 		DockAnimInfo();
@@ -2335,6 +2310,31 @@ public:
 	static void * operator new(unsigned int);
 	static void operator delete(void *);
 
+	enum Class : int
+	{
+		None = 0,
+		LightEquip = 1,
+		AttachedFx = 2, // contrails
+		// dunno
+		Mine = 32,
+		CM = 64,
+		Gun = 128,
+		Shield = 256,
+		ShieldGenerator = 512,
+		Thruster = 1024,
+		CargoPod = 2048,
+		CloakingDevice = 4096,
+		Cargo = 65536, // commodities, ammo
+		Engine = 131072,
+		Power = 262144,
+		Scanner = 524288,
+		TractorBeam = 1048576,
+		RepairDroid = 2097152,
+		InternalFX = 4194304,
+		TradeLaneEquip = 8388608,
+		Armor = 16777216,
+	};
+
 	CEquip(void);
 	CEquip(class CEquip const &);
 	CEquip(unsigned int,struct CEqObj *,unsigned short,struct Archetype::Equipment const *,bool);
@@ -2350,9 +2350,12 @@ public:
 	void NotifyDisconnecting(struct INotify *);
 
 	CEqObj* owner;
-	unsigned int iSubObjId;
+	ushort iSubObjId;
+	ushort dunno1;
 	Archetype::Equipment* archetype;
-	void* data2[2]; //0x10 - 0x14
+	void* dunno2; //0 for CMs, 0 for CDs and torpedoes, 1 for guns, 0x06000000 for contrails. 
+	// 0x06000001/0 for lights. 0 for thruster, 0x18000000 for unequipped shield, 0 for other commodities/ammo. Some different bitmap?
+	CEquip::Class eqType;
 	void* custom_wrapper_class;
 	void* custom_wrapper_class2;
 	char* mounted_hardpoint;
@@ -2975,8 +2978,8 @@ class IMPORT CEquipManager
         const CExternalEquip* FindByHardpoint(const CacheString&) const;
         CEquip* FindByID(unsigned short);
         const CEquip* FindByID(unsigned short) const;
-        CEquip* FindFirst(CEqObj::Class);
-	    const CEquip* FindFirst(CEqObj::Class) const;
+        CEquip* FindFirst(unsigned int);
+	    const CEquip* FindFirst(unsigned int) const;
         bool HasDecayingCargo() const;
         bool Init(CEqObj*);
         unsigned short InstToSubObjID(long) const;
@@ -2998,7 +3001,7 @@ public:
 class IMPORT CEquipTraverser
 {
 public:
-	CEquipTraverser(CEqObj::Class);
+	CEquipTraverser(int); //CEquip::Class
 	CEquipTraverser(int,bool);
 	CEquipTraverser(void);
 	class CEquipTraverser & operator=(class CEquipTraverser const &);
