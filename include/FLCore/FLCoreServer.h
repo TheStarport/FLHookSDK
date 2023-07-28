@@ -918,37 +918,37 @@ namespace pub
 
 		struct ShipInfo
 		{
-			uint iFlag;
-			uint iSystem;
-			uint shipArchetype;
+			uint iFlag = 0;
+			uint iSystem = 0;
+			uint shipArchetype = 0;
 			Vector vPos;
 			Vector vUnk1; // all 0
 			Vector vUnk2; // all 0
 			Matrix mOrientation;
-			uint iUnk1; // 0
+			uint iUnk1 = 0; // 0
 			uint iLoadout;
 			OwnerList<pub::SpaceObj::CargoDesc> cargoDesc;
-			uint iLook1;
-			uint iLook2;
-			uint unk4; // 0
-			uint unk5; // 0
-			uint iComm;
-			float fUnk2;
-			float fUnk3;
-			float fUnk4;
-			float fUnk5;
-			float fUnk6;
-			float fUnk7;
-			float fUnk8;
-			uint iUnk2;
+			uint iLook1 = 0;
+			uint iLook2 = 0;
+			uint unk4 = 0; // 0
+			uint unk5 = 0; // 0
+			uint iComm = 0;
+			float fUnk2 = 0;
+			float fUnk3 = 0;
+			float fUnk4 = 0;
+			float fUnk5 = 0;
+			float fUnk6 = 0;
+			float fUnk7 = 0;
+			float fUnk8 = 0;
+			uint iUnk2 = 0;
 
-			int iRep; // increases for each NPC spawned, starts at 0 or 1
-			uint iPilotVoice;
-			uint unk6;    // 0
-			uint iHealth; // -1 = max health
-			uint unk7;    // 0
-			uint unk8;    // 0
-			uint iLevel;
+			int iRep = 0; // increases for each NPC spawned, starts at 0 or 1
+			uint iPilotVoice = 0;
+			uint unk6 = 0; // 0
+			uint iHealth = -1; // -1 = max health
+			uint unk7 = 0;     // 0
+			uint unk8 = 0;     // 0
+			uint iLevel = 1;
 		};
 
 		struct SolarInfo
