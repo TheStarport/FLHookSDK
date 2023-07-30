@@ -75,10 +75,4 @@ class Transform
         Matrix orient;
 };
 
-using uint = unsigned int;
-using ushort = unsigned short;
-using ulong = unsigned long;
-using uchar = unsigned char;
-using byte = uchar;
-
 #endif // _FLCOREDEFS_H_
