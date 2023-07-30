@@ -38,11 +38,12 @@ struct TString
         TString() : len(0) { data[0] = 0; }
 };
 
-class Vector : public glm::vec3
+class Vector : public glm::vec<3, float, glm::packed_highp>
 {
     public:
         Vector() = default;
         Vector(const float a, const float b, const float c) : glm::vec3(a, b, c) {}
+        Vector(glm::vec<3, float, glm::packed_highp> v) : glm::vec3(v.x, v.y, v.z) {}
 };
 
 class Matrix : public glm::mat3

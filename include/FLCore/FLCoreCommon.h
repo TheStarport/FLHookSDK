@@ -3321,6 +3321,14 @@ struct IObjInspect
         struct SubtargetEnumerator;
 };
 
+enum class BayState
+{
+    Closed,
+    Closing,
+    Open,
+    Opening
+};
+
 struct IMPORT CShip : public CEqObj, public PhySys::Controller
 {
     public:
@@ -3367,7 +3375,7 @@ struct IMPORT CShip : public CEqObj, public PhySys::Controller
         float get_angular_speed_XY(float, float) const;
         float get_angular_speed_Z(float) const;
         const Vector& get_axis_throttle() const;
-        enum BayState get_bay_state() const;
+        BayState get_bay_state() const;
         float get_cargo_hold_remaining() const;
         float get_distance_travelled(float, float, float, IObject::ThrustEquipType) const;
         bool get_farthest_active_gun_range(float&) const;
@@ -3458,6 +3466,16 @@ struct IMPORT CShip : public CEqObj, public PhySys::Controller
 #endif // _USE_DEPRECATED_COBJECT_VARIABLES_
 };
 
+struct Costume
+{
+        uint head = 0;
+        uint body = 0;
+        uint leftHand = 0;
+        uint rightHand = 0;
+        UINT accessory[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+        int accessories = 0;
+};
+
 struct IMPORT CSolar : public CEqObj
 {
     public:
@@ -3477,17 +3495,7 @@ struct IMPORT CSolar : public CEqObj
 
                 uint base;
                 uint hash2; // rep group? (otherwise it's the hash)
-                // TODO: We have duplicated this struct in like 4 places, lets have one source of truth not 4. Merge them all into one.
-                struct structCostume
-                {
-                        uint head;
-                        uint body;
-                        uint leftHand;
-                        uint rightHand;
-                        uint accessory[8];
-                        int accessories;
-                };
-                structCostume costume;
+                Costume costume;
                 int voiceId;
                 int dunnoLoadout[4];
                 // class st6::list<struct CollisionGroupDesc> collision;
@@ -5914,34 +5922,34 @@ struct IMPORT RoomCameraInfo
 
 struct Camera
 {
-	char* vtable; // vftable
-	Matrix rotation;
-	Vector pos;
-	bool bRenderNewCam; // 14
-	Matrix rotation2;
-	Vector pos2;
-	float halfRes[2];
-	float halfRes2[2];
-	float fovXHud;
-	float fovYHud;
-	float cosFovX;
-	float alwaysZeroFovX;
-	float sinFovX;
-	float alwaysZeroFovY;
-	float cosFovY;
-	float sinFovY;
-	float fovX;
-	float fovY;
-	float aspect;
-	float zNear;
-	float zFar;
-	uint screenExtents[4];
-	uint dunno;
-	Watchable* watchable; // 49
-	uint dunno1[6];
-	Vector dunno2;
-	uint dunno3[6];
-	Vector cameraOffset;
+        char* vtable; // vftable
+        Matrix rotation;
+        Vector pos;
+        bool bRenderNewCam; // 14
+        Matrix rotation2;
+        Vector pos2;
+        float halfRes[2];
+        float halfRes2[2];
+        float fovXHud;
+        float fovYHud;
+        float cosFovX;
+        float alwaysZeroFovX;
+        float sinFovX;
+        float alwaysZeroFovY;
+        float cosFovY;
+        float sinFovY;
+        float fovX;
+        float fovY;
+        float aspect;
+        float zNear;
+        float zFar;
+        uint screenExtents[4];
+        uint dunno;
+        Watchable* watchable; // 49
+        uint dunno1[6];
+        Vector dunno2;
+        uint dunno3[6];
+        Vector cameraOffset;
 };
 
 class IMPORT RoomData
