@@ -5912,6 +5912,38 @@ struct IMPORT RoomCameraInfo
         unsigned char data[OBJECT_DATA_SIZE];
 };
 
+struct Camera
+{
+	char* vtable; // vftable
+	Matrix rotation;
+	Vector pos;
+	bool bRenderNewCam; // 14
+	Matrix rotation2;
+	Vector pos2;
+	float halfRes[2];
+	float halfRes2[2];
+	float fovXHud;
+	float fovYHud;
+	float cosFovX;
+	float alwaysZeroFovX;
+	float sinFovX;
+	float alwaysZeroFovY;
+	float cosFovY;
+	float sinFovY;
+	float fovX;
+	float fovY;
+	float aspect;
+	float zNear;
+	float zFar;
+	uint screenExtents[4];
+	uint dunno;
+	Watchable* watchable; // 49
+	uint dunno1[6];
+	Vector dunno2;
+	uint dunno3[6];
+	Vector cameraOffset;
+};
+
 class IMPORT RoomData
 {
     public:
