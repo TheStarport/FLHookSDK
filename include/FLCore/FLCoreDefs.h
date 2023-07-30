@@ -13,6 +13,7 @@
 #ifndef _FLCOREDEFS_H_
 #define _FLCOREDEFS_H_
 
+#include "../Typedefs.hpp"
 #include "glm/glm.hpp"
 #include "glm/gtc/quaternion.hpp"
 #include "st6.h"
