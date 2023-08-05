@@ -38,6 +38,16 @@ enum DOCK_HOST_RESPONSE
 	DOCK = 5,
 };
 
+struct Costume
+{
+	uint head = 0;
+	uint body = 0;
+	uint lefthand = 0;
+	uint righthand = 0;
+	uint accessory[8] = {};
+	int accessories = 0;
+};
+
 enum MissionMessageType
 {
 	MissionMessageType_Failure, // mission failure
@@ -959,16 +969,7 @@ namespace pub
 			Vector vPos;
 			Matrix mOrientation;
 			uint iLoadoutId;
-			struct structCostume
-			{
-				UINT head;
-				UINT body;
-				UINT lefthand;
-				UINT righthand;
-				UINT accessory[8];
-				int accessories;
-			};
-			structCostume Costume;
+			Costume Costume;
 			int iRep;
 			int iVoiceId;
 			uint iUnk8; // 0
