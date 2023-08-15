@@ -49,6 +49,9 @@ class Hook MemUtils
             CloseHandle(hProc);
         }
 
+        static void ReadProcMem(DWORD address, void* mem, const uint size) { ReadProcMem(PDWORD(address), mem, size); }
+        static void WriteProcMem(DWORD address, void* mem, const uint size) { WriteProcMem(PDWORD(address), mem, size); }
+
         static FARPROC PatchCallAddr(char* mod, const DWORD installAddress, const char* hookFunction)
         {
             DWORD relAddr;
@@ -58,5 +61,13 @@ class Hook MemUtils
             WriteProcMem(mod + installAddress + 1, &offset, 4);
 
             return (FARPROC)(mod + relAddr + installAddress + 5);
+        }
+
+        static void NopAddress(unsigned int address, unsigned int pSize)
+        {
+            DWORD dwOldProtection = 0;
+            VirtualProtect((void*)address, pSize, PAGE_READWRITE, &dwOldProtection);
+            memset((void*)address, 0x90, pSize);
+            VirtualProtect((void*)address, pSize, dwOldProtection, NULL);
         }
 };
