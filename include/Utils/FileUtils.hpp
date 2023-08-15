@@ -7,7 +7,7 @@
     #include "Defs/FLHookConfig.hpp"
 #endif
 
-class DLL FileUtils
+class Hook FileUtils
 {
         FileUtils() = delete;
 
