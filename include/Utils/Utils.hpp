@@ -1,0 +1,21 @@
+#pragma once
+
+#ifdef DLL
+    #define Hook DLL
+#else
+    #define Hook
+#endif
+
+#include "result/include/result.hpp"
+
+#include "Action.hpp"
+#include "Singleton.hpp"
+#include "Typedefs.hpp"
+
+#include "StringUtils.hpp"
+
+#include "FileUtils.hpp"
+#include "MemUtils.hpp"
+#include "TimeUtils.hpp"
+
+#undef Hook
