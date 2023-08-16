@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef FLHOOK
+#ifdef SERVER
     #include "ErrorInfo.hpp"
 #endif
 
