@@ -264,6 +264,20 @@ enum class StrafeDir
     Down = 4,
 };
 
+struct IMPORT CollisionGroupDesc
+{
+        CollisionGroupDesc& operator=(const CollisionGroupDesc&);
+        bool operator==(const CollisionGroupDesc&) const;
+        bool operator!=(const CollisionGroupDesc&) const;
+        bool operator<(const CollisionGroupDesc&) const;
+        bool operator>(const CollisionGroupDesc&) const;
+
+    public:
+        unsigned short id;
+        unsigned short unk;
+        float health;
+};
+
 namespace Archetype
 {
     class IMPORT FuseIgnitionList
@@ -392,7 +406,7 @@ namespace Archetype
             virtual ClassType get_class_type() const;
             const struct CollisionGroup* get_group_by_id(unsigned short) const;
             const CollisionGroup* get_group_by_name(const CacheString&) const;
-            bool get_undamaged_collision_group_list(st6::list<struct CollisionGroupDesc>&) const;
+            bool get_undamaged_collision_group_list(st6::list<CollisionGroupDesc>&) const;
             virtual bool read(INI_Reader&);
             virtual void redefine(const Root&);
             bool traverse_groups(const CollisionGroup*&) const;
@@ -3627,18 +3641,6 @@ namespace Collision
     IMPORT float GetImpactDamageFromType(unsigned int);
     IMPORT bool Load(INI_Reader&);
 }; // namespace Collision
-
-struct IMPORT CollisionGroupDesc
-{
-        CollisionGroupDesc& operator=(const CollisionGroupDesc&);
-        bool operator==(const CollisionGroupDesc&) const;
-        bool operator!=(const CollisionGroupDesc&) const;
-        bool operator<(const CollisionGroupDesc&) const;
-        bool operator>(const CollisionGroupDesc&) const;
-
-    public:
-        unsigned char data[OBJECT_DATA_SIZE];
-};
 
 struct IMPORT CommReferrable
 {
