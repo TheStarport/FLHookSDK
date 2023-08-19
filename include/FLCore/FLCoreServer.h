@@ -972,12 +972,12 @@ namespace pub
 			Costume Costume;
 			int iRep;
 			int iVoiceId;
-			uint iUnk8; // 0
+			uint baseId; // 0
 			uint iUnk9; // Boolean, only last byte is used
 			int iHitPointsLeft;
 			char cNickName[64]; // Has to be unique
 			uint iUnk11;        // 0 unused?
-			uint iUnk12;        // 1 = flagged as mission solar, 0 = normal
+			uint mission = 0;        // 1 = flagged as mission solar, 0 = normal
 		};
 
 		struct LootInfo
