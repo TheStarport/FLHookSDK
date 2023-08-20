@@ -29,6 +29,24 @@
 
 #define OBJECT_DATA_SIZE 2048
 
+template <typename T>
+struct Node
+{
+    Node* prev;
+    Node* childLeft;
+    Node* childRight;
+    uint hash;
+    T val;
+};
+
+template <typename T>
+struct BinarySearchTree
+{
+    Node<T>* root;
+    Node<T>* unk;
+    Node<T>* unk2;
+};
+
 template <int size>
 struct TString
 {

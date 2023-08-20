@@ -237,12 +237,6 @@ struct SLoginInfo
         wchar_t account[36];
 };
 
-struct FLString
-{
-        st6::string value;
-        UINT dunno2[12];
-};
-
 class IMPORT CAccount
 {
     public:
@@ -477,15 +471,16 @@ struct PlayerData
         CHARACTER_ID charFile;
         uint shipArchetype;
         float relativeHealth;
-        CollisionGroupDescList collisionGroupDesc;
+        st6::list<Archetype::CollisionGroup*> collisionGroupDesc;
         EquipDescList equipDescList;
         int rank;
         int moneyNeededToNextRank;
         Costume costume1;
-        long x2C0, x2C4, x2C8, x2CC, x2D0, x2D4, x2D8, x2DC, x2E0;
+        uint voiceLen;
+        char voice[32];
         Costume costume2;
         uint reputation;
-        int inspectCash;
+        int money;
         int worth;
         uint shipArchetypeWhenLanding;
         EquipDescList lShadowEquipDescList;
@@ -493,21 +488,22 @@ struct PlayerData
         int numMissionSuccesses;
         int numMissionFailures;
         bool skipAutoSave;
-        char padding0[3];
         uint saveCount;
         uint onlineId;
         bool cheated;
-        char padding1[3];
         Vector position;
         Matrix orientation;
-        FLString weaponGroup; // 0x10 bytes
-        uint setToZero;
+        st6::string weaponGroups;
+        uint dunno1[2];
+        int* SPNeuralNetLogUnk;
+        int interfaceState;
+        BinarySearchTree<uint> visitEntries;
+        uint dunno2[6]; // last one seems to always be zero
         float difficulty;
         ushort lastEquipId;
-        char padding2[2];
         uint menuItem;
         uint onlineId2;
-        long x3D4, x3D8;
+        uint dunno3[2];
         uint tradeRequestCount;
         uint systemId;
         uint shipId;
