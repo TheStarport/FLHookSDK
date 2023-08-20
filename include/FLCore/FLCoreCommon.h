@@ -5850,7 +5850,11 @@ class IMPORT RenderDisplayList
 
 namespace Reputation
 {
-    struct Relation;
+    struct Relation
+    {
+            uint hash;
+            float reptuation;
+    };
 
     namespace Vibe
     {
@@ -5862,7 +5866,7 @@ namespace Reputation
         IMPORT int EnsureExists(const int&);
         IMPORT int Free(const int&);
         IMPORT void FreeDynamic();
-        IMPORT int Get(const int&, unsigned int&, unsigned int&, unsigned char&, Relation* const, FmtStr&, FmtStr&, const unsigned short*&);
+        IMPORT int Get(const int& repId, unsigned int& affiliation, unsigned int& rank, unsigned char& relationCount, Relation* const relations, FmtStr&, FmtStr&, const unsigned short*& name);
         IMPORT int GetAffiliation(const int&, unsigned int&, bool);
         IMPORT unsigned int GetClientID(int);
         IMPORT int GetGroupFeelingsTowards(const int&, const unsigned int&, float&);
