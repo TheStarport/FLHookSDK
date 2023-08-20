@@ -467,7 +467,7 @@ struct PlayerData
 {
         wchar_t accId[40];
         long x050, x054, x058, x05C;
-        uint numberOCharacters;
+        uint numberOfCharacters;
         CHARACTER_ID charFile;
         uint shipArchetype;
         float relativeHealth;
@@ -475,15 +475,15 @@ struct PlayerData
         EquipDescList equipDescList;
         int rank;
         int moneyNeededToNextRank;
-        Costume costume1;
+        Costume commCostume;
         uint voiceLen;
         char voice[32];
-        Costume costume2;
+        Costume baseCostume;
         uint reputation;
         int money;
         int worth;
         uint shipArchetypeWhenLanding;
-        EquipDescList lShadowEquipDescList;
+        EquipDescList shadowEquipDescList;
         int numKills;
         int numMissionSuccesses;
         int numMissionFailures;
