@@ -79,7 +79,7 @@ class Action
             \brief Return the value of the underlying return type. If the called function errored, the default constructor for the specified type will be called
            instead.
         */
-        Ret Unwrap()
+        Ret Unwrap() noexcept
         {
             if constexpr (std::is_same_v<Ret, void>)
             {
