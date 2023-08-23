@@ -63,6 +63,23 @@ class Hook MemUtils
             return (FARPROC)(mod + relAddr + installAddress + 5);
         }
 
+        /**
+         * \brief Overwrite an address with a function call
+         * \param address The absolute address where the function should be called from
+         * \param hookFunction The function to be called at the provided address
+         */
+        static void PatchAssembly(DWORD address, void* hookFunction)
+        {
+            DWORD dwOldProtection = 0; // Create a DWORD for VirtualProtect calls to allow us to write.
+            BYTE bPatch[5];            // We need to change 5 bytes and I'm going to use memcpy so this is the simplest way.
+            bPatch[0] = 0xE9;          // Set the first byte of the byte array to the op code for the JMP instruction.
+            VirtualProtect((void*)address, 5, PAGE_EXECUTE_READWRITE, &dwOldProtection); // Allow us to write to the memory we need to change
+            DWORD dwRelativeAddress = (DWORD)hookFunction - (DWORD)address - 5;          // Calculate the relative JMP address.
+            memcpy(&bPatch[1], &dwRelativeAddress, 4);                                   // Copy the relative address to the byte array.
+            memcpy(PBYTE(address), bPatch, 5);                                           // Change the first 5 bytes to the JMP instruction.
+            VirtualProtect((void*)address, 5, dwOldProtection, nullptr);                 // Set the protection back to what it was.
+        }
+
         static void NopAddress(unsigned int address, unsigned int pSize)
         {
             DWORD dwOldProtection = 0;
