@@ -498,7 +498,7 @@ struct PlayerData
         int* SPNeuralNetLogUnk;
         int interfaceState;
         BinarySearchTree<uint> visitEntries;
-        uint dunno2[6]; // last one seems to always be zero
+        uint dunno2[4]; // last one seems to always be zero
         float difficulty;
         ushort lastEquipId;
         uint menuItem;

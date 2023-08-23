@@ -29,22 +29,78 @@
 
 #define OBJECT_DATA_SIZE 2048
 
-template <typename T>
+template<typename T>
 struct Node
 {
-    Node* prev;
-    Node* childLeft;
-    Node* childRight;
-    uint hash;
-    T val;
+	Node* prev;
+	Node* childLeft;
+	Node* childRight;
+	uint key;
+	T value;
+	bool unknown;
+	bool isEnd;
+
+	Node<T>* Traverse()
+	{
+		Node<T>* node = this;
+        Node<T>** nodeRef = &node;
+
+        Node<T>* v1 = (*nodeRef)->childRight;
+        Node<T>* result;
+
+        if (v1->isEnd)
+        {
+            for (result = (*nodeRef)->childLeft; (*nodeRef) == result->childRight; result = result->childLeft)
+            {
+                (*nodeRef) = result;
+            }
+
+            if ((*nodeRef)->childRight != result)
+            {
+                (*nodeRef) = result;
+            }
+        }
+        else
+        {
+            for (result = v1->prev; !result->isEnd; result = result->prev)
+            {
+                v1 = result;
+            }
+
+            (*nodeRef) = v1;
+        }
+
+        return *nodeRef;
+	}
 };
 
 template <typename T>
 struct BinarySearchTree
 {
-    Node<T>* root;
-    Node<T>* unk;
-    Node<T>* unk2;
+    Node<T>* unknown;
+	Node<T>* root;
+	Node<T>* unk;
+	Node<T>* unk2;
+    uint size;
+
+	void TraverseTree(std::function<void(std::pair<uint, T> val)> func) { TraverseTree(root, nullptr, func); }
+private:
+	bool TraverseTree(Node<T>* node, const Node<T>* previousNode, std::function<void(std::pair<uint, T> val)> func)
+	{
+		if (node->value == 0 && previousNode != nullptr)
+		{
+			func({ previousNode->key, previousNode->value });
+			return false;
+		}
+
+		Node<T>* nextNode = node->childLeft == previousNode ? node->prev : node->childLeft;
+		if (!TraverseTree(nextNode, node, func))
+		{
+			return TraverseTree(node->childRight, node, func);
+		}
+
+		return true;
+	}
 };
 
 template <int size>
