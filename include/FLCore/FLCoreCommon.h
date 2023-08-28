@@ -54,7 +54,7 @@ enum class ObjectType
     Asteroid = 1 << 29,
 };
 
-enum EquipmentType : int
+enum EquipmentClass : uint
 {
     None = 0,
     LightEquip = 1 << 0,
@@ -570,10 +570,10 @@ namespace Archetype
             Vector rotationInertia;
             uint separationExplosionArch;
             uint debrisTypeArch;
-            float explosionResistance; // 60
+            float explosionResistance;
             uint dunno1[6]; // 64 something about dmg_hp, dmg_obj, group_dmg_hp and group_dmg_obj
             uint dunno[4]; //88 something about fuses
-            uint linkedEquipType; //bitmap field
+            EquipmentClass linkedEquipType;
             float linkedEquipDamage;
     };
 
