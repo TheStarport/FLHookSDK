@@ -535,6 +535,22 @@ namespace Archetype
             CollisionGroup* next;
             ushort id;
             CacheString name;
+            uint type;
+            uint hitPts;
+            bool separable;
+            bool destroyParent;
+            bool rootHealthProxy;
+            float parentImpulse;
+            float mass;
+            bool hasRotationInertia;
+            Vector rotationInertia;
+            uint separationExplosionArch;
+            uint debrisTypeArch;
+            float explosionResistance; // 60
+            uint dunno1[6]; // 64 something about dmg_hp, dmg_obj, group_dmg_hp and group_dmg_obj
+            uint dunno[4]; //88 something about fuses
+            uint linkedEquipType; //bitmap field
+            float linkedEquipDamage;
     };
 
     struct IMPORT Commodity : Equipment
