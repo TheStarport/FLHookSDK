@@ -471,7 +471,7 @@ struct PlayerData
         CHARACTER_ID charFile;
         uint shipArchetype;
         float relativeHealth;
-        st6::list<Archetype::CollisionGroup*> collisionGroupDesc;
+        st6::list<CollisionGroupDesc> collisionGroupDesc;
         EquipDescList equipDescList;
         int rank;
         int moneyNeededToNextRank;
