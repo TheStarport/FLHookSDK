@@ -437,19 +437,19 @@ namespace Archetype
 
         public:
             /* 23 */ CollisionGroup* collisionGroup;
-            /* 24 */ uint dunno1;
+            /* 24 */ ushort equipmentIdCounter;
             /* 25 */ uint dunno2;
             /* 26 */ uint dunno3;
-            /* 27 */ uint dunno4;
+            /* 27 */ uint dunno4; //something to do with shield link
             /* 28 */ uint dunno5;
             /* 29 */ uint dunno6;
             /* 30 */ uint dunno7;
             /* 31 */ uint dunno9;
-            /* 32 */ bool b128;
+            /* 32 */ bool isNomad;
             bool dockingCamera;
             /* 33 */ uint dunno10;
             /* 34 */ uint dunno11;
-            /* 35 */ uint dunno12;
+            /* 35 */ uint dunno12; // something to do with docking sphere
     };
 
     struct IMPORT AttachedEquipment : public Equipment

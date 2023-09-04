@@ -157,7 +157,7 @@ struct XSetTarget
         uint ship;
         uint slot;
         uint spaceId;
-        uint subObjId;
+        ushort subObjId;
 };
 
 struct SSPObjUpdateInfo
