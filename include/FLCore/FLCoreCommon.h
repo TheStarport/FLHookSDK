@@ -2211,7 +2211,7 @@ struct IMPORT CSimple : public CObject
         uint dunnoCSimple4[0x5];
         Vector radiusCenter;  // 0xD0
         float radiusCentered; // 0xDC
-        uint type;            // 0xE0
+        ObjectType type;      // 0xE0
 };
 
 struct IMPORT CAsteroid : public CSimple
