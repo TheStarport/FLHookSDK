@@ -83,7 +83,17 @@ struct BinarySearchTree
 	Node<T>* unk2;
     uint size;
 
-	void TraverseTree(std::function<void(std::pair<uint, T> val)> func) { TraverseTree(root, nullptr, func); }
+	void TraverseTree(std::function<void(std::pair<uint, T> val)> func)
+	{
+        if (root->isEnd)
+        {
+            TraverseTree(unknown, nullptr, func);
+        }
+        else
+        {
+            TraverseTree(root, nullptr, func);
+        }
+	}
 private:
 	bool TraverseTree(Node<T>* node, const Node<T>* previousNode, std::function<void(std::pair<uint, T> val)> func)
 	{
