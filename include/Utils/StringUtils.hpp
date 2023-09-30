@@ -15,7 +15,7 @@ class StringUtils
             }
 
             Ret ret;
-            std::conditional_t<std::is_same_v<std::wstring, Str> || std::is_same_v<std::wstring_view, Str>, std::wstring_view, std::wstring_view> input = str;
+            std::conditional_t<std::is_same_v<std::wstring, Str> || std::is_same_v<std::wstring_view, Str>, std::wstring_view, std::string_view> input = str;
             std::from_chars(reinterpret_cast<const char*>(str.data()), reinterpret_cast<const char*>(str.data() + str.size()), ret);
             return ret; // TODO: Add trace log for failure to convert
         }

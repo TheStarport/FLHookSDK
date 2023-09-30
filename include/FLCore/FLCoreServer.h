@@ -950,9 +950,9 @@ namespace pub
                 uint loadoutId;
                 Costume costume;
                 int rep;
-                int voiceId;
-                uint unk8; // 0
-                uint unk9; // Boolean, only last byte is used
+                uint voiceId;
+                uint dockWith; // 0
+                bool mission; // Boolean, only last byte is used
                 int hitPointsLeft;
                 char nickName[64]; // Has to be unique
                 uint unk11;        // 0 unused?

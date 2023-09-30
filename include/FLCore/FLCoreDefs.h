@@ -135,6 +135,7 @@ class Matrix : public glm::mat3
     public:
         Matrix() = default;
         Matrix(const glm::vec3 a, const glm::vec3 b, const glm::vec3 c) : glm::mat3(a, b, c) {}
+        static Matrix Identity() { return Matrix({ 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.0f, 1.0f }); }
 };
 
 class Quaternion : public glm::qua<float, glm::packed_highp>
