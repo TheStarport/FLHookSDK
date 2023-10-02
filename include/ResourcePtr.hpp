@@ -13,11 +13,6 @@ class ResourcePtr
 
         std::shared_ptr<T> Acquire()
         {
-            if (!underlyingPtr)
-            {
-                return {};
-            }
-
             auto ptr = underlyingPtr.lock();
             if (!ptr || !validator(ptr))
             {
