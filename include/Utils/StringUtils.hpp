@@ -232,13 +232,13 @@ class StringUtils
         }
 
         template <typename TStr, typename TChar>
-        static auto GetParams(TStr line, TChar splitChar)
+        static auto GetParams(const TStr& line, TChar splitChar)
             requires(StringRestriction<TStr> || IsStringView<TStr>) && (std::is_same_v<TChar, char> || std::is_same_v<TChar, wchar_t>)
         {
             if constexpr (StringRestriction<TStr>)
             {
                 using T = std::conditional<std::is_same_v<TStr, std::string>, std::string_view, std::wstring_view>::type;
-                return T(line) | std::ranges::views::split(splitChar) |
+                return line | std::ranges::views::split(splitChar) |
                        std::ranges::views::transform([](auto&& rng) { return T(&*rng.begin(), std::ranges::distance(rng)); });
             }
             else
