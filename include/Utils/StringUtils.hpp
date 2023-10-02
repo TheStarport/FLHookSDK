@@ -239,7 +239,17 @@ class StringUtils
             {
                 using T = std::conditional<std::is_same_v<TStr, std::string>, std::string_view, std::wstring_view>::type;
                 return line | std::ranges::views::split(splitChar) |
-                       std::ranges::views::transform([](auto&& rng) { return T(&*rng.begin(), std::ranges::distance(rng)); });
+                       std::ranges::views::transform(
+                           [](auto&& rng)
+                           {
+                               if (!std::ranges::distance(rng))
+                               {
+                                   return T();
+                               }
+
+                               return T(&*rng.begin(), std::ranges::distance(rng));
+                           }) |
+                       std::ranges::views::filter([](auto&& rng) { return std::ranges::distance(rng) != 0; });
             }
             else
             {
