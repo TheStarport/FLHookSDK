@@ -29,7 +29,8 @@ class FunctionDetour final
                 return;
             }
 
-            detoured = false;
+            detoured = true;
+
             DWORD oldProtection = 0;   // Create a DWORD for VirtualProtect calls to allow us to write.
             std::array<byte, 5> patch; // We need to change 5 bytes and I'm going to use memcpy so this is the simplest way.
             patch[0] = 0xE9;           // Set the first byte of the byte array to the op code for the JMP instruction.
@@ -48,7 +49,8 @@ class FunctionDetour final
                 return;
             }
 
-            detoured = true;
+            detoured = false;
+
             DWORD oldProtection = 0;                                                        // Create a DWORD for VirtualProtect calls to allow us to write.
             VirtualProtect((void*)originalFunc, 5, PAGE_EXECUTE_READWRITE, &oldProtection); // Allow us to write to the memory we need to change
             memcpy(originalFunc, data, 5);
