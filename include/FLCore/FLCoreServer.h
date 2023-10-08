@@ -19,6 +19,14 @@
 #pragma warning(disable : 5030)
 #pragma comment(lib, "FLCoreServer.lib")
 
+enum class MissionMessageType
+{
+    Failure,
+    Type1, // Dialogue Box
+    Type2, // Objective Text
+    Success
+};
+
 enum class PopupDialog
 {
     LeftYes = 1 << 0,
@@ -813,7 +821,7 @@ namespace pub
         IMPORT int AddCargo(const unsigned int&, const unsigned int&, unsigned int, float, bool);
         IMPORT int AdjustCash(const unsigned int&, int);
         IMPORT int CfgInterfaceNotification(unsigned int, unsigned int, bool, int);
-        IMPORT int DisplayMissionMessage(const unsigned int&, const FmtStr&, enum MissionMessageType, bool);
+        IMPORT int DisplayMissionMessage(const unsigned int&, const FmtStr&, MissionMessageType, bool);
         IMPORT int EnumerateCargo(const unsigned int&, pub::CargoEnumerator&);
         IMPORT int ForceLand(unsigned int, unsigned int);
         IMPORT int GetAssetValue(const unsigned int&, float&);
@@ -952,7 +960,7 @@ namespace pub
                 int rep;
                 uint voiceId;
                 uint dockWith; // 0
-                bool mission; // Boolean, only last byte is used
+                bool mission;  // Boolean, only last byte is used
                 int hitPointsLeft;
                 char nickName[64]; // Has to be unique
                 uint unk11;        // 0 unused?
