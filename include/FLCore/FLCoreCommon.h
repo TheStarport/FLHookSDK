@@ -440,7 +440,7 @@ namespace Archetype
             /* 24 */ ushort equipmentIdCounter;
             /* 25 */ uint dunno2;
             /* 26 */ uint dunno3;
-            /* 27 */ uint dunno4; //something to do with shield link
+            /* 27 */ uint dunno4; // something to do with shield link
             /* 28 */ uint dunno5;
             /* 29 */ uint dunno6;
             /* 30 */ uint dunno7;
@@ -572,7 +572,7 @@ namespace Archetype
             uint debrisTypeArch;
             float explosionResistance;
             uint dunno1[6]; // 64 something about dmg_hp, dmg_obj, group_dmg_hp and group_dmg_obj
-            uint dunno[4]; //88 something about fuses
+            uint dunno[4];  // 88 something about fuses
             EquipmentClass linkedEquipType;
             float linkedEquipDamage;
     };
@@ -5113,6 +5113,13 @@ namespace pub
 
 }; // namespace pub
 
+struct IMPORT IDirectiveInfo
+{
+        bool init; // ? seems to be 1 after first time auto pilot takes over
+        void* vUnknown1;
+        pub::AI::OpType op;
+};
+
 class IMPORT IBehaviorManager
 {
     public:
@@ -5906,7 +5913,8 @@ namespace Reputation
         IMPORT int EnsureExists(const int&);
         IMPORT int Free(const int&);
         IMPORT void FreeDynamic();
-        IMPORT int Get(const int& repId, unsigned int& affiliation, unsigned int& rank, unsigned char& relationCount, Relation* const relations, FmtStr&, FmtStr&, const unsigned short*& name);
+        IMPORT int Get(const int& repId, unsigned int& affiliation, unsigned int& rank, unsigned char& relationCount, Relation* const relations, FmtStr&,
+                       FmtStr&, const unsigned short*& name);
         IMPORT int GetAffiliation(const int&, unsigned int&, bool);
         IMPORT unsigned int GetClientID(int);
         IMPORT int GetGroupFeelingsTowards(const int&, const unsigned int&, float&);
