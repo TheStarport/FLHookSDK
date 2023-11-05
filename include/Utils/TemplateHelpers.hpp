@@ -102,3 +102,12 @@ struct first_template_type<t<T, Args...>>
 
 template <typename T>
 using FirstTemplateType = typename first_template_type<T>::Type;
+
+template <typename T>
+struct MemberFunctionPointerClassType;
+
+template <typename M, typename T>
+struct MemberFunctionPointerClassType<M T::*>
+{
+        using type = T;
+};

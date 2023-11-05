@@ -20,6 +20,8 @@ using BaseId = const uint;
 using RepId = const ushort;
 using GoodId = const uint;
 using ArchId = const uint;
+using ObjectId = const uint;
+using LocationId = const uint;
 
 using st6_malloc_t = void* (*)(size_t);
 using st6_free_t = void (*)(void*);
