@@ -1,16 +1,4 @@
-﻿//////////////////////////////////////////////////////////////////////
-//	Project FLCoreSDK v1.1, modified for use in FLHook Plugin version
-//--------------------------
-//
-//	File:			FLCoreDefs.h
-//	Module:
-//	Description:	Common declarations
-//
-//	Web: www.skif.be/flcoresdk.php
-//
-//
-//////////////////////////////////////////////////////////////////////
-#ifndef _FLCOREDEFS_H_
+﻿#ifndef _FLCOREDEFS_H_
 #define _FLCOREDEFS_H_
 
 #include "../Typedefs.hpp"
@@ -29,88 +17,146 @@
 
 #define OBJECT_DATA_SIZE 2048
 
-template<typename T>
-struct Node
+template <typename ValType>
+class BinarySearchTree
 {
-	Node* prev;
-	Node* childLeft;
-	Node* childRight;
-	uint key;
-	T value;
-	bool unknown;
-	bool isEnd;
+    public:
+        struct Node;
 
-	Node<T>* Traverse()
-	{
-		Node<T>* node = this;
-        Node<T>** nodeRef = &node;
+        typedef Node* NodePtr;
 
-        Node<T>* v1 = (*nodeRef)->childRight;
-        Node<T>* result;
-
-        if (v1->isEnd)
+        struct Node
         {
-            for (result = (*nodeRef)->childLeft; (*nodeRef) == result->childRight; result = result->childLeft)
+                NodePtr left;
+                NodePtr parent;
+                NodePtr right;
+                unsigned int key;
+                ValType data;
+        };
+
+        class Iterator
+        {
+            public:
+                Iterator(NodePtr currentNode, BinarySearchTree<ValType>* classPtr)
+                {
+                    _currentNode = currentNode;
+                    _classObj = classPtr;
+                }
+
+                Iterator()
+                {
+                    _currentNode = 0;
+                    _classObj = 0;
+                }
+
+                void Inc()
+                {
+                    if (_classObj->IsNil(_currentNode) == true)
+                        ;
+                    else if (_classObj->IsNil(_currentNode->right) == false)
+                    {
+                        _currentNode = _classObj->Min(_currentNode->right);
+                    }
+                    else
+                    { // climb looking for right subtree
+                        NodePtr node;
+                        while (_classObj->IsNil(node = _currentNode->parent) == false && _currentNode == node->right)
+                        {
+                            _currentNode = node; // ==> parent while right subtree
+                        }
+                        _currentNode = node; // ==> parent (head if end())
+                    }
+
+                    // set to end node if we are at nil (so we can compare against end-iterator)
+                    if (_classObj->IsNil(_currentNode))
+                    {
+                        _currentNode = _classObj->end()._currentNode;
+                    }
+                }
+
+                Iterator& operator++()
+                {
+                    Inc();
+                    return *this;
+                }
+
+                Iterator operator++(int)
+                {
+                    Iterator tmp(*this); // copy
+                    operator++();        // pre-increment
+                    return tmp;          // return old value
+                }
+
+                bool operator==(const Iterator& _Right) const
+                { // test for iterator equality
+                    return (_currentNode == _Right._currentNode);
+                }
+
+                bool operator!=(const Iterator& _Right) const
+                { // test for iterator inequality
+                    return (!(*this == _Right));
+                }
+
+                unsigned int* key() { return &_currentNode->key; }
+
+                ValType* value() { return &_currentNode->data; }
+
+            private:
+                NodePtr _currentNode;
+                BinarySearchTree<ValType>* _classObj;
+        };
+
+    public:
+        unsigned int size() { return _size; };
+
+        Iterator begin() { return Iterator(_headNode->left, this); }
+
+        Iterator end() { return Iterator(_endNode, this); }
+
+        Iterator find(unsigned int key)
+        {
+            NodePtr searchNode = _headNode->parent; // parent of headnode is first legit (upmost) node
+
+            while (IsNil(searchNode) == false)
             {
-                (*nodeRef) = result;
+                if (searchNode->key == key)
+                {
+                    break;
+                }
+
+                if (key < searchNode->key)
+                {
+                    searchNode = searchNode->left;
+                }
+                else
+                {
+                    searchNode = searchNode->right;
+                }
             }
 
-            if ((*nodeRef)->childRight != result)
+            return Iterator(searchNode, this);
+        }
+
+    protected:
+        NodePtr Min(NodePtr node)
+        {
+            // go to leftmost child
+            while (IsNil(node->left) == false)
             {
-                (*nodeRef) = result;
-            }
-        }
-        else
-        {
-            for (result = v1->prev; !result->isEnd; result = result->prev)
-            {
-                v1 = result;
+                node = node->left;
             }
 
-            (*nodeRef) = v1;
+            return node;
         }
 
-        return *nodeRef;
-	}
-};
+        bool IsNil(NodePtr node) { return (node == _endNode || node == _headNode); }
 
-template <typename T>
-struct BinarySearchTree
-{
-    Node<T>* unknown;
-	Node<T>* root;
-	Node<T>* unk;
-	Node<T>* unk2;
-    uint size;
-
-	void TraverseTree(std::function<void(std::pair<uint, T> val)> func)
-	{
-        if (root->isEnd)
-        {
-            TraverseTree(unknown, nullptr, func);
-        }
-        else
-        {
-            TraverseTree(root, nullptr, func);
-        }
-	}
-private:
-	bool TraverseTree(Node<T>* node, const Node<T>* previousNode, std::function<void(std::pair<uint, T> val)> func)
-	{
-		if (node->value == 0 && previousNode != nullptr)
-		{
-			func({ previousNode->key, previousNode->value });
-			return false;
-		}
-
-		Node<T>* nextNode = node->childLeft == previousNode ? node->prev : node->childLeft;
-		if (!TraverseTree(nextNode, node, func))
-		{
-			return TraverseTree(node->childRight, node, func);
-		}
-
-		return true;
-	}
+    private:
+        void* dunno;
+        NodePtr _headNode; // headnode stores min/max in left/right and upmost node in parent
+        NodePtr _endNode;
+        void* dunno2;
+        unsigned int _size;
 };
 
 template <int size>

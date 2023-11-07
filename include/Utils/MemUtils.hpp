@@ -52,12 +52,17 @@ class Hook MemUtils
         static void ReadProcMem(DWORD address, void* mem, const uint size) { ReadProcMem(PDWORD(address), mem, size); }
         static void WriteProcMem(DWORD address, void* mem, const uint size) { WriteProcMem(PDWORD(address), mem, size); }
 
-        static FARPROC PatchCallAddr(char* mod, const DWORD installAddress, const char* hookFunction)
+        static FARPROC PatchCallAddr(void* mod, const DWORD installAddress, void* hookFunction)
+        {
+            return PatchCallAddr((DWORD)mod, installAddress, hookFunction);
+        }
+
+        static FARPROC PatchCallAddr(DWORD mod, const DWORD installAddress, void* hookFunction)
         {
             DWORD relAddr;
             ReadProcMem(mod + installAddress + 1, &relAddr, 4);
 
-            const DWORD offset = (DWORD)hookFunction - (DWORD)(mod + installAddress + 5);
+            DWORD offset = (DWORD)hookFunction - (DWORD)(mod + installAddress + 5);
             WriteProcMem(mod + installAddress + 1, &offset, 4);
 
             return (FARPROC)(mod + relAddr + installAddress + 5);
@@ -80,11 +85,11 @@ class Hook MemUtils
             VirtualProtect((void*)address, 5, dwOldProtection, nullptr);                 // Set the protection back to what it was.
         }
 
-        static void NopAddress(unsigned int address, unsigned int pSize)
+        static void NopAddress(DWORD address, size_t size)
         {
             DWORD dwOldProtection = 0;
-            VirtualProtect((void*)address, pSize, PAGE_READWRITE, &dwOldProtection);
-            memset((void*)address, 0x90, pSize);
-            VirtualProtect((void*)address, pSize, dwOldProtection, NULL);
+            VirtualProtect((void*)address, size, PAGE_READWRITE, &dwOldProtection);
+            memset((void*)address, 0x90, size);
+            VirtualProtect((void*)address, size, dwOldProtection, NULL);
         }
 };

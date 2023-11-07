@@ -5,10 +5,19 @@ class TimeUtils
     public:
         TimeUtils() = delete;
 
-        Hook static uint64 UnixMilliseconds()
+        template <typename Duration>
+            requires IsChronoDurationV<Duration>
+        static ulong UnixTime()
         {
-            return static_cast<uint>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count());
+            return static_cast<ulong>(std::chrono::duration_cast<Duration>(std::chrono::system_clock::now().time_since_epoch()).count());
         }
+
+        Hook static ulong UnixMilliseconds()
+        {
+            return static_cast<ulong>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count());
+        }
+
+        Hook static ulong UnixMicroseconds() {}
 
         Hook static uint UnixSeconds()
         {

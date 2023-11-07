@@ -26,7 +26,7 @@ using LocationId = const uint;
 using st6_malloc_t = void* (*)(size_t);
 using st6_free_t = void (*)(void*);
 
-using _RCSendChatMsg = void(__stdcall*)(uint id, uint to, uint size, void* RDL);
-using _CRCAntiCheat = void(__stdcall*)();
-using _GetFLName = int(__cdecl*)(char* buf, const wchar_t* str);
-using _GetShipInspect = bool(__cdecl*)(uint& ship, class IObjInspectImpl*& inspect, uint& dunno);
+using RCSendChatMsg = void(__stdcall*)(uint id, uint to, uint size, void* RDL);
+using CRCAntiCheat = void(__stdcall*)();
+using GetFLName = int(__cdecl*)(char* buf, const wchar_t* str);
+using GetShipInspect = bool(__cdecl*)(uint& ship, class IObjInspectImpl*& inspect, uint& dunno);
