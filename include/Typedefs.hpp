@@ -12,15 +12,11 @@ using mstime = uint64;
 using byte = uchar;
 
 // Common types that can be used to explain what is being used
-using ClientId = const uint;
-using SystemId = const uint;
-using ShipId = const uint;
+
 using EquipId = const uint;
-using BaseId = const uint;
 using RepId = const ushort;
 using GoodId = const uint;
 using ArchId = const uint;
-using ObjectId = const uint;
 using LocationId = const uint;
 
 using st6_malloc_t = void* (*)(size_t);
