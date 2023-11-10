@@ -55,6 +55,13 @@ enum class DestroyType
     Fuse = 1,
 };
 
+enum class ResponseCode
+{
+    Success = 0,
+    Failure = -2,
+    InvalidInput = -4
+};
+
 struct SGFGoodVaporizedInfo
 {
         uint dunno[128];
