@@ -213,12 +213,12 @@ struct IClientImpl
         [[NoHook]]
         virtual bool DispatchMsgs();
         [[NoPlugins]]
-        virtual bool CDPClientProxy__Disconnect(uint client);
+        virtual bool CDPClientProxyDisconnect(uint client);
         [[NoPlugins]]
-        virtual uint CDPClientProxy__GetSendQSize(uint client);
+        virtual uint CDPClientProxyGetSendQSize(uint client);
         [[NoPlugins]]
-        virtual uint CDPClientProxy__GetSendQBytes(uint client);
-        virtual double CDPClientProxy__GetLinkSaturation(uint client);
+        virtual uint CDPClientProxyGetSendQBytes(uint client);
+        virtual double CDPClientProxyGetLinkSaturation(uint client);
         virtual bool Send_FLPACKET_SERVER_SETSHIPARCH(uint client, uint shipArch);
         virtual bool Send_FLPACKET_SERVER_SETHULLSTATUS(uint client, float status);
         virtual bool Send_FLPACKET_SERVER_SETCOLLISIONGROUPS(uint client, st6::list<XCollision>&);
