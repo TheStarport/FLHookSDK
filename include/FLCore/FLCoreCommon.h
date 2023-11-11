@@ -56,6 +56,7 @@ enum class ObjectType
 
 enum EquipmentClass : uint
 {
+    All = -1,
     None = 0,
     LightEquip = 1 << 0,
     AttachedFx = 1 << 1, // contrails
@@ -4070,7 +4071,7 @@ struct IMPORT FlashLightSetInfo
         unsigned char data[OBJECT_DATA_SIZE];
 };
 
-struct IMPORT FmtStr
+struct FmtStr
 {
         struct IMPORT Val
         {
@@ -4094,31 +4095,32 @@ struct IMPORT FmtStr
                 unsigned char data[OBJECT_DATA_SIZE];
         };
 
-        FmtStr(const FmtStr&);
-        FmtStr(unsigned int, const Val*);
-        ~FmtStr();
-        const FmtStr& operator=(const FmtStr&);
-        bool operator==(const FmtStr&) const;
-        void append(Val*);
-        void append_base(const unsigned int&);
-        void append_fmt_str(const FmtStr&);
-        void append_good(const unsigned int&);
-        void append_installation(int);
-        void append_int(unsigned int);
-        void append_loot(int);
-        void append_nav_marker(const struct NavMarker&);
-        void append_rep_group(const unsigned int&);
-        void append_rep_instance(const int&);
-        void append_spaceobj_id(const unsigned int&);
-        void append_string(unsigned int);
-        void append_system(const unsigned int&);
-        int append_void(void*);
-        void append_zone_id(const unsigned int&);
-        void begin_mad_lib(unsigned int);
-        void destroy();
-        void end_mad_lib();
-        int flatten(void*, unsigned int) const;
-        int unflatten(void*, unsigned int);
+        FmtStr() : FmtStr(0, nullptr) {}
+        IMPORT FmtStr(const FmtStr&);
+        IMPORT FmtStr(unsigned int, const Val*);
+        IMPORT ~FmtStr();
+        IMPORT const FmtStr& operator=(const FmtStr&);
+        IMPORT bool operator==(const FmtStr&) const;
+        IMPORT void append(Val*);
+        IMPORT void append_base(const unsigned int&);
+        IMPORT void append_fmt_str(const FmtStr&);
+        IMPORT void append_good(const unsigned int&);
+        IMPORT void append_installation(int);
+        IMPORT void append_int(unsigned int);
+        IMPORT void append_loot(int);
+        IMPORT void append_nav_marker(const struct NavMarker&);
+        IMPORT void append_rep_group(const unsigned int&);
+        IMPORT void append_rep_instance(const int&);
+        IMPORT void append_spaceobj_id(const unsigned int&);
+        IMPORT void append_string(unsigned int);
+        IMPORT void append_system(const unsigned int&);
+        IMPORT int append_void(void*);
+        IMPORT void append_zone_id(const unsigned int&);
+        IMPORT void begin_mad_lib(unsigned int);
+        IMPORT void destroy();
+        IMPORT void end_mad_lib();
+        IMPORT int flatten(void*, unsigned int) const;
+        IMPORT int unflatten(void*, unsigned int);
 
     public:
         uint something;
@@ -4256,7 +4258,7 @@ struct GoodInfo
         /* 100 */ float badSellPrice;
         /* 104 */ float goodBuyPrice;
         /* 108 */ uint jumpDist;
-        /* 112 */ float dunno2;
+        /* 112 */ bool multiCount; // TODO: Verify
         /* 116 */ float dunno3;
         /* 120 */ float dunno4;
         /* 124 */ float dunno5;

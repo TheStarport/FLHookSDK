@@ -14,7 +14,6 @@ using byte = uchar;
 // Common types that can be used to explain what is being used
 
 using EquipId = const uint;
-using RepId = const ushort;
 using GoodId = const uint;
 using ArchId = const uint;
 using LocationId = const uint;

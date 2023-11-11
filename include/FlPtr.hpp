@@ -165,8 +165,8 @@ class CPtrConvertBase : public CPtrBase<P>
     public:
         CPtrConvertBase() : CPtrBase<P>() {}
         CPtrConvertBase(P* ptr, bool increments = true) : CPtrBase<P>(ptr, increments) {}
-        CPtrConvertBase(CObject* ptr, bool increments = true) : CPtrBase<P>(dynamic_cast<P*>(ptr), increments) {}
-        CPtrConvertBase(const CObject* ptr, bool increments = true) : CPtrBase<P>(dynamic_cast<P*>(ptr), increments)
+        CPtrConvertBase(CObject* ptr, bool increments = true) : CPtrBase<P>(reinterpret_cast<P*>(ptr), increments) {}
+        CPtrConvertBase(const CObject* ptr, bool increments = true) : CPtrBase<P>(reinterpret_cast<const P*>(ptr), increments)
         {
             if (!std::is_const_v<P>)
             {

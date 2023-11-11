@@ -920,6 +920,21 @@ namespace pub
                 int unk4;
         };
 
+        struct EquipItem
+        {
+                EquipItem* next;
+                uint i2;
+                ushort s1;
+                ushort id;
+                uint goodId;
+                CacheString hardpoint;
+                bool mounted;
+                char unk[3];
+                float status;
+                uint count;
+                bool mission;
+        };
+
         struct ShipInfo
         {
                 uint flag;
