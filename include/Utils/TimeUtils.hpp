@@ -7,21 +7,9 @@ class TimeUtils
 
         template <typename Duration>
             requires IsChronoDurationV<Duration>
-        static ulong UnixTime()
+        static uint64 UnixTime()
         {
-            return static_cast<ulong>(std::chrono::duration_cast<Duration>(std::chrono::system_clock::now().time_since_epoch()).count());
-        }
-
-        Hook static ulong UnixMilliseconds()
-        {
-            return static_cast<ulong>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count());
-        }
-
-        Hook static ulong UnixMicroseconds() {}
-
-        Hook static uint UnixSeconds()
-        {
-            return static_cast<uint>(duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count());
+            return static_cast<uint64>(std::chrono::duration_cast<Duration>(std::chrono::system_clock::now().time_since_epoch()).count());
         }
 
         Hook static std::chrono::sys_time<std::chrono::seconds> UnixToSysTime(const int64 time)
@@ -85,7 +73,7 @@ class TimeUtils
             return std::format(L"{0:%Y-%m-%d %H:%M:%S}", time);
         }
 
-        static std::wstring CurrentDate() { return AsDate(std::chrono::seconds{ UnixSeconds() }); }
+        static std::wstring CurrentDate() { return AsDate(std::chrono::seconds{ UnixTime<std::chrono::seconds>() }); }
 
         template <typename T>
         static std::chrono::microseconds ToMicroseconds(T duration)

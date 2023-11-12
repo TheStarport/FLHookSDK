@@ -188,21 +188,16 @@ class CPtrConvertBase : public CPtrBase<P>
                 return nullptr;
             }
 
-#ifdef FLHOOK
             IObjInspectImpl* inspect;
             uint iDunno;
             uint id = this->_ptr->get_id();
-            if (!FLHook::GetShipInspect(id, inspect, iDunno))
+            auto getInspect = GetShipInspectT(DWORD(GetModuleHandleA("common.dll")) + 0x206C0);
+            if (!getInspect(id, inspect, iDunno))
             {
                 return nullptr;
             }
-            else
-            {
-                return (IObjRW*)inspect;
-            }
-#else
-// TODO: Setup non-FLHook inspect
-#endif
+
+            return reinterpret_cast<IObjRW*>(inspect);
         }
 };
 

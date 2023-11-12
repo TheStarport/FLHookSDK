@@ -1516,23 +1516,27 @@ namespace Universe
                     float chance; // Spawn chance
             };
 
-            uint dunno1[1];
-            uint zoneId;
-            uint systemId;
-            Matrix rot;
-            Vector pos;
-            uint shapeType; // 1 = sphere, 5 = ring
-            uint propertyFlags;
-            Vector size;
-            uint dunno4[13];
-            CmnAsteroid::LootableZone* lootableZone;
-            uint startFaction;    // & 0xFF, always zero
-            uint countMaxFaction; // & 0xFF, appears related to the max number of factions in a given encounter line
-            st6::list<FactionSpawn> factionSpawns;
-            uint dunno5;
+            void* vtable;
+            long mesh;
+            float edgeFraction;
+            long unused1; // -1
+            float dragModifier;
+            float damage;
+            float interference;
+            float unused2;         // -1
+            ID_String music;       // ID_String
+            CacheString spaceDust; // CacheString
+            int spaceDustMaxParticles;
+            float fogColor[3]; // an RGB type
+            uint startFaction;
+            bool pathLabel;
+            uint countMaxFaction;
+            st6::list<FactionSpawn> factionSpawns; // st6::weighted_vector<FactionSpawn> factionSpawns;
+
+            BYTE visit;
             uint idsName;
             uint idsInfo;
-            uint dunno6[2];
+            uint iDunno5[2];
     };
 
     IMPORT ISystem* GetFirstSystem();

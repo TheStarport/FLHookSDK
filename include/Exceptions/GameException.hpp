@@ -6,7 +6,7 @@
 
 #include "UnsupportedException.hpp"
 
-class Hook GameException final : std::exception
+class Hook GameException : std::exception
 {
         std::wstring msg;
 
@@ -16,7 +16,7 @@ class Hook GameException final : std::exception
 #endif
 
         explicit GameException(std::wstring msg) : msg(std::move(msg)) {}
-        ~GameException() noexcept override = default;
+        virtual ~GameException() noexcept override = default;
 
         /**
          * @deprecated Using the const char* what() on custom exceptions is not supported.
