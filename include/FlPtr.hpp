@@ -164,9 +164,9 @@ class CPtrConvertBase : public CPtrBase<P>
 {
     public:
         CPtrConvertBase() : CPtrBase<P>() {}
-        CPtrConvertBase(P* ptr, bool increments = true) : CPtrBase<P>(ptr, increments) {}
-        CPtrConvertBase(CObject* ptr, bool increments = true) : CPtrBase<P>(reinterpret_cast<P*>(ptr), increments) {}
-        CPtrConvertBase(const CObject* ptr, bool increments = true) : CPtrBase<P>(reinterpret_cast<const P*>(ptr), increments)
+        CPtrConvertBase(P* ptr, bool increments) : CPtrBase<P>(ptr, increments) {}
+        CPtrConvertBase(CObject* ptr, bool increments) : CPtrBase<P>(reinterpret_cast<P*>(ptr), increments) {}
+        CPtrConvertBase(const CObject* ptr, bool increments) : CPtrBase<P>(reinterpret_cast<const P*>(ptr), increments)
         {
             if (!std::is_const_v<P>)
             {
@@ -211,9 +211,9 @@ class CPtr : public CPtrConvertBase<P>
 {
     public:
         CPtr() : CPtrConvertBase<P>() {}
-        CPtr(P* ptr, bool increments = true) : CPtrConvertBase<P>(ptr, increments) { check_player(); }
-        CPtr(CObject* ptr, bool increments = true) : CPtrConvertBase<P>(ptr, increments) { check_player(); }
-        CPtr(const CObject* ptr, bool increments = true) : CPtrConvertBase<P>(ptr, increments) { check_player(); }
+        CPtr(P* ptr, bool increments) : CPtrConvertBase<P>(ptr, increments) { check_player(); }
+        CPtr(CObject* ptr, bool increments) : CPtrConvertBase<P>(ptr, increments) { check_player(); }
+        CPtr(const CObject* ptr, bool increments) : CPtrConvertBase<P>(ptr, increments) { check_player(); }
         CPtr(uint id) : CPtrConvertBase<P>(reinterpret_cast<P*>(CObject::Find(id, C)), false) { check_player(); }
         CPtr(long lid) : CPtrConvertBase<P>(reinterpret_cast<P*>(CObject::Find(lid, C)), false) { check_player(); }
 
@@ -343,8 +343,6 @@ class CEqObjPtr : public CPtrMask<CEqObj, CObject::CEQOBJ_MASK>
             return find_array<T>(id, { CObject::CSHIP_OBJECT, CObject::CSOLAR_OBJECT });
         }
 };
-
-typedef CPtr<CObject, CObject::COBJECT_MASK> CObjPtr;
 
 typedef CPtr<CEquipmentObj, CObject::CEQUIPMENT_OBJECT> CEquipmentPtr;
 typedef CPtr<CDynamicAsteroid, CObject::CDYNAMICASTEROID_OBJECT> CDynamicAsteroidPtr;
