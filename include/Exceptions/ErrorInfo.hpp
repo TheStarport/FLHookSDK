@@ -4,6 +4,7 @@
 // as the exception handler will now print them by default if an unhandled action occurs.
 enum class Error
 {
+    Default = 0,
     NicknameNotFound,
     PlayerNotInSpace,
     PlayerNotLoggedIn,
@@ -41,6 +42,7 @@ enum class Error
     PluginNotFound,
     InvalidIdType,
     InvalidSpaceObjId,
+    InvalidSoundId,
     FileNotFound,
     MalformedData,
     UnknownError = 1000,
@@ -88,6 +90,7 @@ class Hook ErrorInfo
              { Error::InvalidShip, L"Specified ship was invalid" },
              { Error::InvalidInput, L"One of the provided values was invalid" },
              { Error::MalformedData, L"Data being processed was malformed to the point of failure." },
+             { Error::InvalidSoundId, L"The sound provided does not exist or is not valid." },
              }
         };
 
