@@ -3,11 +3,11 @@
 enum class MessageColor
 {
     Default = 0x00FF00,
-    SystemBlue = 0x0,
+    SystemBlue = 0x84C6E6,
     DeathMessage = 0x1919BD,
     DeathMessageRed = 0xBF1D1D,
-    GroupMessagePink = 0x0,
-    PrivateGreen = 0x0,
+    GroupMessagePink = 0xFF7BFF,
+    PrivateGreen = 0x3ABD19,
 
     AliceBlue = 0xF0F8FF,
     AntiqueWhite = 0xFAEBD7,
