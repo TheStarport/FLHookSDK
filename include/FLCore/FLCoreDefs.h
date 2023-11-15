@@ -196,6 +196,16 @@ class Quaternion : public glm::qua<float, glm::packed_highp>
             y = quat.y;
             z = quat.z;
         }
+        explicit Quaternion(const Matrix& rotation)
+        {
+            w = sqrt(std::max(0.0f, 1 + rotation[0][0] + rotation[1][1] + rotation[2][2])) / 2;
+            x = sqrt(std::max(0.0f, 1 + rotation[0][0] - rotation[1][1] - rotation[2][2])) / 2;
+            y = sqrt(std::max(0.0f, 1 - rotation[0][0] + rotation[1][1] - rotation[2][2])) / 2;
+            z = sqrt(std::max(0.0f, 1 - rotation[0][0] - rotation[1][1] + rotation[2][2])) / 2;
+            x = static_cast<float>(_copysign(x, rotation[2][1] - rotation[1][2]));
+            y = static_cast<float>(_copysign(y, rotation[0][2] - rotation[2][0]));
+            z = static_cast<float>(_copysign(z, rotation[1][0] - rotation[0][1]));
+        }
 };
 
 class Transform
