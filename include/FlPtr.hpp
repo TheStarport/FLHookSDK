@@ -17,6 +17,7 @@ class CPtrBase
         virtual ~CPtrBase() { decrement(); }
 
         CPtrBase(CPtrBase& ptr) : _ptr(ptr.get()) { increment(); }
+        CPtrBase(const CPtrBase& ptr) : _ptr((P*)(ptr.get())) { increment(); }
 
         CPtrBase(CPtrBase&& ptr) noexcept : _ptr(ptr.get())
         {
@@ -173,6 +174,9 @@ class CPtrConvertBase : public CPtrBase<P>
                 throw std::invalid_argument("Given pointer is const, but smart pointer class is not.");
             }
         }
+        CPtrConvertBase(CPtrConvertBase& ptr) noexcept : CPtrBase<P>(ptr) {}
+        CPtrConvertBase(const CPtrConvertBase& ptr) noexcept : CPtrBase<P>(ptr) {}
+        CPtrConvertBase(CPtrConvertBase&& ptr) noexcept : CPtrBase<P>(std::move(ptr)) {}
 
         CPtrConvertBase<P>& operator=(nullptr_t) noexcept override
         {
@@ -209,8 +213,11 @@ class CPtr : public CPtrConvertBase<P>
         CPtr(P* ptr, bool increments) : CPtrConvertBase<P>(ptr, increments) { check_player(); }
         CPtr(CObject* ptr, bool increments) : CPtrConvertBase<P>(ptr, increments) { check_player(); }
         CPtr(const CObject* ptr, bool increments) : CPtrConvertBase<P>(ptr, increments) { check_player(); }
-        CPtr(uint id) : CPtrConvertBase<P>(reinterpret_cast<P*>(CObject::Find(id, C)), false) { check_player(); }
-        CPtr(long lid) : CPtrConvertBase<P>(reinterpret_cast<P*>(CObject::Find(lid, C)), false) { check_player(); }
+        CPtr(uint id) : CPtrConvertBase<P>(reinterpret_cast<P*>(CObject::Find(id, C)), true) { check_player(); }
+        CPtr(long lid) : CPtrConvertBase<P>(reinterpret_cast<P*>(CObject::Find(lid, C)), true) { check_player(); }
+        CPtr(CPtr& ptr) noexcept : CPtrConvertBase<P>(ptr) {}
+        CPtr(const CPtr& ptr) noexcept : CPtrConvertBase<P>(ptr) {}
+        CPtr(CPtr&& ptr) noexcept : CPtrConvertBase<P>(std::move(ptr)) {}
 
         static bool empty() { return count() == 0; }
 
@@ -263,6 +270,9 @@ class CPtrMask : public CPtr<P, C>
         CPtrMask(P* ptr, bool increments = true) : CPtr<P, C>(ptr, increments) {}
         CPtrMask(CObject* ptr, bool increments = true) : CPtr<P, C>(ptr, increments) {}
         CPtrMask(const CObject* ptr, bool increments = true) : CPtr<P, C>(ptr, increments) {}
+        CPtrMask(CPtrMask& ptr) noexcept : CPtr<P, C>(ptr) {}
+        CPtrMask(const CPtrMask& ptr) noexcept : CPtr<P, C>(ptr) {}
+        CPtrMask(CPtrMask&& ptr) noexcept : CPtr<P, C>(std::move(ptr)) {}
 
     protected:
         template <typename T>
@@ -285,9 +295,12 @@ class CSimplePtr : public CPtrMask<CSimple, CObject::CSIMPLE_MASK>
 {
     public:
         using CPtrMask::CPtrMask;
-        CSimplePtr() = default;
-        CSimplePtr(uint id) : CPtrMask(find(id), false) {}
-        CSimplePtr(long lid) : CPtrMask(find(lid), false) {}
+        CSimplePtr();
+        CSimplePtr(const CSimplePtr& ptr) noexcept : CPtrMask(ptr) {}
+        CSimplePtr(CSimplePtr& ptr) noexcept : CPtrMask(ptr) {}
+        CSimplePtr(CSimplePtr&& ptr) noexcept : CPtrMask(std::move(ptr)) {}
+        CSimplePtr(uint id) : CPtrMask(find(id), true) {}
+        CSimplePtr(long lid) : CPtrMask(find(lid), true) {}
 
     protected:
         template <typename T>
@@ -312,8 +325,10 @@ class CProjectilePtr : public CPtrMask<CProjectile, CObject::CPROJECTILE_MASK>
     public:
         using CPtrMask::CPtrMask;
         CProjectilePtr() = default;
-        CProjectilePtr(uint id) : CPtrMask(find(id), false) {}
-        CProjectilePtr(long lid) : CPtrMask(find(lid), false) {}
+        CProjectilePtr(CProjectilePtr& ptr) noexcept : CPtrMask(ptr) {}
+        CProjectilePtr(CProjectilePtr&& ptr) noexcept : CPtrMask(std::move(ptr)) {}
+        CProjectilePtr(uint id) : CPtrMask(find(id), true) {}
+        CProjectilePtr(long lid) : CPtrMask(find(lid), true) {}
 
     protected:
         template <typename T>
@@ -328,8 +343,10 @@ class CEqObjPtr : public CPtrMask<CEqObj, CObject::CEQOBJ_MASK>
     public:
         using CPtrMask::CPtrMask;
         CEqObjPtr() = default;
-        CEqObjPtr(uint id) : CPtrMask(find(id), false) {}
-        CEqObjPtr(long lid) : CPtrMask(find(lid), false) {}
+        CEqObjPtr(CEqObjPtr& ptr) noexcept : CPtrMask(ptr) {}
+        CEqObjPtr(CEqObjPtr&& ptr) noexcept : CPtrMask(std::move(ptr)) {}
+        CEqObjPtr(uint id) : CPtrMask(find(id), true) {}
+        CEqObjPtr(long lid) : CPtrMask(find(lid), true) {}
 
     protected:
         template <typename T>
@@ -358,8 +375,10 @@ class CCSimplePtr : public CPtrMask<const CSimple, CObject::CSIMPLE_MASK>
     public:
         using CPtrMask::CPtrMask;
         CCSimplePtr() = default;
-        CCSimplePtr(uint id) : CPtrMask(find(id), false) {}
-        CCSimplePtr(long lid) : CPtrMask(find(lid), false) {}
+        CCSimplePtr(CCSimplePtr& ptr) noexcept : CPtrMask(ptr) {}
+        CCSimplePtr(CCSimplePtr&& ptr) noexcept : CPtrMask(std::move(ptr)) {}
+        CCSimplePtr(uint id) : CPtrMask(find(id), true) {}
+        CCSimplePtr(long lid) : CPtrMask(find(lid), true) {}
 
     protected:
         template <typename T>
@@ -382,8 +401,10 @@ class CCProjectilePtr : public CPtrMask<const CProjectile, CObject::CPROJECTILE_
     public:
         using CPtrMask::CPtrMask;
         CCProjectilePtr() = default;
-        CCProjectilePtr(uint id) : CPtrMask(find(id), false) {}
-        CCProjectilePtr(long lid) : CPtrMask(find(lid), false) {}
+        CCProjectilePtr(CCProjectilePtr& ptr) noexcept : CPtrMask(ptr) {}
+        CCProjectilePtr(CCProjectilePtr&& ptr) noexcept : CPtrMask(std::move(ptr)) {}
+        CCProjectilePtr(uint id) : CPtrMask(find(id), true) {}
+        CCProjectilePtr(long lid) : CPtrMask(find(lid), true) {}
 
     protected:
         template <typename T>
@@ -398,8 +419,10 @@ class CCEqObjPtr : public CPtrMask<const CEqObj, CObject::CEQOBJ_MASK>
     public:
         using CPtrMask::CPtrMask;
         CCEqObjPtr() = default;
-        CCEqObjPtr(uint id) : CPtrMask(find(id), false) {}
-        CCEqObjPtr(long lid) : CPtrMask(find(lid), false) {}
+        CCEqObjPtr(CCEqObjPtr& ptr) noexcept : CPtrMask(ptr) {}
+        CCEqObjPtr(CCEqObjPtr&& ptr) noexcept : CPtrMask(std::move(ptr)) {}
+        CCEqObjPtr(uint id) : CPtrMask(find(id), true) {}
+        CCEqObjPtr(long lid) : CPtrMask(find(lid), true) {}
 
     protected:
         template <typename T>
