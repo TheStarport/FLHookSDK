@@ -429,6 +429,7 @@ class StringUtils
             }
         }
 
+        // TODO: Fix this template error
         template <typename TTransformView, typename TViewType = FirstTemplateType<FirstTemplateType<TTransformView>>>
         static TViewType GetParamToEnd(TTransformView view, uint pos)
         {
@@ -463,20 +464,18 @@ class StringUtils
             return GetParamToEnd(params, pos);
         }
 
-        template <typename TString, typename TTStr, typename TTTStr>
-        static TString ReplaceStr(const TString& source, const TTStr& searchForRaw, const TTTStr& replaceWithRaw)
-            requires StringRestriction<TString>
+        template <typename TString, typename View>
+            requires StringRestriction<TString> && IsStringView<View>
+                                               static TString ReplaceStr(const TString& source, View searchForRaw, View replaceWithRaw)
+                         requires StringRestriction<TString>
         {
-            const TString searchFor = searchForRaw;
-            const TString replaceWith = replaceWithRaw;
-
             uint lPos, sPos = 0;
 
             TString result = source;
-            while ((lPos = static_cast<uint>(result.find(searchFor, sPos))) != UINT_MAX)
+            while ((lPos = static_cast<uint>(result.find(searchForRaw, sPos))) != UINT_MAX)
             {
-                result.replace(lPos, searchFor.length(), replaceWith);
-                sPos = lPos + replaceWith.length();
+                result.replace(lPos, searchForRaw.length(), replaceWithRaw);
+                sPos = lPos + replaceWithRaw.length();
 
                 if (lPos == sPos)
                 {
