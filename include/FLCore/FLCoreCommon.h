@@ -1316,7 +1316,12 @@ class IMPORT BinaryRDLWriter
 
 struct IMPORT DamageEntry
 {
-        enum SubObjFate;
+        enum class SubObjFate
+        {
+            Alive = 0,
+            Damaged = 1,
+            Destroyed = 2,
+        };
 
         DamageEntry();
         DamageEntry& operator=(const DamageEntry&);

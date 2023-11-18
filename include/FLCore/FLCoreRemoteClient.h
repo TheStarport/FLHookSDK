@@ -191,7 +191,7 @@ struct IClientImpl
         [[NoPlugins]]
         virtual bool Send_FLPACKET_COMMON_SETTARGET(uint client, XSetTarget& st);
         [[NoPlugins]]
-        virtual void unknown_6(uint client, FLPACKET_UNKNOWN&);
+        virtual void unknown_6(uint client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
         virtual bool Send_FLPACKET_COMMON_GOTRADELANE(uint client, XGoTradelane& tl);
         [[NoPlugins]]
@@ -203,11 +203,11 @@ struct IClientImpl
         [[CallInner, NoLog, NoPlugins]] virtual bool Startup(uint, uint);
         [[NoPlugins]] virtual void nullsub(uint);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_LOGINRESPONSE(uint client, FLPACKET_UNKNOWN&);
+        virtual bool Send_FLPACKET_SERVER_LOGINRESPONSE(uint client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_CHARACTERINFO(uint client, FLPACKET_UNKNOWN&);
+        virtual bool Send_FLPACKET_SERVER_CHARACTERINFO(uint client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_CHARSELECTVERIFIED(uint client, FLPACKET_UNKNOWN&);
+        virtual bool Send_FLPACKET_SERVER_CHARSELECTVERIFIED(uint client, FLPACKET_UNKNOWN*);
         [[NoPlugins, NoLog]]
         virtual void Shutdown();
         [[NoHook]]
@@ -225,7 +225,7 @@ struct IClientImpl
         virtual bool Send_FLPACKET_SERVER_SETEQUIPMENT(uint client, st6::vector<EquipDesc>&);
         [[NoPlugins]]
         virtual void unknown_26(uint client, uint);
-        virtual bool Send_FLPACKET_SERVER_SETADDITEM(uint client, FLPACKET_UNKNOWN&, FLPACKET_UNKNOWN&);
+        virtual bool Send_FLPACKET_SERVER_SETADDITEM(uint client, FLPACKET_UNKNOWN*, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
         virtual void unknown_28(uint client, uint, uint, uint);
         virtual bool Send_FLPACKET_SERVER_SETSTARTROOM(uint client, uint, uint);
@@ -265,12 +265,12 @@ struct IClientImpl
         virtual bool Send_FLPACKET_SERVER_GFCOMPLETENEWSBROADCASTLIST(uint client, uint);
         virtual bool Send_FLPACKET_SERVER_CREATESOLAR(uint client, FLPACKET_CREATESOLAR& solar);
         virtual bool Send_FLPACKET_SERVER_CREATESHIP(uint client, FLPACKET_CREATESHIP& ship);
-        virtual bool Send_FLPACKET_SERVER_CREATELOOT(uint client, FLPACKET_UNKNOWN&);
-        virtual bool Send_FLPACKET_SERVER_CREATEMINE(uint client, FLPACKET_UNKNOWN&);
+        virtual bool Send_FLPACKET_SERVER_CREATELOOT(uint client, FLPACKET_UNKNOWN*);
+        virtual bool Send_FLPACKET_SERVER_CREATEMINE(uint client, FLPACKET_UNKNOWN*);
         virtual bool Send_FLPACKET_SERVER_CREATEGUIDED(uint& client, FLPACKET_CREATEGUIDED&);
-        virtual bool Send_FLPACKET_SERVER_CREATECOUNTER(uint client, FLPACKET_UNKNOWN&);
+        virtual bool Send_FLPACKET_SERVER_CREATECOUNTER(uint client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
-        virtual void unknown_53(uint client, FLPACKET_UNKNOWN&);
+        virtual void unknown_53(uint client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
         virtual void unknown_54(uint client, uint, uint, uint);
         [[NoLog]]
@@ -286,7 +286,7 @@ struct IClientImpl
         virtual bool Send_FLPACKET_SERVER_LAUNCH(uint client, FLPACKET_LAUNCH& launch);
         virtual bool Send_FLPACKET_SERVER_REQUESTCREATESHIPRESP(uint client, bool response, uint shipID);
         [[NoPlugins]]
-        virtual void unknown_63(uint client, FLPACKET_UNKNOWN&);
+        virtual void unknown_63(uint client, FLPACKET_UNKNOWN*);
         [[NoLog, NoPlugins]]
         virtual bool Send_FLPACKET_SERVER_DAMAGEOBJECT(uint client, uint objID, DamageList& dmgList);
         [[NoPlugins]]
@@ -294,17 +294,17 @@ struct IClientImpl
         virtual bool Send_FLPACKET_SERVER_USE_ITEM(uint client, uint);
         virtual bool Send_FLPACKET_SERVER_SETREPUTATION(uint client, FLPACKET_SETREPUTATION& rep);
         [[NoPlugins]]
-        virtual void unknown_68(uint client, FLPACKET_UNKNOWN&);
+        virtual void unknown_68(uint client, FLPACKET_UNKNOWN*);
         virtual bool Send_FLPACKET_SERVER_SENDCOMM(uint client, uint, uint, uint, uint, uint, uint, uint, uint, uint, uint, uint, uint, uint, uint, uint, uint,
                                                    uint, uint, uint, uint, uint, uint);
         [[NoPlugins]]
         virtual void unknown_70(uint client, uint);
-        virtual bool Send_FLPACKET_SERVER_SET_MISSION_MESSAGE(uint client, FLPACKET_UNKNOWN&);
+        virtual bool Send_FLPACKET_SERVER_SET_MISSION_MESSAGE(uint client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
-        virtual void unknown_72(uint client, FLPACKET_UNKNOWN&);
+        virtual void unknown_72(uint client, FLPACKET_UNKNOWN*);
         virtual bool Send_FLPACKET_SERVER_SETMISSIONOBJECTIVES(uint client, uint);
         [[NoPlugins]]
-        virtual void unknown_74(uint client, FLPACKET_UNKNOWN&);
+        virtual void unknown_74(uint client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
         virtual void unknown_75(uint client, uint);
         [[NoPlugins]]
@@ -325,14 +325,14 @@ struct IClientImpl
         [[NoPlugins]]
         virtual bool Send_FLPACKET_SERVER_REQUEST_RETURNED(uint& client, uint shipID, uint flag, uint, uint);
         [[NoPlugins]]
-        virtual void unknown_85(uint client, FLPACKET_UNKNOWN&);
+        virtual void unknown_85(uint client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
         virtual void unknown_86(uint client, uint, uint, uint);
         [[NoPlugins]]
         virtual bool Send_FLPACKET_SERVER_OBJECTCARGOUPDATE(SObjectCargoUpdate& cargoUpdate, uint dunno1, uint dunno2);
         virtual bool Send_FLPACKET_SERVER_BURNFUSE(uint client, FLPACKET_BURNFUSE& burnFuse);
         [[NoPlugins]]
-        virtual void unknown_89(uint client, FLPACKET_UNKNOWN&);
+        virtual void unknown_89(uint client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
         virtual void unknown_90(uint client);
         [[NoPlugins]]
@@ -356,7 +356,7 @@ struct IClientImpl
         [[NoPlugins]]
         virtual void unknown_100(uint client, uint, uint);
         [[NoPlugins]]
-        virtual void unknown_101(uint& client, FLPACKET_UNKNOWN&);
+        virtual void unknown_101(uint& client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
         virtual void unknown_102(uint client, uint);
         [[NoPlugins]]
@@ -380,7 +380,7 @@ struct IClientImpl
         virtual bool Send_FLPACKET_SERVER_PLAYERLIST_2(uint client);
         virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_6(uint client, uint, uint);
         virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_7(uint client, uint, uint);
-        virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE(uint client, FLPACKET_UNKNOWN&);
+        virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE(uint client, FLPACKET_UNKNOWN*);
         virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_2(uint client, uint, uint);
         virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_3(uint client, uint targetID, uint rank);
         virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_4(uint client, uint, uint);
