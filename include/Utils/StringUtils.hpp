@@ -243,9 +243,9 @@ class StringUtils
 
         static Hook std::wstring stows(const std::string& text)
         {
-            const int size = MultiByteToWideChar(CP_ACP, 0, text.c_str(), -1, nullptr, 0);
+            const int size = MultiByteToWideChar(CP_UTF8, 0, text.c_str(), -1, nullptr, 0);
             const auto wideText = new wchar_t[size];
-            MultiByteToWideChar(CP_ACP, 0, text.c_str(), -1, wideText, size);
+            MultiByteToWideChar(CP_UTF8, 0, text.c_str(), -1, wideText, size);
             std::wstring ret = wideText;
             delete[] wideText;
             return ret;
@@ -255,7 +255,7 @@ class StringUtils
         {
             const uint len = text.length() + 1;
             const auto buf = new char[len];
-            WideCharToMultiByte(CP_ACP, 0, text.c_str(), -1, buf, len, nullptr, nullptr);
+            WideCharToMultiByte(CP_UTF8, 0, text.c_str(), -1, buf, len, nullptr, nullptr);
             std::string ret = buf;
             delete[] buf;
             return ret;
