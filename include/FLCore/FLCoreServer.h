@@ -253,6 +253,19 @@ struct SLoginInfo
 	wchar_t wszAccount[36];
 };
 
+struct BestPathInfo
+{
+	int iWaypointStartIndex; //Usually starts at 1, but client can already have waypoints
+	int iDunno1; //2
+	byte bDunno2; //0
+	Vector vStartPos;
+	int iDunno3;//0
+	int iStartSysId;
+	Vector vTargetPos;
+	int iDunno4;//0
+	int iTargetSysId;
+};
+
 struct FLString
 {
 	st6::string value;
