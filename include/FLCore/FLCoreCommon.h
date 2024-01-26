@@ -3089,13 +3089,9 @@ struct IMPORT CEqObj : public CSimple
         void init_docking_points(unsigned int);
         void update_docking_animations(float);
 
-#ifdef _USE_DEPRECATED_COBJECT_VARIABLES_
-        /* 0x088 */ Archetype::Ship* ship_arch;
-        /* 0x08c */ uint dunno3[0x16];
-        /* 0x0e0 */ CEquipManager equip_manager; // 180 bytes
-        /* 0x194 */ float Power;
-        /* 0x198 */ float MaxPower;
-#endif // _USE_DEPRECATED_COBJECT_VARIABLES_
+        CEquipManager equip_manager; // 180 bytes
+        float power;
+        float maxPower;
 
     private:
         void destroy_equipment(const DamageList&, bool);
@@ -3518,16 +3514,13 @@ struct IMPORT CShip : public CEqObj, public PhySys::Controller
         float get_time_to_accelerate(float, float, float, float, float) const;
         void recalculate_formation_speed();
 
-#ifdef _USE_DEPRECATED_COBJECT_VARIABLES_
-        /* 105 */ DWORD vtable;
-        DWORD dunno5[3];
-        /* 109 */ uint playerGroup;
-        DWORD dunno6[30];
-        /* 139 */ DWORD BayAnim;
+        DWORD dunno5[5];
+        uint playerGroup;
+        DWORD dunno6[29];
+        DWORD BayAnim;
         DWORD dunno7[31];
-        /* 170 */ DWORD BayState;
-        /* 174 */ DWORD BayState2;
-#endif // _USE_DEPRECATED_COBJECT_VARIABLES_
+        DWORD BayState;
+        DWORD BayState2;
 };
 
 struct Costume
@@ -3626,6 +3619,7 @@ struct IMPORT CSolar : public CEqObj
         void init_continual_anim(const char*);
         void update_system_gate(float);
 
+        uint iDunnoSolar[50];
         /* 108 uint jumpDestinationSystemId */
         /* 109 uint jumpDestinationObjectId // must be OBJ_JUMP_GATE or OBJ_JUMP_HOLE */
 };
