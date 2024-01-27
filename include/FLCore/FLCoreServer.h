@@ -273,50 +273,6 @@ class IMPORT CAccount
         uint dunno4[32];
 };
 
-namespace BaseGroupMessage
-{
-    enum Type;
-};
-
-class IMPORT CPlayerGroup
-{
-    public:
-        CPlayerGroup(const CPlayerGroup&);
-        CPlayerGroup(void);
-        virtual ~CPlayerGroup(void);
-        CPlayerGroup& operator=(const CPlayerGroup&);
-        bool AddInvite(unsigned int);
-        bool AddMember(unsigned int);
-        bool DelInvite(unsigned int);
-        bool DelMember(unsigned int);
-        void DeliverChat(unsigned long, const void*);
-        static CPlayerGroup* FromGroupID(unsigned int);
-        unsigned int GetID(void);
-        unsigned int GetInviteCount(void);
-        unsigned int GetMember(int) const;
-        unsigned int GetMemberCount(void);
-        unsigned int GetMissionID(void);
-        unsigned int GetMissionSetBy(void);
-        void HandleClientLogout(unsigned int);
-        bool IsFull(void);
-        bool IsInvited(unsigned int);
-        bool IsMember(unsigned int);
-        void RewardMembers(int);
-        void SendChat(int, const unsigned short*, ...);
-        void SendGroup(BaseGroupMessage::Type, unsigned int);
-        void SetMissionID(unsigned int, unsigned int);
-        void SetMissionMessage(struct CSetMissionMessage&);
-        void SetMissionObjectives(struct CMissionObjectives&);
-        void StoreMemberList(st6::vector<unsigned int>&);
-
-    protected:
-        static st6::map<const unsigned int, CPlayerGroup*, st6::less<const unsigned int>, st6::allocator<CPlayerGroup*>> groupIdToGroupPtrMap;
-        static unsigned int groupId;
-
-    public:
-        unsigned char data[OBJECT_DATA_SIZE];
-};
-
 #pragma warning(push)
 #pragma warning(disable : 5222)
 struct IMPORT [[Hook, ServerCall]] IServerImpl
