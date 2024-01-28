@@ -18,143 +18,57 @@
 #define OBJECT_DATA_SIZE 2048
 
 template <typename ValType>
-class BinarySearchTree
+struct BinarySearchTree
 {
-    public:
         struct Node;
 
         typedef Node* NodePtr;
 
         struct Node
         {
+                NodePtr prev;
                 NodePtr left;
-                NodePtr parent;
                 NodePtr right;
                 unsigned int key;
-                ValType data;
+                ValType value;
+                bool unknown;
+                bool isEnd;
         };
 
-        class Iterator
+        void TraverseTree(std::function<void(std::pair<uint, ValType> val)> func)
         {
-            public:
-                Iterator(NodePtr currentNode, BinarySearchTree<ValType>* classPtr)
-                {
-                    _currentNode = currentNode;
-                    _classObj = classPtr;
-                }
+            if (headNode->isEnd)
+            {
+                TraverseTree(nextNode, nullptr, func);
+            }
+            else
+            {
+                TraverseTree(headNode, nullptr, func);
+            }
+        }
 
-                Iterator()
-                {
-                    _currentNode = 0;
-                    _classObj = 0;
-                }
-
-                void Inc()
-                {
-                    if (_classObj->IsNil(_currentNode) == true)
-                        ;
-                    else if (_classObj->IsNil(_currentNode->right) == false)
-                    {
-                        _currentNode = _classObj->Min(_currentNode->right);
-                    }
-                    else
-                    { // climb looking for right subtree
-                        NodePtr node;
-                        while (_classObj->IsNil(node = _currentNode->parent) == false && _currentNode == node->right)
-                        {
-                            _currentNode = node; // ==> parent while right subtree
-                        }
-                        _currentNode = node; // ==> parent (head if end())
-                    }
-
-                    // set to end node if we are at nil (so we can compare against end-iterator)
-                    if (_classObj->IsNil(_currentNode))
-                    {
-                        _currentNode = _classObj->end()._currentNode;
-                    }
-                }
-
-                Iterator& operator++()
-                {
-                    Inc();
-                    return *this;
-                }
-
-                Iterator operator++(int)
-                {
-                    Iterator tmp(*this); // copy
-                    operator++();        // pre-increment
-                    return tmp;          // return old value
-                }
-
-                bool operator==(const Iterator& _Right) const
-                { // test for iterator equality
-                    return (_currentNode == _Right._currentNode);
-                }
-
-                bool operator!=(const Iterator& _Right) const
-                { // test for iterator inequality
-                    return (!(*this == _Right));
-                }
-
-                unsigned int* key() { return &_currentNode->key; }
-
-                ValType* value() { return &_currentNode->data; }
-
-            private:
-                NodePtr _currentNode;
-                BinarySearchTree<ValType>* _classObj;
-        };
-
-    public:
         unsigned int size() { return _size; };
 
-        Iterator begin() { return Iterator(_headNode->left, this); }
-
-        Iterator end() { return Iterator(_endNode, this); }
-
-        Iterator find(unsigned int key)
-        {
-            NodePtr searchNode = _headNode->parent; // parent of headnode is first legit (upmost) node
-
-            while (IsNil(searchNode) == false)
-            {
-                if (searchNode->key == key)
-                {
-                    break;
-                }
-
-                if (key < searchNode->key)
-                {
-                    searchNode = searchNode->left;
-                }
-                else
-                {
-                    searchNode = searchNode->right;
-                }
-            }
-
-            return Iterator(searchNode, this);
-        }
-
-    protected:
-        NodePtr Min(NodePtr node)
-        {
-            // go to leftmost child
-            while (IsNil(node->left) == false)
-            {
-                node = node->left;
-            }
-
-            return node;
-        }
-
-        bool IsNil(NodePtr node) { return (node == _endNode || node == _headNode); }
-
     private:
-        void* dunno;
-        NodePtr _headNode; // headnode stores min/max in left/right and upmost node in parent
-        NodePtr _endNode;
+        bool TraverseTree(NodePtr node, const NodePtr previousNode, std::function<void(std::pair<uint, ValType> val)> func)
+        {
+            if (node->value == 0 && previousNode != nullptr)
+            {
+                func({ previousNode->key, previousNode->value });
+                return false;
+            }
+
+            if (const NodePtr nextNode = node->left == previousNode ? node->prev : node->left; !TraverseTree(nextNode, node, func))
+            {
+                return TraverseTree(node->right, node, func);
+            }
+
+            return true;
+        }
+
+        NodePtr nextNode;
+        NodePtr headNode; // headnode stores min/max in left/right and upmost node in parent
+        NodePtr endNode;
         void* dunno2;
         unsigned int _size;
 };
