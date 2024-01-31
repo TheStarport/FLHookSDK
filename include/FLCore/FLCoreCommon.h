@@ -852,24 +852,24 @@ namespace Archetype
             /* 40 */ float range;
     };
 
-    struct IMPORT Munition final : Projectile
+    struct Munition final : Projectile
     {
-            Munition(const Munition&);
-            Munition(IClObj*);
-            virtual ~Munition();
-            Munition& operator=(const Munition&);
-            static void FreeBeamArchIdx();
-            static void LoadBeamArchIdx();
-            virtual ClassType get_class_type() const;
-            virtual HpAttachmentType get_hp_type() const;
-            bool is_guided() const;
-            virtual bool load();
-            virtual bool read(INI_Reader&);
-            virtual void redefine(const Root&);
+            IMPORT Munition(const Munition&);
+            IMPORT Munition(IClObj*);
+            IMPORT virtual ~Munition();
+            IMPORT Munition& operator=(const Munition&);
+            IMPORT static void FreeBeamArchIdx();
+            IMPORT static void LoadBeamArchIdx();
+            IMPORT virtual HpAttachmentType get_hp_type() const;
+            IMPORT bool is_guided() const;
+            IMPORT virtual bool load();
+            IMPORT virtual bool read(INI_Reader&);
+            IMPORT virtual void redefine(const Root&);
+            ClassType get_class_type() const override { return ClassType::Munition; }
 
         protected:
             static long beamArchIndex;
-            virtual void free_resources();
+            IMPORT virtual void free_resources();
 
         public:
             /* 32 */ float hullDamage;
@@ -984,18 +984,18 @@ namespace Archetype
             unsigned char data[OBJECT_DATA_SIZE];
     };
 
-    struct IMPORT ShieldGenerator final : public AttachedEquipment
+    struct ShieldGenerator final : public AttachedEquipment
     {
-            ShieldGenerator(const ShieldGenerator&);
-            ShieldGenerator(IClObj*);
-            virtual ~ShieldGenerator();
-            ShieldGenerator& operator=(const ShieldGenerator&);
-            virtual ClassType get_class_type() const;
-            virtual HpAttachmentType get_hp_type() const;
-            HpAttachmentType get_hp_type_by_index(int) const;
-            int get_number_of_hp_types() const;
-            virtual bool read(INI_Reader&);
-            virtual void redefine(const Root&);
+            IMPORT ShieldGenerator(const ShieldGenerator&);
+            IMPORT ShieldGenerator(IClObj*);
+            IMPORT virtual ~ShieldGenerator();
+            IMPORT ShieldGenerator& operator=(const ShieldGenerator&);
+            IMPORT virtual HpAttachmentType get_hp_type() const;
+            IMPORT HpAttachmentType get_hp_type_by_index(int) const;
+            IMPORT int get_number_of_hp_types() const;
+            IMPORT virtual bool read(INI_Reader&);
+            IMPORT virtual void redefine(const Root&);
+            ClassType get_class_type() const override { return ClassType::ShieldGenerator; }
 
         public:
             /* 34 */ uint hpType;
@@ -3004,12 +3004,12 @@ class IMPORT CEquipTraverser
 
 struct Costume
 {
-    uint head = 0;
-    uint body = 0;
-    uint leftHand = 0;
-    uint rightHand = 0;
-    UINT accessory[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-    int accessories = 0;
+        uint head = 0;
+        uint body = 0;
+        uint leftHand = 0;
+        uint rightHand = 0;
+        UINT accessory[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+        int accessories = 0;
 };
 
 struct IMPORT CEqObj : public CSimple
@@ -3107,34 +3107,34 @@ struct IMPORT CEqObj : public CSimple
         void update_docking_animations(float);
 
         CEquipManager equip_manager; // 57
-        uint repVibe; // 65
-        Costume commCostume; // 66
-        uint voiceId; // 79
-        float cloakPercentage; // 80
-        uint iDunnoEqObj16; // 81 pointer
-        uint iDunnoEqObj17; // 82
-        uint iDunnoEqObj18; // 83 pair of identical pointers
-        uint iDunnoEqObj19; // 84 pair of identical pointers
-        uint iDunnoEqObj20; // 85
-        uint iDunnoEqObj21; // 86
-        uint iDunnoEqObj22; // 87 some sort of flag?
-        uint dockTarget; // 88
-        uint dockTarget2; // 89 // idk what's the difference
-        uint iDunnoEqObj23; // 90
-        uint iDunnoEqObj24; // 91
-        uint iDunnoEqObj25; // 92
-        uint iDunnoEqObj26; // 93
-        uint iDunnoEqObj27; // 94
-        uint iDunnoEqObj28; // 95
-        uint iDunnoEqObj29; // 96
-        uint iDunnoEqObj30; // 97 container start
-        uint iDunnoEqObj31; // 98 container last
-        uint iDunnoEqObj32; // 99 container end, st6::vector/list?
-        uint controlExcludedDunno; // 100
-        uint iDunnoEqObj33; // 101 pointer?
-        float power; //102
-        float maxPower; //103
-        uint iDunnoEqObj; //104 0xffffffff for all solars except those docking on lands you on a base, then it's 6?
+        uint repVibe;                // 65
+        Costume commCostume;         // 66
+        uint voiceId;                // 79
+        float cloakPercentage;       // 80
+        uint iDunnoEqObj16;          // 81 pointer
+        uint iDunnoEqObj17;          // 82
+        uint iDunnoEqObj18;          // 83 pair of identical pointers
+        uint iDunnoEqObj19;          // 84 pair of identical pointers
+        uint iDunnoEqObj20;          // 85
+        uint iDunnoEqObj21;          // 86
+        uint iDunnoEqObj22;          // 87 some sort of flag?
+        uint dockTarget;             // 88
+        uint dockTarget2;            // 89 // idk what's the difference
+        uint iDunnoEqObj23;          // 90
+        uint iDunnoEqObj24;          // 91
+        uint iDunnoEqObj25;          // 92
+        uint iDunnoEqObj26;          // 93
+        uint iDunnoEqObj27;          // 94
+        uint iDunnoEqObj28;          // 95
+        uint iDunnoEqObj29;          // 96
+        uint iDunnoEqObj30;          // 97 container start
+        uint iDunnoEqObj31;          // 98 container last
+        uint iDunnoEqObj32;          // 99 container end, st6::vector/list?
+        uint controlExcludedDunno;   // 100
+        uint iDunnoEqObj33;          // 101 pointer?
+        float power;                 // 102
+        float maxPower;              // 103
+        uint iDunnoEqObj;            // 104 0xffffffff for all solars except those docking on lands you on a base, then it's 6?
 
     private:
         void destroy_equipment(const DamageList&, bool);
@@ -3439,41 +3439,41 @@ namespace BaseGroupMessage
 
 class IMPORT CPlayerGroup
 {
-public:
-    CPlayerGroup(const CPlayerGroup&);
-    CPlayerGroup(void);
-    virtual ~CPlayerGroup(void);
-    CPlayerGroup& operator=(const CPlayerGroup&);
-    bool AddInvite(unsigned int);
-    bool AddMember(unsigned int);
-    bool DelInvite(unsigned int);
-    bool DelMember(unsigned int);
-    void DeliverChat(unsigned long, const void*);
-    static CPlayerGroup* FromGroupID(unsigned int);
-    unsigned int GetID(void);
-    unsigned int GetInviteCount(void);
-    unsigned int GetMember(int) const;
-    unsigned int GetMemberCount(void);
-    unsigned int GetMissionID(void);
-    unsigned int GetMissionSetBy(void);
-    void HandleClientLogout(unsigned int);
-    bool IsFull(void);
-    bool IsInvited(unsigned int);
-    bool IsMember(unsigned int);
-    void RewardMembers(int);
-    void SendChat(int, const unsigned short*, ...);
-    void SendGroup(BaseGroupMessage::Type, unsigned int);
-    void SetMissionID(unsigned int, unsigned int);
-    void SetMissionMessage(struct CSetMissionMessage&);
-    void SetMissionObjectives(struct CMissionObjectives&);
-    void StoreMemberList(st6::vector<unsigned int>&);
+    public:
+        CPlayerGroup(const CPlayerGroup&);
+        CPlayerGroup(void);
+        virtual ~CPlayerGroup(void);
+        CPlayerGroup& operator=(const CPlayerGroup&);
+        bool AddInvite(unsigned int);
+        bool AddMember(unsigned int);
+        bool DelInvite(unsigned int);
+        bool DelMember(unsigned int);
+        void DeliverChat(unsigned long, const void*);
+        static CPlayerGroup* FromGroupID(unsigned int);
+        unsigned int GetID(void);
+        unsigned int GetInviteCount(void);
+        unsigned int GetMember(int) const;
+        unsigned int GetMemberCount(void);
+        unsigned int GetMissionID(void);
+        unsigned int GetMissionSetBy(void);
+        void HandleClientLogout(unsigned int);
+        bool IsFull(void);
+        bool IsInvited(unsigned int);
+        bool IsMember(unsigned int);
+        void RewardMembers(int);
+        void SendChat(int, const unsigned short*, ...);
+        void SendGroup(BaseGroupMessage::Type, unsigned int);
+        void SetMissionID(unsigned int, unsigned int);
+        void SetMissionMessage(struct CSetMissionMessage&);
+        void SetMissionObjectives(struct CMissionObjectives&);
+        void StoreMemberList(st6::vector<unsigned int>&);
 
-protected:
-    static st6::map<const unsigned int, CPlayerGroup*, st6::less<const unsigned int>, st6::allocator<CPlayerGroup*>> groupIdToGroupPtrMap;
-    static unsigned int groupId;
+    protected:
+        static st6::map<const unsigned int, CPlayerGroup*, st6::less<const unsigned int>, st6::allocator<CPlayerGroup*>> groupIdToGroupPtrMap;
+        static unsigned int groupId;
 
-public:
-    unsigned char data[OBJECT_DATA_SIZE];
+    public:
+        unsigned char data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT CShip : public CEqObj, public PhySys::Controller
@@ -3601,51 +3601,51 @@ struct IMPORT CShip : public CEqObj, public PhySys::Controller
         float get_time_to_accelerate(float, float, float, float, float) const;
         void recalculate_formation_speed();
 
-        DWORD dunno5[2]; // 106
-        uint speedPtr; // 108
+        DWORD dunno5[2];           // 106
+        uint speedPtr;             // 108
         CPlayerGroup* playerGroup; // 109
-        DWORD dunno6[7]; // 110
-        uint* followerArrayStart; // 117
-        uint* followerArrayEnd; // 118
+        DWORD dunno6[7];           // 110
+        uint* followerArrayStart;  // 117
+        uint* followerArrayEnd;    // 118
         uint dunno15;
-        IObjInspect* followLeader; // 120
-        DWORD dunno7; // 121
-        Vector followOffset; // 122
-        DWORD dunno8[5]; // 125
+        IObjInspect* followLeader;     // 120
+        DWORD dunno7;                  // 121
+        Vector followOffset;           // 122
+        DWORD dunno8[5];               // 125
         uint* targetedEnemyArrayStart; // 130
-        uint* targetedEnemyArrayEnd; //131
-        DWORD dunno11[3]; // 132
-        uint groupId; // 135
-        IObjInspect* targetId; // 136
-        DWORD dunno9; // 137
-        ushort subTargetId; // 138
-        DWORD BayAnim; // 139
-        CSteering* cSteering; // 140
-        DWORD dunno13[6]; // 141
-        Vector axisThrottle; // 147
-        CNudgeEngine* nudgeEngine; // 150
-        DWORD dunno10[6]; // 151
-        Vector nudgeVector; // 157
-        CStrafeEngine* strafeEngine; // 160
-        DWORD dunno12[5]; // 161
-        uint strafeDir; // 166
-        float throttle; // 167
-        float thrustPower; // 168
-        float maxThrustPower; // 169
-        uint dunno14; // 170
-        DWORD BayState; // 171
-        ActionDB* ActionDB; //172
-        uint dunnoCShip1; // 173
-        float tradeLaneSpeed; // 174
-        bool inTradeLane; // 175
-        bool gunRelatedBool; // has active guns?
-        float angularDragFactor; // 176
-        uint gunStatsDirty; //177
-        uint activeGunCount1; //178
-        float rectHeight; //179 no clue
-        float maxActiveGunRange1; //180
-        uint activeGunCount2; //181
-        float maxActiveGunRange2; //182 1-missiles 2-guns?
+        uint* targetedEnemyArrayEnd;   // 131
+        DWORD dunno11[3];              // 132
+        uint groupId;                  // 135
+        IObjInspect* targetId;         // 136
+        DWORD dunno9;                  // 137
+        ushort subTargetId;            // 138
+        DWORD BayAnim;                 // 139
+        CSteering* cSteering;          // 140
+        DWORD dunno13[6];              // 141
+        Vector axisThrottle;           // 147
+        CNudgeEngine* nudgeEngine;     // 150
+        DWORD dunno10[6];              // 151
+        Vector nudgeVector;            // 157
+        CStrafeEngine* strafeEngine;   // 160
+        DWORD dunno12[5];              // 161
+        uint strafeDir;                // 166
+        float throttle;                // 167
+        float thrustPower;             // 168
+        float maxThrustPower;          // 169
+        uint dunno14;                  // 170
+        DWORD BayState;                // 171
+        ActionDB* ActionDB;            // 172
+        uint dunnoCShip1;              // 173
+        float tradeLaneSpeed;          // 174
+        bool inTradeLane;              // 175
+        bool gunRelatedBool;           // has active guns?
+        float angularDragFactor;       // 176
+        uint gunStatsDirty;            // 177
+        uint activeGunCount1;          // 178
+        float rectHeight;              // 179 no clue
+        float maxActiveGunRange1;      // 180
+        uint activeGunCount2;          // 181
+        float maxActiveGunRange2;      // 182 1-missiles 2-guns?
 };
 
 struct IMPORT CSolar : public CEqObj
@@ -3734,25 +3734,25 @@ struct IMPORT CSolar : public CEqObj
         void init_continual_anim(const char*);
         void update_system_gate(float);
 
-        uint duplicatedSpaceID; //105
-        bool isDestructible; //106
+        uint duplicatedSpaceID; // 105
+        bool isDestructible;    // 106
         bool isDynamic;
-        float atmosphereRange; //107
-        uint solarLoadout_possiblyUnused; //108
-        uint jumpDestSystem; //109
-        uint jumpDestObj; //110
-        bool bDunnoSolar0; //111
-        uint iDunnoSolar1; //112 0xffffffff on all objects but Jump Gates (not JHs)?
-        uint iDunnoSolar2; //113
-        uint iDunnoSolar3; //114
-        uint iDunnoSolar4; //115
-        uint iDunnoSolar5; //116 Pointer of some sort, unknown
-        uint iDunnoSolar6; //117
-        uint prevTradeLaneRing; //118
-        uint nextTradeLaneRing; //119
-        uint tradeLaneSpaceName_unused; //120
-        uint visitValue; //121
-        uint parentNickname; //122
+        float atmosphereRange;            // 107
+        uint solarLoadout_possiblyUnused; // 108
+        uint jumpDestSystem;              // 109
+        uint jumpDestObj;                 // 110
+        bool bDunnoSolar0;                // 111
+        uint iDunnoSolar1;                // 112 0xffffffff on all objects but Jump Gates (not JHs)?
+        uint iDunnoSolar2;                // 113
+        uint iDunnoSolar3;                // 114
+        uint iDunnoSolar4;                // 115
+        uint iDunnoSolar5;                // 116 Pointer of some sort, unknown
+        uint iDunnoSolar6;                // 117
+        uint prevTradeLaneRing;           // 118
+        uint nextTradeLaneRing;           // 119
+        uint tradeLaneSpaceName_unused;   // 120
+        uint visitValue;                  // 121
+        uint parentNickname;              // 122
 };
 
 struct IMPORT CharPlaceInfo
