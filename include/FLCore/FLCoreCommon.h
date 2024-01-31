@@ -385,7 +385,7 @@ namespace Archetype
             /*  6 */ uint idsInfo;
             /*  7 */ float hitPoints;
             /*  8 */ float mass;
-            /*  9 */ int explosionArchId;
+            /*  9 */ uint explosionArchId;
             /* 10 */ float explosionResistance;
             /* 11x4 */ Vector rotationInertia;
             /* 14 */ bool hasRotationInertia;
@@ -834,7 +834,7 @@ namespace Archetype
         public:
             /* 32 */ float linearDrag;
             /* 33 */ float range;
-            /* 34 */ int diversionPercentage;
+            /* 34 */ float diversionPercentage;
     };
 
     struct IMPORT CounterMeasureDropper : Launcher
