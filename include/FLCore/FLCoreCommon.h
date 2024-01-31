@@ -4382,9 +4382,9 @@ struct GoodInfo
         uint i1;
         uint len;
         uint dunno1[16];
-        /* 72 */ uint archId;
+        /* 72 */ uint goodId;
         /* 76 */ Type type; // 0=commodity, 2=hull, 3=ship
-        /* 80 */ uint i3;
+        /* 80 */ uint equipmentId;
         /* 84 */ uint shipGoodId; // if type = GOODINFO_TYPE_HULL
         /* 88 */ float price;
         /* 92 */ float goodSellPrice;
