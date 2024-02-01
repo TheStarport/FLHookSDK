@@ -1,4 +1,4 @@
-﻿//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 //	Project FLCoreSDK v1.1, modified for use in FLHook Plugin version
 //--------------------------
 //
@@ -1269,6 +1269,8 @@ struct IMPORT BaseHint
         unsigned char data[OBJECT_DATA_SIZE];
 };
 
+// Basically this forms a linked list between BaseWatchers all pointing to the same Watchable object.
+// The Watchable object points to the last BaseWatcher which added it
 struct IMPORT BaseWatcher
 {
         BaseWatcher();
@@ -1279,8 +1281,9 @@ struct IMPORT BaseWatcher
     protected:
         void set_pointer(const Watchable*);
 
-    public:
-        unsigned char data[OBJECT_DATA_SIZE];
+public:
+	Watchable* watchable;
+	BaseWatcher* nextBaseWatcher;
 };
 
 namespace BehaviorTypes
@@ -5213,24 +5216,22 @@ namespace pub
                 Personality personality;
         };
 
-        struct IMPORT SetZoneBehaviorParams : public BaseOp
-        {
-                SetZoneBehaviorParams(const SetZoneBehaviorParams&);
-                SetZoneBehaviorParams();
-                virtual bool validate();
+		// Note: op_type of SetZoneBehaviorParams is 1, indicating that the enum has a different meaning for pub::AI::SubmitState
+		// Hex numbers behind dunno variables or in a comment indicate hex offset
+		struct IMPORT SetZoneBehaviorParams : public BaseOp
+		{
+			SetZoneBehaviorParams(struct SetZoneBehaviorParams const &);
+			SetZoneBehaviorParams(void);
+			virtual bool validate(void);
 
-                uint zoneType; // 0 = position, 2 = spaceobj
-                uint x10;      // 0
-                Vector vPosition;
-                uint spaceObj;
-                uint x24; // ??
-                uint x28; // ??
-                uint x2C; // ??
-                uint x30; // ??
-                uint x34; // ??
-                uint x38; // ??
-                float range;
-        };
+			uint iZoneType;     // 0 = position, 1 = cuboid 2 = spaceobj
+			uint iDunno_0x10;   // 0=?? 1=?? 2=delete user zone
+			Vector vPosition;   // only used for iZoneType 0
+			uint iSpaceObj;     // only used for iZoneType 2
+			Vector vBoxCorner1; // only used for iZoneType 1
+			Vector vBoxCorner2; // only used for iZoneType 1
+			float fRadius;      // not used for iZoneType 1
+		};
 
     }; // namespace AI
 
@@ -5256,6 +5257,9 @@ struct IMPORT IDirectiveInfo
         pub::AI::OpType op;
 };
 
+// Size: 460 bytes
+// Constructor e.g. sub_62D2220
+// Hex numbers behind dunno variables or in a comment indicate hex offset
 class IMPORT IBehaviorManager
 {
     public:
@@ -5310,8 +5314,47 @@ class IMPORT IBehaviorManager
         void update_current_behavior_throttle(float);
         void update_level_camera(bool);
 
-    public:
-        unsigned char data[OBJECT_DATA_SIZE];
+public:
+	int* vft;                        // 0x00
+	IStateGraph* stateGraphInternal; // 0x04
+	void* pDunno_0x08;
+	struct PathfindManager* pathfindManager; // 0x0C
+	int iDunnos_0x10[42];
+	int iEnabledManeuversFlag;     // 0xB8 - 0 = all enabled
+	bool bLockManeuvers;           // 0xBC
+	int iCurrentBehaviourIndex;    // 0xC0 - -1 when no behaviour, otherwise index of behaviourArray
+	IDirectiveInfo* directiveInfo; // 0xC4
+	int iDirectivePriority;        // 0xC8
+	int iDunno_0xCC;
+	float fDunno_0xD0;
+	float fDunno_0xD4;
+	byte bDunno54_0xD8;
+	float fDunno55_0xDC;
+	float fDunno56_0xE0;
+	float fDunno57_0xE4;
+	int iDunnos58_0xE8[2];
+	BaseWatcher baseWatcher; // 0xF0
+	byte bDunno62_0xF8;
+	bool bCameraLevelStatusFlag;                       // 0xF9
+	pub::AI::DirectiveCallback* directiveCallbacks[5]; // 0xFC
+	pub::AI::ContentCallback* contentCallback;         // 0x110
+	int iDunnos_0x114[7];
+	bool bDunno_0x130;
+	Vector shipUpDirection;   // 0x134
+	Vector cameraUpDirection; // 0x140
+	int iDunno_0x14C;
+	bool bUserTurningInputState;    // 0x150
+	IBehaviorCameraMode cameraMode; // 0x154
+	byte bDunno_0x158;
+	void* pDunno_0x15C;
+	int iDunnos_0x160;
+	float fTurnSensitivity; // 0x164
+	byte bDunno_0x168;
+	byte bDunno_0x169;
+	int iDunno_0x16C;
+	byte bDunno_0x170;
+	struct Behavior* behaviourArray[21]; // 0x174 - index 7 seems to be docking
+	byte bDunno_0x1C8;
 };
 
 struct IMPORT ICRSplineSegment
@@ -5419,11 +5462,6 @@ struct IMPORT IObjInspectImpl
 
     public:
         unsigned char data[OBJECT_DATA_SIZE];
-};
-
-struct IObjRW // : public IObjInspectImpl
-{
-        IObjInspectImpl* ship;
 };
 
 class IMPORT ImageNode
@@ -5737,14 +5775,72 @@ class IMPORT NewsBroadcastProperties
         unsigned char data[OBJECT_DATA_SIZE];
 };
 
+// Size: 1408 bytes
+// Constructor e.g. sub_62DB3B0
+// Hex numbers behind dunno variables or in a comment indicate hex offset
 struct IMPORT PathfindManager
 {
         void clear_user_zone();
         bool get_user_zone(struct UserZone&);
         void submit_user_zone(const UserZone&);
 
-    public:
-        unsigned char data[OBJECT_DATA_SIZE];
+public:
+	// size: 64 bytes
+	struct UserZone
+	{
+		int iZoneType;                // 0 = position, 1 = cuboid 2 = spaceobj
+		int iDunno_0x04;              // same as iDunno_0x10 from SetZoneBehaviorParams if iDunno_0x10 was 0 or 1
+		Vector vPosition;             // only used for iZoneType 0
+		float fRadius;                // not used for iZoneType 1
+		Matrix mDunno_0x18;           // pub::AI::SubmitState sets this to identiy when SetZoneBehaviorParams is used and iZoneType is 1
+		Vector vCuboidCenter;         // only used for iZoneType 1
+		Vector vCuboidHalfEdgeLength; // only used for iZoneType 1
+		int iSpaceObjId;              // only used for iZoneType 2
+	};
+	int iDunno_0x00;
+	int iDunno_0x04;
+	bool bHasUserZone; // 0x08
+	UserZone userZone; // 0x0C
+	int iDunnos_0x64[2];
+	int iDunnoStruct_0x6C[8]; // struct size 32 bytes
+	File* fileDunno_0x8C;
+	int iDunnos_0x90[62];
+	File* fileDunno_0x188;
+	int iDunnos_0x188[7];
+	float fDunno_0x1A8;
+	int iDunno_0x1AC;
+	byte bDunno_0x1B0;
+	int iDunnos_0x1B4[3];
+	IBehaviorManager* behaviorManager; // 0x1C0 - usually the one this one belongs to
+	int iDunno_0x1C4;
+	BaseWatcher baseWatcher_0x1C8;
+	int iDunnos_0x1D0[4];
+	float fDunno_0x1E0;
+	float fDunno_0x1E4;
+	float fDunno_0x1E8;
+	float fdunno_0x1EC;
+	int iDunno_0x1F0;
+	float fDunno_0x1F4;
+	float fDunno_0x1F8;
+	float fDunno_0x1FC;
+	int iDunnos_0x1F8[3];
+	float fDunno_0x20C;
+	float fDunno_0x210;
+	int iDunno_0x214;
+	BaseWatcher baseWatcher_0x218;
+	int iDunnos_0x220[6];
+	byte bDunno_0x238;
+	float fDunno_0x23C;
+	int iDunno_0x240;
+	byte bDunno_0x244;
+	byte bDunno_0x245;
+	int iDunno_0x248;
+	byte bDunno_0x24C;
+	int iDunno_0x250;
+	byte bDunno_0x254;
+	int iDunno_0x258[3];
+	byte bDunno_0x260;
+	int iDunnos_0x264[198];
 };
 
 class IMPORT PetalInterfaceDatabase
@@ -6716,6 +6812,8 @@ namespace TurnHelper
     IMPORT Vector get_angular_throttle(const Matrix&, const Matrix&, float*);
 };
 
+// The newestBaseWatcher pointer seems sometimes to be used with the address it points to -8 bytes to get the object
+// This indicates it is probably some compiler construct
 struct IMPORT Watchable
 {
         Watchable();
@@ -6723,8 +6821,8 @@ struct IMPORT Watchable
         Watchable& operator=(const Watchable&);
         unsigned int unwatch();
 
-    public:
-        unsigned char data[OBJECT_DATA_SIZE];
+public:
+	BaseWatcher* newestBaseWatcher; // The last basewatcher set to watch this
 };
 
 class IMPORT XMLReader
@@ -6804,9 +6902,51 @@ namespace Geometry
     struct Sphere;
 }; // namespace Geometry
 
-IMPORT bool operator!=(struct CHARACTER_ID const&, CHARACTER_ID const&);
-IMPORT bool operator!=(const Rect&, const Rect&);
-IMPORT bool operator<(CHARACTER_ID const&, CHARACTER_ID const&);
+// Constructor seems to be e.g. sub_6D02B70
+// Size: 144 bytes
+// IObjInspectImpl is probably similar, but with different vfts
+// Hex numbers behind dunno variables or in a comment indicate hex offset
+struct IObjRW // : public IObjInspectImpl
+{
+	int* vft;
+	int* vftDunno_0x04;
+	Watchable watchable; // 0x08
+	int* vftDunno_0x0C;
+	CObject* cObject; // 0x10 - the cobject which is being inspected / modified
+	byte bDunno_0x14;
+	void* pDunno_0x18; // struct size: 12 bytes
+	int iDunnos_0x1C[4];
+	byte bDunno_0x2C;
+	void* pDunno_0x30; // struct size: 20 bytes
+	int iDunno_0x34;
+	byte bDunno_0x38;
+	byte bDunno_0x39;
+	float fDunno_0x3C;
+	byte bDunno_0x40;
+	byte bDunno_041;
+	byte bAlign_0x42; // probably not used
+	byte bAlign_0x43; // probably not used
+	byte bDunno_0x44;
+	void* pDunno_0x48; // struct size: 20 bytes
+	int iDunno_0x4C;
+	byte bDunno_0x50;
+	int iDunnos_0x54[3];
+	byte bDunno_0x60;
+	void* pDunno_0x64; // struct size: 16 bytes
+	int iDunnos_0x68[2];
+	byte bDunno_0x70;
+	void* pDunno_0x74; // struct size: 12 bytes
+	int iDunno_0x78;
+	byte bDunno_0x7C;
+	void* pDunno_0x80; // struct size: 68 bytes
+	int iDunno_0x84;
+	byte bDunno_0x88;
+	int iDunno_0x8C;
+};
+
+IMPORT bool  operator!=(struct CHARACTER_ID const &,struct CHARACTER_ID const &);
+IMPORT bool  operator!=(struct Rect const &,struct Rect const &);
+IMPORT bool  operator<(struct CHARACTER_ID const &,struct CHARACTER_ID const &);
 
 IMPORT void AppendMissionLogData(const FmtStr*, unsigned char*&, int&, int);
 IMPORT unsigned int Arch2Good(unsigned int);
