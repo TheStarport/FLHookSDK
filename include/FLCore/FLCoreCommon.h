@@ -7138,48 +7138,6 @@ namespace Geometry
     struct Sphere;
 }; // namespace Geometry
 
-// Constructor seems to be e.g. sub_6D02B70
-// Size: 144 bytes
-// IObjInspectImpl is probably similar, but with different vfts
-// Hex numbers behind dunno variables or in a comment indicate hex offset
-struct IObjRW // : public IObjInspectImpl
-{
-	int* vft;
-	int* vftDunno_0x04;
-	Watchable watchable; // 0x08
-	int* vftDunno_0x0C;
-	CObject* cObject; // 0x10 - the cobject which is being inspected / modified
-	byte bDunno_0x14;
-	void* pDunno_0x18; // struct size: 12 bytes
-	int iDunnos_0x1C[4];
-	byte bDunno_0x2C;
-	void* pDunno_0x30; // struct size: 20 bytes
-	int iDunno_0x34;
-	byte bDunno_0x38;
-	byte bDunno_0x39;
-	float fDunno_0x3C;
-	byte bDunno_0x40;
-	byte bDunno_041;
-	byte bAlign_0x42; // probably not used
-	byte bAlign_0x43; // probably not used
-	byte bDunno_0x44;
-	void* pDunno_0x48; // struct size: 20 bytes
-	int iDunno_0x4C;
-	byte bDunno_0x50;
-	int iDunnos_0x54[3];
-	byte bDunno_0x60;
-	void* pDunno_0x64; // struct size: 16 bytes
-	int iDunnos_0x68[2];
-	byte bDunno_0x70;
-	void* pDunno_0x74; // struct size: 12 bytes
-	int iDunno_0x78;
-	byte bDunno_0x7C;
-	void* pDunno_0x80; // struct size: 68 bytes
-	int iDunno_0x84;
-	byte bDunno_0x88;
-	int iDunno_0x8C;
-};
-
 IMPORT bool  operator!=(struct CHARACTER_ID const &,struct CHARACTER_ID const &);
 IMPORT bool  operator!=(struct Rect const &,struct Rect const &);
 IMPORT bool  operator<(struct CHARACTER_ID const &,struct CHARACTER_ID const &);
