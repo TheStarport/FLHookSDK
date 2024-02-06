@@ -98,6 +98,13 @@ struct IMPORT ID_String
         unsigned char data[128];
 };
 
+struct IObjInspect
+{
+    struct CargoEnumerator {};
+    struct SubtargetEnumerator {};
+    IObjInspectImpl* iObjInspectImpl;
+};
+
 struct IMPORT ActionDB
 {
         ActionDB();
@@ -308,7 +315,7 @@ namespace Archetype
     class IMPORT FuseIgnitionList
     {
         public:
-            unsigned char data[OBJECT_DATA_SIZE];
+            uint dunno[4];
     };
 
     enum class ClassType
@@ -549,6 +556,36 @@ namespace Archetype
             /* 38 */ uint cloakOutFxId;
     };
 
+
+    struct IMPORT DamageObjInfo
+    {
+        DamageObjInfo(const DamageObjInfo&);
+        DamageObjInfo();
+        DamageObjInfo& operator=(const DamageObjInfo&);
+        bool operator==(const DamageObjInfo&) const;
+        bool operator!=(const DamageObjInfo&) const;
+        bool operator<(const DamageObjInfo&) const;
+        bool operator>(const DamageObjInfo&) const;
+
+    public:
+        unsigned char data[OBJECT_DATA_SIZE];
+    };
+
+    class IMPORT DamageObjInfoList
+    {
+    public:
+        DamageObjInfoList(const DamageObjInfoList&);
+        DamageObjInfoList();
+        ~DamageObjInfoList();
+        DamageObjInfoList& operator=(const DamageObjInfoList&);
+        bool IsValid();
+
+    public:
+        bool dunno1;
+        void* dunnoPtr; // 16 byte size
+        uint dunno2;
+    };
+
     struct IMPORT CollisionGroup
     {
             CollisionGroup(const CollisionGroup&);
@@ -572,8 +609,9 @@ namespace Archetype
             uint separationExplosionArch;
             uint debrisTypeArch;
             float explosionResistance;
-            uint dunno1[6]; // 64 something about dmg_hp, dmg_obj, group_dmg_hp and group_dmg_obj
-            uint dunno[4];  // 88 something about fuses
+            DamageObjInfoList parentDmgObjInfoList;
+            DamageObjInfoList groupDmgObjsInfoList;
+            FuseIgnitionList FuseIgnitionList;
             EquipmentClass linkedEquipType;
             float linkedEquipDamage;
     };
@@ -598,32 +636,6 @@ namespace Archetype
             /* 30 */ uint podAppearanceId;
     };
 
-    struct IMPORT DamageObjInfo
-    {
-            DamageObjInfo(const DamageObjInfo&);
-            DamageObjInfo();
-            DamageObjInfo& operator=(const DamageObjInfo&);
-            bool operator==(const DamageObjInfo&) const;
-            bool operator!=(const DamageObjInfo&) const;
-            bool operator<(const DamageObjInfo&) const;
-            bool operator>(const DamageObjInfo&) const;
-
-        public:
-            unsigned char data[OBJECT_DATA_SIZE];
-    };
-
-    class IMPORT DamageObjInfoList
-    {
-        public:
-            DamageObjInfoList(const DamageObjInfoList&);
-            DamageObjInfoList();
-            ~DamageObjInfoList();
-            DamageObjInfoList& operator=(const DamageObjInfoList&);
-            bool IsValid();
-
-        public:
-            unsigned char data[OBJECT_DATA_SIZE];
-    };
 
     struct IMPORT DynamicAsteroid : Root
     {
@@ -659,6 +671,14 @@ namespace Archetype
             /* 34 */ float reverseFraction;
     };
 
+    struct Effect
+    {
+        Effect* prevEffect;
+        Effect* nextEffect;
+        uint archId;
+        float lifetime; // -1.0 if skipped in config
+    };
+
     struct IMPORT Explosion
     {
             Explosion(const Explosion&);
@@ -674,7 +694,26 @@ namespace Archetype
             /*  2 */ float impulse;
             /*  3 */ float hullDamage;
             /*  4 */ float energyDamage;
-            // and some other stuff
+
+            /*  5 */ uint processType;
+            /*  6 */ float lifetime;
+            /*  7 */ float lifetime2;
+            /*  8 */ bool hasValidId;
+            /*  9 */ Effect* effectPtr;
+            /*  10 */ uint* dunno2;
+            /*  11 */ float childNumPieces;
+            /*  12 */ float debrisImpulse;
+            /*  13 */ float innardsDebrisStartTime;
+            /*  14 */ float innardsDebrisNum;
+            /*  15 */ float innardsDebrisRadius;
+            /*  16 */ bool hasValidId2;
+            /*  17 */ uint* dunno4;
+            /*  18 */ IObjInspect* innardsDebrisObject;
+            /*  19 */ uint* dunno5;
+            /*  20 */ bool hasValidId3;
+            /*  21 */ uint* dunno6;
+            /*  22 */ uint* dunno7;
+            /*  23 */ uint* dunno8;
     };
 
     struct IMPORT MotorData
@@ -1367,6 +1406,15 @@ enum class DamageCause
     Admin = 0x18
 };
 
+struct ExplosionDamageEvent
+{
+    uint victimId;
+    uint attackerId;
+    DamageCause dmgCause;
+    Vector explosionPosition;
+    Archetype::Explosion* explosionArchetype;
+};
+
 struct IMPORT DamageList
 {
         DamageList(const DamageList&);
@@ -1441,7 +1489,17 @@ class IMPORT CArchGroup
         void LoadDamageObjs();
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        /* 0  */ CEqObj* owner;
+        /* 1  */ Archetype::CollisionGroup* colGrp;
+        /* 2  */ int rootIndex;
+        /* 3  */ float hitPts;
+        /* 4  */ uint dunno;
+        /* 5  */ uint state;
+        /* 6  */ DamageEntry::SubObjFate fate;
+        /* 7  */ CObject* destroyedObj;
+        /* 8  */ bool boundingSphereInitialized;
+        /* 9  */ float boundingSphereRadius;
+        /* 10 */ Vector boundingSphere;
 };
 
 class IMPORT CArchGroupManager
@@ -2356,13 +2414,15 @@ class IMPORT CEquip
         void Notify(INotify::Event, void*);
         void NotifyDisconnecting(INotify*);
 
-        CEqObj* owner;
-        unsigned int SubObjId;
-        Archetype::Equipment* archetype;
-        void* data2[2]; // 0x10 - 0x14
-        void* customWrapperClass;
-        void* customWrapperClass2;
-        char* mountedHardpoint;
+        /* 1 */ CEqObj* owner;
+        /* 2 */ ushort SubObjId;
+        /* 3 */ Archetype::Equipment* archetype;
+        /* 4 */ bool isActive;
+                bool isDestroyed;
+                bool isTemporary;
+        /* 5 */ EquipmentClass CEquipType;
+        /* 6 */ void* customWrapperClass2;
+        /* 7 */ char* dunno;
 };
 
 class IMPORT CInternalEquip : public CEquip
@@ -2387,20 +2447,23 @@ class IMPORT CExternalEquip : public CEquip
         virtual bool GetEquipDesc(EquipDesc&) const;
         virtual void Destroy();
         virtual bool GetConnectionPosition(Vector*, Matrix*) const;
-        virtual bool IsConnected() const;
-        virtual bool Connect(const char*);
-        virtual CacheString GetParentHPName() const;
-        virtual long GetParentConnector(bool) const;
-        virtual bool GetHardPointInfo(struct HardpointInfo&) const;
-        virtual bool GetVelocity(Vector&) const;
-        virtual bool GetCenterOMass(Vector&) const;
-        virtual void Disconnect();
+        virtual bool IsConnected() const;                               //88
+        virtual bool Connect(const char*);                              //92
+        virtual CacheString GetParentHPName() const;                    //96
+        virtual long GetParentConnector(bool) const;                    //100
+        virtual bool GetHardPointInfo(struct HardpointInfo&) const;     //104
+        virtual bool GetVelocity(Vector&) const;                        //108
+        virtual bool GetCenterOMass(Vector&) const;                     //112
+        virtual void Disconnect();                                      //116
 
         static CExternalEquip* cast(CEquip*);
         static const CExternalEquip* cast(const CEquip*);
 
         CExternalEquip(const CExternalEquip&);
         CExternalEquip(unsigned int, CEqObj*, unsigned short, const Archetype::Equipment*, bool);
+
+        /* 8 */ char* mountedHardpoint;
+        /* 9 */ long parentConnector;
 };
 
 class IMPORT CAttachedEquip : public CExternalEquip
@@ -2415,12 +2478,12 @@ class IMPORT CAttachedEquip : public CExternalEquip
         virtual bool GetVelocity(Vector&) const;
         virtual bool GetCenterOMass(Vector&) const;
         virtual void Disconnect();
-        virtual int GetToughness() const;
-        virtual bool GetRadius(float&) const;
-        virtual bool IsInstOnEquip(long) const;
-        virtual long GetRootIndex() const;
-        virtual void SetFate(DamageEntry::SubObjFate);
-        virtual void ComputeBoundingSphere(float&, Vector&) const;
+        virtual int GetToughness() const;                               //120
+        virtual bool GetRadius(float&) const;                           //124
+        virtual bool IsInstOnEquip(long) const;                         //128
+        virtual long GetRootIndex() const;                              //132
+        virtual void SetFate(DamageEntry::SubObjFate);                  //136
+        virtual void ComputeBoundingSphere(float&, Vector&) const;      //140
 
         static CAttachedEquip* cast(CEquip*);
         static const CAttachedEquip* cast(const CEquip*);
@@ -2432,7 +2495,13 @@ class IMPORT CAttachedEquip : public CExternalEquip
         CObject* RetrieveDebrisObject();
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        /* 10 */ void* physicsPtr; // either CPhysAttachment::`vftable' or CNonPhysAttachment::`vftable'
+        /* 11 */ CObject debrisObject;
+        /* 12 */ float hitPts;
+        /* 13 */ DamageEntry::SubObjFate fate;
+        /* 14 */ bool isBoundingSphereInitialized;
+        /* 15 */ float boundingSphereRadius;
+        /* 16-19 */ Vector boundingSphere;
 };
 
 enum class FireResult
@@ -2610,8 +2679,8 @@ class IMPORT CECargo : public CInternalEquip
         virtual void Destroy();
         virtual float GetHitPoints() const;
         virtual void SetHitPoints(float);
-        virtual unsigned int GetType() const;
-        virtual void Init(float, unsigned int, const CacheString&);
+        virtual unsigned int GetType() const;                       //88
+        virtual void Init(float, unsigned int, const CacheString&); //92
 
         static CECargo* cast(CEquip*);
         static const CECargo* cast(const CEquip*);
@@ -3132,7 +3201,7 @@ struct IMPORT CEqObj : public CSimple
         uint voiceId; // 79
         float cloakPercentage; // 80
         CArchGroupManager archGroupManager; // 81
-        uint iDunnoEqObj22; // 87 some sort of flag?
+        bool isCELauncher; // 87 sub_6CEA4A0 casts eq to CELauncher only if this is true
         uint dockTargetId; // 88
         IObjInspectImpl* dockTargetIObj; // 89
         uint iDunnoEqObj23; // 90
@@ -3439,13 +3508,6 @@ struct IObject
             ThrustEquipType_Nudge = 3,
             ThrustEquipType_Cruise = 4
         };
-};
-
-struct IObjInspect
-{
-    struct CargoEnumerator {};
-    struct SubtargetEnumerator {};
-    IObjInspectImpl* iObjInspectImpl;
 };
 
 enum class BayState
@@ -5574,68 +5636,68 @@ struct IObjRWAbstract
     virtual const CObject* cobject() const;                                                                         //336
     virtual ObjectType get_object_type() const;                                                                     //340
     
-    virtual bool ShipDestroyed(bool isKill, uint dunno); // NakedShipDestroyed                                      //344
-    virtual int Disconnect();                                                                                       //348
-    virtual bool get_dunno_0x40();                                                                                  //352
-    virtual int instantiate_cship(Archetype::Root* archPtr);                                                        //356
-    virtual bool set_cship(uint shipId);                                                                            //360
+    virtual bool ShipDestroyed(bool isKill, uint dunno); // NakedShipDestroyed                                      //344 sub_6CE8080
+    virtual int Disconnect();                                                                                       //348 sub_6CE7C80
+    virtual bool get_dunno_0x40();                                                                                  //352 sub_6CEE6D0
+    virtual int instantiate_cship(Archetype::Root* archPtr);                                                        //356 sub_6D01040
+    virtual bool set_cship(uint shipId);                                                                            //360 sub_6D010A0
     virtual void sub_6D01450();                                                                                     //364
     virtual void sub_6D01A60();                                                                                     //368
     virtual int  sub_6CEE810(void* PhySys_unk); // physics collsion handling?                                       //372
     virtual void sub_6CEE980(int dunno); // Behavior interface update?                                              //376
-    virtual void sub_6CE9250();                                                                                     //380
-    virtual void sub_6CE9350();                                                                                     //384
-    virtual void sub_6CE9500();                                                                                     //388
+    virtual void sub_6CE9250(void* unk, DamageList*);                                                               //380
+    virtual void sub_6CE9350(void* unk, DamageList*);                                                               //384
+    virtual void process_all_explosion_damage(ExplosionDamageEvent*, DamageList*); // calls methods 508-520         //388
     virtual void sub_6D01A10();                                                                                     //392
     virtual bool get_dunno_0x41();                                                                                  //396
     virtual void sub_6CEEFA0();                                                                                     //400
     virtual void sub_6CEF0F0();                                                                                     //404
-    virtual bool get_dunno_0x39();                                                                                  //408
-    virtual bool get_dunno_0x38();                                                                                  //412
-    virtual float get_dunno_0x3C();                                                                                 //416
-    virtual void sub_6CEE9F0(); // collision damage?                                                                //420
-    virtual void sub_6CEB210(); // apply damage to collision group?                                                 //424
+    virtual bool is_player_vulnerable();                                                                            //408 sub_6CE61A0
+    virtual bool is_invulnerable();                                                                                 //412 sub_6CE61B0
+    virtual float get_dunno_0x3C(); //hitpoint % related?                                                           //416 sub_6CE61C0
+    virtual bool process_collision_unk(void*); // unknown data type, an object containing a IObjRW as 2nd element?? //420 sub_6CEE9F0
+    virtual CArchGroup* sethp_unk(DamageList*, float); // set relative hp to all eq and colgrps to provided float?  //424 sub_6CEB210
     virtual int set_relative_health(float newHp);                                                                   //428
-    virtual void sub_6CEA3A0(); // NakedDamageHit                                                                   //432
-    virtual void sub_6CEEF70(); // set_hit_pts? not sure                                                            //436
-    virtual bool sub_6CEF0B0(void* unk); // invokes get_dunno_0x39 and 0x38                                         //440
+    virtual bool damage_hull(float, DamageList*); // NakedDamageHit                                                 //432 sub_6CEA3A0
+    virtual void apply_damage_entry(DamageEntry*);                                                                  //436 sub_6CEEF70
+    virtual bool can_deal_damage(DamageList*); // invokes get_dunno_0x39 and 0x38                                   //440 sub_6CEF0B0
     virtual void sub_6CE7D00(); // collision groups, sets off fuses?                                                //444
     virtual void sub_6CE8C50(); // damage dealing method, sets off death animation?                                 //448
     virtual void sub_6CE8D40(); // same as above, but for collision groups                                          //452
     virtual void sub_6CE8CD0(); // collision group related                                                          //456
     virtual void sub_6CE8E90(); // hardpoint eq related                                                             //460
     virtual void sub_6CE8E10(); // hardpoint eq related                                                             //464
-    virtual bool sub_6CE8F50(); // iterate over cargo, dunno                                                        //468
-    virtual void sub_6CE91E0(); // possibly recharge shields bubbles (not shield generator)                         //472
+    virtual bool sub_6CE8F50(char const*, DamageList*); // iterate over cargo, dunno                                //468
+    virtual bool hit_shield_bubble(DamageList*);                                                                    //472
     virtual void sub_6CE88D0(); // iterate over all equipped equipment and run an update?                           //476
-    virtual void sub_6CE8930();                                                                                     //480
-    virtual bool PlayComm(uint dunno, ID_String fuse, ushort sId, uint dunno2, float dunno3);                       //484
-    virtual void sub_6CEC7F0(); // unburn a fuse?                                                                   //488
-    virtual void sub_6CEC8D0(); // fuse expiration check?                                                           //492
-    virtual void death_explosion();                                                                                 //496
+    virtual void sub_6CE8930(); // processes values under 0x74 and 0x78 pointers                                    //480
+    virtual bool light_fuse(uint dunno, ID_String fuse, ushort sId, float radius, float fuseLifetime);              //484 sub_6D01A90
+    virtual bool unlight_fuse_unk(uint fuseId, ushort sid, float lifeTime);                                         //488 sub_6CEC7F0
+    virtual bool fuse_expiration_check();                                                                           //492 sub_6CEC8D0
+    virtual void death_explosion();                                                                                 //496 sub_6CE8400
     virtual void sub_6D01C90();                                                                                     //500
     virtual void sub_6CE8760();                                                                                     //504
-    virtual void deal_explosion_damage_hull(Archetype::Explosion* explosion, DamageList* dmg); // types are guessed //508
-    virtual const CArchGroup* deal_explosion_damage_external_equip(Archetype::Explosion* explosion, DamageList* dmg);//512
-    virtual bool deal_explosion_damage_hull2(Archetype::Explosion* explosion, DamageList* dmg); // NakedGuidedHit   //516
-    virtual void deal_explosion_damage_energy(Archetype::Explosion* explosion, DamageList* dmg);                    //520
-    virtual void deal_gun_damage_shield(CEShield* shield, Archetype::Munition* munition, DamageList* dmg);          //524
-    virtual void sub_6CEA4A0(); // damage related                                                                   //528
-    virtual void sub_6CEA740(); // NakedDamageHit2                                                                  //532
-    virtual void sub_6CEAA80(); // deal damage to collision group                                                   //536
-    virtual bool sub_6CEAFC0(float energyDamage, DamageList* dmg); // deal energy damage                            //540
-    virtual void sub_6CEA9F0(); // handle collision group death, deal parent damage                                 //544
-    virtual void sub_6CE9F70(uint dunno1, uint dunno2, DamageList* dmg); // handle visit mapping/radiation damage?  //548
-    virtual int sub_6CE9C50(uint dunno1, DamageCause unk, DamageList* dmg); // calls function above for gun damage? //552
-    virtual void deal_colgrp_linked_damage(CArchGroup* colGrp, int unk);                                            //556
-    virtual void sub_6CEAEA0(); // colgrp update method checking for lost equipment? idk.                           //560
-    virtual void sub_6CEB550(); // AI and HP related, change behavior on HP loss?                                   //564
-    virtual void sub_6CEB7B0(); // AI use equipment, bots+bats                                                      //568
-    virtual void sub_6CEBD40(); // AI update behavior manager?                                                      //572
-    virtual void sub_6CEBA40(); // AI update on collision group damage?                                             //576
-    virtual void sub_6CEBE80();                                                                                     //580
-    virtual bool sub_6CEC260(CAttachedEquip* attachedEq); // equipment related, always returns true                 //584
-    virtual void process_perishable_cargo(float deltaTime);                                                         //588
+    virtual void process_explosion_damage_hull(ExplosionDamageEvent* explosion, DamageList* dmgList);               //508 sub_6CE9550
+    virtual const CArchGroup* process_explosion_damage_external_equip_and_col_grps(ExplosionDamageEvent* explosion, DamageList* dmgList);//512 sub_6CE9690
+    virtual bool process_explosion_damage_shield_bubble(ExplosionDamageEvent* explosion, DamageList* dmgList); // NakedGuidedHit   //516 sub_6CE9A90
+    virtual void process_explosion_damage_energy(ExplosionDamageEvent* explosion, DamageList* dmgList);             //520 sub_6CE9940
+    virtual void damage_shield(CEShield* shield, Archetype::Munition* munition, DamageList* dmgList);               //524 sub_6CE94B0
+    virtual bool damage_ext_eq(CEquip* eq, float dmgDealt, DamageList* dmgList);                                    //528 sub_6CEA4A0
+    virtual bool damage_general(IObjInspectImpl* target, float dmg, DamageList* dmgList); // NakedDamageHit2        //532 sub_6CEA740
+    virtual bool damage_col_grp(CArchGroup*, float, DamageList*);                                                   //536 sub_6CEAA80
+    virtual bool damage_energy(float energyDamage, DamageList* dmgList); // deal energy damage                      //540 sub_6CEAFC0
+    virtual void col_grp_death(CArchGroup*, DamageEntry::SubObjFate, DamageList*);                                  //544 sub_6CEA9F0
+    virtual void cequip_death(CEquip* eq, DamageEntry::SubObjFate fate, DamageList* dmgList);                       //548 sub_6CE9F70
+    virtual void unk_death(void* dunno1, DamageEntry::SubObjFate fate, DamageList* dmgList);                        //552 sub_6CE9C50
+    virtual EquipmentClass deal_colgrp_linked_damage(CArchGroup* colGrp, DamageList* dmgList);                      //556 sub_6CEADC0
+    virtual const CArchGroup* sub_6CEAEA0_unk(CArchGroup* colGrp, DamageList* dmgList); // colgrp update method checking for lost equipment? idk. //560 sub_6CEAEA0
+    virtual void AI_react_to_hull_dmg(DamageList*, DamageEntry*);                                                   //564 sub_6CEB550
+    virtual void AI_react_to_equip_dmg(DamageList*, DamageEntry*);                                                  //568 sub_6CEB7B0
+    virtual void AI_react_to_energy_dmg(DamageList*, DamageEntry*);                                                 //572 sub_6CEBD40
+    virtual void AI_react_to_colgrp_dmg(DamageList*, DamageEntry*);                                                 //576 sub_6CEBA40
+    virtual void sub_6CEBE80();                                                                                     //580 sub_6CEBE80
+    virtual bool sub_6CEC260(CAttachedEquip* attachedEq); // equipment related, always returns true, can't trigger  //584 sub_6CEC260
+    virtual void process_perishable_cargo(float deltaTime);                                                         //588 sub_6CEC910 
 
 };
 
@@ -5683,31 +5745,34 @@ struct IObjRW : public IObjRWAbstract, public CShipAbstract
     IObjInspectImpl iObjInspectImpl;
     byte bDunno_0x14;
     void* pDunno_0x18; // struct size: 12 bytes
-    int iDunnos_0x1C[4];
+    int iDunnos_0x1C; // length of 0x1C
+    double timer;
+    int iDunnos_0x28;// last element has something to do with fuses
     byte bDunno_0x2C;
     void* pDunno_0x30; // struct size: 20 bytes
-    int iDunno_0x34;
-    byte bDunno_0x38;
-    byte bDunno_0x39;
-    float fDunno_0x3C;
+    int iDunno_0x34; // length of 0x30
+    byte isInvulnerable; // not entirely sure on those two
+    byte isPlayerVulnerable;
+    float fDunno_0x3C; // hitpoint related?
     byte bDunno_0x40;
     byte bDunno_041;
     byte bAlign_0x42; // probably not used
     byte bAlign_0x43; // probably not used
     byte bDunno_0x44;
     void* pDunno_0x48; // struct size: 20 bytes
-    int iDunno_0x4C;
+    int iDunno_0x4C; // size of 0x48
     byte bDunno_0x50;
     int iDunnos_0x54[3];
     byte bDunno_0x60;
     void* pDunno_0x64; // struct size: 16 bytes
-    int iDunnos_0x68[2];
+    int iDunnos_0x68; // 0x64 size
+    float fdunno_0x6C;
     byte bDunno_0x70;
-    void* pDunno_0x74; // struct size: 12 bytes
-    int iDunno_0x78;
+    void* pDunno_0x74; // struct size: 12 bytes onedirectional list that loops
+    int iDunno_0x78; // length of 0x74 chain
     byte bDunno_0x7C;
-    void* pDunno_0x80; // struct size: 68 bytes
-    int iDunno_0x84;
+    void* pDunno_0x80; // struct size: 68 bytes list of fuses?
+    int iDunno_0x84; // 0x80 length
     byte bDunno_0x88; // flagged on ShipDestroyed
     int iDunno_0x8C;
 };
