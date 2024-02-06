@@ -150,8 +150,7 @@ struct XFireWeaponInfo
 {
         uint object;
         Vector target;
-        uint dunno;
-        st6::list<ushort> hpIds;
+        st6::vector<ushort> hpIds;
 };
 
 struct XCollision
