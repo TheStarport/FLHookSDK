@@ -2238,13 +2238,30 @@ struct IMPORT CObject : public EngineObject
 
         Class objectClass; // 19
         uint system;       // 20
-        uint dunnoCObject; // 21, relates to all PhySys calls
+        uint dunnoCObject; // 21, relates to all PhySys calls, PhySys calls only occur if this value is nonzero
         struct SurfaceExtents
         {
                 uint dunno[2];
                 Vector min, max;
         };
         SurfaceExtents* surf; // 22
+
+        uint dunnoCObject2; // 23 Parts related
+        uint dunnoCObject3; // 24
+        bool dunnoCObject4; // 25
+        uint dunnoCObjectShield1; // 26 maybe just Parts related
+        uint dunnoCObjectShield2; // 27
+        uint dunnoCObject5; // 28
+        uint dunnoCObject6; // 29
+        bool dunnoCObject7; // 30
+        void* unkListCObj; // 31 twodirectional list containing a single value
+        uint unkListSize;  // 32
+        PhySys::PhyCollisionStateManager* colStateManager; // 33
+        Archetype::Root* archetype; // 34
+        uint dunnoCObject8; // 35
+        void* unkListCObj2; // 36 used in CObject::advise
+        uint unkList2Size;  // 37
+        uint referenceCounter; // 38
 };
 
 struct IMPORT CSimple : public CObject
@@ -2286,9 +2303,7 @@ struct IMPORT CSimple : public CObject
         unsigned int get_type() const;
         void update_zones(float, unsigned int);
 
-        uint dunnoCSimple1[0xB]; // 23
-        Archetype::Root* archetype; // 34
-        uint dunnoCSimple2[0x5]; // 35
+        uint dunnoCSimple;    // 39
         uint dunnoTargetable; // 40
         uint dunnoScanner;    // 41
         uint dunnoCSimple3;   // 42
@@ -3820,20 +3835,20 @@ struct IMPORT CSolar : public CEqObj
         void init_continual_anim(const char*);
         void update_system_gate(float);
 
-        uint duplicatedSpaceID; // 105
-        bool isDestructible;    // 106
+        uint duplicatedSpaceID;           // 105
+        bool isDestructible;              // 106
         bool isDynamic;
         float atmosphereRange;            // 107
         uint solarLoadout_possiblyUnused; // 108
         uint jumpDestSystem;              // 109
         uint jumpDestObj;                 // 110
-        bool bDunnoSolar0;                // 111
-        uint iDunnoSolar1;                // 112 0xffffffff on all objects but Jump Gates (not JHs)?
-        uint iDunnoSolar2;                // 113
-        uint iDunnoSolar3;                // 114
-        uint iDunnoSolar4;                // 115
-        uint iDunnoSolar5;                // 116 Pointer of some sort, unknown
-        uint iDunnoSolar6;                // 117
+        bool animationBool;               // 111
+        uint animationId;                 // 112
+        uint animationStateEnum;          // 113
+        float animDuration;               // 114
+        CObject::Class CSolarClass;       // 115
+        void* dunnoListPtr;               // 116 Pointer to two-directional list, individual size 0xC, so only 1 value being kept aside from the prev and next pointers
+        uint dunnoListLength;             // 117 length of 116
         uint prevTradeLaneRing;           // 118
         uint nextTradeLaneRing;           // 119
         uint tradeLaneSpaceName_unused;   // 120
