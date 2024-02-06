@@ -434,6 +434,23 @@ struct CHARACTER_ID final
         char charFilename[512]; // Only first 16 bytes are ever used
 };
 
+struct VisitEntry
+{
+        uint visitValue;
+};
+
+template <>
+inline void BinarySearchTree<VisitEntry>::Insert(uint key, VisitEntry value)
+{
+    static DWORD server = DWORD(GetModuleHandleA("server.dll"));
+    using sub_6D5C600Type = int(__thiscall*)(BinarySearchTree * ptr, uint * u, uint * state);
+    static auto sub_6D5C600 = sub_6D5C600Type(server + 0x7C600);
+
+    uint v166[6];
+    uint input[2] = { key, value.visitValue };
+    sub_6D5C600(this, v166, input);
+}
+
 struct PlayerData
 {
         wchar_t accId[40];
@@ -468,7 +485,7 @@ struct PlayerData
         uint dunno1[2];
         int* SPNeuralNetLogUnk;
         int interfaceState;
-        BinarySearchTree<uint> visitEntries;
+        BinarySearchTree<VisitEntry> visitEntries;
         uint dunno2[4]; // last one seems to always be zero
         float difficulty;
         ushort lastEquipId;

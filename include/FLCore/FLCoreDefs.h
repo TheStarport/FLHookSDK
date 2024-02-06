@@ -17,60 +17,91 @@
 
 #define OBJECT_DATA_SIZE 2048
 
-template <typename ValType>
-struct BinarySearchTree
+template <typename T>
+struct BinarySearchTree;
+
+template <typename T>
+struct Node
 {
-        struct Node;
+        Node* prev;
+        Node* left;
+        Node* right;
+        unsigned int key;
+        T value;
+        bool unknown;
+        bool isEnd;
 
-        typedef Node* NodePtr;
-
-        struct Node
+        class Iterator
         {
-                NodePtr prev;
-                NodePtr left;
-                NodePtr right;
-                unsigned int key;
-                ValType value;
-                bool unknown;
-                bool isEnd;
+                friend BinarySearchTree<T>;
+                Node* node;
+                explicit Iterator(Node* node) { this->node = node; }
+
+            public:
+                Iterator& operator++()
+                {
+                    node = node->Traverse();
+                    return *this;
+                }
+
+                Node* operator->() const { return node; }
+
+                friend bool operator==(const Iterator& a, const Iterator& b) { return a.node == b.node; }
+                friend bool operator!=(const Iterator& a, const Iterator& b) { return a.node != b.node; }
         };
 
-        void TraverseTree(std::function<void(std::pair<uint, ValType> val)> func)
+    private:
+        Node* Traverse()
         {
-            if (headNode->isEnd)
+            Node* node = this;
+            Node** nodeRef = &node;
+
+            Node* v1 = (*nodeRef)->right;
+            Node* result;
+
+            if (v1->isEnd)
             {
-                TraverseTree(nextNode, nullptr, func);
+                for (result = (*nodeRef)->left; (*nodeRef) == result->right; result = result->left)
+                {
+                    (*nodeRef) = result;
+                }
+
+                if ((*nodeRef)->right != result)
+                {
+                    (*nodeRef) = result;
+                }
             }
             else
             {
-                TraverseTree(headNode, nullptr, func);
-            }
-        }
+                for (result = v1->prev; !result->isEnd; result = result->prev)
+                {
+                    v1 = result;
+                }
 
-        unsigned int size() { return _size; };
+                (*nodeRef) = v1;
+            }
+
+            return *nodeRef;
+        }
+};
+
+template <typename ValType>
+struct BinarySearchTree
+{
+        unsigned int size() { return _size; }
+        typename Node<ValType>::Iterator begin() { return Node<ValType>::Iterator(headNode->left); }
+        typename Node<ValType>::Iterator end() { return Node<ValType>::Iterator(headNode); }
+
+        // Specialize for different types!
+        void Insert(uint key, ValType val) = delete;
 
     private:
-        bool TraverseTree(NodePtr node, const NodePtr previousNode, std::function<void(std::pair<uint, ValType> val)> func)
-        {
-            if (node->value == 0 && previousNode != nullptr)
-            {
-                func({ previousNode->key, previousNode->value });
-                return false;
-            }
-
-            if (const NodePtr nextNode = node->left == previousNode ? node->prev : node->left; !TraverseTree(nextNode, node, func))
-            {
-                return TraverseTree(node->right, node, func);
-            }
-
-            return true;
-        }
-
-        NodePtr nextNode;
-        NodePtr headNode; // headnode stores min/max in left/right and upmost node in parent
-        NodePtr endNode;
-        void* dunno2;
-        unsigned int _size;
+        Node<ValType>* nextNode = nullptr;
+        Node<ValType>* headNode = nullptr; // headnode stores min/max in left/right and upmost node in parent
+        Node<ValType>* endNode = nullptr;
+        void* dunno2 = nullptr;
+        // ReSharper disable once CppInconsistentNaming
+        unsigned int _size = 0u;
 };
 
 template <int size>
