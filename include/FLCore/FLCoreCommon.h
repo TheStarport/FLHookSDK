@@ -77,6 +77,8 @@ enum EquipmentClass : uint
     InternalFX = 1 << 22,
     TradeLaneEquip = 1 << 23,
     Armor = 1 << 24,
+    ExternalEquipment = Mine | CM | Gun | ShieldGenerator | Thruster | CargoPod | CloakingDevice,
+    InternalEquipment = Engine | Power | Scanner | TractorBeam | RepairDroid | InternalFX | TradeLaneEquip | Armor,
 };
 
 struct IMPORT CacheString
@@ -3134,14 +3136,14 @@ class CEquipManager
         CEquipTraverser end() { return { this, All, false }; }
 
     public:
-        uint iDunno0;
-        bool bDunno4;
-        uint* iDunnoPtr8;
-        int iDunnoC;
-        bool bDunno10;
-        uint iDunno14;
-        int iDunno18;
-        uint decayingCargo;
+        /* 0 */ uint iDunno0;
+        /* 1 */ bool bDunno4;
+        /* 2 */ uint unkPtr1;
+        /* 3 */ int size1;
+        /* 4 */ bool bDunno10;
+        /* 5 */ uint unkPtr2;
+        /* 6 */ int size2;
+        /* 7 */ uint decayingCargo;
 };
 
 inline CEquipTraverser& CEquipTraverser::operator++()
