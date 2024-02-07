@@ -3074,21 +3074,30 @@ class CEquipTraverser
 
         CEquip* operator->() const { return currentEquip; }
 
+        enum class IteratorState
+        {
+            End1,
+            Iterating1,
+            End2,
+            Iterating2,
+        };
+
         friend bool operator==(const CEquipTraverser& a, const CEquipTraverser& b)
         {
-            return a.currentEquip == b.currentEquip && a.equipManager == b.equipManager;
+            return a.iteratorState == b.iteratorState && a.equipManager == b.equipManager;
         }
 
         friend bool operator!=(const CEquipTraverser& a, const CEquipTraverser& b)
         {
-            return a.currentEquip != b.currentEquip || a.equipManager != b.equipManager;
+            return a.iteratorState != b.iteratorState || a.equipManager != b.equipManager;
         }
 
         EquipmentClass equipClass;
         bool skipDestroyed;
-        uint unk2; // some kind of enum 0, 1, 2, 3 are possible values
+        IteratorState iteratorState;
         uint unk3;
-        CEquip* currentEquip = nullptr; // Added by us
+        // Fields below added by us
+        CEquip* currentEquip = nullptr;
         CEquipManager* equipManager = nullptr;
 };
 
@@ -3266,9 +3275,9 @@ struct IMPORT CEqObj : public CSimple
         uint dockTargetId;                                         // 88
         IObjInspectImpl* dockTargetIObj;                           // 89
         uint iDunnoEqObj23;                                        // 90
-        bool boundingExplosionBool;                                // 91 bounding explosion?
-        float boundingExplosionFloat;                              // 92 bounding explosion
-        Vector boundingExplosionVector;                            // 93 bounding explosion stuff
+        bool boundingExplosionBool;                                // 91
+        float boundingExplosionFloat;                              // 92
+        Vector boundingExplosionVector;                            // 93
         st6::vector<CEqObj::DockAnimInfo> dockingAnimationsVector; // 96 could be st6::vector<IAnimation2>
         uint controlExcludedDunno;                                 // 100
         IBehaviorManager* behaviorManager;                         // 101
@@ -5364,7 +5373,7 @@ namespace pub
         // Hex numbers behind dunno variables or in a comment indicate hex offset
         struct IMPORT SetZoneBehaviorParams : public BaseOp
         {
-                SetZoneBehaviorParams(struct const SetZoneBehaviorParams&);
+                SetZoneBehaviorParams(const SetZoneBehaviorParams&);
                 SetZoneBehaviorParams(void);
                 virtual bool validate(void);
 
@@ -5795,20 +5804,20 @@ struct CShipAbstract
         virtual void sub_6D02000();                                 // 112
         virtual void sub_6D02070();                                 // 116
         virtual void abstractMethod() = 0;
+
+        Watchable watchable;
 };
 
 // Constructor seems to be e.g. sub_6D02B70
 // Size: 144 bytes
 // Hex numbers behind dunno variables or in a comment indicate hex offset
-struct IObjRW : public IObjRWAbstract, public CShipAbstract
+struct IObjRW : public IObjRWAbstract, public CShipAbstract, public CBase
 {
-        Watchable watchable;
-        IObjInspectImpl iObjInspectImpl;
         byte bDunno_0x14;
         void* pDunno_0x18; // struct size: 12 bytes
         int iDunnos_0x1C;  // length of 0x1C
         double timer;
-        int iDunnos_0x28; // last element has something to do with fuses
+        int iDunnos_0x28; // has something to do with fuses
         byte bDunno_0x2C;
         void* pDunno_0x30;   // struct size: 20 bytes
         int iDunno_0x34;     // length of 0x30
@@ -5829,7 +5838,7 @@ struct IObjRW : public IObjRWAbstract, public CShipAbstract
         int iDunnos_0x68;  // 0x64 size
         float fdunno_0x6C;
         byte bDunno_0x70;
-        void* pDunno_0x74; // struct size: 12 bytes onedirectional list that loops
+        void* pDunno_0x74; // struct size: 12 bytes twodirectional list that loops
         int iDunno_0x78;   // length of 0x74 chain
         byte bDunno_0x7C;
         void* pDunno_0x80; // struct size: 68 bytes list of fuses?
@@ -7268,7 +7277,7 @@ namespace Geometry
 }; // namespace Geometry
 
 IMPORT bool operator!=(struct CHARACTER_ID const&, struct CHARACTER_ID const&);
-IMPORT bool operator!=(struct const Rect&, struct const Rect&);
+IMPORT bool operator!=(const Rect&, const Rect&);
 IMPORT bool operator<(struct CHARACTER_ID const&, struct CHARACTER_ID const&);
 
 IMPORT void AppendMissionLogData(const FmtStr*, unsigned char*&, int&, int);
