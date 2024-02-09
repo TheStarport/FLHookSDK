@@ -251,6 +251,19 @@ struct SLoginInfo
         wchar_t account[36];
 };
 
+struct RequestBestPathStruct
+{
+        uint clientId;
+        uint dunno0;
+        uint dunno1;
+        Vector startPos;
+        uint dunno2;
+        uint startSystem;
+        Vector endPos;
+        uint dunno3;
+        uint endSystem;
+};
+
 class IMPORT CAccount
 {
     public:
