@@ -51,7 +51,7 @@ enum class Error
 
 class Hook ErrorInfo
 {
-        const inline static std::map<Error, std::wstring_view> errors = {
+        const inline static std::unordered_map<Error, std::wstring_view> errors = {
             {
              { Error::NicknameNotFound, L"Provided nickname was not valid" },
              { Error::PlayerNotLoggedIn, L"Player not logged in" },
