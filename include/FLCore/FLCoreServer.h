@@ -983,7 +983,7 @@ namespace pub
         struct TerminalInfo
         {
                 char hardPoint[0x20];
-                uint type; // 1=berth 4=moor? 7=jump?
+                DockType type; // 1=berth 4=moor? 7=jump?
         };
 
         IMPORT int Activate(const unsigned int&, bool, int);
@@ -1025,7 +1025,7 @@ namespace pub
         IMPORT int GetSolarRep(unsigned int, int&);
         IMPORT int GetSystem(unsigned int, unsigned int&);
         IMPORT int GetTarget(const unsigned int&, unsigned int&);
-        IMPORT int GetTerminalInfo(const unsigned int&, int, TerminalInfo&);
+        IMPORT int GetTerminalInfo(const unsigned int&, int terminalIndex, TerminalInfo&);
         IMPORT int GetTradelaneNextAndPrev(const unsigned int&, unsigned int&, unsigned int&);
         IMPORT int GetType(unsigned int, unsigned int&);
         IMPORT int GetVoiceID(const unsigned int&, unsigned int&);

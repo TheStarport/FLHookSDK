@@ -314,6 +314,26 @@ struct IMPORT CollisionGroupDesc
         float health;
 };
 
+enum class DockType
+{
+    Berth,
+    MoorSmall,
+    MoorMedium,
+    MoorLarge,
+    Ring,
+    Pad,
+    Jump,
+    Airlock
+};
+
+struct DockHardpointInfo
+{
+    float radius;
+    const char* hardpoint;
+    const char* dockAnimation;
+    DockType dockType;
+};
+
 namespace Archetype
 {
     class IMPORT FuseIgnitionList
@@ -447,6 +467,7 @@ namespace Archetype
             virtual void redefine(const Root&);
             bool traverse_groups(const CollisionGroup*&) const;
 
+
         public:
             /* 23 */ CollisionGroup* collisionGroup;
             /* 24 */ ushort equipmentIdCounter;
@@ -458,10 +479,8 @@ namespace Archetype
             /* 30 */ uint dunno7;
             /* 31 */ uint dunno9;
             /* 32 */ bool isNomad;
-            bool dockingCamera;
-            /* 33 */ uint dunno10;
-            /* 34 */ uint dunno11;
-            /* 35 */ uint dunno12; // something to do with docking sphere
+                     bool dockingCamera;
+            /* 33-36 */ st6::vector<DockHardpointInfo> dockInfo;
     };
 
     struct IMPORT AttachedEquipment : public Equipment
