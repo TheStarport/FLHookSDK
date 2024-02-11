@@ -476,8 +476,8 @@ namespace Archetype
             /* 27 */ uint dunno4; // something to do with shield link
             /* 28 */ uint dunno5;
             /* 29 */ uint dunno6;
-            /* 30 */ uint dunno7;
-            /* 31 */ uint dunno9;
+            /* 30 */ uint dunno7; // fuses?
+            /* 31 */ uint dunno9; // fuses?
             /* 32 */ bool isNomad;
                      bool dockingCamera;
             /* 33-36 */ st6::vector<DockHardpointInfo> dockInfo;
@@ -4477,6 +4477,23 @@ class IMPORT Fuse
         bool ReadFuseValues(INI_Reader&);
 
     public:
+        /* 1  */ uint archId;
+        /* 2  */ float defaultLifetime;
+        /* 3  */ bool deathFuse;
+                 bool align[3];
+        /* 4  */ bool dunno2;
+                 bool dunno3;
+        /* 5  */ void* dunno4; // 0x18 size struct
+        /* 6  */ void* dunno5; // 0x18 size struct
+        /* 7  */ uint dunno6;
+        /* 8  */ uint actionCount;
+        /* 9  */ bool dunno8;
+                 bool align2[3];
+        /* 10 */ bool dunno9;
+        /* 11 */ void* dunno10; // 0x1C size struct, used in isSpentAt
+        /* 12 */ uint dunno11; // isBurning
+
+
         unsigned char data[OBJECT_DATA_SIZE];
 };
 
