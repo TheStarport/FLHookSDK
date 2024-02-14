@@ -4584,18 +4584,18 @@ struct GoodInfo
         /* 100 */ float badSellPrice;
         /* 104 */ float goodBuyPrice;
         /* 108 */ uint jumpDist;
-        /* 112 */ bool multiCount; // TODO: Verify
-        /* 116 */ float dunno3;
-        /* 120 */ float dunno4;
-        /* 124 */ float dunno5;
-        /* 128 */ float dunno6;
-        /* 132 */ float dunno7;
+        /* 112 */ bool multiCount;
+        /* 116 */ char* shopArchetype;
+        /* 120 */ char* itemIcon;
+        /* 124 */ char* materialLibrary;
+        /* 128 */ char* hardpointChild;
+        /* 132 */ char* attachmentArchetype;
         /* 136 */ uint idsName;
         /* 140 */ uint idsInfo;
         /* 144 */ uint hullGoodId; // if type = GOODINFO_TYPE_SHIP
-        /* 148 */ EquipDescList edl;
-        /* 160 */ EquipDescList edl2;
-        /* 172 */ EquipDescList edl3;
+        /* 148 */ EquipDescList edlLow;
+        /* 160 */ EquipDescList edlMid;
+        /* 172 */ EquipDescList edlHigh;
         /* 184 */ uint freeAmmoArchId;
         /* 188 */ uint freeAmmoCount;
 };
