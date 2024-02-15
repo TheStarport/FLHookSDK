@@ -1885,6 +1885,7 @@ enum IVP_CONTROLLER_PRIORITY;
 
 struct CObject;
 
+#undef GetCurrentTime
 namespace PhySys
 {
     struct CreateParms;

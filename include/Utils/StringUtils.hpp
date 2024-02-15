@@ -430,7 +430,7 @@ class StringUtils
         }
 
         // TODO: Fix this template error
-        template <typename TTransformView, typename TViewType = FirstTemplateType<FirstTemplateType<TTransformView>>>
+        template <typename TTransformView, typename TViewType>
         static TViewType GetParamToEnd(TTransformView view, uint pos)
         {
             if (pos == 0)
@@ -461,7 +461,8 @@ class StringUtils
             }
 
             auto params = GetParams(line, splitChar);
-            return GetParamToEnd(params, pos);
+            using TViewType = decltype(params);
+            return GetParamToEnd<TViewType, TString>(params, pos);
         }
 
         template <typename TString, typename View>

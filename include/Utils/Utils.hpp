@@ -6,6 +6,7 @@
     #define Hook
 #endif
 
+#include "Exceptions/ErrorInfo.hpp"
 #include "result/include/result.hpp"
 
 #include "Action.hpp"

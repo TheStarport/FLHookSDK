@@ -88,9 +88,10 @@ struct Node
 template <typename ValType>
 struct BinarySearchTree
 {
+        using Iter = typename Node<ValType>::Iterator;
         unsigned int size() { return _size; }
-        typename Node<ValType>::Iterator begin() { return Node<ValType>::Iterator(headNode->left); }
-        typename Node<ValType>::Iterator end() { return Node<ValType>::Iterator(headNode); }
+        Iter begin() { return Iter(headNode->left); }
+        Iter end() { return Iter(headNode); }
 
         // Specialize for different types!
         void Insert(uint key, ValType val) = delete;

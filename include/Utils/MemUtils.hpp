@@ -73,7 +73,7 @@ class Hook MemUtils
          * \param address The absolute address where the function should be called from
          * \param hookFunction The function to be called at the provided address
          */
-        static void PatchAssembly(DWORD address, void* hookFunction)
+        static void PatchAssembly(DWORD address, const void* hookFunction)
         {
             DWORD dwOldProtection = 0; // Create a DWORD for VirtualProtect calls to allow us to write.
             BYTE bPatch[5];            // We need to change 5 bytes and I'm going to use memcpy so this is the simplest way.

@@ -14,7 +14,7 @@ class TimeUtils
 
         Hook static std::chrono::sys_time<std::chrono::seconds> UnixToSysTime(const int64 time)
         {
-            return std::chrono::sys_time{ std::chrono::seconds{ time } };
+            return std::chrono::sys_time<std::chrono::seconds>(std::chrono::sys_seconds(std::chrono::seconds{ time }));
         }
 
         Hook static std::wstring AsTimePassed(std::chrono::seconds dur)
@@ -69,7 +69,7 @@ class TimeUtils
 
         static std::wstring AsDate(const std::chrono::seconds total)
         {
-            std::chrono::sys_time time{ total };
+            auto const time = std::chrono::current_zone()->to_local(std::chrono::sys_seconds(total));
             return std::format(L"{0:%Y-%m-%d %H:%M:%S}", time);
         }
 
