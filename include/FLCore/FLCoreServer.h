@@ -189,8 +189,9 @@ struct SSPObjUpdateInfo
 struct XJettisonCargo
 {
         uint ship;
-        uint Slot;
-        uint Count;
+        ushort slot;
+        ushort _padding;
+        ushort count;
 };
 
 struct XGoTradelane

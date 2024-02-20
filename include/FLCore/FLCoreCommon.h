@@ -2730,6 +2730,10 @@ class IMPORT CECargo : public CInternalEquip
         float GetDecayDamagePerSecond() const;
         void RemoveFromStack(unsigned int);
         void SetCount(unsigned int);
+
+        CECargoPod* cargoPod;
+        float hitPts;
+        uint count;
 };
 
 class IMPORT CECargoPod : public CAttachedEquip
@@ -4242,15 +4246,15 @@ struct IMPORT EquipDesc
         void set_temporary(bool);
 
     public:
-        ushort dunno;
-        ushort id;
-        uint archId;
-        CacheString hardPoint;
-        bool mounted;
-        float health;
-        uint count;
-        bool mission;
-        uint owner;
+        /* 0 */ ushort dunno;
+                ushort id;
+        /* 1 */ uint archId;
+        /* 2 */ CacheString hardPoint;
+        /* 3 */ bool mounted;
+        /* 4 */ float health;
+        /* 5 */ uint count;
+        /* 6 */ bool mission;
+        /* 7 */ uint owner;
 };
 
 class IMPORT EquipDescList
@@ -5861,7 +5865,7 @@ struct IObjRW : public IObjRWAbstract, public CShipAbstract, public CBase
         byte isInvulnerable; // not entirely sure on those two
         byte isPlayerVulnerable;
         float fDunno_0x3C; // hitpoint related?
-        byte bDunno_0x40;
+        byte bDunno_0x40; // is alive? Used when fetching IObjRW via sub_6D00670
         byte bDunno_041;
         byte bAlign_0x42; // probably not used
         byte bAlign_0x43; // probably not used
