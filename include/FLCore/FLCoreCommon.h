@@ -328,10 +328,10 @@ enum class DockType
 
 struct DockHardpointInfo
 {
-    float radius;
-    const char* hardpoint;
-    const char* dockAnimation;
-    DockType dockType;
+        float radius;
+        const char* hardpoint;
+        const char* dockAnimation;
+        DockType dockType;
 };
 
 namespace Archetype
@@ -467,7 +467,6 @@ namespace Archetype
             virtual void redefine(const Root&);
             bool traverse_groups(const CollisionGroup*&) const;
 
-
         public:
             /* 23 */ CollisionGroup* collisionGroup;
             /* 24 */ ushort equipmentIdCounter;
@@ -479,7 +478,7 @@ namespace Archetype
             /* 30 */ uint dunno7; // fuses?
             /* 31 */ uint dunno9; // fuses?
             /* 32 */ bool isNomad;
-                     bool dockingCamera;
+            bool dockingCamera;
             /* 33-36 */ st6::vector<DockHardpointInfo> dockInfo;
     };
 
@@ -1092,7 +1091,12 @@ namespace Archetype
             virtual bool read(INI_Reader&);
             virtual void redefine(const Root&);
 
-        public:
+            struct HpType
+            {
+                    HpAttachmentType type;
+                    st6::vector<CacheString> hp;
+            };
+
             /* 36 */ uint dunno12[19];
             /* 55 */ char* bayDoorAnim;
             /* 56 */ char* hpBaySurface;
@@ -1111,7 +1115,7 @@ namespace Archetype
             /* 73 */ float strafeForce;
             /* 74 */ float strafePowerUsage;
             /* 75 */ float maxBankAngle;
-            uint dunno6[4]; // something about hptypes
+            st6::vector<HpType> hardpoints;
             /* 80 */ uint maxNanobots;
             /* 81 */ uint maxShieldBats;
     };
@@ -4247,7 +4251,7 @@ struct IMPORT EquipDesc
 
     public:
         /* 0 */ ushort dunno;
-                ushort id;
+        ushort id;
         /* 1 */ uint archId;
         /* 2 */ CacheString hardPoint;
         /* 3 */ bool mounted;
@@ -4485,19 +4489,18 @@ class IMPORT Fuse
         /* 1  */ uint archId;
         /* 2  */ float defaultLifetime;
         /* 3  */ bool deathFuse;
-                 bool align[3];
+        bool align[3];
         /* 4  */ bool dunno2;
-                 bool dunno3;
+        bool dunno3;
         /* 5  */ void* dunno4; // 0x18 size struct
         /* 6  */ void* dunno5; // 0x18 size struct
         /* 7  */ uint dunno6;
         /* 8  */ uint actionCount;
         /* 9  */ bool dunno8;
-                 bool align2[3];
+        bool align2[3];
         /* 10 */ bool dunno9;
         /* 11 */ void* dunno10; // 0x1C size struct, used in isSpentAt
-        /* 12 */ uint dunno11; // isBurning
-
+        /* 12 */ uint dunno11;  // isBurning
 
         unsigned char data[OBJECT_DATA_SIZE];
 };
@@ -5865,7 +5868,7 @@ struct IObjRW : public IObjRWAbstract, public CShipAbstract, public CBase
         byte isInvulnerable; // not entirely sure on those two
         byte isPlayerVulnerable;
         float fDunno_0x3C; // hitpoint related?
-        byte bDunno_0x40; // is alive? Used when fetching IObjRW via sub_6D00670
+        byte bDunno_0x40;  // is alive? Used when fetching IObjRW via sub_6D00670
         byte bDunno_041;
         byte bAlign_0x42; // probably not used
         byte bAlign_0x43; // probably not used
