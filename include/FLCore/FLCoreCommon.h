@@ -6618,6 +6618,16 @@ namespace Reputation
             float reptuation;
     };
 
+    struct RepGroup
+    {
+            uint nameLength;
+            char name[16];
+            uint nameIds;
+            uint infocardIds;
+            uint shortNameIds;
+    };
+
+    using RepGroupCB = bool (***)(RepGroup*);
     namespace Vibe
     {
         IMPORT int AdjustAttitude(const int&, const int&, float);
@@ -6628,15 +6638,15 @@ namespace Reputation
         IMPORT int EnsureExists(const int&);
         IMPORT int Free(const int&);
         IMPORT void FreeDynamic();
-        IMPORT int Get(const int& repId, unsigned int& affiliation, unsigned int& rank, unsigned char& relationCount, Relation* const relations, FmtStr&,
-                       FmtStr&, const unsigned short*& name);
+        IMPORT int Get(const int& repId, unsigned int& affiliation, unsigned int& rank, unsigned char& relationCount, Relation* relations, FmtStr&, FmtStr&,
+                       const unsigned short*& name);
         IMPORT int GetAffiliation(const int&, unsigned int&, bool);
         IMPORT unsigned int GetClientID(int);
         IMPORT int GetGroupFeelingsTowards(const int&, const unsigned int&, float&);
         IMPORT int GetInfocard(const int&, unsigned int&);
         IMPORT int GetName(const int&, FmtStr&, FmtStr&, const unsigned short*&);
         IMPORT int GetRank(const int&, unsigned int&);
-        IMPORT int Set(const int&, unsigned int, unsigned int, unsigned char, const Relation* const, const FmtStr&, const FmtStr&, const unsigned short*);
+        IMPORT int Set(const int&, unsigned int, unsigned int, unsigned char, const Relation*, const FmtStr&, const FmtStr&, const unsigned short*);
         IMPORT int SetAffiliation(const int&, unsigned int, bool);
         IMPORT int SetAttitudeTowardsPlayer(int, float);
         IMPORT int SetClientID(int, unsigned int);
@@ -6655,7 +6665,7 @@ namespace Reputation
     IMPORT void Shutdown();
     IMPORT bool Startup(const char*);
     IMPORT int affect_relation(const unsigned int&, const unsigned int&, float);
-    IMPORT void enumerate(struct RepGroupCB*);
+    IMPORT void enumerate(RepGroupCB*);
     IMPORT int get_feelings_towards(unsigned int, unsigned int, float&);
     IMPORT unsigned int get_id(const TString<16>&);
     IMPORT unsigned int get_info_card(unsigned int);
