@@ -306,26 +306,26 @@ class Transform
 
 // We need to specialize the BST insert function for each type and then proxy it to the original function
 
-#define ArchetypeBstInsertError(type, module, insertAddr)                                               \
-    template <>                                                                                         \
-    inline void BinarySearchTree<type>::Insert(uint key, type value)                                    \
-    {                                                                                                   \
-        static DWORD mod = DWORD(GetModuleHandleA(module));                                             \
-        using InsertFuncType = int(__thiscall*)(BinarySearchTree * ptr, type*, uint*, char* errorName); \
-        static auto insertFunc = reinterpret_cast<InsertFuncType>(mod + insertAddr);                    \
-                                                                                                        \
-        insertFunc(this, &value, &key, nullptr);                                                        \
+#define ArchetypeBstInsertError(type, module, insertAddr)                                              \
+    template <>                                                                                        \
+    inline void BinarySearchTree<type>::Insert(uint key, type value)                                   \
+    {                                                                                                  \
+        static DWORD mod = DWORD(GetModuleHandleA(module));                                            \
+        using InsertFuncType = int(__thiscall*)(BinarySearchTree * ptr, type, uint*, char* errorName); \
+        static auto insertFunc = reinterpret_cast<InsertFuncType>(mod + insertAddr);                   \
+                                                                                                       \
+        insertFunc(this, value, &key, nullptr);                                                        \
     }
 
-#define ArchetypeBstInsert(type, module, insertAddr)                                   \
-    template <>                                                                        \
-    inline void BinarySearchTree<type>::Insert(uint key, type value)                   \
-    {                                                                                  \
-        static DWORD mod = DWORD(GetModuleHandleA(module));                            \
-        using InsertFuncType = int(__thiscall*)(BinarySearchTree * ptr, type*, uint*); \
-        static auto insertFunc = reinterpret_cast<InsertFuncType>(mod + insertAddr);   \
-                                                                                       \
-        insertFunc(this, &value, &key);                                                \
+#define ArchetypeBstInsert(type, module, insertAddr)                                  \
+    template <>                                                                       \
+    inline void BinarySearchTree<type>::Insert(uint key, type value)                  \
+    {                                                                                 \
+        static DWORD mod = DWORD(GetModuleHandleA(module));                           \
+        using InsertFuncType = int(__thiscall*)(BinarySearchTree * ptr, type, uint*); \
+        static auto insertFunc = reinterpret_cast<InsertFuncType>(mod + insertAddr);  \
+                                                                                      \
+        insertFunc(this, value, &key);                                                \
     }
 
 #endif // _FLCOREDEFS_H_
