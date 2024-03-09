@@ -49,6 +49,24 @@ enum class DOCK_HOST_RESPONSE
     Dock = 5,
 };
 
+struct Costume
+{
+	uint head = 0;
+	uint body = 0;
+	uint lefthand = 0;
+	uint righthand = 0;
+	uint accessory[8] = {};
+	int accessories = 0;
+};
+
+enum MissionMessageType
+{
+	MissionMessageType_Failure, // mission failure
+	MissionMessageType_Type1,   // objective
+	MissionMessageType_Type2,   // objective
+	MissionMessageType_Type3,   // mission success
+};
+
 enum class DestroyType
 {
     Vanish = 0,
@@ -923,37 +941,37 @@ namespace pub
 
         struct ShipInfo
         {
-                uint flag;
-                uint system;
-                uint shipArchetype;
-                Vector pos;
-                Vector unk1; // all 0
-                Vector unk2; // all 0
+                uint flag = 0;
+                uint system = 0;
+                uint shipArchetype = 0;
+                Vector pos = 0;
+                Vector unk1 = 0; // all 0
+                Vector unk2 = 0; // all 0
                 Matrix orientation;
-                uint unk3; // 0
+                uint unk3 = 0; // 0
                 uint loadout;
                 OwnerList<pub::SpaceObj::CargoDesc> cargoDesc;
-                uint look1;
-                uint look2;
-                uint unk4; // 0
-                uint unk6; // 0
-                uint comm;
-                float unk7;
-                float unk8;
-                float unk9;
-                float unk10;
-                float unk11;
-                float unk12;
-                float unk13;
-                uint unk14;
+                uint look1 = 0;
+                uint look2 = 0;
+                uint unk4 = 0; // 0
+                uint unk6 = 0; // 0
+                uint comm = 0;
+                float unk7 = 0;
+                float unk8 = 0;
+                float unk9 = 0;
+                float unk10 = 0;
+                float unk11 = 0;
+                float unk12 = 0;
+                float unk13 = 0;
+                uint unk14 = 0;
 
-                int rep; // increases for each NPC spawned, starts at 0 or 1
-                uint pilotVoice;
-                uint unk15;  // 0
-                uint health; // -1 = max health
-                uint unk16;  // 0
-                uint unk17;  // 0
-                uint level;
+                int rep = 0; // increases for each NPC spawned, starts at 0 or 1
+                uint pilotVoice = 0;
+                uint unk15 = 0;  // 0
+                uint health  = -1; // -1 = max health
+                uint unk16 = 0;  // 0
+                uint unk17 = 0;  // 0
+                uint level = 1;
         };
 
         struct SolarInfo
@@ -967,12 +985,12 @@ namespace pub
                 Costume costume;
                 int rep;
                 uint voiceId;
-                uint dockWith; // 0
-                bool mission;  // Boolean, only last byte is used
+                uint dockWith;
+                bool mission;
                 int hitPointsLeft;
                 char nickName[64]; // Has to be unique
                 uint unk11;        // 0 unused?
-                uint unk12;        // 1 = flagged as mission solar, 0 = normal
+                uint mission = 0;        // 1 = flagged as mission solar, 0 = normal
         };
 
         struct LootInfo
