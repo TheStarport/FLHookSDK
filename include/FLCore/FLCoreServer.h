@@ -38,6 +38,24 @@ enum DOCK_HOST_RESPONSE
 	DOCK = 5,
 };
 
+struct Costume
+{
+	uint head = 0;
+	uint body = 0;
+	uint lefthand = 0;
+	uint righthand = 0;
+	uint accessory[8] = {};
+	int accessories = 0;
+};
+
+enum MissionMessageType
+{
+	MissionMessageType_Failure, // mission failure
+	MissionMessageType_Type1,   // objective
+	MissionMessageType_Type2,   // objective
+	MissionMessageType_Type3,   // mission success
+};
+
 enum DestroyType
 {
 	VANISH = 0,
@@ -919,37 +937,37 @@ namespace pub
 
 		struct ShipInfo
 		{
-			uint iFlag;
-			uint iSystem;
-			uint shipArchetype;
+			uint iFlag = 0;
+			uint iSystem = 0;
+			uint shipArchetype = 0;
 			Vector vPos;
 			Vector vUnk1; // all 0
 			Vector vUnk2; // all 0
 			Matrix mOrientation;
-			uint iUnk1; // 0
+			uint iUnk1 = 0; // 0
 			uint iLoadout;
 			OwnerList<pub::SpaceObj::CargoDesc> cargoDesc;
-			uint iLook1;
-			uint iLook2;
-			uint unk4; // 0
-			uint unk5; // 0
-			uint iComm;
-			float fUnk2;
-			float fUnk3;
-			float fUnk4;
-			float fUnk5;
-			float fUnk6;
-			float fUnk7;
-			float fUnk8;
-			uint iUnk2;
+			uint iLook1 = 0;
+			uint iLook2 = 0;
+			uint unk4 = 0; // 0
+			uint unk5 = 0; // 0
+			uint iComm = 0;
+			float fUnk2 = 0;
+			float fUnk3 = 0;
+			float fUnk4 = 0;
+			float fUnk5 = 0;
+			float fUnk6 = 0;
+			float fUnk7 = 0;
+			float fUnk8 = 0;
+			uint iUnk2 = 0;
 
-			int iRep; // increases for each NPC spawned, starts at 0 or 1
-			uint iPilotVoice;
-			uint unk6;    // 0
-			uint iHealth; // -1 = max health
-			uint unk7;    // 0
-			uint unk8;    // 0
-			uint iLevel;
+			int iRep = 0; // increases for each NPC spawned, starts at 0 or 1
+			uint iPilotVoice = 0;
+			uint unk6 = 0; // 0
+			uint iHealth = -1; // -1 = max health
+			uint unk7 = 0;     // 0
+			uint unk8 = 0;     // 0
+			uint iLevel = 1;
 		};
 
 		struct SolarInfo
@@ -960,24 +978,15 @@ namespace pub
 			Vector vPos;
 			Matrix mOrientation;
 			uint iLoadoutId;
-			struct structCostume
-			{
-				UINT head;
-				UINT body;
-				UINT lefthand;
-				UINT righthand;
-				UINT accessory[8];
-				int accessories;
-			};
-			structCostume Costume;
+			Costume Costume;
 			int iRep;
 			int iVoiceId;
-			uint iUnk8; // 0
+			uint baseId; // 0
 			uint iUnk9; // Boolean, only last byte is used
 			int iHitPointsLeft;
 			char cNickName[64]; // Has to be unique
 			uint iUnk11;        // 0 unused?
-			uint iUnk12;        // 1 = flagged as mission solar, 0 = normal
+			uint mission = 0;        // 1 = flagged as mission solar, 0 = normal
 		};
 
 		struct LootInfo
