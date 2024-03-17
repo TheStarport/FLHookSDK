@@ -49,24 +49,6 @@ enum class DOCK_HOST_RESPONSE
     Dock = 5,
 };
 
-struct Costume
-{
-	uint head = 0;
-	uint body = 0;
-	uint lefthand = 0;
-	uint righthand = 0;
-	uint accessory[8] = {};
-	int accessories = 0;
-};
-
-enum MissionMessageType
-{
-	MissionMessageType_Failure, // mission failure
-	MissionMessageType_Type1,   // objective
-	MissionMessageType_Type2,   // objective
-	MissionMessageType_Type3,   // mission success
-};
-
 enum class DestroyType
 {
     Vanish = 0,
@@ -944,9 +926,9 @@ namespace pub
                 uint flag = 0;
                 uint system = 0;
                 uint shipArchetype = 0;
-                Vector pos = 0;
-                Vector unk1 = 0; // all 0
-                Vector unk2 = 0; // all 0
+                Vector pos = {0, 0, 0};
+                Vector unk1 = {0, 0, 0}; // all 0
+                Vector unk2 = {0, 0, 0}; // all 0
                 Matrix orientation;
                 uint unk3 = 0; // 0
                 uint loadout;
@@ -986,7 +968,7 @@ namespace pub
                 int rep;
                 uint voiceId;
                 uint dockWith;
-                bool mission;
+                bool missionBool;
                 int hitPointsLeft;
                 char nickName[64]; // Has to be unique
                 uint unk11;        // 0 unused?

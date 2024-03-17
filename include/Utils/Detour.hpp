@@ -86,7 +86,6 @@ class VTableHook final
     public:
         explicit VTableHook() : memProtect(reinterpret_cast<void*>(Start), Size)
         {
-            auto e =
             memcpy_s(originals.data(), Size, reinterpret_cast<void*>(Start), Size);
         }
 
