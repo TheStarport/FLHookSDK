@@ -340,6 +340,36 @@ union Matrix
     {
         return data[i];
     }
+
+    [[nodiscard]] Vector ToEuler(const bool inDegrees = true) const
+    {
+        float heading = 0.0f;
+        float bank = 0.0f;
+        float attitude = 0.0f;
+
+        const float mathDunno = sqrtf(data[0][0] * data[0][0] + data[1][0] * data[1][0]);
+
+        // singularity at south or north pole
+        if (data[0][0] <= 0.0000019f)
+        {
+            heading = atan2(-data[1][2], data[1][1]);
+            bank = atan2(-data[2][0], mathDunno);
+            attitude = 0.0f;
+        }
+        else
+        {
+            heading = atan2(data[2][1], data[2][2]);
+            bank = atan2(-data[2][0], mathDunno);
+            attitude = atan2(data[1][0], data[0][0]);
+        }
+
+        constexpr float mod = 57.295776f;
+        if(inDegrees)
+        {
+            return {heading*mod, bank*mod, attitude*mod};
+        }
+        return {heading, bank, attitude};
+    }
 };
 
 struct Quaternion
