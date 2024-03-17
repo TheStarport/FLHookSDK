@@ -1,3 +1,6 @@
+#pragma once
+#include "FLCore/FLCoreDefs.hpp"
+
 //////////////////////////////////////////////////////////////////////
 //	Project FLCoreSDK v1.1, modified for use in FLHook Plugin version
 //--------------------------
@@ -23,25 +26,6 @@ class RDLReNode;
 // space object types
 
 
-
-struct IMPORT CacheString
-{
-        void clear();
-
-    public:
-        char* value;
-};
-
-struct IMPORT ID_String
-{
-        bool IsEmpty() const;
-        void clear();
-        const char* get_string() const;
-
-    public:
-        uint id;
-        unsigned char data[128];
-};
 
 struct IObjInspect
 {
@@ -248,35 +232,7 @@ struct IMPORT BaseHint
         unsigned char data[OBJECT_DATA_SIZE];
 };
 
-// Basically this forms a linked list between BaseWatchers all pointing to the same Watchable object.
-// The Watchable object points to the last BaseWatcher which added it
-struct IMPORT BaseWatcher
-{
-        BaseWatcher();
-        ~BaseWatcher();
-        BaseWatcher& operator=(const BaseWatcher&);
-        void set(const struct Watchable*);
 
-    protected:
-        void set_pointer(const Watchable*);
-
-    public:
-        Watchable* watchable;
-        BaseWatcher* nextBaseWatcher;
-};
-
-// The newestBaseWatcher pointer seems sometimes to be used with the address it points to -8 bytes to get the object
-// This indicates it is probably some compiler construct
-struct IMPORT Watchable
-{
-        Watchable();
-        ~Watchable();
-        Watchable& operator=(const Watchable&);
-        unsigned int unwatch();
-
-    public:
-        BaseWatcher* newestBaseWatcher; // The last basewatcher set to watch this
-};
 
 namespace BehaviorTypes
 {
@@ -469,29 +425,11 @@ class IMPORT CDeadReckonedVector
 };
 
 
-struct Costume
-{
-        uint head = 0;
-        uint body = 0;
-        uint leftHand = 0;
-        uint rightHand = 0;
-        UINT accessory[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-        int accessories = 0;
-};
 
 
 
-class IMPORT CEquipmentObj : public CObject
-{
-    public:
-        virtual ~CEquipmentObj();
 
-        CEquipmentObj(const CEquipmentObj&);
-        CEquipmentObj(Class);
 
-    public:
-        unsigned char data[OBJECT_DATA_SIZE];
-};
 
 class IMPORT CFLIDMaker
 {
@@ -2561,28 +2499,3 @@ namespace Geometry
     struct Sphere;
 }; // namespace Geometry
 
-
-ArchetypeBstInsertError(Archetype::Asteroid*, "common.dll", 0x9BEB0);
-ArchetypeBstInsertError(Archetype::DynamicAsteroid*, "common.dll", 0x9BEB0);
-ArchetypeBstInsertError(Archetype::Equipment*, "common.dll", 0x9BBE0);
-ArchetypeBstInsertError(Archetype::Ship*, "common.dll", 0x9BEB0);
-ArchetypeBstInsertError(Archetype::Solar*, "common.dll", 0x9BEB0);
-ArchetypeBstInsert(Archetype::Explosion*, "common.dll", 0xAC1F0);
-ArchetypeBstInsert(Archetype::MotorData*, "common.dll", 0xC22F0);
-ArchetypeBstInsert(Archetype::Root*, "common.dll", 0x9BAD0);
-
-namespace Trees
-{
-#define BST(type, module, addr) (BinarySearchTree<type>*)(DWORD(GetModuleHandleA(module)) + addr)
-    static BinarySearchTree<Archetype::Asteroid*>* asteroids = BST(Archetype::Asteroid*, "common.dll", 0x19CA98);
-    static BinarySearchTree<Archetype::DynamicAsteroid*>* dynamicAsteroids = BST(Archetype::DynamicAsteroid*, "common.dll", 0x19CA84);
-    static BinarySearchTree<Archetype::Equipment*>* equipment = BST(Archetype::Equipment*, "common.dll", 0x19CAD4);
-    static BinarySearchTree<Archetype::Explosion*>* explosions = BST(Archetype::Explosion*, "common.dll", 0x19CF3C);
-    static BinarySearchTree<Archetype::MotorData*>* motors = BST(Archetype::MotorData*, "common.dll", 0x19CA70);
-    static BinarySearchTree<Archetype::Ship*>* ships = BST(Archetype::Ship*, "common.dll", 0x19CAC0);
-    static BinarySearchTree<Archetype::Root*>* allArchetypes = BST(Archetype::Root*, "common.dll", 0x19CAE8);
-    static BinarySearchTree<Archetype::Solar*>* solar = BST(Archetype::Solar*, "common.dll", 0x19CAAC);
-#undef BST
-} // namespace Trees
-
-#endif //_FLCORECOMMON_H_

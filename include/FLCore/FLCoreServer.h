@@ -599,12 +599,7 @@ class IMPORT PlayerDB
         PlayerDbTreeNode* lastNode;
         uint dunno2;
         uint numAccounts;
-};
-
-namespace CmnAsteroid // from FLCoreCommon.h
-{
-    class CAsteroidSystem;
-};
+};;
 
 namespace SrvAsteroid
 {
