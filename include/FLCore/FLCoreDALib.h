@@ -13,7 +13,7 @@
 #ifndef _FLCOREDALIB_H_
 #define _FLCOREDALIB_H_
 
-#include "FLCoreDefs.h"
+#include "FLCoreDefs.hpp"
 #include <vector>
 
 #pragma comment( lib, "FLCoreDALib.lib" )

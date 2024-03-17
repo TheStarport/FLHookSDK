@@ -13,7 +13,7 @@
 #ifndef _FLCOREFLSERVEREXE_H_
 #define _FLCOREFLSERVEREXE_H_
 
-#include "FLCoreDefs.h"
+#include "FLCoreDefs.hpp"
 #include <string>
 
 #pragma comment( lib, "FLCoreFLServerEXE.lib" )

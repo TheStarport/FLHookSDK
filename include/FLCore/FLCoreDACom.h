@@ -13,7 +13,7 @@
 #ifndef _FLCOREDACOM_H_
 #define _FLCOREDACOM_H_
 
-#include "FLCoreDefs.h"
+#include "FLCoreDefs.hpp"
 
 #pragma comment( lib, "FLCoreDACom.lib" )
 

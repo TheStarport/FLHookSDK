@@ -14,7 +14,7 @@
 #define _FLCOREREMOTECLIENT_H_
 
 #include "FLCoreCommon.h"
-#include "FLCoreDefs.h"
+#include "FLCoreDefs.hpp"
 
 #pragma warning(disable : 5030)
 #pragma comment(lib, "FLCoreRemoteClient.lib")
