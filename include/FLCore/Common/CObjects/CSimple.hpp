@@ -1,5 +1,6 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+
+#include "CObject.hpp"
 
 struct CSimple : public CObject
 {

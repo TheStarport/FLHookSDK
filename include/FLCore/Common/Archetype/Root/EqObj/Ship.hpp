@@ -1,5 +1,6 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+
+#include "../EqObj.hpp"
 
 namespace Archetype
 {

@@ -1,5 +1,8 @@
 #pragma once
-#include "../../../FLCoreDefs.hpp"
+
+#include "../Root.hpp"
+#include "../../CArchGroup.hpp"
+#include "../../Unknown.hpp"
 
 namespace Archetype
 {
@@ -10,7 +13,7 @@ namespace Archetype
         IMPORT virtual ~EqObj();
         IMPORT const EqObj& operator=(const EqObj&);
         IMPORT bool dock_terminal_valid(int) const;
-        IMPORT const struct CollisionGroup* get_group_by_id(unsigned short) const;
+        IMPORT const CollisionGroup* get_group_by_id(unsigned short) const;
         IMPORT const CollisionGroup* get_group_by_name(const CacheString&) const;
         IMPORT bool get_undamaged_collision_group_list(st6::list<CollisionGroupDesc>&) const;
         IMPORT bool traverse_groups(const CollisionGroup*&) const;

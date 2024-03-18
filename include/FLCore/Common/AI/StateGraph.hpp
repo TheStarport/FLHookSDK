@@ -1,6 +1,7 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include "../../FLCoreDefs.hpp"
 
+class IStateGraph;
 namespace pub
 {
     namespace StateGraph

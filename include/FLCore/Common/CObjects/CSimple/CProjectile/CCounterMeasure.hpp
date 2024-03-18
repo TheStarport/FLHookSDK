@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../FLCoreDefs.hpp"
+#include "../CProjectile.hpp"
 
 struct CCounterMeasure : public CProjectile
 {

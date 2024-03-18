@@ -68,7 +68,7 @@ enum class ObjectType
     Asteroid = 1 << 29,
 };
 
-enum class EquipmentClass : uint
+enum class EquipmentClass
 {
     All = -1,
     None = 0,

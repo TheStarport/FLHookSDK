@@ -23,14 +23,6 @@
 
 #define OBJECT_DATA_SIZE 2048
 
-template<class T> requires std::is_enum_v<T> T operator~ (T a) { return (T)~(int)a; }
-template<class T> requires std::is_enum_v<T> T operator| (T a, T b) { return (T)((int)a | (int)b); }
-template<class T> requires std::is_enum_v<T> T operator& (T a, T b) { return (T)((int)a & (int)b); }
-template<class T> requires std::is_enum_v<T> T operator^ (T a, T b) { return (T)((int)a ^ (int)b); }
-template<class T> requires std::is_enum_v<T> T& operator|= (T& a, T b) { return (T&)((int&)a |= (int)b); }
-template<class T> requires std::is_enum_v<T> T& operator&= (T& a, T b) { return (T&)((int&)a &= (int)b); }
-template<class T> requires std::is_enum_v<T> T& operator^= (T& a, T b) { return (T&)((int&)a ^= (int)b); }
-
 template <typename T>
 struct BinarySearchTree;
 
@@ -285,6 +277,36 @@ class Matrix : public glm::mat3
     Matrix() = default;
     Matrix(const glm::vec3 a, const glm::vec3 b, const glm::vec3 c) : glm::mat3(a, b, c) {}
     static Matrix Identity() { return Matrix({ 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.0f, 1.0f }); }
+
+    [[nodiscard]] Vector ToEuler(const bool inDegrees) const
+    {
+        float heading = 0.0f;
+        float bank = 0.0f;
+        float attitude = 0.0f;
+
+        const float mathDunno = sqrtf(operator[](0)[0] * operator[](0)[0] + operator[](1)[0] * operator[](1)[0]);
+
+        // singularity at south or north pole
+        if (operator[](0)[0] <= 0.0000019f)
+        {
+            heading = atan2(-operator[](1)[2], operator[](1)[1]);
+            bank = atan2(-operator[](2)[0], mathDunno);
+            attitude = 0.0f;
+        }
+        else
+        {
+            heading = atan2(operator[](2)[1], operator[](2)[2]);
+            bank = atan2(-operator[](2)[0], mathDunno);
+            attitude = atan2(operator[](1)[0], operator[](0)[0]);
+        }
+
+        if (inDegrees)
+        {
+            constexpr float mod = 57.295776f;
+            return {heading*mod, bank*mod, attitude*mod};
+        }
+        return {heading, bank, attitude};
+    }
 };
 
 class Quaternion : public glm::qua<float, glm::packed_highp>
@@ -341,7 +363,7 @@ union Matrix
         return data[i];
     }
 
-    [[nodiscard]] Vector ToEuler(const bool inDegrees = true) const
+    [[nodiscard]] Vector ToEuler(const bool inDegrees) const
     {
         float heading = 0.0f;
         float bank = 0.0f;
@@ -363,9 +385,9 @@ union Matrix
             attitude = atan2(data[1][0], data[0][0]);
         }
 
-        constexpr float mod = 57.295776f;
-        if(inDegrees)
+        if (inDegrees)
         {
+            constexpr float mod = 57.295776f;
             return {heading*mod, bank*mod, attitude*mod};
         }
         return {heading, bank, attitude};

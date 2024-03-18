@@ -1,31 +1,30 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
 
-//////////////////////////////////////////////////////////////////////
-//	Project FLCoreSDK v1.1, modified for use in FLHook Plugin version
-//--------------------------
-//
-//	File:			FLCoreCommon.h
-//	Module:			FLCoreCommon.lib
-//	Description:	Interface to Common.dll
-//
-//	Web: www.skif.be/flcoresdk.php
-//
-//
-//////////////////////////////////////////////////////////////////////
-#ifndef _FLCORECOMMON_H_
-#define _FLCORECOMMON_H_
-
-#include "FLCoreDefs.hpp"
+#include "../FLCoreDefs.hpp"
+#include "Watchable.hpp"
 
 #pragma comment(lib, "FLCoreCommon.lib")
 
+struct CLoot;
+class CETractor;
+namespace Archetype
+{
+    struct Munition;
+}
+class CEShield;
+class CEquip;
+class CAttachedEquip;
+// Forward Declarations
+struct IObjRW;
+struct HardpointInfo;
+struct EquipStatus;
+namespace Universe
+{
+    struct IZone;
+}
 class TRANode;
 class RDLReNode;
-
-// space object types
-
-
+class IStateGraph;
 
 struct IObjInspect
 {
@@ -1407,6 +1406,10 @@ struct IObjRWAbstract
         virtual void process_perishable_cargo(float deltaTime);         // 588 sub_6CEC910
 };
 
+enum class FORMATION_RTYPE
+{
+};
+
 struct CShipAbstract
 {
         virtual void set_throttle(float);                           // 0
@@ -2403,6 +2406,8 @@ namespace Timing
     IMPORT int64 read_ticks();
     IMPORT double seconds(const int64&);
 }; // namespace Timing
+
+enum class TractorFailureCode {};
 
 class IMPORT TractorArm
 {

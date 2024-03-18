@@ -1,5 +1,8 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+
+#include "../CProjectile.hpp"
+#include "../../../Archetype/MotorData.hpp"
+#include "../../../Watchable.hpp"
 
 struct CGuided : public CProjectile
 {

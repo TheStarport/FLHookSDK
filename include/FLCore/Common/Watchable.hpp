@@ -1,5 +1,6 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+
+#include "../FLCoreDefs.hpp"
 
 // Basically this forms a linked list between BaseWatchers all pointing to the same Watchable object.
 // The Watchable object points to the last BaseWatcher which added it

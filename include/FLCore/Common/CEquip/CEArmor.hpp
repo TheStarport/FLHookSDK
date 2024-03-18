@@ -1,5 +1,6 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+
+#include "CInternalEquip.hpp"
 
 class CEArmor : public CInternalEquip
 {

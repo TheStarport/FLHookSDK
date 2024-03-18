@@ -1,5 +1,5 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include "../../FLCoreDefs.hpp"
 
 namespace pub
 {
@@ -378,6 +378,6 @@ namespace pub
             CountermeasureUseStruct CountermeasureUse;
             FormationUseStruct FormationUse;
             JobStruct Job;
-        }
+        };
     }
 }

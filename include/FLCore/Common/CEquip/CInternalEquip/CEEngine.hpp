@@ -1,6 +1,8 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
 
+#include "FLCore/Common/PhySys/Controller/CPhysControllerEquip.hpp"
+
+struct CShip;
 class CEEngine : public CInternalEquip, public CPhysControllerEquip
 {
     public:

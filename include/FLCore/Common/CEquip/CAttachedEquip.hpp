@@ -1,5 +1,6 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+
+#include "CExternalEquip.hpp"
 
 class CAttachedEquip : public CExternalEquip
 {

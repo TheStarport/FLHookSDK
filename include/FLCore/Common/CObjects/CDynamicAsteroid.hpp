@@ -1,5 +1,5 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include "../../FLCoreDefs.hpp"
 
 struct CDynamicAsteroid : public CObject
 {

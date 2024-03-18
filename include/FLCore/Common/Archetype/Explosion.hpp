@@ -1,8 +1,10 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include "../../FLCoreDefs.hpp"
 
+struct IObjInspect;
 namespace Archetype
 {
+    struct Effect;
     struct Explosion
     {
         IMPORT Explosion(const Explosion&);

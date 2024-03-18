@@ -1,5 +1,6 @@
 #pragma once
-#include "../../../FLCoreDefs.hpp"
+
+#include "FLCore/Common/Archetype/Root.hpp"
 
 namespace Archetype
 {

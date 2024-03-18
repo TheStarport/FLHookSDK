@@ -1,6 +1,10 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include "../FLCoreDefs.hpp"
 
+namespace Archetype
+{
+    class FuseIgnitionList;
+}
 class CArchGroup
 {
     public:

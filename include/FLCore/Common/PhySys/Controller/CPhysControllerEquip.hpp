@@ -1,5 +1,6 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+
+#include "../Controller.hpp"
 
 class CPhysControllerEquip : public PhySys::Controller
 {

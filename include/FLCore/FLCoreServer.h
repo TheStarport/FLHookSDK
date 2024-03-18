@@ -13,8 +13,7 @@
 #ifndef _FLCORESERVER_H_
 #define _FLCORESERVER_H_
 
-#include "FLCoreCommon.h"
-#include "FLCoreDefs.hpp"
+#include "Common.hpp"
 
 #pragma warning(disable : 5030)
 #pragma comment(lib, "FLCoreServer.lib")
@@ -269,12 +268,12 @@ class IMPORT CAccount
 {
     public:
         CAccount(const CAccount&);
-        CAccount(void);
-        virtual ~CAccount(void);
+        CAccount();
+        virtual ~CAccount();
         CAccount& operator=(const CAccount&);
         void AppendCharacterNames(st6::list<st6::wstring&>&);
         void DeleteCharacterFromID(st6::string&);
-        void ForceLogout(void);
+        void ForceLogout();
         void InitFromFolder(const char*);
 
     public:
@@ -439,10 +438,10 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
 
 struct CHARACTER_ID final
 {
-        CHARACTER_ID(void);
+        CHARACTER_ID();
         CHARACTER_ID const& operator=(CHARACTER_ID const&);
-        void invalidate(void);
-        bool is_valid(void) const;
+        void invalidate();
+        bool is_valid() const;
 
         char charFilename[512]; // Only first 16 bytes are ever used
 };
@@ -542,12 +541,12 @@ class IMPORT PlayerDB
 {
     public:
         PlayerDB(const PlayerDB&);
-        PlayerDB(void);
-        ~PlayerDB(void);
+        PlayerDB();
+        ~PlayerDB();
         PlayerDB& operator=(const PlayerDB&);
         PlayerData& operator[](const unsigned int&);
         bool BanAccount(st6::wstring&, bool);
-        void BuildLocalUserDir(void);
+        void BuildLocalUserDir();
         unsigned int CountPlayersInSystem(int);
         bool CreateAccount(st6::wstring&);
         void DeleteAccount(st6::wstring&);
@@ -562,10 +561,10 @@ class IMPORT PlayerDB
         const unsigned short* GetActiveCharacterName(unsigned int) const;
         bool GetCharactersForAccount(st6::wstring&, st6::list<st6::wstring>&);
         unsigned int GetGroupID(unsigned int);
-        st6::wstring& GetMOTD(void);
-        unsigned int GetMaxPlayerCount(void);
-        unsigned int GetServerID(void);
-        const char* GetServerSig(void);
+        st6::wstring& GetMOTD();
+        unsigned int GetMaxPlayerCount();
+        unsigned int GetServerID();
+        const char* GetServerSig();
         void LockAccountAccess(st6::wstring&);
         bool MakeLocalUserPath(char*, const char*);
         void ReadCharacterName(const char*, st6::wstring&);
@@ -578,13 +577,13 @@ class IMPORT PlayerDB
         void cleanup(unsigned int);
         bool create_new_character(const SCreateCharacterInfo&, unsigned int);
         bool create_restart_file(const char*);
-        void free(void);
+        void free();
         void init(unsigned int, bool);
         bool is_valid(const unsigned int&);
         bool is_valid_ship_owner(const unsigned int&, const unsigned int&);
         unsigned char login(const SLoginInfo&, unsigned int);
         void logout(unsigned int);
-        void logout_all(void);
+        void logout_all();
         PlayerData* traverse_active(PlayerData*) const;
 
     private:
@@ -607,16 +606,16 @@ namespace SrvAsteroid
     {
         public:
             SrvAsteroidSystem(const SrvAsteroidSystem&);
-            SrvAsteroidSystem(void);
-            ~SrvAsteroidSystem(void);
+            SrvAsteroidSystem();
+            ~SrvAsteroidSystem();
             SrvAsteroidSystem& operator=(const SrvAsteroidSystem&);
-            int AddRef(void);
-            int Release(void);
+            int AddRef();
+            int Release();
             void load(const char*);
-            void map_asteroid_fields(void);
+            void map_asteroid_fields();
             void set_cmn_system(CmnAsteroid::CAsteroidSystem*);
             void set_sys_id(unsigned int);
-            void update(void);
+            void update();
 
         public:
             unsigned char data[OBJECT_DATA_SIZE];
@@ -670,7 +669,7 @@ namespace pub
     IMPORT int GetBases(const unsigned int&, unsigned int* const, unsigned int, unsigned int&);
     IMPORT int GetCargoHoldSize(const unsigned int&, unsigned int&);
     IMPORT int GetCostumeID(int&, const char*);
-    IMPORT IFileSystem* GetDataPath(void);
+    IMPORT IFileSystem* GetDataPath();
     IMPORT int GetEquipmentID(unsigned int&, const char*);
     IMPORT int GetFullHealth(const unsigned int&, unsigned int&);
     IMPORT int GetGoodID(unsigned int&, const char*);
@@ -701,7 +700,7 @@ namespace pub
     IMPORT int ReportFreeTerminal(unsigned int, int);
     IMPORT int Save(unsigned int, unsigned int);
     // IMPORT int SetTimer(unsigned int const&, Controller::TimerExpired const&, float);
-    IMPORT bool SinglePlayer(void);
+    IMPORT bool SinglePlayer();
     IMPORT int TranslateArchToGood(const unsigned int&, unsigned int&);
     IMPORT int TranslateGoodToMsgIdPrefix(unsigned int, TString<64>&);
     IMPORT int TranslateShipToMsgIdPrefix(unsigned int, TString<64>&);
@@ -769,8 +768,8 @@ namespace pub
         IMPORT int GetCostumeSkeletonGender(const Costume&, int&);
         IMPORT int GetMissionVendorOfferCount(unsigned int, unsigned int);
         IMPORT int GetNumCharacterPlacements(unsigned int);
-        IMPORT float GetRtcPerformanceSlider(void);
-        IMPORT unsigned int GetSpaceflightLocation(void);
+        IMPORT float GetRtcPerformanceSlider();
+        IMPORT unsigned int GetSpaceflightLocation();
         IMPORT bool IsCharacterPlacementNormal(unsigned int, int);
         IMPORT bool IsCharacterPlacementSpecial(unsigned int, int);
         IMPORT void MissionVendorAcceptance(unsigned long, bool, const FmtStr&, unsigned int);

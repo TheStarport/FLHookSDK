@@ -1,5 +1,6 @@
 #pragma once
 
+struct FmtStr;
 namespace Reputation
 {
     struct Relation

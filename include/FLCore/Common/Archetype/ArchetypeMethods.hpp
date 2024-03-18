@@ -1,8 +1,18 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+
+#include "../../FLCoreDefs.hpp"
 
 namespace Archetype
 {
+    struct Equipment;
+    struct Solar;
+    struct Root;
+    struct Ship;
+    struct MotorData;
+    struct Explosion;
+    struct DynamicAsteroid;
+    struct Asteroid;
+
     enum class ClassType
     {
         Root = 0,
@@ -63,7 +73,7 @@ namespace Archetype
     IMPORT Explosion* GetExplosion(const ID_String&);
     IMPORT unsigned int GetId(ClassType, unsigned int);
     IMPORT unsigned int GetIdCount(ClassType);
-    IMPORT const struct MotorData* GetMotor(unsigned int);
+    IMPORT const MotorData* GetMotor(unsigned int);
     IMPORT Ship* GetShip(unsigned int);
     IMPORT Ship* GetShipByName(const ID_String&);
     IMPORT unsigned int GetShipID(const ID_String&);

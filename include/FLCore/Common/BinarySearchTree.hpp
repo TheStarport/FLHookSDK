@@ -1,5 +1,5 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include "../FLCoreDefs.hpp"
 
 ArchetypeBstInsertError(Archetype::Asteroid*, "common.dll", 0x9BEB0);
 ArchetypeBstInsertError(Archetype::DynamicAsteroid*, "common.dll", 0x9BEB0);
@@ -23,5 +23,3 @@ namespace Trees
     static BinarySearchTree<Archetype::Solar*>* solar = BST(Archetype::Solar*, "common.dll", 0x19CAAC);
     #undef BST
 } // namespace Trees
-
-#endif //_FLCORECOMMON_H_

@@ -1,6 +1,17 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
 
+#include "EngineObject.hpp"
+
+struct CBase;
+namespace Archetype
+{
+    struct Root;
+}
+namespace PhySys
+{
+    class PhyCollisionStateManager;
+    struct CreateParms;
+}
 struct CObject : public EngineObject
 {
     public:

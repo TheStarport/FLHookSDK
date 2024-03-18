@@ -1,5 +1,5 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include "../../FLCoreDefs.hpp"
 
 class CEquipManager;
 class CEquipTraverser
@@ -11,7 +11,7 @@ class CEquipTraverser
         IMPORT CEquipTraverser& operator=(const CEquipTraverser&);
         IMPORT void Restart();
 
-        CEquipTraverser(CEquipManager* manager, EquipmentClass equipClass = All, bool skipDestroyed = false)
+        CEquipTraverser(CEquipManager* manager, EquipmentClass equipClass = EquipmentClass::All, bool skipDestroyed = false)
             : CEquipTraverser(static_cast<int>(equipClass), skipDestroyed)
         {
             equipManager = manager;
@@ -77,7 +77,7 @@ class CEquipManager
         IMPORT const CEquip* Traverse(CEquipTraverser&) const;
         IMPORT bool VerifyListSync(const class EquipDescList&) const;
 
-        CEquipTraverser StartTraverse(EquipmentClass equipmentClass = All, bool skipDestroyed = false)
+        CEquipTraverser StartTraverse(EquipmentClass equipmentClass = EquipmentClass::All, bool skipDestroyed = false)
         {
             return CEquipTraverser(this, equipmentClass, skipDestroyed);
         }
@@ -89,7 +89,7 @@ class CEquipManager
             return traverser;
         }
 
-        CEquipTraverser end() { return { this, All, false }; }
+        CEquipTraverser end() { return { this, EquipmentClass::All, false }; }
 
     public:
         /* 0 */ uint iDunno0;

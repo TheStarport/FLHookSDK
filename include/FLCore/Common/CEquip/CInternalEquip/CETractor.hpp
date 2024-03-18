@@ -1,6 +1,7 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include "../../../FLCoreDefs.hpp"
 
+struct CShip;
 class CETractor : public CInternalEquip
 {
     public:

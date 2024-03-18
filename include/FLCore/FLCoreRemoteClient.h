@@ -13,7 +13,7 @@
 #ifndef _FLCOREREMOTECLIENT_H_
 #define _FLCOREREMOTECLIENT_H_
 
-#include "FLCoreCommon.h"
+#include "Common.hpp"
 #include "FLCoreDefs.hpp"
 
 #pragma warning(disable : 5030)
@@ -33,7 +33,7 @@ class IMPORT IClient
 {
     public:
         IClient(const IClient&);
-        IClient(void);
+        IClient();
         IClient& operator=(const IClient&);
 
     public:
@@ -401,7 +401,7 @@ struct IClientImpl
 
 IMPORT void ForceClientLogout(unsigned int);
 IMPORT int GetClientStats(struct client_stats_t*, int*);
-IMPORT int GetNumClients(void);
+IMPORT int GetNumClients();
 IMPORT void GetRemoteClientPort(st6::vector<unsigned long>&);
 IMPORT void SetRemoteClientPassword(const unsigned short*);
 IMPORT void SetRemoteClientResponseData(bool, bool, int, const unsigned short*, unsigned int, const char*);

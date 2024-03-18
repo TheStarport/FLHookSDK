@@ -28,7 +28,7 @@ namespace DACOM_CRC
 
 namespace LogStream
 {
-	IMPORT  void  FlushToDisk(void);
+	IMPORT  void  FlushToDisk();
 	IMPORT  void  LogEvent(char const *,float,unsigned long);
 	IMPORT  void  LogNamedEvent(char const *,char const *,unsigned long);
 	IMPORT  bool  Startup(char const *);

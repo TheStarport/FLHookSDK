@@ -1,5 +1,11 @@
 #pragma once
-#include "../../../FLCoreDefs.hpp"
+
+#include "../../CSimple.hpp"
+
+namespace PhySys
+{
+    struct CreateParms;
+}
 
 struct CEqObj : public CSimple
 {

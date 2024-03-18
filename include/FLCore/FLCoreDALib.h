@@ -22,24 +22,24 @@ class IMPORT CDPClient
 {
 public:
 	 CDPClient(CDPClient const &);
-	 CDPClient(void);
-	 virtual ~CDPClient(void);
+	 CDPClient();
+	 virtual ~CDPClient();
 	 CDPClient & operator=(CDPClient const &);
 	 bool AddConnectAttempt(unsigned short const *,unsigned short *);
-	 void CancelEnums(void);
-	 void Cleanup(void);
-	 void Close(void);
+	 void CancelEnums();
+	 void Cleanup();
+	 void Close();
 	 void DispatchMsgs(unsigned long);
 	 bool EnumerateHost(unsigned short const *,unsigned long,unsigned long,unsigned long,unsigned long);
-	 bool EnumerateHosts(void);
-	 struct IDirectPlay8Client * GetClient(void);
-	 long GetConnectResult(void);
-	 static unsigned long __cdecl GetLastMsgTimestamp(void);
-	 static unsigned long __cdecl GetLinkQuality(void);
-	 static unsigned long __cdecl GetPingDelay(void);
-	 static unsigned long __cdecl GetSendQueueSize(void);
-	 static bool __cdecl IsPingOutstanding(void);
-	 bool ProcessConnectAttempt(void);
+	 bool EnumerateHosts();
+	 struct IDirectPlay8Client * GetClient();
+	 long GetConnectResult();
+	 static unsigned long __cdecl GetLastMsgTimestamp();
+	 static unsigned long __cdecl GetLinkQuality();
+	 static unsigned long __cdecl GetPingDelay();
+	 static unsigned long __cdecl GetSendQueueSize();
+	 static bool __cdecl IsPingOutstanding();
+	 bool ProcessConnectAttempt();
 	 bool Send(unsigned char *,unsigned long);
 	 void SetGUID(_GUID &);
 	 static void __cdecl SetSourcePort(unsigned long);
@@ -65,18 +65,18 @@ class IMPORT CDPClientProxy
 {
 public:
 	 CDPClientProxy(CDPClientProxy const &);
-	 CDPClientProxy(void);
-	 virtual ~CDPClientProxy(void);
+	 CDPClientProxy();
+	 virtual ~CDPClientProxy();
 	 CDPClientProxy & operator=(CDPClientProxy const &);
-	 bool Disconnect(void);
+	 bool Disconnect();
 	 bool GetConnectionStats(struct _DPN_CONNECTION_INFO *);
-	 double GetLinkSaturation(void);
-	 unsigned int GetSendQBytes(void);
-	 unsigned int GetSendQSize(void);
+	 double GetLinkSaturation();
+	 unsigned int GetSendQBytes();
+	 unsigned int GetSendQSize();
 	 void OnMsgSent(unsigned long);
 	 bool Send(void *,unsigned long);
-	 bool SendMsgs(void);
-	 void UpdateQueueHistory(void);
+	 bool SendMsgs();
+	 void UpdateQueueHistory();
 
 public:
 	unsigned char data[OBJECT_DATA_SIZE];
@@ -86,11 +86,11 @@ class IMPORT CDPMessage
 {
 public:
 	 CDPMessage(CDPMessage const &);
-	 CDPMessage(void);
-	 virtual ~CDPMessage(void);
+	 CDPMessage();
+	 virtual ~CDPMessage();
 	 CDPMessage & operator=(CDPMessage const &);
-	 unsigned char * GetData(void);
-	 unsigned long const  GetSize(void);
+	 unsigned char * GetData();
+	 unsigned long const  GetSize();
 
 public:
 	unsigned char data[OBJECT_DATA_SIZE];
@@ -100,17 +100,17 @@ class IMPORT CDPMsgList
 {
 public:
 	 CDPMsgList(CDPMsgList const &);
-	 CDPMsgList(void);
-	 virtual ~CDPMsgList(void);
+	 CDPMsgList();
+	 virtual ~CDPMsgList();
 	 CDPMsgList & operator=(CDPMsgList const &);
 	 void Add(CDPMessage *);
 	 void CopyList(CDPMsgList &);
 	 void ExtractMsgs(unsigned long, CDPMsgList &);
-	 CDPMessage * GetNextMsg(void);
-	 void Lock(void);
-	 CDPMessage * PeekNextMsg(void);
-	 void SetEmptyEvent(void);
-	 void Unlock(void);
+	 CDPMessage * GetNextMsg();
+	 void Lock();
+	 CDPMessage * PeekNextMsg();
+	 void SetEmptyEvent();
+	 void Unlock();
 	 void WaitForMsg(unsigned long);
 
 public:
@@ -121,17 +121,17 @@ class IMPORT CDPServer
 {
 public:
 	 CDPServer(CDPServer const &);
-	 CDPServer(void);
-	 virtual ~CDPServer(void);
+	 CDPServer();
+	 virtual ~CDPServer();
 	 CDPServer & operator=(CDPServer const &);
 	 bool BeginHosting(unsigned int);
-	 static void __cdecl CrashCleanup(void);
-	 virtual CDPClientProxy * CreateClientProxy(void);
+	 static void __cdecl CrashCleanup();
+	 virtual CDPClientProxy * CreateClientProxy();
 	 void DisconnectClient(unsigned long);
-	 void DispatchMsgs(void);
+	 void DispatchMsgs();
 	 bool GetConnectionStats(_DPN_CONNECTION_INFO *);
 	 bool GetConnectionStats(CDPClientProxy *, _DPN_CONNECTION_INFO *);
-	 static unsigned long __cdecl GetLastMsgTimestamp(void);
+	 static unsigned long __cdecl GetLastMsgTimestamp();
 	 void GetPort(st6::vector<unsigned long> &);
 	 unsigned int GetSendQBytes(CDPClientProxy *);
 	 unsigned int GetSendQSize(CDPClientProxy *);
@@ -141,13 +141,13 @@ public:
 	 void SetMaxPlayers(int);
 	 void SetPassword(unsigned short const *);
 	 void SetSessionName(unsigned short const *);
-	 void StopHosting(void);
+	 void StopHosting();
 
 protected:
-	 void GetHostAddresses(void);
+	 void GetHostAddresses();
 	 static long __stdcall HandleDPServerMsg(void *,unsigned long,void *);
-	 void ReleaseHostAddresses(void);
-	 void UpdateDescription(void);
+	 void ReleaseHostAddresses();
+	 void UpdateDescription();
 	 static unsigned long  m_dwLastMsgReceivedTime;
 	 static CDPServer *  m_pServer;
 
@@ -170,16 +170,16 @@ class IMPORT CGunWrapper
 public:
 	 CGunWrapper(CGunWrapper const &);
 	 CGunWrapper(char const *, _GUID &,char const *,unsigned long,unsigned short *);
-	 virtual ~CGunWrapper(void);
+	 virtual ~CGunWrapper();
 	 CGunWrapper & operator=(CGunWrapper const &);
-	 void DispatchQueue(void);
-	 struct IGunBrowser * GetBrowser(void);
-	 IGunConnection * GetConnection(void);
-	 struct IGunHost * GetHost(void);
-	 IGunConnection::ConnectStatus  GetStatus(void);
+	 void DispatchQueue();
+	 struct IGunBrowser * GetBrowser();
+	 IGunConnection * GetConnection();
+	 struct IGunHost * GetHost();
+	 IGunConnection::ConnectStatus  GetStatus();
 	 virtual long __stdcall Read(Gun2::GUNQueueMessage *);
-	 static void __cdecl Shutdown(void);
-	 void Update(void);
+	 static void __cdecl Shutdown();
+	 void Update();
 
 public:
 	unsigned char data[OBJECT_DATA_SIZE];
@@ -258,7 +258,7 @@ namespace DALib
 	IMPORT IAlchemy *  Alchemy;
 	IMPORT IAnimation2 *  Anim;
 	IMPORT IChannel *  Channel;
-	IMPORT  void __cdecl CloseData(void);
+	IMPORT  void __cdecl CloseData();
 	IMPORT ICOManager *  Dacom;
 	IMPORT IFileSystem *  Data;
 	IMPORT IDeformable *  Deform;
@@ -289,11 +289,11 @@ class IMPORT IDPMsgHandler
 {
 public:
 	 IDPMsgHandler(IDPMsgHandler const &);
-	 IDPMsgHandler(void);
+	 IDPMsgHandler();
 	 IDPMsgHandler & operator=(IDPMsgHandler const &);
 	 virtual void OnAddHost(struct _DPNMSG_ENUM_HOSTS_RESPONSE *);
 	 virtual void OnConnect(long);
-	 virtual void OnDisconnect(void);
+	 virtual void OnDisconnect();
 	 virtual void OnReceive(unsigned char *,unsigned long);
 
 public:
@@ -304,15 +304,15 @@ class IMPORT MD5Hash
 {
 public:
 	 MD5Hash(MD5Hash const &);
-	 MD5Hash(void);
-	 virtual ~MD5Hash(void);
+	 MD5Hash();
+	 virtual ~MD5Hash();
 	 MD5Hash & operator=(MD5Hash const &);
 	 bool AddData(void * const,unsigned long);
-	 char const * AsString(void);
-	 bool CalcValue(void);
+	 char const * AsString();
+	 bool CalcValue();
 	 bool Compare(MD5Hash &);
 	 void FromString(char const *);
-	 unsigned char * GetStatePtr(void);
+	 unsigned char * GetStatePtr();
 
 protected:
 	 void Decode(unsigned long *,unsigned char *,unsigned long);

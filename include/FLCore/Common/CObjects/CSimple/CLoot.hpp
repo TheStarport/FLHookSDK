@@ -1,5 +1,6 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+
+#include "../../../FLCoreDefs.hpp"
 
 struct CLoot : public CSimple
 {

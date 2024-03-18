@@ -1,7 +1,15 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include "../../FLCoreDefs.hpp"
 
-namespace Archetpe
+#include "ArchetypeMethods.hpp"
+
+struct IEngineInstance;
+namespace PhyArch
+{
+    struct Part;
+}
+
+namespace Archetype
 {
     struct Root
     {

@@ -1,6 +1,11 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
 
+#include "../../../PhySys/Controller.hpp"
+
+class CStrafeEngine;
+class CNudgeEngine;
+class CSteering;
+class CPlayerGroup;
 struct CShip : public CEqObj, public PhySys::Controller
 {
     public:

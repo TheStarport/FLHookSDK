@@ -1,6 +1,7 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include "../FLCoreDefs.hpp"
 
+class INI_Reader;
 struct GoodDesc
 {
         IMPORT GoodDesc();

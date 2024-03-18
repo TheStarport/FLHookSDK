@@ -1,6 +1,9 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
 
+#include "../FLCoreDefs.hpp"
+#include "Strings.hpp"
+
+struct EquipDescVector;
 struct EquipDesc
 {
         IMPORT EquipDesc(const EquipDesc&);

@@ -1,5 +1,12 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+
+#include "Enums.hpp"
+#include "../FLCoreDefs.hpp"
+
+namespace Archetype
+{
+    struct Explosion;
+}
 
 struct DamageEntry
 {

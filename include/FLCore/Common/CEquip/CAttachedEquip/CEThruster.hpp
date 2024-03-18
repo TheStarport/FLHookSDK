@@ -1,5 +1,6 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+
+#include "../../PhySys/Controller/CPhysControllerEquip.hpp"
 
 class CEThruster : public CAttachedEquip, public CPhysControllerEquip
 {
