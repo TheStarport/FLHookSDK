@@ -116,6 +116,7 @@
 #include "Common/Universe/IZone.hpp"
 #include "Common/Universe/ISystem.hpp"
 #include "Common/Universe/UniverseMethods.hpp"
+#include "Common/CArchGroup.hpp"
 #include "Common/XML.hpp"
 #include "Common/Watchable.hpp"
 #include "Common/Unknown.hpp"

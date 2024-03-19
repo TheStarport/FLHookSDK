@@ -524,15 +524,6 @@ class IMPORT CRemotePhysicsSimulation
         unsigned char data[OBJECT_DATA_SIZE];
 };
 
-
-
-namespace BaseGroupMessage
-{
-    enum Type;
-};
-
-
-
 struct IMPORT CharPlaceInfo
 {
         CharPlaceInfo();

@@ -14,6 +14,8 @@
 #define _FLCORESERVER_H_
 
 #include "Common.hpp"
+// TODO: Remove after converting server
+#include "Server/CPlayerGroup.hpp"
 
 #pragma warning(disable : 5030)
 #pragma comment(lib, "FLCoreServer.lib")

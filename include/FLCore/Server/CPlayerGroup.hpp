@@ -1,12 +1,17 @@
 #pragma once
 #include "../FLCoreDefs.hpp"
 
+namespace BaseGroupMessage
+{
+    enum Type;
+};
+
 class CPlayerGroup
 {
     public:
     IMPORT CPlayerGroup(const CPlayerGroup&);
-    IMPORT CPlayerGroup(void);
-    IMPORT virtual ~CPlayerGroup(void);
+    IMPORT CPlayerGroup();
+    IMPORT virtual ~CPlayerGroup();
     IMPORT CPlayerGroup& operator=(const CPlayerGroup&);
     IMPORT bool AddInvite(unsigned int);
     IMPORT bool AddMember(unsigned int);
@@ -14,14 +19,14 @@ class CPlayerGroup
     IMPORT bool DelMember(unsigned int);
     IMPORT void DeliverChat(unsigned long, const void*);
     IMPORT static CPlayerGroup* FromGroupID(unsigned int);
-    IMPORT unsigned int GetID(void);
-    IMPORT unsigned int GetInviteCount(void);
+    IMPORT unsigned int GetID();
+    IMPORT unsigned int GetInviteCount();
     IMPORT unsigned int GetMember(int) const;
-    IMPORT unsigned int GetMemberCount(void);
-    IMPORT unsigned int GetMissionID(void);
-    IMPORT unsigned int GetMissionSetBy(void);
+    IMPORT unsigned int GetMemberCount();
+    IMPORT unsigned int GetMissionID();
+    IMPORT unsigned int GetMissionSetBy();
     IMPORT void HandleClientLogout(unsigned int);
-    IMPORT bool IsFull(void);
+    IMPORT bool IsFull();
     IMPORT bool IsInvited(unsigned int);
     IMPORT bool IsMember(unsigned int);
     IMPORT void RewardMembers(int);

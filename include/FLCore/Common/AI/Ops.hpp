@@ -296,8 +296,8 @@ namespace pub
         struct SetZoneBehaviorParams : public BaseOp
         {
                 IMPORT SetZoneBehaviorParams(const SetZoneBehaviorParams&);
-                IMPORT SetZoneBehaviorParams(void);
-                IMPORT virtual bool validate(void);
+                IMPORT SetZoneBehaviorParams();
+                IMPORT virtual bool validate();
 
                 uint iZoneType;     // 0 = position, 1 = cuboid 2 = spaceobj
                 uint iDunno_0x10;   // 0=?? 1=?? 2=delete user zone
