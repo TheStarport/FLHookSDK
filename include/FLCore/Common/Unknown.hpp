@@ -1426,7 +1426,7 @@ struct CShipAbstract
         virtual void sub_6D02410();                                 // 80
         virtual void sub_6D02500();                                 // 84
         virtual void sub_6CE7210();                                 // 88
-        virtual void sub_6D02670();                                 // 92
+        virtual void request_event(uint eventType, uint requestTarget, uint param1, uint param2, uint dunno); // 92 sub_6D02670
         virtual void sub_6D027A0();                                 // 96
         virtual void sub_6D028C0();                                 // 100
         virtual void sub_6D02880();                                 // 104
