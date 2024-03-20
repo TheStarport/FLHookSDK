@@ -1,7 +1,7 @@
 #pragma once
 #include "../../FLCoreDefs.hpp"
 
-struct IObjInspect;
+class IObjInspect;
 namespace Archetype
 {
     struct Effect;

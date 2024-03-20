@@ -6,6 +6,7 @@ class CStrafeEngine;
 class CNudgeEngine;
 class CSteering;
 class CPlayerGroup;
+class IObjInspect;
 struct CShip : public CEqObj, public PhySys::Controller
 {
     public:

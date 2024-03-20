@@ -14,8 +14,8 @@
 #define _FLCORESERVER_H_
 
 #include "Common.hpp"
+#include "Server.hpp"
 // TODO: Remove after converting server
-#include "Server/CPlayerGroup.hpp"
 
 #pragma warning(disable : 5030)
 #pragma comment(lib, "FLCoreServer.lib")
@@ -622,6 +622,72 @@ namespace SrvAsteroid
         public:
             unsigned char data[OBJECT_DATA_SIZE];
     };
+
+    class MedAsteroid : public GameObject
+    {
+        virtual void sub_6CEF1C0();
+        virtual void sub_6CEE630();
+        virtual void sub_6CEE670();
+        virtual void sub_6CEE6D0();
+        virtual void sub_6D02CB0();
+        virtual void sub_6D04C30();
+        virtual void sub_6CEE9E0();
+        virtual void sub_6CEE6E0();
+        virtual void sub_6CEE810();
+        virtual void sub_6CEE980();
+        virtual void noImpl1(uint dummy1, uint dummy2);
+        virtual void noImpl2(uint dummy1, uint dummy2);
+        virtual void noImpl3(uint dummy1, uint dummy2);
+        virtual void noImpl4(uint dummy);
+        virtual void sub_6CE6190();
+        virtual void sub_6CEEFA0();
+        virtual void sub_6CEF0F0();
+        virtual void sub_6CE61A0();
+        virtual void sub_6CE61B0();
+        virtual void sub_6CE61C0();
+        virtual void sub_6CEE9F0();
+        virtual void sub_6CEEE20();
+        virtual void sub_6CEF1E0();
+        virtual void sub_6CEEC90();
+        virtual void sub_6CEEF70();
+        virtual void sub_6CEF0B0();
+
+        //TODO: Fields
+    };
+
+    class MedMine : public GameObject
+    {
+        virtual void sub_6CEF1C0();
+        virtual void sub_6CEE630();
+        virtual void sub_6CEE670();
+        virtual void sub_6CEE6D0();
+        virtual void sub_6D02CB0();
+        virtual void sub_6D04C30();
+        virtual void sub_6CEE9E0();
+        virtual void sub_6CEE6E0();
+        virtual void sub_6CEE810();
+        virtual void sub_6CEE980();
+        virtual void noImpl1(uint dummy1, uint dummy2);
+        virtual void noImpl2(uint dummy1, uint dummy2);
+        virtual void noImpl3(uint dummy1, uint dummy2);
+        virtual void sub_6CEEE70();
+        virtual void sub_6CE6190();
+        virtual void sub_6CEEFA0();
+        virtual void sub_6CEF0F0();
+        virtual void sub_6CE61A0();
+        virtual void sub_6CE61B0();
+        virtual void sub_6CE61C0();
+        virtual void sub_6CEE9F0();
+        virtual void sub_6CEEE20();
+        virtual void sub_6CEF1E0();
+        virtual void sub_6CEEC90();
+        virtual void sub_6CEEF70();
+        virtual void sub_6CEF0B0();
+        virtual void noImpl4(uint dummy1, uint dummy2);
+
+        //TODO: Fields
+    };
+
 
 }; // namespace SrvAsteroid
 
