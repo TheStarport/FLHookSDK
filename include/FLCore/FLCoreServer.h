@@ -15,7 +15,6 @@
 
 #include "Common.hpp"
 #include "Server.hpp"
-// TODO: Remove after converting server
 
 #pragma warning(disable : 5030)
 #pragma comment(lib, "FLCoreServer.lib")
@@ -467,60 +466,65 @@ inline void BinarySearchTree<VisitEntry>::Insert(uint key, VisitEntry value)
 
 struct PlayerData
 {
-        wchar_t accId[40];
-        long x050, x054, x058, x05C;
-        uint numberOfCharacters;
-        CHARACTER_ID charFile;
-        uint shipArchetype;
-        float relativeHealth;
-        st6::list<CollisionGroupDesc> collisionGroupDesc;
-        EquipDescList equipDescList;
-        int rank;
-        int moneyNeededToNextRank;
-        Costume commCostume;
-        uint voiceLen;
-        char voice[32];
-        Costume baseCostume;
-        uint reputation;
-        int money;
-        int worth;
-        uint shipArchetypeWhenLanding;
-        EquipDescList shadowEquipDescList;
-        int numKills;
-        int numMissionSuccesses;
-        int numMissionFailures;
-        bool skipAutoSave;
-        uint saveCount;
-        uint onlineId;
-        bool cheated;
-        Vector position;
-        Matrix orientation;
-        st6::string weaponGroups;
-        uint dunno1[2];
-        int* SPNeuralNetLogUnk;
-        int interfaceState;
-        BinarySearchTree<VisitEntry> visitEntries;
-        uint dunno2[4]; // last one seems to always be zero
-        float difficulty;
-        ushort lastEquipId;
-        uint menuItem;
-        uint onlineId2;
-        uint dunno3[2];
-        uint tradeRequestCount;
-        uint systemId;
-        uint shipId;
-        uint createdShipId;
-        uint baseId;
-        uint lastBaseId;
-        uint enteredBase;
-        uint baseRoomId;
-        uint characterId;
-        CAccount* account;
-        CPlayerGroup* playerGroup;
-        uint missionId;
-        uint missionSetBy;
-        uint exitedBase;
-        uint unknownLocId;
+        wchar_t accId[40]; // 0
+        long x050, x054, x058, x05C; // 0x50
+        uint numberOfCharacters; // 0x60
+        CHARACTER_ID charFile; // 0x64
+        uint shipArchetype; // 0x264
+        float relativeHealth; // 0x268
+        st6::list<CollisionGroupDesc> collisionGroupDesc; // 0x26C
+        EquipDescList equipAndCargo; // 0x278
+        int rank; // 0x284
+        int moneyNeededToNextRank; // 0x288
+        Costume commCostume; // 0x28C
+        uint voiceLen; // 0x2C0
+        char voice[32]; // 0x2C4
+        Costume baseCostume;  // 0x2E4
+        uint reputation; // 0x318
+        int money; // 0x31C
+        int worth; // 0x320
+        uint shipArchetypeWhenLanding;  // 0x324
+        // Potentially something related to anti-cheat checking
+        EquipDescList shadowEquipDescList; // 0x328
+        int numKills; // 0x334
+        int numMissionSuccesses;  // 0x338
+        int numMissionFailures; // 0x33C
+        bool skipAutoSave; // 0x340
+        uint saveCount; // 0x344
+        uint onlineId; // 0x348
+        bool cheated; // 0x34C
+        Vector position; // 0x350
+        Matrix orientation; // 0x35C
+        st6::string weaponGroups; // 0x380
+        uint dunno1[2]; // 0x390
+        int* SPNeuralNetLogUnk; // 0x398
+        int interfaceState; // 0x39C
+        BinarySearchTree<VisitEntry> visitEntries; // 0x3A0
+        uint dunno2[4]; // 0x3B4
+        float difficulty; // 0x3C4
+        ushort lastEquipId; // 0x3C8
+        uint menuItem; // 0x3CC
+        uint onlineId2; // 0x3D0
+        uint dunno3[2]; // 0x3D4
+        uint tradeRequestCount; // 0x3DC
+        uint systemId; // 0x3E0
+        uint shipId; // 0x3E4
+        uint createdShipId; // 0x3E8
+        uint baseId; // 0x3EC
+        uint lastBaseId; // 0x3F0
+        uint enteredBase; // 0x3F4
+        uint baseRoomId; // 0x3F8
+        uint characterId; // 0x3FC
+        CAccount* account; // 0x400
+        CPlayerGroup* playerGroup; // 0x404
+        uint missionId; // 0x408
+        uint missionSetBy; // 0x40C
+        uint exitedBase; // 0x410
+        uint unknownLocId; // 0x414
+        uint unknown[20]; // 0x418
+        float baseHullStatus; // 0x468
+        EquipDescList baseEquipAndCargo; // 0x46C
+        st6::list<CollisionGroupDesc> baseCollisionGroups; // 0x478
 };
 
 struct PlayerDbTreeNode
