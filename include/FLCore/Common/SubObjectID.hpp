@@ -10,8 +10,7 @@ namespace SubObjectID
         unsigned short CreateGroupID();
         void Reset();
 
-        public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        short currSID;
     };
 
     class IMPORT EquipIdMaker
@@ -23,7 +22,7 @@ namespace SubObjectID
         void Reset();
 
         public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        short currSID;
     };
 
     class IMPORT ShieldIdMaker
@@ -35,7 +34,7 @@ namespace SubObjectID
         void Reset();
 
         public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        short currSID;
     };
 
     IMPORT bool IsArchGroupID(unsigned short);

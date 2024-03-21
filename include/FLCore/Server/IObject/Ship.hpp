@@ -30,5 +30,5 @@ struct Ship : public EqObj, public IObjAffect, public IObjDestructor
     bool bDunno_0xB8;
     float pendingEnvironmentalDamage;
     float timeSinceLastUpdate;
-    uint* nextEqId;
+    SubObjectID::EquipIdMaker* equipIdMaker;
 };

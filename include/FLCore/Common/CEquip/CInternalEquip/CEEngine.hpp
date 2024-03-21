@@ -1,6 +1,7 @@
 #pragma once
 
-#include "FLCore/Common/PhySys/Controller/CPhysControllerEquip.hpp"
+#include <FLCore/Common/PhySys/Controller/CPhysControllerEquip.hpp>
+#include "../../../FLCoreDefs.hpp"
 
 struct CShip;
 class CEEngine : public CInternalEquip, public CPhysControllerEquip
@@ -37,4 +38,9 @@ class CEEngine : public CInternalEquip, public CPhysControllerEquip
     IMPORT float GetPowerDraw(float) const;
     IMPORT float GetThrust(float) const;
     IMPORT bool IsCruiseEngaged() const;
+
+    /* 13 */ uint dunno[6]; // nozzle hardpoints in here, vector/list?
+    /* 19 */ float targetSpeed; // unconfirmed
+    /* 20 */ float cruiseDisruptionTime;
+    /* 21 */ bool cruiseEngaged;
 };

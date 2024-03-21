@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../Controller.hpp"
+#include <FLCore/Common/PhySys/Controller.hpp>
+#include "../../../FLCoreDefs.hpp"
 
 class CPhysControllerEquip : public PhySys::Controller
 {
@@ -16,5 +17,5 @@ class CPhysControllerEquip : public PhySys::Controller
     IMPORT CPhysControllerEquip& operator=(const CPhysControllerEquip&);
 
     public:
-    unsigned char data[OBJECT_DATA_SIZE];
+    bool isEnabled;
 };

@@ -118,18 +118,18 @@ struct IObjAffect
     virtual FORMATION_RTYPE remove_follow_follower(IObjRW*);   // 48
     virtual int fire_weapons(ushort startIndex, ushort endIndex, void* unk, void* unk2); // 52
     virtual int jettison_cargo(ushort sID, ushort amount, void* unused, void* unused2); // 56
-    virtual int sub_6CE6D80(ushort sId, int, int);              // 60 something about Tractoring?
-    virtual int sub_6CE6BA0(ushort sId, int, int);              // 64 something about Tractoring?
+    virtual int tractor_all(ushort sId, int* tractorArray, int* dunno); // 60
+    virtual int tractor_single(ushort sId, IObjRW* loot, int dunno); // 64
     virtual int set_gun_target(ushort gunSId, uint target, ushort targetSId, int flag); // 68
     virtual int set_target(IObjRW* target, ushort sId, int dunno); // 72
     virtual int sub_6CE70B0(ushort sId, int dunno, int flag);  // 76 something about strafing/thrusting
-    virtual int sub_6D02410();                                 // 80 engine related, engage cruise?
+    virtual int toggle_cruise(bool cruiseActive, bool dunno, int dunno2); // 80 engine related, engage cruise?
     virtual int sub_6D02500();                                 // 84 activates thrusters?
     virtual int use_item(ushort sId, uint amount, int unused); // 88 sub_6CE7210
     virtual int request_event(uint eventType, uint requestTarget, uint param1, uint param2, uint dunno); // 92
     virtual int request_cancel(uint eventType, uint param1, uint param2); // 96
-    virtual int sub_6D028C0();                                 // 100 go tradelane?
-    virtual int sub_6D02880();                                 // 104 switch from one pair of tradelane to another midflight?
+    virtual int go_tradelane(const IObjInspect* startRing, const IObjInspect* nextRing, IObjRW* jumpingIObj, bool unk1, float unk2); // 100
+    virtual int stop_tradelane();                             // 104 switch from one pair of tradelane to another midflight?
     virtual int sub_6CEF350();                                 // 108 null
     virtual int sub_6D02000();                                 // 112 unknown
     virtual int sub_6D02070(uint spaceObjId);                  // 116 sendmessage 0x26
@@ -142,7 +142,10 @@ struct IObjDestructor
     virtual struct IObjInspectImpl* DestroyIObj(bool deallocate);
 };
 
+struct IObjRW : public IObjInspectImpl
+{
 
+};
 
 
 
