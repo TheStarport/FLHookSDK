@@ -6,7 +6,7 @@ namespace Reputation
     struct Relation
     {
             uint hash;
-            float reptuation;
+            float reputation;
     };
 
     struct RepGroup
@@ -29,7 +29,8 @@ namespace Reputation
         IMPORT int EnsureExists(const int&);
         IMPORT int Free(const int&);
         IMPORT void FreeDynamic();
-        IMPORT int Get(const int& repId, unsigned int& affiliation, unsigned int& rank, unsigned char& relationCount, Relation* relations, FmtStr&, FmtStr&,
+        // ReSharper disable once CppConstParameterInDeclaration
+        IMPORT int Get(const int& repId, unsigned int& affiliation, unsigned int& rank, unsigned char& relationCount, Relation* const relations, FmtStr&, FmtStr&, // NOLINT(*-avoid-const-params-in-decls)
                        const unsigned short*& name);
         IMPORT int GetAffiliation(const int&, unsigned int&, bool);
         IMPORT unsigned int GetClientID(int);

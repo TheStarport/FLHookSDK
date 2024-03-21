@@ -241,24 +241,58 @@ class StringUtils
             return ret;
         }
 
-        static Hook std::wstring stows(const std::string& text)
+        template<typename T>
+            requires std::is_same_v<T, std::string> || std::is_same_v<T, std::string_view> || std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, char*>
+        static Hook std::wstring stows(const T& text)
         {
-            const int size = MultiByteToWideChar(CP_UTF8, 0, text.c_str(), -1, nullptr, 0);
-            const auto wideText = new wchar_t[size];
-            MultiByteToWideChar(CP_UTF8, 0, text.c_str(), -1, wideText, size);
-            std::wstring ret = wideText;
-            delete[] wideText;
-            return ret;
+            const char* data;
+            if constexpr (std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, char*>)
+            {
+                data = text;
+            }
+            else
+            {
+                data = text.data();
+            }
+
+            // Statically allocate buffer to prevent reallocations
+            static std::array<wchar_t, 4096> buffer;
+            std::memset(buffer.data(), 0, buffer.size());
+
+            const int size = MultiByteToWideChar(CP_UTF8, 0, data, -1, buffer.data(), 4096);
+
+            // Only copy the byes we need
+            auto end = buffer.begin();
+            std::advance(end, size);
+
+            return { buffer.begin(), end };
         }
 
-        static Hook std::string wstos(const std::wstring& text)
+        template<typename T>
+            requires std::is_same_v<T, std::wstring> || std::is_same_v<T, std::wstring_view> || std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, wchar_t*>
+        static Hook std::string wstos(const T& text)
         {
-            const uint len = text.length() + 1;
-            const auto buf = new char[len];
-            WideCharToMultiByte(CP_UTF8, 0, text.c_str(), -1, buf, len, nullptr, nullptr);
-            std::string ret = buf;
-            delete[] buf;
-            return ret;
+            const wchar_t* data;
+            if constexpr (std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, wchar_t*>)
+            {
+                data = text;
+            }
+            else
+            {
+                data = text.data();
+            }
+
+            // Statically allocate buffer to prevent reallocations
+            static std::array<char, 4096> buffer;
+            std::memset(buffer.data(), 0, buffer.size());
+
+            const int size = WideCharToMultiByte(CP_UTF8, 0, data, -1, buffer.data(), 4096, nullptr, nullptr);
+
+            // Only copy the byes we need
+            auto end = buffer.begin();
+            std::advance(end, size);
+
+            return { buffer.begin(), end };
         }
 
         static Hook std::wstring ToHex(const std::wstring_view input)
