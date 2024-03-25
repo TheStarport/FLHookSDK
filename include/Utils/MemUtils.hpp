@@ -52,11 +52,6 @@ class Hook MemUtils
         static void ReadProcMem(DWORD address, void* mem, const uint size) { ReadProcMem(PDWORD(address), mem, size); }
         static void WriteProcMem(DWORD address, void* mem, const uint size) { WriteProcMem(PDWORD(address), mem, size); }
 
-        static FARPROC PatchCallAddr(void* mod, const DWORD installAddress, void* hookFunction)
-        {
-            return PatchCallAddr((DWORD)mod, installAddress, hookFunction);
-        }
-
         static FARPROC PatchCallAddr(DWORD mod, const DWORD installAddress, void* hookFunction)
         {
             DWORD relAddr;

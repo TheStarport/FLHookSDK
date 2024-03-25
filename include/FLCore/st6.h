@@ -27,6 +27,11 @@ extern const st6_free_t st6_free;
     #define _REFERENCE_X(T, A) T&
 #endif
 
+#define _TRY_BEGIN     try {
+#define _CATCH(x)      } catch (x) {
+#define _CATCH_ALL     } catch (...) {
+#define _CATCH_END     }
+
 namespace st6
 {
     template <class _Ty>
@@ -1297,7 +1302,7 @@ namespace st6
             _Paircc equal_range(const _K& _Kv) const { return (_Tr.equal_range(_Kv)); }
 
         protected:
-            typename _Imp _Tr;
+            _Imp _Tr;
     };
     // map TEMPLATE OPERATORS
     template <class _K, class _Ty, class _Pr, class _A>
@@ -2892,3 +2897,8 @@ namespace st6
     typedef basic_string<char, ci_char_traits, allocator<char>> string;
     typedef basic_string<unsigned short, ci_wchar_traits, allocator<unsigned short>> wstring;
 } // namespace st6
+
+#undef _TRY_BEGIN     try {
+#undef _CATCH(x)      } catch (x) {
+#undef _CATCH_ALL     } catch (...) {
+#undef _CATCH_END

@@ -69,7 +69,7 @@ class TimeUtils
 
         static std::wstring AsDate(const std::chrono::seconds total)
         {
-            auto const time = std::chrono::current_zone()->to_local(std::chrono::sys_seconds(total));
+            auto const time = std::chrono::time_point{std::chrono::sys_seconds(total)};
             return std::format(L"{0:%Y-%m-%d %H:%M:%S}", time);
         }
 

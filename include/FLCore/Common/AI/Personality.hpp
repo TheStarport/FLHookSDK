@@ -355,11 +355,13 @@ namespace pub
                     bool force_attack_formation_used;     // false (true when above is set)
             };
 
+            enum class TOUGHNESS_TYPE {};
+
             IMPORT Personality();
             IMPORT Personality& operator=(const Personality&);
             IMPORT static const float SCAN_CHANCE_DEFAULT;
             IMPORT float get_range_threshold_value();
-            IMPORT float get_toughness_ratio(enum TOUGHNESS_TYPE);
+            IMPORT float get_toughness_ratio(TOUGHNESS_TYPE);
 
             public:
             EvadeDodgeUseStruct EvadeDodgeUse;

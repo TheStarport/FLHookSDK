@@ -7,6 +7,9 @@ namespace CmnAsteroid
     class CAsteroidCube
     {
         public:
+        enum CubeState
+        {
+        };
         IMPORT CAsteroidCube(const CAsteroidCube&);
         IMPORT CAsteroidCube(class CAsteroidField*);
         IMPORT ~CAsteroidCube();
@@ -15,7 +18,7 @@ namespace CmnAsteroid
         IMPORT unsigned long get_id();
         IMPORT Matrix get_orient();
         IMPORT Vector get_pos();
-        IMPORT enum CubeState get_state();
+        IMPORT CubeState get_state();
         IMPORT void init(const Vector&, unsigned long, struct AsteroidCubeArch*, const struct AxisRotations&, float);
         IMPORT void set_size(int);
         IMPORT void set_state(CubeState);

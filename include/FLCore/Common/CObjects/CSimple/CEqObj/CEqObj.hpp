@@ -7,6 +7,11 @@ namespace PhySys
     struct CreateParms;
 }
 
+enum ObjActivateResult
+{
+
+};
+
 struct CEqObj : public CSimple
 {
     public:
@@ -34,7 +39,7 @@ struct CEqObj : public CSimple
         IMPORT virtual void clear_equip_and_cargo();                                      // 168
         IMPORT virtual void get_equip_desc_list(EquipDescVector&) const;                  // 172
         IMPORT virtual bool add_item(const EquipDesc&);                                   // 176
-        IMPORT virtual enum ObjActivateResult activate(bool, unsigned int);               // 180
+        IMPORT virtual ObjActivateResult activate(bool, unsigned int);               // 180
         IMPORT virtual bool get_activate_state(st6::vector<bool, st6::allocator<bool>>&); // 184
         IMPORT virtual void disconnect(INotify*);                                         // 188
         IMPORT virtual void disconnect(struct IObjRW*);                                   // 192

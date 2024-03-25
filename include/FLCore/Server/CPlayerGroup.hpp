@@ -3,7 +3,7 @@
 
 namespace BaseGroupMessage
 {
-    enum Type;
+    enum Type {};
 };
 
 class CPlayerGroup

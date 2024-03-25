@@ -4,6 +4,8 @@
 class CEScanner : public CInternalEquip
 {
     public:
+    enum class ScanResult {};
+
     IMPORT virtual ~CEScanner();
     // virtual bool add_obj(struct IObjRW*);
     IMPORT virtual bool Update(float, unsigned int);
@@ -15,7 +17,7 @@ class CEScanner : public CInternalEquip
     IMPORT CEScanner(CEqObj*, unsigned short, const Archetype::Scanner*, bool);
     IMPORT float GetCargoScanRange() const;
     IMPORT float GetRadarRange() const;
-    IMPORT enum ScanResult ScanCargo(CEqObj*);
+    IMPORT ScanResult ScanCargo(CEqObj*);
     IMPORT const Archetype::Scanner* ScannerArch() const;
     IMPORT void clear_cache();
     IMPORT void scan_for_types(unsigned int);

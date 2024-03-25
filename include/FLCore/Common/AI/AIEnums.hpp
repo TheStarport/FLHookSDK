@@ -4,9 +4,20 @@ namespace pub
 {
     namespace AI
     {
-        enum ScanResponse;
-        enum OP_RTYPE;
-        enum DirectivePriority;
+        enum ScanResponse
+        {
+
+        };
+        enum OP_RTYPE
+        {
+
+        };
+
+        enum DirectivePriority
+        {
+
+        };
+
         struct DirectiveCallback;
 
         enum OpType

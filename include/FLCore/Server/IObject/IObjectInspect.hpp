@@ -11,6 +11,9 @@ struct IObjInspect
     {};
 };
 
+enum TERMINAL_TYPE {};
+enum EquipmentValType{};
+
 struct IObjInspectImpl
 {
     public:
@@ -64,7 +67,7 @@ struct IObjInspectImpl
         IMPORT virtual bool is_player() const;                                                                                 // 188
         IMPORT virtual int get_hardpoint(const char*, Vector*, Matrix*) const;                                                 // 192
         IMPORT virtual bool has_dock_hardpoints() const;                                                                       // 196
-        IMPORT virtual int get_dock_hardpoints(int, enum TERMINAL_TYPE*, Transform*, Transform*, Transform*, float*) const;    // 200
+        IMPORT virtual int get_dock_hardpoints(int, TERMINAL_TYPE*, Transform*, Transform*, Transform*, float*) const;    // 200
         IMPORT virtual float get_time_to_accelerate(float, float, float, IObject::ThrustEquipType) const;                      // 204
         IMPORT virtual float get_distance_travelled(float, float, float, IObject::ThrustEquipType) const;                      // 208
         IMPORT virtual float get_projected_throttle(float, IObject::ThrustEquipType) const;                                    // 212
@@ -85,7 +88,7 @@ struct IObjInspectImpl
         IMPORT virtual int can_point_at(bool&, const unsigned short&, const Vector&, float) const;                             // 272
         IMPORT virtual int find_equipment(unsigned short* const, unsigned int, unsigned int) const;                            // 276
         IMPORT virtual int get_equipment_status(struct EquipStatus&, const unsigned short&) const;                             // 280
-        IMPORT virtual int get_equipment_val(struct EquipmentVal&, const unsigned short&, enum EquipmentValType, float) const; // 284
+        IMPORT virtual int get_equipment_val(struct EquipmentVal&, const unsigned short&, EquipmentValType, float) const; // 284
         IMPORT virtual int scan_cargo(IObjRW*, EquipDescVector&) const;                                                        // 288
         IMPORT virtual int enumerate_subtargets(IObjInspect::SubtargetEnumerator*) const;                                      // 292
         IMPORT virtual int get_lane_direction(const Transform&, bool*) const;                                                  // 296

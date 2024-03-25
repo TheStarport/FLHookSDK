@@ -28,7 +28,7 @@ class MemProtect
 template <typename CallSig>
 class FunctionDetour final
 {
-        CallSig originalFunc;
+        void* originalFunc;
         PBYTE data;
         std::allocator<unsigned char> alloc;
         bool detoured = false;
@@ -36,9 +36,9 @@ class FunctionDetour final
         MemProtect protection;
 
     public:
-        CallSig GetOriginalFunc() { return originalFunc; }
+        CallSig GetOriginalFunc() { return reinterpret_cast<CallSig>(originalFunc); }
 
-        explicit FunctionDetour(CallSig origFunc) : originalFunc(origFunc), protection(originalFunc, 5) { data = alloc.allocate(5); }
+        explicit FunctionDetour(CallSig origFunc) : originalFunc(reinterpret_cast<void*>(origFunc)), protection(originalFunc, 5) { data = alloc.allocate(5); }
         ~FunctionDetour() { alloc.deallocate(data, 5); }
 
         FunctionDetour(const FunctionDetour&) = delete;

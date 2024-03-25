@@ -157,7 +157,7 @@ public:
 
 struct IGunConnection
 {
-	enum ConnectStatus;
+	enum ConnectStatus {};
 };
 
 namespace Gun2

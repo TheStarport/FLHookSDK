@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ranges>
+
 enum class MessageColor
 {
     Default = 0x00FF00,
@@ -177,18 +179,65 @@ class StringUtils
         StringUtils() = delete;
 
         template <typename Ret, typename Str>
-            requires(IsStringView<Str> || StringRestriction<Str>) && (std::is_integral_v<Ret> || std::is_floating_point_v<Ret>)
+            requires(IsStringView<Str> || StringRestriction<Str>) && (std::is_integral_v<Ret> || std::is_floating_point_v<Ret> || std::is_same_v<Ret, bool>)
         static Ret Cast(Str str)
         {
+            constexpr auto IsWide = std::is_same_v<Str, std::wstring> || std::is_same_v<Str, std::wstring_view>;
             if (str.empty() || !IsAscii(str))
             {
                 return Ret();
             }
 
-            Ret ret;
-            std::conditional_t<std::is_same_v<std::wstring, Str> || std::is_same_v<std::wstring_view, Str>, std::wstring_view, std::string_view> input = str;
-            std::from_chars(reinterpret_cast<const char*>(str.data()), reinterpret_cast<const char*>(str.data() + str.size()), ret);
-            return ret; // TODO: Add trace log for failure to convert
+            if constexpr (std::is_same_v<Ret, int> || std::is_same_v<Ret, uint>)
+            {
+                if constexpr (IsWide)
+                {
+                    return _wtoi(str.data());
+                }
+                else
+                {
+                    return std::atoi(str.data());
+                }
+            }
+            else if constexpr (std::is_same_v<Ret, long> || std::is_same_v<Ret, ulong>)
+            {
+                if constexpr (IsWide)
+                {
+                    return _wtol(str.data());
+                }
+                else
+                {
+                    return std::atol(str.data());
+                }
+            }
+            else if constexpr (std::is_same_v<Ret, int64> || std::is_same_v<Ret, uint64>)
+            {
+                if constexpr (IsWide)
+                {
+                    return _wtoi64_l(str.data());
+                }
+                else
+                {
+                    return std::atoll(str.data());
+                }
+            }
+            else if constexpr (std::is_same_v<Ret, float> || std::is_same_v<Ret, float>)
+            {
+                if constexpr (IsWide)
+                {
+                    return static_cast<Ret>(_wtof(str.data()));
+                }
+                else
+                {
+                    static_cast<Ret>(std::atof(str.data()));
+                }
+            }
+            else if (std::is_same_v<Ret, bool>)
+            {
+                return *str.data() == IsWide ? L'1' : '1';
+            }
+
+            return 0;
         }
 
         static Hook bool IsValidHex(const std::wstring_view input)
@@ -263,7 +312,7 @@ class StringUtils
 
             // Only copy the byes we need
             auto end = buffer.begin();
-            std::advance(end, size);
+            std::advance(end, size - 1);
 
             return { buffer.begin(), end };
         }
@@ -290,7 +339,7 @@ class StringUtils
 
             // Only copy the byes we need
             auto end = buffer.begin();
-            std::advance(end, size);
+            std::advance(end, size - 1);
 
             return { buffer.begin(), end };
         }
@@ -481,7 +530,7 @@ class StringUtils
             auto offset = view.begin();
             std::advance(offset, pos);
 
-            auto newRange = std::ranges::views::counted(offset, std::distance(offset, view.end()));
+            auto newRange = std::ranges:: views::counted(offset, std::distance(offset, view.end()));
             auto finalRange = newRange | std::ranges::views::take(std::distance(offset, view.end())) | std::ranges::views::join;
             return TViewType(&*finalRange.begin(), std::ranges::distance(finalRange) + 1);
         }

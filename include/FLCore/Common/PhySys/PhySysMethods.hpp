@@ -5,6 +5,10 @@ namespace PhySys
 {
     struct CreateParms;
 
+    enum IVP_BOOL
+    {
+    };
+
     IMPORT float ANOM_LIMITS_MAX_ANGULAR_VELOCITY_PER_PSI;
     IMPORT float ANOM_LIMITS_MAX_VELOCITY;
     IMPORT void AddImpulseAtPoint(CObject*, const Vector&, const Vector&);
@@ -91,5 +95,5 @@ namespace PhySys
     IMPORT void UnMakePhysicalR(CObject*);
     IMPORT void Update(unsigned int, float);
     IMPORT void Wakeup(CObject*);
-    IMPORT enum IVP_BOOL (*m_pCollisionFilter)(class IVP_Real_Object*, class IVP_Real_Object*);
-}
+    IMPORT IVP_BOOL (*m_pCollisionFilter)(class IVP_Real_Object*, class IVP_Real_Object*);
+} // namespace PhySys

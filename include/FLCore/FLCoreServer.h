@@ -286,6 +286,10 @@ class IMPORT CAccount
         uint dunno4[32];
 };
 
+enum CommResult
+{
+};
+
 #pragma warning(push)
 #pragma warning(disable : 5222)
 struct IMPORT [[Hook, ServerCall]] IServerImpl
@@ -391,7 +395,7 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
         // eventType: 0 = docking, 1 = formation
         virtual void RequestCancel(int eventType, uint shipID, uint, ulong, uint client);
         virtual void MineAsteroid(uint systemID, const Vector& pos, uint crateID, uint lootID, uint count, uint client);
-        [[NoHook]] virtual void CommComplete(uint, uint, uint, enum CommResult);
+        [[NoHook]] virtual void CommComplete(uint, uint, uint, CommResult);
         virtual void RequestCreateShip(uint client);
         virtual void SPScanCargo(const uint&, const uint&, uint);
         virtual void SetManeuver(uint client, const XSetManeuver& sm);
@@ -466,64 +470,64 @@ inline void BinarySearchTree<VisitEntry>::Insert(uint key, VisitEntry value)
 
 struct PlayerData
 {
-        wchar_t accId[40]; // 0
-        long x050, x054, x058, x05C; // 0x50
-        uint numberOfCharacters; // 0x60
-        CHARACTER_ID charFile; // 0x64
-        uint shipArchetype; // 0x264
-        float relativeHealth; // 0x268
+        wchar_t accId[40];                                // 0
+        long x050, x054, x058, x05C;                      // 0x50
+        uint numberOfCharacters;                          // 0x60
+        CHARACTER_ID charFile;                            // 0x64
+        uint shipArchetype;                               // 0x264
+        float relativeHealth;                             // 0x268
         st6::list<CollisionGroupDesc> collisionGroupDesc; // 0x26C
-        EquipDescList equipAndCargo; // 0x278
-        int rank; // 0x284
-        int moneyNeededToNextRank; // 0x288
-        Costume commCostume; // 0x28C
-        uint voiceLen; // 0x2C0
-        char voice[32]; // 0x2C4
-        Costume baseCostume;  // 0x2E4
-        uint reputation; // 0x318
-        int money; // 0x31C
-        int worth; // 0x320
-        uint shipArchetypeWhenLanding;  // 0x324
+        EquipDescList equipAndCargo;                      // 0x278
+        int rank;                                         // 0x284
+        int moneyNeededToNextRank;                        // 0x288
+        Costume commCostume;                              // 0x28C
+        uint voiceLen;                                    // 0x2C0
+        char voice[32];                                   // 0x2C4
+        Costume baseCostume;                              // 0x2E4
+        uint reputation;                                  // 0x318
+        int money;                                        // 0x31C
+        int worth;                                        // 0x320
+        uint shipArchetypeWhenLanding;                    // 0x324
         // Potentially something related to anti-cheat checking
-        EquipDescList shadowEquipDescList; // 0x328
-        int numKills; // 0x334
-        int numMissionSuccesses;  // 0x338
-        int numMissionFailures; // 0x33C
-        bool skipAutoSave; // 0x340
-        uint saveCount; // 0x344
-        uint onlineId; // 0x348
-        bool cheated; // 0x34C
-        Vector position; // 0x350
-        Matrix orientation; // 0x35C
-        st6::string weaponGroups; // 0x380
-        uint dunno1[2]; // 0x390
-        int* SPNeuralNetLogUnk; // 0x398
-        int interfaceState; // 0x39C
-        BinarySearchTree<VisitEntry> visitEntries; // 0x3A0
-        uint dunno2[4]; // 0x3B4
-        float difficulty; // 0x3C4
-        ushort lastEquipId; // 0x3C8
-        uint menuItem; // 0x3CC
-        uint onlineId2; // 0x3D0
-        uint dunno3[2]; // 0x3D4
-        uint tradeRequestCount; // 0x3DC
-        uint systemId; // 0x3E0
-        uint shipId; // 0x3E4
-        uint createdShipId; // 0x3E8
-        uint baseId; // 0x3EC
-        uint lastBaseId; // 0x3F0
-        uint enteredBase; // 0x3F4
-        uint baseRoomId; // 0x3F8
-        uint characterId; // 0x3FC
-        CAccount* account; // 0x400
-        CPlayerGroup* playerGroup; // 0x404
-        uint missionId; // 0x408
-        uint missionSetBy; // 0x40C
-        uint exitedBase; // 0x410
-        uint unknownLocId; // 0x414
-        uint unknown[20]; // 0x418
-        float baseHullStatus; // 0x468
-        EquipDescList baseEquipAndCargo; // 0x46C
+        EquipDescList shadowEquipDescList;                 // 0x328
+        int numKills;                                      // 0x334
+        int numMissionSuccesses;                           // 0x338
+        int numMissionFailures;                            // 0x33C
+        bool skipAutoSave;                                 // 0x340
+        uint saveCount;                                    // 0x344
+        uint onlineId;                                     // 0x348
+        bool cheated;                                      // 0x34C
+        Vector position;                                   // 0x350
+        Matrix orientation;                                // 0x35C
+        st6::string weaponGroups;                          // 0x380
+        uint dunno1[2];                                    // 0x390
+        int* SPNeuralNetLogUnk;                            // 0x398
+        int interfaceState;                                // 0x39C
+        BinarySearchTree<VisitEntry> visitEntries;         // 0x3A0
+        uint dunno2[4];                                    // 0x3B4
+        float difficulty;                                  // 0x3C4
+        ushort lastEquipId;                                // 0x3C8
+        uint menuItem;                                     // 0x3CC
+        uint onlineId2;                                    // 0x3D0
+        uint dunno3[2];                                    // 0x3D4
+        uint tradeRequestCount;                            // 0x3DC
+        uint systemId;                                     // 0x3E0
+        uint shipId;                                       // 0x3E4
+        uint createdShipId;                                // 0x3E8
+        uint baseId;                                       // 0x3EC
+        uint lastBaseId;                                   // 0x3F0
+        uint enteredBase;                                  // 0x3F4
+        uint baseRoomId;                                   // 0x3F8
+        uint characterId;                                  // 0x3FC
+        CAccount* account;                                 // 0x400
+        CPlayerGroup* playerGroup;                         // 0x404
+        uint missionId;                                    // 0x408
+        uint missionSetBy;                                 // 0x40C
+        uint exitedBase;                                   // 0x410
+        uint unknownLocId;                                 // 0x414
+        uint unknown[20];                                  // 0x418
+        float baseHullStatus;                              // 0x468
+        EquipDescList baseEquipAndCargo;                   // 0x46C
         st6::list<CollisionGroupDesc> baseCollisionGroups; // 0x478
 };
 
@@ -604,7 +608,8 @@ class IMPORT PlayerDB
         PlayerDbTreeNode* lastNode;
         uint dunno2;
         uint numAccounts;
-};;
+};
+;
 
 namespace SrvAsteroid
 {
@@ -629,69 +634,68 @@ namespace SrvAsteroid
 
     class MedAsteroid : public GameObject
     {
-        virtual void sub_6CEF1C0();
-        virtual void sub_6CEE630();
-        virtual void sub_6CEE670();
-        virtual void sub_6CEE6D0();
-        virtual void sub_6D02CB0();
-        virtual void sub_6D04C30();
-        virtual void sub_6CEE9E0();
-        virtual void sub_6CEE6E0();
-        virtual void sub_6CEE810();
-        virtual void sub_6CEE980();
-        virtual void noImpl1(uint dummy1, uint dummy2);
-        virtual void noImpl2(uint dummy1, uint dummy2);
-        virtual void noImpl3(uint dummy1, uint dummy2);
-        virtual void noImpl4(uint dummy);
-        virtual void sub_6CE6190();
-        virtual void sub_6CEEFA0();
-        virtual void sub_6CEF0F0();
-        virtual void sub_6CE61A0();
-        virtual void sub_6CE61B0();
-        virtual void sub_6CE61C0();
-        virtual void sub_6CEE9F0();
-        virtual void sub_6CEEE20();
-        virtual void sub_6CEF1E0();
-        virtual void sub_6CEEC90();
-        virtual void sub_6CEEF70();
-        virtual void sub_6CEF0B0();
+            virtual void sub_6CEF1C0();
+            virtual void sub_6CEE630();
+            virtual void sub_6CEE670();
+            virtual void sub_6CEE6D0();
+            virtual void sub_6D02CB0();
+            virtual void sub_6D04C30();
+            virtual void sub_6CEE9E0();
+            virtual void sub_6CEE6E0();
+            virtual void sub_6CEE810();
+            virtual void sub_6CEE980();
+            virtual void noImpl1(uint dummy1, uint dummy2);
+            virtual void noImpl2(uint dummy1, uint dummy2);
+            virtual void noImpl3(uint dummy1, uint dummy2);
+            virtual void noImpl4(uint dummy);
+            virtual void sub_6CE6190();
+            virtual void sub_6CEEFA0();
+            virtual void sub_6CEF0F0();
+            virtual void sub_6CE61A0();
+            virtual void sub_6CE61B0();
+            virtual void sub_6CE61C0();
+            virtual void sub_6CEE9F0();
+            virtual void sub_6CEEE20();
+            virtual void sub_6CEF1E0();
+            virtual void sub_6CEEC90();
+            virtual void sub_6CEEF70();
+            virtual void sub_6CEF0B0();
 
-        //TODO: Fields
+            // TODO: Fields
     };
 
     class MedMine : public GameObject
     {
-        virtual void sub_6CEF1C0();
-        virtual void sub_6CEE630();
-        virtual void sub_6CEE670();
-        virtual void sub_6CEE6D0();
-        virtual void sub_6D02CB0();
-        virtual void sub_6D04C30();
-        virtual void sub_6CEE9E0();
-        virtual void sub_6CEE6E0();
-        virtual void sub_6CEE810();
-        virtual void sub_6CEE980();
-        virtual void noImpl1(uint dummy1, uint dummy2);
-        virtual void noImpl2(uint dummy1, uint dummy2);
-        virtual void noImpl3(uint dummy1, uint dummy2);
-        virtual void sub_6CEEE70();
-        virtual void sub_6CE6190();
-        virtual void sub_6CEEFA0();
-        virtual void sub_6CEF0F0();
-        virtual void sub_6CE61A0();
-        virtual void sub_6CE61B0();
-        virtual void sub_6CE61C0();
-        virtual void sub_6CEE9F0();
-        virtual void sub_6CEEE20();
-        virtual void sub_6CEF1E0();
-        virtual void sub_6CEEC90();
-        virtual void sub_6CEEF70();
-        virtual void sub_6CEF0B0();
-        virtual void noImpl4(uint dummy1, uint dummy2);
+            virtual void sub_6CEF1C0();
+            virtual void sub_6CEE630();
+            virtual void sub_6CEE670();
+            virtual void sub_6CEE6D0();
+            virtual void sub_6D02CB0();
+            virtual void sub_6D04C30();
+            virtual void sub_6CEE9E0();
+            virtual void sub_6CEE6E0();
+            virtual void sub_6CEE810();
+            virtual void sub_6CEE980();
+            virtual void noImpl1(uint dummy1, uint dummy2);
+            virtual void noImpl2(uint dummy1, uint dummy2);
+            virtual void noImpl3(uint dummy1, uint dummy2);
+            virtual void sub_6CEEE70();
+            virtual void sub_6CE6190();
+            virtual void sub_6CEEFA0();
+            virtual void sub_6CEF0F0();
+            virtual void sub_6CE61A0();
+            virtual void sub_6CE61B0();
+            virtual void sub_6CE61C0();
+            virtual void sub_6CEE9F0();
+            virtual void sub_6CEEE20();
+            virtual void sub_6CEF1E0();
+            virtual void sub_6CEEC90();
+            virtual void sub_6CEEF70();
+            virtual void sub_6CEF0B0();
+            virtual void noImpl4(uint dummy1, uint dummy2);
 
-        //TODO: Fields
+            // TODO: Fields
     };
-
 
 }; // namespace SrvAsteroid
 
@@ -717,9 +721,9 @@ template <class T>
 class IMPORT OwnerList
 {
     public:
-        OwnerList<T>();
-        virtual ~OwnerList<T>();
-        OwnerList<T>& operator=(const OwnerList<T>&);
+        OwnerList();
+        virtual ~OwnerList();
+        OwnerList& operator=(const OwnerList&);
         void free();
 
     protected:
@@ -816,6 +820,9 @@ namespace pub
 
     namespace GF
     {
+        enum MVEmptyReason
+        {
+        };
         IMPORT unsigned long AmbientScriptCreate(const struct AmbientScriptDescription&);
         IMPORT void AmbientScriptDestroy(unsigned long*);
         IMPORT unsigned long CharacterBehaviorCreate(const struct CharacterBehaviorDescription&);
@@ -849,7 +856,7 @@ namespace pub
         IMPORT void MissionVendorOfferDestroy(unsigned long*);
         IMPORT unsigned long NewsBroadcastCreate(const struct NewsBroadcastDescription&);
         IMPORT void NewsBroadcastDestroy(unsigned long*);
-        IMPORT int ReportWhyMissionVendorEmpty(unsigned int, enum MVEmptyReason);
+        IMPORT int ReportWhyMissionVendorEmpty(unsigned int, MVEmptyReason);
     }; // namespace GF
 
     namespace Market
@@ -992,9 +999,9 @@ namespace pub
                 uint flag = 0;
                 uint system = 0;
                 uint shipArchetype = 0;
-                Vector pos = {0, 0, 0};
-                Vector unk1 = {0, 0, 0}; // all 0
-                Vector unk2 = {0, 0, 0}; // all 0
+                Vector pos = { 0, 0, 0 };
+                Vector unk1 = { 0, 0, 0 }; // all 0
+                Vector unk2 = { 0, 0, 0 }; // all 0
                 Matrix orientation;
                 uint unk3 = 0; // 0
                 uint loadout;
@@ -1015,10 +1022,10 @@ namespace pub
 
                 int rep = 0; // increases for each NPC spawned, starts at 0 or 1
                 uint pilotVoice = 0;
-                uint unk15 = 0;  // 0
-                uint health  = -1; // -1 = max health
-                uint unk16 = 0;  // 0
-                uint unk17 = 0;  // 0
+                uint unk15 = 0;   // 0
+                uint health = -1; // -1 = max health
+                uint unk16 = 0;   // 0
+                uint unk17 = 0;   // 0
                 uint level = 1;
         };
 
@@ -1038,7 +1045,7 @@ namespace pub
                 int hitPointsLeft;
                 char nickName[64]; // Has to be unique
                 uint unk11;        // 0 unused?
-                uint mission = 0;        // 1 = flagged as mission solar, 0 = normal
+                uint mission = 0;  // 1 = flagged as mission solar, 0 = normal
         };
 
         struct LootInfo
@@ -1053,26 +1060,33 @@ namespace pub
                 DockType type; // 1=berth 4=moor? 7=jump?
         };
 
+        enum class EQUIPMENT_RTYPE
+        {
+        };
+        enum class PosSelectionType
+        {
+        };
+
         IMPORT int Activate(const unsigned int&, bool, int);
-        IMPORT enum EQUIPMENT_RTYPE ActivateEquipment(const unsigned int&, struct EQInfo*);
+        IMPORT EQUIPMENT_RTYPE ActivateEquipment(const unsigned int&, struct EQInfo*);
         IMPORT int AddImpulse(const unsigned int&, const Vector&, const Vector&);
-        IMPORT int Create(unsigned int&, const struct ShipInfo&);
-        IMPORT int CreateLoot(unsigned int&, const struct LootInfo&);
-        IMPORT int CreateSolar(unsigned int&, const struct SolarInfo&);
+        IMPORT int Create(unsigned int&, const ShipInfo&);
+        IMPORT int CreateLoot(unsigned int&, const LootInfo&);
+        IMPORT int CreateSolar(unsigned int&, const SolarInfo&);
         IMPORT int Destroy(unsigned int, DestroyType);
         IMPORT int Dock(const unsigned int&, const unsigned int&, int, DOCK_HOST_RESPONSE);
         IMPORT int DockRequest(const unsigned int&, const unsigned int&);
         IMPORT int DrainShields(unsigned int);
         IMPORT int EnumerateCargo(const unsigned int&, pub::CargoEnumerator&);
         IMPORT int ExistsAndAlive(unsigned int);
-        IMPORT int FormationResponse(const unsigned int&, enum FORMATION_RTYPE);
+        IMPORT int FormationResponse(const unsigned int&, FORMATION_RTYPE);
         IMPORT int GetArchetypeID(const unsigned int&, unsigned int&);
         IMPORT int GetAtmosphereRange(const unsigned int&, float&);
         IMPORT int GetBurnRadius(const unsigned int&, float&, Vector&);
         IMPORT int GetCargoSpaceOccupied(const unsigned int&, unsigned int&);
         IMPORT int GetCenterOMass(const unsigned int&, Vector&);
         IMPORT int GetDockingTarget(const unsigned int&, unsigned int&);
-        IMPORT int GetEmptyPos(const unsigned int&, const Transform&, const float&, const float&, const enum PosSelectionType&, Vector&);
+        IMPORT int GetEmptyPos(const unsigned int&, const Transform&, const float&, const float&, const PosSelectionType&, Vector&);
         IMPORT int GetGoodID(const unsigned int&, unsigned int&);
         IMPORT int GetHardpoint(const unsigned int&, const char*, Vector*, Matrix*);
         IMPORT int GetHealth(const unsigned int& SpaceObj, float& CurrentHealth, float& MaxHealth);
@@ -1160,6 +1174,9 @@ namespace pub
 
     namespace Zone
     {
+        enum ZoneShape
+        {
+        };
         IMPORT float ClassifyPoint(unsigned int, const Vector&);
         IMPORT float GetDistance(unsigned int, const Vector&);
         IMPORT unsigned int GetId(unsigned int, const char*);
@@ -1170,7 +1187,7 @@ namespace pub
         IMPORT Vector GetPos(unsigned int);
         IMPORT int GetProperties(unsigned int, unsigned long&);
         IMPORT float GetRadius(unsigned int);
-        IMPORT int GetShape(unsigned int, enum ZoneShape&);
+        IMPORT int GetShape(unsigned int, ZoneShape&);
         IMPORT int GetSize(unsigned int, Vector&);
         IMPORT unsigned int GetSystem(unsigned int);
         IMPORT bool InZone(unsigned int, const Vector&, float);
@@ -1186,7 +1203,9 @@ namespace pub
                 uint client;
         };
 
-        enum PRIORITY;
+        enum PRIORITY
+        {
+        };
 
         IMPORT unsigned int Create(const char*, const char*, const CreateParms*, PRIORITY);
         IMPORT void Destroy(unsigned int);

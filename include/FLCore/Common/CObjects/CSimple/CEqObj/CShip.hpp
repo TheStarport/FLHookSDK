@@ -7,6 +7,11 @@ class CNudgeEngine;
 class CSteering;
 class CPlayerGroup;
 class IObjInspect;
+
+enum class FORMATION_RTYPE
+{
+};
+
 struct CShip : public CEqObj, public PhySys::Controller
 {
     public:
@@ -38,7 +43,7 @@ struct CShip : public CEqObj, public PhySys::Controller
         IMPORT CShip();
         IMPORT const Archetype::Ship* shiparch() const;
         IMPORT void VerifyTarget();
-        IMPORT enum FORMATION_RTYPE add_follow_follower(IObjRW*);
+        IMPORT FORMATION_RTYPE add_follow_follower(IObjRW*);
         IMPORT FORMATION_RTYPE add_formation_follower(IObjRW*);
         IMPORT void airlock_in(const Vector&, const Matrix&);
         IMPORT bool any_thrusters_on() const;

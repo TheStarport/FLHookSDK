@@ -1,31 +1,30 @@
 #pragma once
 
-
 class IMPORT XMLReader
 {
     public:
-    XMLReader(const XMLReader&);
-    XMLReader();
-    XMLReader& operator=(const XMLReader&);
-    virtual bool extract_text_from_buffer(unsigned short*, unsigned int, unsigned int&, const char*, unsigned int);
-    virtual bool read_buffer(RenderDisplayList&, const char*, unsigned int);
-    virtual bool read_file(RenderDisplayList&, const char*);
+        XMLReader(const XMLReader&);
+        XMLReader();
+        XMLReader& operator=(const XMLReader&);
+        virtual bool extract_text_from_buffer(unsigned short*, unsigned int, unsigned int&, const char*, unsigned int);
+        virtual bool read_buffer(RenderDisplayList&, const char*, unsigned int);
+        virtual bool read_file(RenderDisplayList&, const char*);
 
     public:
-    unsigned char data[OBJECT_DATA_SIZE];
+        unsigned char data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT XMLWriter
 {
     public:
-    XMLWriter(const XMLWriter&);
-    XMLWriter();
-    XMLWriter& operator=(const XMLWriter&);
-    virtual bool write_buffer(const RenderDisplayList&, char*, unsigned int, unsigned int&);
-    virtual bool write_file(const RenderDisplayList&, const char*);
+        XMLWriter(const XMLWriter&);
+        XMLWriter();
+        XMLWriter& operator=(const XMLWriter&);
+        virtual bool write_buffer(const RenderDisplayList&, char*, unsigned int, unsigned int&);
+        virtual bool write_file(const RenderDisplayList&, const char*);
 
     public:
-    unsigned char data[OBJECT_DATA_SIZE];
+        unsigned char data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT NullNode
@@ -151,8 +150,15 @@ class IMPORT TextPtrNode
 class IMPORT JustifyNode
 {
     public:
+        enum class TextJustify
+        {
+            Left,
+            Centre,
+            Right
+        };
+
         JustifyNode(const JustifyNode&);
-        JustifyNode(enum TextJustify);
+        JustifyNode(TextJustify);
         virtual ~JustifyNode();
         JustifyNode& operator=(const JustifyNode&);
         virtual RDLNode* Clone() const;

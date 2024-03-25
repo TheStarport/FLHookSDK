@@ -26,6 +26,16 @@ class TRANode;
 class RDLReNode;
 class IStateGraph;
 
+enum class TransactionType
+{
+    Sell = 0,
+    Buy = 1
+};
+
+enum class ExcludeObjectType
+{
+};
+
 struct IMPORT ActionDB
 {
         ActionDB();
@@ -70,8 +80,6 @@ class IMPORT AmbientScriptProperties
         unsigned char data[OBJECT_DATA_SIZE];
 };
 
-
-
 namespace AnimDB
 {
     IMPORT void Add(int);
@@ -102,11 +110,6 @@ namespace PhyArch
 }; // namespace PhyArch
 
 struct IEngineInstance;
-
-
-
-
-
 
 struct DockHardpointInfo
 {
@@ -141,8 +144,12 @@ namespace Async
 class IMPORT AttribStackNode
 {
     public:
+        enum class Op
+        {
+        };
+
         AttribStackNode(const AttribStackNode&);
-        AttribStackNode(enum Op);
+        AttribStackNode(Op);
         AttribStackNode();
         virtual ~AttribStackNode();
         AttribStackNode& operator=(const AttribStackNode&);
@@ -178,7 +185,7 @@ class IMPORT BaseData
         float get_ship_repair_cost() const;
         unsigned int get_start_location() const;
         void read_from_ini(const char*, unsigned int);
-        void set_market_good(unsigned int, int, int, enum TransactionType, float, float, float);
+        void set_market_good(unsigned int, int, int, TransactionType, float, float, float);
 
     private:
         void read_Base_block(class INI_Reader*);
@@ -222,8 +229,6 @@ struct IMPORT BaseHint
         unsigned char data[OBJECT_DATA_SIZE];
 };
 
-
-
 namespace BehaviorTypes
 {
     IMPORT int get_behavior_id(const char*);
@@ -254,10 +259,6 @@ class IMPORT BinaryRDLWriter
         virtual bool write_buffer(const RenderDisplayList&, char*, unsigned int, unsigned int&);
         virtual bool write_file(const RenderDisplayList&, const char*);
 };
-
-
-
-
 
 struct ISpatialPartition;
 
@@ -290,7 +291,7 @@ namespace Exclusion
             AsteroidExclusionZoneMgr& operator=(const AsteroidExclusionZoneMgr&);
             AsteroidExclusionZone* back();
             int get_max_billboard_count();
-            virtual bool is_excluded(const Vector&, enum ExcludeObjectType, void*);
+            virtual bool is_excluded(const Vector&, ExcludeObjectType, void*);
             void normalize_billboard_density(int);
             virtual void push_back(const Universe::IZone*, const Universe::IZone*);
             void set_max_cliasteroid_exclusion_distance(float);
@@ -346,7 +347,7 @@ namespace Exclusion
 
 struct INotify
 {
-        enum Event;
+        enum Event {};
 };
 
 class IMPORT IVP_Core;
@@ -356,7 +357,7 @@ class IMPORT IVP_Event_Sim;
 template <class T>
 class IMPORT IVP_U_Vector;
 
-enum IVP_CONTROLLER_PRIORITY;
+enum IVP_CONTROLLER_PRIORITY {};
 
 #undef GetCurrentTime
 
@@ -390,7 +391,6 @@ struct IMPORT CBase
         CObject* cobj;
 };
 
-
 class IMPORT CDeadReckonedVector
 {
     public:
@@ -413,13 +413,6 @@ class IMPORT CDeadReckonedVector
     public:
         unsigned char data[OBJECT_DATA_SIZE];
 };
-
-
-
-
-
-
-
 
 class IMPORT CFLIDMaker
 {
@@ -794,17 +787,16 @@ struct FlPacketSetEquipment
         byte items[1];
 };
 
-
-
 namespace ErrorHandler
 {
+    enum SeverityLevel{};
     IMPORT void activate(const char*, int (*)(const char*, const char*, bool));
     IMPORT void deactivate();
     IMPORT bool is_log_enabled(int);
     IMPORT void log_comment(int, const char*, ...);
     IMPORT void log_disable(int);
     IMPORT void log_enable(int);
-    IMPORT void log_last_error(const char*, int, enum SeverityLevel, char*, unsigned long);
+    IMPORT void log_last_error(const char*, int, SeverityLevel, char*, unsigned long);
     IMPORT void* new_log(const char*, int, int, bool, bool);
 }; // namespace ErrorHandler
 
@@ -955,9 +947,6 @@ struct FmtStr
         BYTE tloot;
 };
 
-
-
-
 class IMPORT HardpointSummary
 {
     public:
@@ -1042,11 +1031,18 @@ class IMPORT IBehaviorManager
             E
         };
 
+        enum class CancelRequestType
+        {
+        };
+        enum class EvaluateResult
+        {
+        };
+
         bool allow_head_tracking();
-        bool cancel_behavior(enum CancelRequestType);
+        bool cancel_behavior(CancelRequestType);
         bool enable_all_maneuvers();
         bool enable_maneuver(int, bool);
-        enum EvaluateResult external_player_evaluate(int);
+        EvaluateResult external_player_evaluate(int);
         bool get_camera_level_status();
         float get_closest_trailing_ship() const;
         const struct IDirectiveInfo* get_current_directive();
@@ -1244,12 +1240,6 @@ struct IMPORT MPCritSec
         unsigned char data[OBJECT_DATA_SIZE];
 };
 
-enum TransactionType
-{
-    TransactionType_Sell = 0,
-    TransactionType_Buy = 1
-};
-
 struct IMPORT MarketGoodInfo
 {
         MarketGoodInfo();
@@ -1375,8 +1365,6 @@ class IMPORT MissionVendorProperties
     public:
         unsigned char data[OBJECT_DATA_SIZE];
 };
-
-
 
 class IMPORT NewsBroadcastProperties
 {
@@ -1722,7 +1710,11 @@ struct IMPORT SMControllerEvent
 
 struct IMPORT SMEventData
 {
-        SMEventData(enum STATE_MACHINE_EVENT_TYPE);
+        enum STATE_MACHINE_EVENT_TYPE
+        {
+        };
+
+        SMEventData(STATE_MACHINE_EVENT_TYPE);
         virtual STATE_MACHINE_EVENT_TYPE get_event_type() const;
         bool is_sm_event() const;
         bool is_user_event() const;
@@ -1932,12 +1924,16 @@ class IMPORT StateMachineMessage
 
 class IMPORT StateMachineMessageHandler
 {
+        enum SM_MESSAGE_SCOPE
+        {
+        };
+
     public:
         StateMachineMessageHandler(IMessageRouter*);
         virtual void receive_message(StateMachineMessage*);
 
     protected:
-        void send_delayed_message_to_me(StateMachineMessage*, float, enum SM_MESSAGE_SCOPE, int);
+        void send_delayed_message_to_me(StateMachineMessage*, float, SM_MESSAGE_SCOPE, int);
 
     public:
         unsigned char data[OBJECT_DATA_SIZE];
@@ -1963,7 +1959,8 @@ class IMPORT StyleCollection
 
     public:
         unsigned char data[OBJECT_DATA_SIZE];
-};; // namespace SubObjectID
+};
+; // namespace SubObjectID
 
 class IMPORT TRANode
 {
@@ -2062,17 +2059,23 @@ namespace Timing
     IMPORT double seconds(const int64&);
 }; // namespace Timing
 
-enum class TractorFailureCode {};
+enum class TractorFailureCode
+{
+};
 
 class IMPORT TractorArm
 {
     public:
+        enum class Mode
+        {
+        };
+
         TractorArm(const TractorArm&);
         TractorArm(CETractor*);
         ~TractorArm();
         TractorArm& operator=(const TractorArm&);
         TractorFailureCode GetErrorCode() const;
-        enum Mode GetMode() const;
+        Mode GetMode() const;
         CLoot* GetTarget() const;
         Vector GetTipPos() const;
         bool IsOn() const;
@@ -2158,4 +2161,3 @@ namespace Geometry
     struct Frustum;
     struct Sphere;
 }; // namespace Geometry
-

@@ -16,13 +16,13 @@ class Hook GameException : std::exception
 #endif
 
         explicit GameException(std::wstring msg) : msg(std::move(msg)) {}
-        virtual ~GameException() noexcept override = default;
+        ~GameException() noexcept override = default;
 
         /**
          * @deprecated Using the const char* what() on custom exceptions is not supported.
          */
         [[nodiscard]]
-        const char* what() const override
+        const char* what() const noexcept override
         {
             throw UnsupportedException();
         }
@@ -30,5 +30,5 @@ class Hook GameException : std::exception
         /**
          * @brief Retrieve the underlying error message from the exception
          */
-        std::wstring_view Msg() const { return msg; }
+        [[nodiscard]] std::wstring_view Msg() const { return msg; }
 };

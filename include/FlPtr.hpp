@@ -55,7 +55,7 @@ class CPtrBase
 
         CPtrBase<P>& operator=(P* ptr) noexcept { return set(ptr); }
 
-        virtual CPtrBase<P>& operator=(nullptr_t) noexcept { return set(nullptr, false); }
+        virtual CPtrBase<P>& operator=(std::nullptr_t) noexcept { return set(nullptr, false); }
 
         bool operator==(const CObject* ptr) const { return _ptr == ptr; }
 
@@ -178,7 +178,7 @@ class CPtrConvertBase : public CPtrBase<P>
         CPtrConvertBase(const CPtrConvertBase& ptr) noexcept : CPtrBase<P>(ptr) {}
         CPtrConvertBase(CPtrConvertBase&& ptr) noexcept : CPtrBase<P>(std::move(ptr)) {}
 
-        CPtrConvertBase<P>& operator=(nullptr_t) noexcept override
+        CPtrConvertBase<P>& operator=(std::nullptr_t) noexcept override
         {
             this->decrement();
             this->_ptr = nullptr;
@@ -223,7 +223,7 @@ class CPtr : public CPtrConvertBase<P>
 
         static size_t count() { return CObject::Count(C); }
 
-        CPtr<P, C>& operator=(nullptr_t) noexcept
+        CPtr<P, C>& operator=(std::nullptr_t) noexcept
         {
             this->decrement();
             this->_ptr = nullptr;
