@@ -310,11 +310,15 @@ class StringUtils
 
             const int size = MultiByteToWideChar(CP_UTF8, 0, data, -1, buffer.data(), 4096);
 
+            if(!size)
+            {
+                return L"";
+            }
             // Only copy the byes we need
             auto end = buffer.begin();
             std::advance(end, size - 1);
 
-            return { buffer.begin(), end };
+            return { buffer.begin(), end-1 };
         }
 
         template<typename T>
@@ -337,11 +341,15 @@ class StringUtils
 
             const int size = WideCharToMultiByte(CP_UTF8, 0, data, -1, buffer.data(), 4096, nullptr, nullptr);
 
+            if(!size)
+            {
+                return "";
+            }
             // Only copy the byes we need
             auto end = buffer.begin();
             std::advance(end, size - 1);
 
-            return { buffer.begin(), end };
+            return { buffer.begin(), end-1 };
         }
 
         static Hook std::wstring ToHex(const std::wstring_view input)

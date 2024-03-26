@@ -1,4 +1,4 @@
-﻿//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 //	Project FLCoreSDK v1.1, modified for use in FLHook Plugin version
 //--------------------------
 //
@@ -468,14 +468,29 @@ inline void BinarySearchTree<VisitEntry>::Insert(uint key, VisitEntry value)
     sub_6D5C600(this, v166, input);
 }
 
+struct CharacterBaseDataInfo
+{
+    CharacterBaseDataInfo* left; //0x0
+    CharacterBaseDataInfo* root; //0x4
+    CharacterBaseDataInfo* right; //0x8
+    char filename[0x40]; //0xC
+    uint dunno[0x107]; //0x4C
+    float baseHealth; // 0x468
+    st6::list<EquipDesc> baseEquipList; //0x46C
+    st6::list<CollisionGroupDesc> baseColgrps; //0x478
+};
+
 struct PlayerData
 {
-        wchar_t accId[40];                                // 0
-        long x050, x054, x058, x05C;                      // 0x50
-        uint numberOfCharacters;                          // 0x60
-        CHARACTER_ID charFile;                            // 0x64
-        uint shipArchetype;                               // 0x264
-        float relativeHealth;                             // 0x268
+        wchar_t accId[40]; // 0
+        void* chararacterCreationPtr; // 0x50
+        CharacterBaseDataInfo* accountCharacterDataBegin; // 0x54
+        void* accountCharacterDataEnd; // 0x58
+        long x05C;
+        uint numberOfCharacters; // 0x60
+        CHARACTER_ID charFile; // 0x64
+        uint shipArchetype; // 0x264
+        float relativeHealth; // 0x268
         st6::list<CollisionGroupDesc> collisionGroupDesc; // 0x26C
         EquipDescList equipAndCargo;                      // 0x278
         int rank;                                         // 0x284
