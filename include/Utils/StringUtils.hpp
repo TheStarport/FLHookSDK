@@ -318,7 +318,7 @@ class StringUtils
             auto end = buffer.begin();
             std::advance(end, size - 1);
 
-            return { buffer.begin(), end-1 };
+            return { buffer.begin(), end };
         }
 
         template<typename T>
@@ -349,7 +349,7 @@ class StringUtils
             auto end = buffer.begin();
             std::advance(end, size - 1);
 
-            return { buffer.begin(), end-1 };
+            return { buffer.begin(), end };
         }
 
         static Hook std::wstring ToHex(const std::wstring_view input)
