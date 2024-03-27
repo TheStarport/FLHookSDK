@@ -540,10 +540,6 @@ struct PlayerData
         uint missionSetBy;                                 // 0x40C
         uint exitedBase;                                   // 0x410
         uint unknownLocId;                                 // 0x414
-        uint unknown[20];                                  // 0x418
-        float baseHullStatus;                              // 0x468
-        EquipDescList baseEquipAndCargo;                   // 0x46C
-        st6::list<CollisionGroupDesc> baseCollisionGroups; // 0x478
 };
 
 struct PlayerDbTreeNode
