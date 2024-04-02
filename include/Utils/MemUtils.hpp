@@ -31,26 +31,25 @@ class Hook MemUtils
             }
         }
 
-        static void WriteProcMem(void* address, const void* mem, const uint size)
+        static void ReadProcMem(const DWORD address, void* mem, const uint size)
         {
-            const HANDLE hProc = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
+            const auto ptr = reinterpret_cast<void*>(address);
+            const auto process = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
             DWORD old;
-            VirtualProtectEx(hProc, address, size, PAGE_EXECUTE_READWRITE, &old);
-            WriteProcessMemory(hProc, address, mem, size, nullptr);
-            CloseHandle(hProc);
+            VirtualProtectEx(process, ptr, size, PAGE_EXECUTE_READWRITE, &old);
+            ReadProcessMemory(process, ptr, mem, size, nullptr);
+            CloseHandle(process);
         }
 
-        static void ReadProcMem(void* address, void* mem, const uint size)
+        static void WriteProcMem(const DWORD address, const void* mem, const uint size)
         {
-            const HANDLE hProc = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
+            const auto ptr = reinterpret_cast<void*>(address);
+            const auto process = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
             DWORD old;
-            VirtualProtectEx(hProc, address, size, PAGE_EXECUTE_READWRITE, &old);
-            ReadProcessMemory(hProc, address, mem, size, nullptr);
-            CloseHandle(hProc);
+            VirtualProtectEx(process, ptr, size, PAGE_EXECUTE_READWRITE, &old);
+            WriteProcessMemory(process, ptr, mem, size, nullptr);
+            CloseHandle(process);
         }
-
-        static void ReadProcMem(DWORD address, void* mem, const uint size) { ReadProcMem(PDWORD(address), mem, size); }
-        static void WriteProcMem(DWORD address, void* mem, const uint size) { WriteProcMem(PDWORD(address), mem, size); }
 
         static FARPROC PatchCallAddr(void* mod, const DWORD installAddress, void* hookFunction)
         {
