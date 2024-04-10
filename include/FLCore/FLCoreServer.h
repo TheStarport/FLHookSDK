@@ -510,7 +510,7 @@ struct PlayerData
         int numMissionFailures;                            // 0x33C
         bool skipAutoSave;                                 // 0x340
         uint saveCount;                                    // 0x344
-        uint onlineId;                                     // 0x348
+        uint clientId;                                     // 0x348
         bool cheated;                                      // 0x34C
         Vector position;                                   // 0x350
         Matrix orientation;                                // 0x35C
