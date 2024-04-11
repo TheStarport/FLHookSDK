@@ -29,8 +29,8 @@ struct BinarySearchTree;
 template <typename T>
 struct Node
 {
-        Node* prev;
         Node* left;
+        Node* head;
         Node* right;
         uint key;
         T value;
@@ -67,7 +67,7 @@ struct Node
 
             if (v1->isEnd)
             {
-                for (result = (*nodeRef)->left; (*nodeRef) == result->right; result = result->left)
+                for (result = (*nodeRef)->head; (*nodeRef) == result->right; result = result->head)
                 {
                     (*nodeRef) = result;
                 }
@@ -79,7 +79,7 @@ struct Node
             }
             else
             {
-                for (result = v1->prev; !result->isEnd; result = result->prev)
+                for (result = v1->left; !result->isEnd; result = result->left)
                 {
                     v1 = result;
                 }
@@ -96,11 +96,31 @@ struct BinarySearchTree
 {
         using Iter = typename Node<ValType>::Iterator;
         unsigned int size() { return _size; }
-        Iter begin() { return Iter(headNode->left); }
+        Iter begin() { return Iter(headNode->head); }
         Iter end() { return Iter(headNode); }
 
         // Specialize for different types!
         void Insert(uint key, ValType val);
+        Iter Find(uint& key)
+        {
+            Node<ValType> bstIterator = begin();
+            while (bstIterator != endNode)
+            {
+                if (bstIterator->key == key)
+                {
+                    return bstIterator;
+                }
+                if (bstIterator->key > key)
+                {
+                    bstIterator = bstIterator->left;
+                }
+                else
+                {
+                    bstIterator = bstIterator->right;
+                }
+            }
+            return end();
+        }
 
     private:
         Node<ValType>* nextNode = nullptr;
@@ -123,7 +143,7 @@ class FlMap
 
         struct Node
         {
-                NodePtr left;
+                NodePtr head;
                 NodePtr parent;
                 NodePtr right;
                 uint key;
@@ -202,7 +222,7 @@ class FlMap
     public:
         unsigned int size() { return _size; };
 
-        Iterator begin() { return Iterator(headNode->left, this); }
+        Iterator begin() { return Iterator(headNode->head, this); }
 
         Iterator end() { return Iterator(endNode, this); }
 
@@ -219,7 +239,7 @@ class FlMap
 
                 if (key < searchNode->key)
                 {
-                    searchNode = searchNode->left;
+                    searchNode = searchNode->head;
                 }
                 else
                 {
@@ -234,9 +254,9 @@ class FlMap
         NodePtr Min(NodePtr node)
         {
             // go to leftmost child
-            while (IsNil(node->left) == false)
+            while (IsNil(node->head) == false)
             {
-                node = node->left;
+                node = node->head;
             }
 
             return node;
