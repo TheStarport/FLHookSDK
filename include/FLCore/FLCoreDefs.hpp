@@ -287,7 +287,7 @@ class Matrix : public glm::mat3
         const float mathDunno = sqrtf(operator[](0)[0] * operator[](0)[0] + operator[](1)[0] * operator[](1)[0]);
 
         // singularity at south or north pole
-        if (operator[](0)[0] <= 0.0000019f)
+        if (mathDunno <= 0.0000019f)
         {
             heading = atan2(-operator[](1)[2], operator[](1)[1]);
             bank = atan2(-operator[](2)[0], mathDunno);
