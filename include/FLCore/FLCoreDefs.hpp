@@ -1,4 +1,4 @@
-﻿#ifndef _FLCOREDEFS_H_
+#ifndef _FLCOREDEFS_H_
 #define _FLCOREDEFS_H_
 
 #ifdef USE_GLM
@@ -29,82 +29,84 @@ struct BinarySearchTree;
 template <typename T>
 struct Node
 {
-        Node* left;
-        Node* head;
-        Node* right;
-        uint key;
-        T value;
-        bool unknown;
-        bool isEnd;
+    Node* left;
+    Node* head;
+    Node* right;
+    uint key;
+    T value;
+    bool unknown;
+    bool isEnd;
 
-        class Iterator
+    class Iterator
+    {
+        friend BinarySearchTree<T>;
+        Node* node;
+        explicit Iterator(Node* node) { this->node = node; }
+
+    public:
+        Iterator& operator++()
         {
-                friend BinarySearchTree<T>;
-                Node* node;
-                explicit Iterator(Node* node) { this->node = node; }
-
-            public:
-                Iterator& operator++()
-                {
-                    node = node->Traverse();
-                    return *this;
-                }
-
-                Node* operator->() const { return node; }
-
-                friend bool operator==(const Iterator& a, const Iterator& b) { return a.node == b.node; }
-                friend bool operator!=(const Iterator& a, const Iterator& b) { return a.node != b.node; }
-        };
-
-    private:
-        Node* Traverse()
-        {
-            Node* node = this;
-            Node** nodeRef = &node;
-
-            Node* v1 = (*nodeRef)->right;
-            Node* result;
-
-            if (v1->isEnd)
-            {
-                for (result = (*nodeRef)->head; (*nodeRef) == result->right; result = result->head)
-                {
-                    (*nodeRef) = result;
-                }
-
-                if ((*nodeRef)->right != result)
-                {
-                    (*nodeRef) = result;
-                }
-            }
-            else
-            {
-                for (result = v1->left; !result->isEnd; result = result->left)
-                {
-                    v1 = result;
-                }
-
-                (*nodeRef) = v1;
-            }
-
-            return *nodeRef;
+            node = node->Traverse();
+            return *this;
         }
+
+        Node* operator->() const { return node; }
+        Node* operator*() const { return node; }
+
+        friend bool operator==(const Iterator& a, const Iterator& b) { return a.node == b.node; }
+        friend bool operator!=(const Iterator& a, const Iterator& b) { return a.node != b.node; }
+    };
+
+private:
+    Node* Traverse()
+    {
+        Node* node = this;
+        Node** nodeRef = &node;
+
+        Node* v1 = (*nodeRef)->right;
+        Node* result;
+
+        if (v1->isEnd)
+        {
+            for (result = (*nodeRef)->head; (*nodeRef) == result->right; result = result->head)
+            {
+                (*nodeRef) = result;
+            }
+
+            if ((*nodeRef)->right != result)
+            {
+                (*nodeRef) = result;
+            }
+        }
+        else
+        {
+            for (result = v1->left; !result->isEnd; result = result->left)
+            {
+                v1 = result;
+            }
+
+            (*nodeRef) = v1;
+        }
+
+        return *nodeRef;
+    }
 };
 
 template <typename ValType>
 struct BinarySearchTree
 {
-        using Iter = typename Node<ValType>::Iterator;
-        unsigned int size() { return _size; }
-        Iter begin() { return Iter(headNode->head); }
-        Iter end() { return Iter(headNode); }
+    using Iter = typename Node<ValType>::Iterator;
+    unsigned int size() { return _size; }
+    Iter begin() { return Iter(headNode->head); }
+    Iter end() { return Iter(headNode); }
 
-        // Specialize for different types!
-        void Insert(uint key, ValType val);
+    // Specialize for different types!
+    void Insert(uint key, ValType val);
         Iter Find(uint& key)
         {
-            Node<ValType> bstIterator = begin();
-            while (bstIterator != endNode)
+            Iter bstIterator = begin();
+            Iter endIterator = Iter(endNode);
+            while (bstIterator != endIterator)
             {
                 if (bstIterator->key == key)
                 {
@@ -112,11 +114,11 @@ struct BinarySearchTree
                 }
                 if (bstIterator->key > key)
                 {
-                    bstIterator = bstIterator->left;
+                    bstIterator = Iter(bstIterator->left);
                 }
                 else
                 {
-                    bstIterator = bstIterator->right;
+                    bstIterator = Iter(bstIterator->right);
                 }
             }
             return end();
@@ -143,7 +145,7 @@ class FlMap
 
         struct Node
         {
-                NodePtr head;
+                NodePtr left;
                 NodePtr parent;
                 NodePtr right;
                 uint key;
@@ -210,9 +212,11 @@ class FlMap
                     return (!(*this == right));
                 }
 
-                unsigned int* key() { return &currentNode->key; }
+                unsigned int key() { return currentNode->key; }
 
                 ValType* value() { return &currentNode->data; }
+
+                NodePtr operator*() { return currentNode; }
 
             private:
                 NodePtr currentNode;
@@ -222,7 +226,7 @@ class FlMap
     public:
         unsigned int size() { return _size; };
 
-        Iterator begin() { return Iterator(headNode->head, this); }
+        Iterator begin() { return Iterator(headNode->left, this); }
 
         Iterator end() { return Iterator(endNode, this); }
 
@@ -239,7 +243,7 @@ class FlMap
 
                 if (key < searchNode->key)
                 {
-                    searchNode = searchNode->head;
+                    searchNode = searchNode->left;
                 }
                 else
                 {
@@ -254,9 +258,9 @@ class FlMap
         NodePtr Min(NodePtr node)
         {
             // go to leftmost child
-            while (IsNil(node->head) == false)
+            while (IsNil(node->left) == false)
             {
-                node = node->head;
+                node = node->left;
             }
 
             return node;

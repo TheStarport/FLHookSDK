@@ -453,7 +453,7 @@ struct CHARACTER_ID final
 
 struct VisitEntry
 {
-        uint visitValue;
+        char visitValue;
 };
 
 template <>
@@ -518,7 +518,7 @@ struct PlayerData
         uint dunno1[2];                                    // 0x390
         int* SPNeuralNetLogUnk;                            // 0x398
         int interfaceState;                                // 0x39C
-        BinarySearchTree<VisitEntry> visitEntries;         // 0x3A0
+        FlMap<VisitEntry> visitEntries;         // 0x3A0
         uint dunno2[4];                                    // 0x3B4
         float difficulty;                                  // 0x3C4
         ushort lastEquipId;                                // 0x3C8
