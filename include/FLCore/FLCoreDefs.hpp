@@ -254,7 +254,7 @@ class FlMap
             return Iterator(searchNode, this);
         }
 
-    protected:
+    //protected:
         NodePtr Min(NodePtr node)
         {
             // go to leftmost child
@@ -268,7 +268,7 @@ class FlMap
 
         bool IsNil(NodePtr node) { return (node == endNode || node == headNode); }
 
-    private:
+    //private:
         void* dunno = nullptr;
         NodePtr headNode = nullptr; // headnode stores min/max in left/right and upmost node in parent
         NodePtr endNode = nullptr;

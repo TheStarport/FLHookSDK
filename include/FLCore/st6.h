@@ -166,7 +166,7 @@ namespace st6
                 else if (_X.size() <= capacity())
                 {
                     const_iterator _S = _X.begin() + size();
-                    copy(_X.begin(), _S, _First);
+                    std::copy(_X.begin(), _S, _First);
                     _Ucopy(_S, _X.end(), _Last);
                     _Last = _First + _X.size();
                 }
@@ -283,14 +283,14 @@ namespace st6
                 {
                     _Ucopy(_P, _Last, _P + _M);
                     _Ufill(_Last, _M - (_Last - _P), _X);
-                    // fill(_P, _Last, _X);
+                    std::fill(_P, _Last, _X);
                     _Last += _M;
                 }
                 else if (0 < _M)
                 {
                     _Ucopy(_Last - _M, _Last, _Last);
-                    // copy_backward(_P, _Last - _M, _Last);
-                    // fill(_P, _P + _M, _X);
+                    std::copy_backward(_P, _Last - _M, _Last);
+                    std::fill(_P, _P + _M, _X);
                     _Last += _M;
                 }
             }
@@ -338,7 +338,7 @@ namespace st6
 
             iterator erase(iterator _F, iterator _L)
             {
-                iterator _S = copy(_L, end(), _F);
+                iterator _S = std::copy(_L, end(), _F);
                 _Destroy(_S, end());
                 _Last = _S;
                 return (_F);
