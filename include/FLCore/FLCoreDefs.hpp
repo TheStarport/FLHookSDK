@@ -228,7 +228,7 @@ class FlMap
 
         Iterator begin() { return Iterator(headNode->left, this); }
 
-        Iterator end() { return Iterator(endNode, this); }
+        Iterator end() { return Iterator(headNode, this); }
 
         Iterator find(unsigned int key)
         {
