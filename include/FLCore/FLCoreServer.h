@@ -441,16 +441,6 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
 };
 #pragma warning(pop)
 
-struct CHARACTER_ID final
-{
-        CHARACTER_ID();
-        CHARACTER_ID const& operator=(CHARACTER_ID const&);
-        void invalidate();
-        bool is_valid() const;
-
-        char charFilename[512]; // Only first 16 bytes are ever used
-};
-
 struct VisitEntry
 {
         char visitValue;
@@ -468,29 +458,53 @@ inline void BinarySearchTree<VisitEntry>::Insert(uint key, VisitEntry value)
     sub_6D5C600(this, v166, input);
 }
 
-struct CharacterBaseDataInfo
+struct CharacterData
 {
-    CharacterBaseDataInfo* left; //0x0
-    CharacterBaseDataInfo* root; //0x4
-    CharacterBaseDataInfo* right; //0x8
-    char filename[0x40]; //0xC
-    uint dunno[0x107]; //0x4C
-    float baseHealth; // 0x468
-    st6::list<EquipDesc> baseEquipList; //0x46C
-    st6::list<CollisionGroupDesc> baseColgrps; //0x478
+        CHARACTER_ID characterCode;
+        st6::wstring name;                                    // 512
+        st6::wstring description;                             // 528
+        uint descripStrId;                                    // 544
+        uint datetimeHigh;                                    // 548
+        uint datetimeLow;                                     // 552
+        uint shipHash;                                        // 556
+        int money;                                            // 560
+        int numOfKills;                                       // 564
+        int numOfSuccessMissions;                             // 568
+        int numOfFailedMissions;                              // 572
+        float hullStatus;                                     // 576
+        st6::list<EquipDesc> currentEquipAndCargo;            // 580
+        st6::list<CollisionGroupDesc> currentCollisionGroups; // 592
+        float baseHullStatus;                                 // 604
+        st6::list<EquipDesc> baseEquipAndCargo;               // 608
+        st6::list<CollisionGroupDesc> baseCollisionGroups;    // 620
+        uint currentBase;                                     // 632
+        uint lastDockedBase;                                  // 636
+        uint currentRoom;                                     // 640
+        uint system;                                          // 644
+        Vector pos;                                           // 648 - 656
+        Matrix rot;                                           // 660 - 692
+        uint startingRing;                                    // 696
+        int rank;                                             // 700
+        st6::vector<Reputation::Relation> repList;            // 704
+        uint affiliation;                                     // 720, see Reputation::get_id();
+        Costume commCostume;                                  // 724 - 772
+        uint voiceLen;                                        // 776
+        char voice[32] = "trent_voice";                       // 780
+        Costume baseCostume;                                  // 812 - 860
+        SubObjectID::EquipIdMaker equipIdEnumerator;          // 864
+        st6::string prefilledWeaponGroupIni;                  // 876
+        st6::list<uint> logInfo;                              // 888
+        int interfaceState = 3;                               // 896
+        FlMap<uint, char> visits;                             // 900
 };
 
 struct PlayerData
 {
-        wchar_t accId[40]; // 0
-        void* chararacterCreationPtr; // 0x50
-        CharacterBaseDataInfo* accountCharacterDataBegin; // 0x54
-        void* accountCharacterDataEnd; // 0x58
-        long x05C;
-        uint numberOfCharacters; // 0x60
-        CHARACTER_ID charFile; // 0x64
-        uint shipArchetype; // 0x264
-        float relativeHealth; // 0x268
+        wchar_t accId[40];                                // 0
+        FlMap<CHARACTER_ID, CharacterData> characterMap;  // 0x50
+        CHARACTER_ID charFile;                            // 0x64
+        uint shipArchetype;                               // 0x264
+        float relativeHealth;                             // 0x268
         st6::list<CollisionGroupDesc> collisionGroupDesc; // 0x26C
         EquipDescList equipAndCargo;                      // 0x278
         int rank;                                         // 0x284
@@ -504,42 +518,42 @@ struct PlayerData
         int worth;                                        // 0x320
         uint shipArchetypeWhenLanding;                    // 0x324
         // Potentially something related to anti-cheat checking
-        EquipDescList shadowEquipDescList;                 // 0x328
-        int numKills;                                      // 0x334
-        int numMissionSuccesses;                           // 0x338
-        int numMissionFailures;                            // 0x33C
-        bool skipAutoSave;                                 // 0x340
-        uint saveCount;                                    // 0x344
-        uint clientId;                                     // 0x348
-        bool cheated;                                      // 0x34C
-        Vector position;                                   // 0x350
-        Matrix orientation;                                // 0x35C
-        st6::string weaponGroups;                          // 0x380
-        uint dunno1[2];                                    // 0x390
-        int* SPNeuralNetLogUnk;                            // 0x398
-        int interfaceState;                                // 0x39C
-        FlMap<VisitEntry> visitEntries;         // 0x3A0
-        uint dunno2[4];                                    // 0x3B4
-        float difficulty;                                  // 0x3C4
-        ushort lastEquipId;                                // 0x3C8
-        uint menuItem;                                     // 0x3CC
-        uint onlineId2;                                    // 0x3D0
-        uint dunno3[2];                                    // 0x3D4
-        uint tradeRequestCount;                            // 0x3DC
-        uint systemId;                                     // 0x3E0
-        uint shipId;                                       // 0x3E4
-        uint createdShipId;                                // 0x3E8
-        uint baseId;                                       // 0x3EC
-        uint lastBaseId;                                   // 0x3F0
-        uint enteredBase;                                  // 0x3F4
-        uint baseRoomId;                                   // 0x3F8
-        uint characterId;                                  // 0x3FC
-        CAccount* account;                                 // 0x400
-        CPlayerGroup* playerGroup;                         // 0x404
-        uint missionId;                                    // 0x408
-        uint missionSetBy;                                 // 0x40C
-        uint exitedBase;                                   // 0x410
-        uint unknownLocId;                                 // 0x414
+        EquipDescList shadowEquipDescList;    // 0x328
+        int numKills;                         // 0x334
+        int numMissionSuccesses;              // 0x338
+        int numMissionFailures;               // 0x33C
+        bool skipAutoSave;                    // 0x340
+        uint saveCount;                       // 0x344
+        uint clientId;                        // 0x348
+        bool cheated;                         // 0x34C
+        Vector position;                      // 0x350
+        Matrix orientation;                   // 0x35C
+        st6::string weaponGroups;             // 0x380
+        uint dunno1[2];                       // 0x390
+        int* SPNeuralNetLogUnk;               // 0x398
+        int interfaceState;                   // 0x39C
+        FlMap<uint, VisitEntry> visitEntries; // 0x3A0
+        uint dunno2[4];                       // 0x3B4
+        float difficulty;                     // 0x3C4
+        ushort lastEquipId;                   // 0x3C8
+        uint menuItem;                        // 0x3CC
+        uint onlineId2;                       // 0x3D0
+        uint dunno3[2];                       // 0x3D4
+        uint tradeRequestCount;               // 0x3DC
+        uint systemId;                        // 0x3E0
+        uint shipId;                          // 0x3E4
+        uint createdShipId;                   // 0x3E8
+        uint baseId;                          // 0x3EC
+        uint lastBaseId;                      // 0x3F0
+        uint enteredBase;                     // 0x3F4
+        uint baseRoomId;                      // 0x3F8
+        uint characterId;                     // 0x3FC
+        CAccount* account;                    // 0x400
+        CPlayerGroup* playerGroup;            // 0x404
+        uint missionId;                       // 0x408
+        uint missionSetBy;                    // 0x40C
+        uint exitedBase;                      // 0x410
+        uint unknownLocId;                    // 0x414
 };
 
 struct PlayerDbTreeNode

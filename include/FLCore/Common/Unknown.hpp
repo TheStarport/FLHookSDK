@@ -119,6 +119,20 @@ struct DockHardpointInfo
         DockType dockType;
 };
 
+struct CHARACTER_ID final
+{
+        DLL CHARACTER_ID();
+        DLL CHARACTER_ID const& operator=(CHARACTER_ID const&);
+        bool operator<(CHARACTER_ID const& a) const { return _stricmp(charFilename, a.charFilename) < 0; }
+        bool operator==(CHARACTER_ID const& a) const { return _stricmp(charFilename, a.charFilename) == 0; }
+        bool operator!=(CHARACTER_ID const& a) const { return _stricmp(charFilename, a.charFilename) != 0; }
+        CHARACTER_ID(const char* input) { strcpy_s(charFilename, input); }
+        DLL void invalidate();
+        DLL bool is_valid() const;
+
+        char charFilename[512]; // Only first 16 bytes are ever used
+};
+
 namespace Async
 {
     struct IMPORT Action
@@ -347,7 +361,9 @@ namespace Exclusion
 
 struct INotify
 {
-        enum Event {};
+        enum Event
+        {
+        };
 };
 
 class IMPORT IVP_Core;
@@ -357,7 +373,9 @@ class IMPORT IVP_Event_Sim;
 template <class T>
 class IMPORT IVP_U_Vector;
 
-enum IVP_CONTROLLER_PRIORITY {};
+enum IVP_CONTROLLER_PRIORITY
+{
+};
 
 #undef GetCurrentTime
 
@@ -789,7 +807,9 @@ struct FlPacketSetEquipment
 
 namespace ErrorHandler
 {
-    enum SeverityLevel{};
+    enum SeverityLevel
+    {
+    };
     IMPORT void activate(const char*, int (*)(const char*, const char*, bool));
     IMPORT void deactivate();
     IMPORT bool is_log_enabled(int);

@@ -1,9 +1,7 @@
 #pragma once
 
 
-IMPORT bool operator!=(struct CHARACTER_ID const&, struct CHARACTER_ID const&);
 IMPORT bool operator!=(const Rect&, const Rect&);
-IMPORT bool operator<(struct CHARACTER_ID const&, struct CHARACTER_ID const&);
 
 IMPORT void AppendMissionLogData(const FmtStr*, unsigned char*&, int&, int);
 IMPORT unsigned int Arch2Good(unsigned int);

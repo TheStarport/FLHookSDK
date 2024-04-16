@@ -2,12 +2,10 @@
 #define _FLCOREDEFS_H_
 
 #ifdef USE_GLM
-#include "glm/glm.hpp"
-#include "glm/gtc/quaternion.hpp"
+    #include "glm/glm.hpp"
+    #include "glm/gtc/quaternion.hpp"
 
 #endif
-
-
 
 #include "../Typedefs.hpp"
 #include "st6.h"
@@ -29,79 +27,79 @@ struct BinarySearchTree;
 template <typename T>
 struct Node
 {
-    Node* left;
-    Node* head;
-    Node* right;
-    uint key;
-    T value;
-    bool unknown;
-    bool isEnd;
+        Node* left;
+        Node* head;
+        Node* right;
+        uint key;
+        T value;
+        bool unknown;
+        bool isEnd;
 
-    class Iterator
-    {
-        friend BinarySearchTree<T>;
-        Node* node;
-        explicit Iterator(Node* node) { this->node = node; }
-
-    public:
-        Iterator& operator++()
+        class Iterator
         {
-            node = node->Traverse();
-            return *this;
-        }
+                friend BinarySearchTree<T>;
+                Node* node;
+                explicit Iterator(Node* node) { this->node = node; }
 
-        Node* operator->() const { return node; }
-        Node* operator*() const { return node; }
+            public:
+                Iterator& operator++()
+                {
+                    node = node->Traverse();
+                    return *this;
+                }
 
-        friend bool operator==(const Iterator& a, const Iterator& b) { return a.node == b.node; }
-        friend bool operator!=(const Iterator& a, const Iterator& b) { return a.node != b.node; }
-    };
+                Node* operator->() const { return node; }
+                Node* operator*() const { return node; }
 
-private:
-    Node* Traverse()
-    {
-        Node* node = this;
-        Node** nodeRef = &node;
+                friend bool operator==(const Iterator& a, const Iterator& b) { return a.node == b.node; }
+                friend bool operator!=(const Iterator& a, const Iterator& b) { return a.node != b.node; }
+        };
 
-        Node* v1 = (*nodeRef)->right;
-        Node* result;
-
-        if (v1->isEnd)
+    private:
+        Node* Traverse()
         {
-            for (result = (*nodeRef)->head; (*nodeRef) == result->right; result = result->head)
+            Node* node = this;
+            Node** nodeRef = &node;
+
+            Node* v1 = (*nodeRef)->right;
+            Node* result;
+
+            if (v1->isEnd)
             {
-                (*nodeRef) = result;
+                for (result = (*nodeRef)->head; (*nodeRef) == result->right; result = result->head)
+                {
+                    (*nodeRef) = result;
+                }
+
+                if ((*nodeRef)->right != result)
+                {
+                    (*nodeRef) = result;
+                }
+            }
+            else
+            {
+                for (result = v1->left; !result->isEnd; result = result->left)
+                {
+                    v1 = result;
+                }
+
+                (*nodeRef) = v1;
             }
 
-            if ((*nodeRef)->right != result)
-            {
-                (*nodeRef) = result;
-            }
+            return *nodeRef;
         }
-        else
-        {
-            for (result = v1->left; !result->isEnd; result = result->left)
-            {
-                v1 = result;
-            }
-
-            (*nodeRef) = v1;
-        }
-
-        return *nodeRef;
-    }
 };
 
 template <typename ValType>
 struct BinarySearchTree
 {
-    using Iter = typename Node<ValType>::Iterator;
-    unsigned int size() { return _size; }
-    Iter begin() { return Iter(headNode->head); }
-    Iter end() { return Iter(headNode); }
+        using Iter = typename Node<ValType>::Iterator;
+        unsigned int size() { return _size; }
+        Iter begin() { return Iter(headNode->head); }
+        Iter end() { return Iter(headNode); }
 
-    // Specialize for different types!
-    void Insert(uint key, ValType val);
+        // Specialize for different types!
+        void Insert(uint key, ValType val);
         Iter Find(uint& key)
         {
             Iter bstIterator = begin();
@@ -134,7 +132,7 @@ struct BinarySearchTree
 };
 
 // Not quite a BST, through very similar.
-template <typename ValType>
+template <typename KeyType, typename ValType>
 class FlMap
 {
 
@@ -148,14 +146,14 @@ class FlMap
                 NodePtr left;
                 NodePtr parent;
                 NodePtr right;
-                uint key;
+                KeyType key;
                 ValType data;
         };
 
         class Iterator
         {
             public:
-                Iterator(NodePtr currentNode, FlMap<ValType>* classPtr)
+                Iterator(NodePtr currentNode, FlMap<KeyType, ValType>* classPtr)
                 {
                     this->currentNode = currentNode;
                     classObj = classPtr;
@@ -220,7 +218,7 @@ class FlMap
 
             private:
                 NodePtr currentNode;
-                FlMap<ValType>* classObj;
+                FlMap<KeyType, ValType>* classObj;
         };
 
     public:
@@ -230,7 +228,7 @@ class FlMap
 
         Iterator end() { return Iterator(headNode, this); }
 
-        Iterator find(unsigned int key)
+        Iterator find(KeyType key)
         {
             NodePtr searchNode = headNode->parent; // parent of headnode is first legit (upmost) node
 
@@ -290,150 +288,149 @@ struct TString
 class Vector : public glm::vec<3, float, glm::packed_highp>
 {
     public:
-    Vector() = default;
-    Vector(const float a, const float b, const float c) : glm::vec3(a, b, c) {}
-    Vector(glm::vec<3, float, glm::packed_highp> v) : glm::vec3(v.x, v.y, v.z) {}
+        Vector() = default;
+        Vector(const float a, const float b, const float c) : glm::vec3(a, b, c) {}
+        Vector(glm::vec<3, float, glm::packed_highp> v) : glm::vec3(v.x, v.y, v.z) {}
 };
 
 class Matrix : public glm::mat3
 {
     public:
-    Matrix() = default;
-    Matrix(const glm::vec3 a, const glm::vec3 b, const glm::vec3 c) : glm::mat3(a, b, c) {}
-    static Matrix Identity() { return Matrix({ 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.0f, 1.0f }); }
+        Matrix() = default;
+        Matrix(const glm::vec3 a, const glm::vec3 b, const glm::vec3 c) : glm::mat3(a, b, c) {}
+        static Matrix Identity() { return Matrix({ 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.0f, 1.0f }); }
 
-    [[nodiscard]] Vector ToEuler(const bool inDegrees) const
-    {
-        float heading = 0.0f;
-        float bank = 0.0f;
-        float attitude = 0.0f;
-
-        const float mathDunno = sqrtf(operator[](0)[0] * operator[](0)[0] + operator[](1)[0] * operator[](1)[0]);
-
-        // singularity at south or north pole
-        if (mathDunno <= 0.0000019f)
+        [[nodiscard]]
+        Vector ToEuler(const bool inDegrees) const
         {
-            heading = atan2(-operator[](1)[2], operator[](1)[1]);
-            bank = atan2(-operator[](2)[0], mathDunno);
-            attitude = 0.0f;
-        }
-        else
-        {
-            heading = atan2(operator[](2)[1], operator[](2)[2]);
-            bank = atan2(-operator[](2)[0], mathDunno);
-            attitude = atan2(operator[](1)[0], operator[](0)[0]);
-        }
+            float heading = 0.0f;
+            float bank = 0.0f;
+            float attitude = 0.0f;
 
-        if (inDegrees)
-        {
-            constexpr float mod = 57.295776f;
-            return {heading*mod, bank*mod, attitude*mod};
+            const float mathDunno = sqrtf(operator[](0)[0] * operator[](0)[0] + operator[](1)[0] * operator[](1)[0]);
+
+            // singularity at south or north pole
+            if (mathDunno <= 0.0000019f)
+            {
+                heading = atan2(-operator[](1)[2], operator[](1)[1]);
+                bank = atan2(-operator[](2)[0], mathDunno);
+                attitude = 0.0f;
+            }
+            else
+            {
+                heading = atan2(operator[](2)[1], operator[](2)[2]);
+                bank = atan2(-operator[](2)[0], mathDunno);
+                attitude = atan2(operator[](1)[0], operator[](0)[0]);
+            }
+
+            if (inDegrees)
+            {
+                constexpr float mod = 57.295776f;
+                return { heading * mod, bank * mod, attitude * mod };
+            }
+            return { heading, bank, attitude };
         }
-        return {heading, bank, attitude};
-    }
 };
 
 class Quaternion : public glm::qua<float, glm::packed_highp>
 {
     public:
-    Quaternion() = default;
-    Quaternion(const float a, const float b, const float c, const float d) : glm::qua<float, glm::packed_highp>(a, b, c, d) {}
-    explicit Quaternion(const glm::quat& quat)
-    {
-        w = quat.w;
-        x = quat.x;
-        y = quat.y;
-        z = quat.z;
-    }
-    explicit Quaternion(const Matrix& rotation)
-    {
-        w = sqrt(std::max(0.0f, 1 + rotation[0][0] + rotation[1][1] + rotation[2][2])) / 2;
-        x = sqrt(std::max(0.0f, 1 + rotation[0][0] - rotation[1][1] - rotation[2][2])) / 2;
-        y = sqrt(std::max(0.0f, 1 - rotation[0][0] + rotation[1][1] - rotation[2][2])) / 2;
-        z = sqrt(std::max(0.0f, 1 - rotation[0][0] - rotation[1][1] + rotation[2][2])) / 2;
-        x = static_cast<float>(_copysign(x, rotation[2][1] - rotation[1][2]));
-        y = static_cast<float>(_copysign(y, rotation[0][2] - rotation[2][0]));
-        z = static_cast<float>(_copysign(z, rotation[1][0] - rotation[0][1]));
-    }
+        Quaternion() = default;
+        Quaternion(const float a, const float b, const float c, const float d) : glm::qua<float, glm::packed_highp>(a, b, c, d) {}
+        explicit Quaternion(const glm::quat& quat)
+        {
+            w = quat.w;
+            x = quat.x;
+            y = quat.y;
+            z = quat.z;
+        }
+        explicit Quaternion(const Matrix& rotation)
+        {
+            w = sqrt(std::max(0.0f, 1 + rotation[0][0] + rotation[1][1] + rotation[2][2])) / 2;
+            x = sqrt(std::max(0.0f, 1 + rotation[0][0] - rotation[1][1] - rotation[2][2])) / 2;
+            y = sqrt(std::max(0.0f, 1 - rotation[0][0] + rotation[1][1] - rotation[2][2])) / 2;
+            z = sqrt(std::max(0.0f, 1 - rotation[0][0] - rotation[1][1] + rotation[2][2])) / 2;
+            x = static_cast<float>(_copysign(x, rotation[2][1] - rotation[1][2]));
+            y = static_cast<float>(_copysign(y, rotation[0][2] - rotation[2][0]));
+            z = static_cast<float>(_copysign(z, rotation[1][0] - rotation[0][1]));
+        }
 };
 
 #else
 
 struct Vector
 {
-    float x = 0.0f;
-    float y = 0.0f;
-    float z = 0.0f;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
 };
 
-union Matrix
-{
-    struct {
-        Vector a;
-        Vector b;
-        Vector c;
-    };
-    float data[3][3]{};
-
-    Matrix()
-    {
-        a = {1.0f, 0.0f, 0.0f};
-        b = {0.0f, 1.0f, 0.0f};
-        c = {0.0f, 0.0f, 1.0f};
-    }
-    
-    const float (&operator[](const size_t i)const)[3]
-    {
-        return data[i];
-    }
-
-    [[nodiscard]] Vector ToEuler(const bool inDegrees) const
-    {
-        float heading = 0.0f;
-        float bank = 0.0f;
-        float attitude = 0.0f;
-
-        const float mathDunno = sqrtf(data[0][0] * data[0][0] + data[1][0] * data[1][0]);
-
-        // singularity at south or north pole
-        if (data[0][0] <= 0.0000019f)
+union Matrix {
+        struct
         {
-            heading = atan2(-data[1][2], data[1][1]);
-            bank = atan2(-data[2][0], mathDunno);
-            attitude = 0.0f;
-        }
-        else
+                Vector a;
+                Vector b;
+                Vector c;
+        };
+        float data[3][3]{};
+
+        Matrix()
         {
-            heading = atan2(data[2][1], data[2][2]);
-            bank = atan2(-data[2][0], mathDunno);
-            attitude = atan2(data[1][0], data[0][0]);
+            a = { 1.0f, 0.0f, 0.0f };
+            b = { 0.0f, 1.0f, 0.0f };
+            c = { 0.0f, 0.0f, 1.0f };
         }
 
-        if (inDegrees)
+        const float (&operator[](const size_t i) const)[3] { return data[i]; }
+
+        [[nodiscard]]
+        Vector ToEuler(const bool inDegrees) const
         {
-            constexpr float mod = 57.295776f;
-            return {heading*mod, bank*mod, attitude*mod};
+            float heading = 0.0f;
+            float bank = 0.0f;
+            float attitude = 0.0f;
+
+            const float mathDunno = sqrtf(data[0][0] * data[0][0] + data[1][0] * data[1][0]);
+
+            // singularity at south or north pole
+            if (data[0][0] <= 0.0000019f)
+            {
+                heading = atan2(-data[1][2], data[1][1]);
+                bank = atan2(-data[2][0], mathDunno);
+                attitude = 0.0f;
+            }
+            else
+            {
+                heading = atan2(data[2][1], data[2][2]);
+                bank = atan2(-data[2][0], mathDunno);
+                attitude = atan2(data[1][0], data[0][0]);
+            }
+
+            if (inDegrees)
+            {
+                constexpr float mod = 57.295776f;
+                return { heading * mod, bank * mod, attitude * mod };
+            }
+            return { heading, bank, attitude };
         }
-        return {heading, bank, attitude};
-    }
 };
 
 struct Quaternion
 {
-    float w = 0.0f;
-    float x = 0.0f;
-    float y = 0.0f;
-    float z = 0.0f;
-    explicit Quaternion(const Matrix& rotation)
-    {
-        w = sqrtf(std::max(0.0f, 1 + rotation[0][0] + rotation[1][1] + rotation[2][2])) / 2;
-        x = sqrtf(std::max(0.0f, 1 + rotation[0][0] - rotation[1][1] - rotation[2][2])) / 2;
-        y = sqrtf(std::max(0.0f, 1 - rotation[0][0] + rotation[1][1] - rotation[2][2])) / 2;
-        z = sqrtf(std::max(0.0f, 1 - rotation[0][0] - rotation[1][1] + rotation[2][2])) / 2;
-        x = static_cast<float>(_copysign(x, rotation[2][1] - rotation[1][2]));
-        y = static_cast<float>(_copysign(y, rotation[0][2] - rotation[2][0]));
-        z = static_cast<float>(_copysign(z, rotation[1][0] - rotation[0][1]));
-    }
+        float w = 0.0f;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        explicit Quaternion(const Matrix& rotation)
+        {
+            w = sqrtf(std::max(0.0f, 1 + rotation[0][0] + rotation[1][1] + rotation[2][2])) / 2;
+            x = sqrtf(std::max(0.0f, 1 + rotation[0][0] - rotation[1][1] - rotation[2][2])) / 2;
+            y = sqrtf(std::max(0.0f, 1 - rotation[0][0] + rotation[1][1] - rotation[2][2])) / 2;
+            z = sqrtf(std::max(0.0f, 1 - rotation[0][0] - rotation[1][1] + rotation[2][2])) / 2;
+            x = static_cast<float>(_copysign(x, rotation[2][1] - rotation[1][2]));
+            y = static_cast<float>(_copysign(y, rotation[0][2] - rotation[2][0]));
+            z = static_cast<float>(_copysign(z, rotation[1][0] - rotation[0][1]));
+        }
 };
 
 #endif
