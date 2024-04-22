@@ -283,7 +283,9 @@ class IMPORT CAccount
         uint dunno2[7];
         CAccountListNode* firstListNode;
         uint numberOfCharacters;
-        uint dunno4[32];
+        uint dunno4;
+        uint clientId;
+        uint dunno5[30];
 };
 
 enum CommResult
