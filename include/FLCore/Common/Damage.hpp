@@ -65,4 +65,5 @@ struct DamageList
     DamageCause damageCause;
     uint inflictorId;
     uint inflictorPlayerId;
+    bool dunno;
 };

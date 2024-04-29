@@ -113,61 +113,47 @@ struct FLPACKET_DESTROYOBJECT
 
 struct FLPACKET_CREATESHIP
 {
-        char* address; // ??
+        char* address; // pointer to CShipCreate vtable
         uint spaceId;
-        uint shipArch;
-        uint dunno1;
-        uint pilot;
-        struct
-        {
-                uint body;
-                uint head;
-                uint lefthand;
-                uint righthand;
-                uint accessory[8];
-                int accessories;
-        } costume;
+        uint solarArch;
+        uint dockBaseId;
+        uint rep;
+        Costume costume;
         uint voiceId;
         Vector pos;
         Quaternion orientation;
-        int health;
-        uint dunno3;
-        uint size1;
-        EquipDesc* equipBegin;
-        EquipDesc* equipEnd;
-        void* equipPointer3;
-        uint size2;
-        void* cargoPointer1;
-        void* cargoPointer2;
-        uint size3;
-        void* dunnoPointer1;
-        void* dunnoPointer2;
-        uint dunno4[5];
-        uint client;
-        uint dunno5;
-        uint level;
+        uint64 health;
+        EquipDescVector equip;
+        st6::list<CollisionGroupDesc> colGrps;
+        DamageList dmgList; // only holds shield state, which is ignored by receiving client.
+        uint clientId;
+        uint groupId;
+        uint rank;
+        Vector linearVelocity; // ignored by receiving client.
+        Vector angularVelocity; // ignored by receiving client.
+        float throttle;
+        uint dunno;
+        uint playerGroup; // pointer to CPlayerGroup? Possibly ignored.
+        bool inTradeLane;
 };
 
 struct FLPACKET_CREATESOLAR
 {
-        char* address; // ??
-        uint spaceId;
-        uint solarArch;
-        uint dunno;
-        uint pilot;
-        struct
-        {
-                uint body;
-                uint head;
-                uint lefthand;
-                uint righthand;
-                uint accessory[8];
-                int accessories;
-        } costume;
-        int voiceId;
-        Vector pos;
-        Quaternion orientation;
-        float health;
+    char* address; // pointer to CSolarCreate vtable
+    uint spaceId;
+    uint shipArch;
+    uint baseDockId;
+    uint rep;
+    Costume costume;
+    uint voiceId;
+    Vector pos;
+    Quaternion orientation;
+    uint64 health;
+    EquipDescVector equip;
+    st6::list<CollisionGroupDesc> colGrps;
+    DamageList dmg; // only holds shield state, which is ignored by receiving client.
+    bool isDynamic;
+    bool isDestructible;
 };
 
 struct FLPACKET_LAND
