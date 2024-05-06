@@ -13,5 +13,5 @@ class CETradeLaneEquip : public CInternalEquip
     IMPORT CETradeLaneEquip(CEqObj*, unsigned short, const Archetype::TradeLaneEquip*, bool);
     IMPORT const Archetype::TradeLaneEquip* TradeLaneArch() const;
 
-    IMPORT Archetype::TradeLaneEquip* archType;
+    Archetype::TradeLaneEquip* archType;
 };

@@ -298,7 +298,7 @@ class StringUtils
             return value;
         }
 
-        static Hook std::wstring XmlText(const std::wstring_view text)
+        static std::wstring XmlText(const std::wstring_view text)
         {
             std::wstring ret;
             for (uint i = 0; i < text.length(); i++)
@@ -326,7 +326,7 @@ class StringUtils
 
         template<typename T>
             requires std::is_same_v<T, std::string> || std::is_same_v<T, std::string_view> || std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, char*>
-        static Hook std::wstring stows(const T& text)
+        static std::wstring stows(const T& text)
         {
             const char* data;
             if constexpr (std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, char*>)
@@ -357,7 +357,7 @@ class StringUtils
 
         template<typename T>
             requires std::is_same_v<T, std::wstring> || std::is_same_v<T, std::wstring_view> || std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, wchar_t*>
-        static Hook std::string wstos(const T& text)
+        static std::string wstos(const T& text)
         {
             const wchar_t* data;
             if constexpr (std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, wchar_t*>)

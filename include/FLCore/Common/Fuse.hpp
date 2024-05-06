@@ -81,7 +81,7 @@ class FuseDB
         IMPORT static void Shutdown();
 
     protected:
-        IMPORT typedef TString<260> TString260;
+        typedef TString<260> TString260;
         IMPORT static st6::list<TString260> m_FuseINIFiles;
 
     public:
