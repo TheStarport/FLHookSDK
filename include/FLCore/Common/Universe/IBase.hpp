@@ -5,14 +5,30 @@ namespace Universe
 {
     struct IBase
     {
-        uint dunno1;
+        void* vftable;
         uint baseId;
-        uint dunno2;
+        char* nickname;
         uint baseIdS;
-        uint dunno3;
+        char* filepath;
         uint systemId;
-        uint dunno4[4];
+        st6::string baseRunBy;
         ulong spaceObjId;
-        uint dunno5[10];
+        bool dunno1;
+		uint shipSmall01;
+		uint shipSmall02;
+		uint shipSmall03;
+		uint shipMedium01;
+		uint shipMedium02;
+		uint shipMedium03;
+		uint shipLarge01;
+		uint shipLarge02;
+		uint shipLarge03;
+		uint terrainTiny;
+		uint terrainSmall;
+		uint terrainMedium;
+		uint terrainLarge;
+		uint terrainDynamic1;
+		uint terrainDynamic2;
+		bool autosaveForbidden;
     };
 }
