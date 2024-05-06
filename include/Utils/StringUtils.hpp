@@ -193,6 +193,20 @@ struct WStringHash
     std::size_t operator()(std::wstring const& str) const { return hash_type{}(str); }
 };
 
+constexpr size_t Hash(const char* str)
+{
+    long long total = 0;
+    long long current_multiplier = 1;
+    for (int i = 0; str[i] != '\0'; ++i)
+    {
+        constexpr long long m = 4294967291;
+        constexpr long long p = 131;
+        total = (total + current_multiplier * str[i]) % m;
+        current_multiplier = current_multiplier * p % m;
+    }
+    return total;
+}
+
 class StringUtils
 {
     public:
