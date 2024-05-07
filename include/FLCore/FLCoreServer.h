@@ -515,7 +515,7 @@ struct PlayerData
         uint voiceLen;                                    // 0x2C0
         char voice[32];                                   // 0x2C4
         Costume baseCostume;                              // 0x2E4
-        uint reputation;                                  // 0x318
+        int reputation;                                   // 0x318
         int money;                                        // 0x31C
         int worth;                                        // 0x320
         uint shipArchetypeWhenLanding;                    // 0x324

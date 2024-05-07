@@ -789,9 +789,9 @@ namespace EngineEquipConsts
 #pragma pack(push, 1)
 struct SetEquipmentItem
 {
-        int count;
+        ushort count;
         float health;
-        int archId;
+        uint archId;
         ushort id;
         byte mounted;
         byte mission;
