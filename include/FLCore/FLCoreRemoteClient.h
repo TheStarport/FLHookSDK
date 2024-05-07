@@ -207,7 +207,7 @@ struct IClientImpl
         virtual double CDPClientProxyGetLinkSaturation(uint client);
         virtual bool Send_FLPACKET_SERVER_SETSHIPARCH(uint client, uint shipArch);
         virtual bool Send_FLPACKET_SERVER_SETHULLSTATUS(uint client, float status);
-        virtual bool Send_FLPACKET_SERVER_SETCOLLISIONGROUPS(uint client, st6::list<XCollision>&);
+        virtual bool Send_FLPACKET_SERVER_SETCOLLISIONGROUPS(uint client, st6::list<CollisionGroupDesc>&);
         virtual bool Send_FLPACKET_SERVER_SETEQUIPMENT(uint client, st6::vector<EquipDesc>&);
         [[NoPlugins]]
         virtual void unknown_26(uint client, uint);
@@ -394,6 +394,7 @@ IMPORT void SetRemoteClientResponseData(bool, bool, int, const unsigned short*, 
 IMPORT void SetRemoteClientSessionName(const unsigned short*);
 IMPORT void SetServerLogFunction(int (*)(struct ErrorCode, const char*, ...));
 
+//TODO: Explain that this is just an packet-sending interface, not an actual Client
 extern "C" IMPORT IClientImpl Client;
 extern "C" IMPORT IClientImpl* GetClientInterface();
 

@@ -125,6 +125,5 @@ struct CollisionGroupDesc
 
     public:
     unsigned short id;
-    unsigned short unk;
     float health;
 };
