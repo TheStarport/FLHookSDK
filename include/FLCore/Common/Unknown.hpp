@@ -184,53 +184,6 @@ class IMPORT AttribStackNode
         unsigned char data[OBJECT_DATA_SIZE];
 };
 
-class IMPORT BaseData
-{
-    public:
-        BaseData(const BaseData&);
-        BaseData();
-        ~BaseData();
-        BaseData& operator=(const BaseData&);
-        unsigned int get_base_id() const;
-        const st6::list<class RoomData*>* get_const_room_data_list() const;
-        const st6::map<unsigned int, struct MarketGoodInfo, st6::less<unsigned int>, st6::allocator<MarketGoodInfo>>* get_market() const;
-        float get_price_variance() const;
-        st6::list<RoomData*>* get_room_data_list();
-        float get_ship_repair_cost() const;
-        unsigned int get_start_location() const;
-        void read_from_ini(const char*, unsigned int);
-        void set_market_good(unsigned int, int, int, TransactionType, float, float, float);
-
-    private:
-        void read_Base_block(class INI_Reader*);
-        void read_Room_block(INI_Reader*);
-
-    public:
-        uint dunno;
-        float startRoom;
-        float priceVariance;
-        float shipRepairCost;
-        st6::map<uint, MarketGoodInfo> marketMap;
-};
-
-class IMPORT BaseDataList
-{
-    public:
-        BaseDataList(const BaseDataList&);
-        BaseDataList();
-        ~BaseDataList();
-        BaseDataList& operator=(const BaseDataList&);
-        BaseData* get_base_data(unsigned int) const;
-        st6::list<BaseData*>* get_base_data_list();
-        const st6::list<BaseData*>* get_const_base_data_list() const;
-        RoomData* get_room_data(unsigned int) const;
-        RoomData* get_unloaded_room_data(unsigned int) const;
-        void load();
-        void load_market_data(const char*);
-
-    public:
-        unsigned char data[OBJECT_DATA_SIZE];
-};
 
 struct IMPORT BaseHint
 {
@@ -875,23 +828,6 @@ struct IMPORT FileMap
         void* request_pointer(unsigned int&);
         void seek(unsigned int);
         unsigned int tell() const;
-
-    public:
-        unsigned char data[OBJECT_DATA_SIZE];
-};
-
-struct IMPORT FlashLightSetInfo
-{
-        FlashLightSetInfo();
-        ~FlashLightSetInfo();
-        FlashLightSetInfo& operator=(const FlashLightSetInfo&);
-        void clear();
-        void destroy();
-        void fixup(long, const class HardpointSummary*, const RoomData*);
-        void unfixup();
-
-    private:
-        void add_light_csys(const Csys&);
 
     public:
         unsigned char data[OBJECT_DATA_SIZE];
@@ -2181,3 +2117,71 @@ namespace Geometry
     struct Frustum;
     struct Sphere;
 }; // namespace Geometry
+
+
+struct IMPORT FlashLightSetInfo
+{
+    FlashLightSetInfo();
+    ~FlashLightSetInfo();
+    FlashLightSetInfo& operator=(const FlashLightSetInfo&);
+    void clear();
+    void destroy();
+    void fixup(long, const class HardpointSummary*, const RoomData*);
+    void unfixup();
+
+    private:
+    void add_light_csys(const Csys&);
+
+    public:
+    unsigned char data[OBJECT_DATA_SIZE];
+};
+
+class IMPORT BaseData
+{
+    public:
+    BaseData(const BaseData&);
+    BaseData();
+    ~BaseData();
+    BaseData& operator=(const BaseData&);
+    unsigned int get_base_id() const;
+    //const st6::list<class RoomData*>* get_const_room_data_list() const;
+    //const st6::map<unsigned int, struct MarketGoodInfo, st6::less<unsigned int>, st6::allocator<MarketGoodInfo>>* get_market() const;
+    //st6::list<RoomData*>* get_room_data_list();
+    // commented out since they'd fail on the account of them being defined as 'std' in the game binaries. Use the fields below directly instead.
+    float get_price_variance() const;
+    float get_ship_repair_cost() const;
+    unsigned int get_start_location() const;
+    void read_from_ini(const char*, unsigned int);
+    void set_market_good(unsigned int, int, int, TransactionType, float, float, float);
+
+    private:
+    void read_Base_block(class INI_Reader*);
+    void read_Room_block(INI_Reader*);
+
+    public:
+    uint dunno;
+    float startRoom;
+    float priceVariance;
+    float shipRepairCost;
+    st6::map<uint, MarketGoodInfo> marketMap;
+    st6::list<RoomData*> roomData;
+};
+
+class IMPORT BaseDataList
+{
+    public:
+    BaseDataList(const BaseDataList&);
+    BaseDataList();
+    ~BaseDataList();
+    BaseDataList& operator=(const BaseDataList&);
+    BaseData* get_base_data(unsigned int) const;
+    st6::list<BaseData*>* get_base_data_list();
+    const st6::list<BaseData*>* get_const_base_data_list() const;
+    RoomData* get_room_data(unsigned int) const;
+    RoomData* get_unloaded_room_data(unsigned int) const;
+    void load();
+    void load_market_data(const char*);
+
+    public:
+    unsigned char data[OBJECT_DATA_SIZE];
+};

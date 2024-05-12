@@ -43,6 +43,7 @@ struct EquipDesc
         /* 3 */ bool mounted;
         /* 4 */ float health;
         /* 5 */ ushort count;
+        ushort padding;
         /* 6 */ bool mission;
         /* 7 */ uint owner;
 };

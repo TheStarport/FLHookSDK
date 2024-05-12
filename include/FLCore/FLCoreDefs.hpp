@@ -216,6 +216,8 @@ class FlMap
 
                 NodePtr operator*() { return currentNode; }
 
+                operator bool(){return currentNode && currentNode->left && currentNode->parent && currentNode->right;}
+
             private:
                 NodePtr currentNode;
                 FlMap<KeyType, ValType>* classObj;
