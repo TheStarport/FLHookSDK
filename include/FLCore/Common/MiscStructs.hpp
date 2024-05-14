@@ -20,6 +20,5 @@ class IMPORT CEquipmentObj : public CObject
     CEquipmentObj(const CEquipmentObj&);
     CEquipmentObj(Class);
 
-    public:
     unsigned char data[OBJECT_DATA_SIZE];
 };

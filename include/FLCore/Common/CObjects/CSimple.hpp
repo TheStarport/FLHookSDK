@@ -1,16 +1,17 @@
 #pragma once
 
 #include "CObject.hpp"
+#include "FLCore/Common/Enums.hpp"
 
-struct CSimple : public CObject
+class IObjDB;
+
+struct CSimple : CObject
 {
-    public:
         struct IMPORT CreateParms
         {
                 CreateParms();
                 CreateParms& operator=(const CreateParms&);
 
-            public:
                 unsigned char data[OBJECT_DATA_SIZE];
         };
 
@@ -23,8 +24,8 @@ struct CSimple : public CObject
         IMPORT virtual void cache_physical_props();                          // 132
         IMPORT virtual unsigned int get_name() const;                        // 136
         IMPORT virtual bool is_targetable() const;                           // 140
-        IMPORT virtual void connect(struct IObjDB*);                         // 144
-        IMPORT virtual void disconnect(struct IObjDB*);                      // 148
+        IMPORT virtual void connect(IObjDB*);                                // 144
+        IMPORT virtual void disconnect(IObjDB*);                             // 148
         IMPORT virtual void set_hit_pts(float);                              // 152
         IMPORT virtual void init_physics(const Vector&, const Vector&);      // 156
 
@@ -35,7 +36,7 @@ struct CSimple : public CObject
         IMPORT float get_hit_pts() const;
         IMPORT const unsigned int& get_id() const;
         IMPORT float get_max_hit_pts() const;
-        IMPORT struct IObjDB* get_object_database() const;
+        IMPORT IObjDB* get_object_database() const;
         IMPORT float get_relative_health() const;
         IMPORT float get_scanner_interference() const;
         IMPORT unsigned int get_type() const;
@@ -45,7 +46,7 @@ struct CSimple : public CObject
         uint dunnoTargetable;    // 40
         uint dunnoScanner;       // 41
         uint dunnoCSimple3;      // 42
-        struct IObjDB* objDB;    // 43
+        IObjDB* objDB;           // 43
         uint id;                 // 44
         uint ownerPlayer;        // 45
         float hitPoints;         // 46

@@ -1,9 +1,12 @@
 #pragma once
 #include "../../FLCoreDefs.hpp"
 
-struct CDynamicAsteroid : public CObject
+namespace Archetype
 {
-    public:
+    class DynamicAsteroid;
+}
+struct CDynamicAsteroid : CObject
+{
     IMPORT virtual ~CDynamicAsteroid();
     IMPORT virtual int update(float, unsigned int);
     IMPORT virtual void init_physics(const Vector&, const Vector&, unsigned int);
@@ -13,7 +16,6 @@ struct CDynamicAsteroid : public CObject
         CreateParms();
         CreateParms& operator=(const CreateParms&);
 
-        public:
         unsigned char data[OBJECT_DATA_SIZE];
     };
 

@@ -119,6 +119,7 @@
 #include "Common/CArchGroup.hpp"
 #include "Common/XML.hpp"
 #include "Common/Watchable.hpp"
+#include "Common/FmtStr.hpp"
 #include "Common/Unknown.hpp"
 #include "Common/CommonMethods.hpp"
 

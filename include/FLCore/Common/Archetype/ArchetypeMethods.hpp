@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../../FLCoreDefs.hpp"
+#include "FLCore/Common/INI_Reader.hpp"
+#include "FLCore/Common/Strings.hpp"
 
 namespace Archetype
 {

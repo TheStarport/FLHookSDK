@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../FLCoreDefs.hpp"
+#include "DamageObjInfo.hpp"
 #include "Root/Equipment.hpp"
 
 namespace Archetype
@@ -12,7 +13,6 @@ namespace Archetype
         IMPORT ~CollisionGroup();
         IMPORT CollisionGroup& operator=(const CollisionGroup&);
 
-        public:
         CollisionGroup* next;
         ushort id;
         CacheString name;

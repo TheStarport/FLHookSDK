@@ -1,9 +1,12 @@
 #pragma once
 #include "../CProjectile.hpp"
 
-struct CCounterMeasure : public CProjectile
+namespace Archetype
 {
-    public:
+    struct CounterMeasure;
+}
+struct CCounterMeasure : CProjectile
+{
     IMPORT virtual ~CCounterMeasure();
     IMPORT virtual int update(float, unsigned int);
     IMPORT virtual void init_physics(const Vector&, const Vector&);

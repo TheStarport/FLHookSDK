@@ -1,5 +1,6 @@
 #pragma once
 #include "../../FLCoreDefs.hpp"
+#include "../Strings.hpp"
 
 namespace Universe
 {

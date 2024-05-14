@@ -1,5 +1,8 @@
 #pragma once
 #include "../../../FLCoreDefs.hpp"
+#include "FLCore/Common/Archetype/ArchetypeMethods.hpp"
+#include "FLCore/Common/Archetype/Root.hpp"
+#include "FLCore/Common/INI_Reader.hpp"
 
 namespace Archetype
 {
@@ -9,7 +12,7 @@ namespace Archetype
         uint dunno[4];
     };
 
-    struct Equipment : public Root
+    struct Equipment : Root
     {
         IMPORT Equipment(const Equipment&);
         IMPORT Equipment(IClObj*);
@@ -26,7 +29,6 @@ namespace Archetype
         IMPORT virtual struct CargoPod* get_pod_appearance();
         IMPORT virtual bool is_attached() const;
 
-        public:
         /* 23 */ float volume;
         /* 24 */ uint useCount;
         /* 25 */ uint unitsPerContainer;

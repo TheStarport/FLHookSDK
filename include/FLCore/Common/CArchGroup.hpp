@@ -1,5 +1,9 @@
 #pragma once
 #include "../FLCoreDefs.hpp"
+#include "Archetype/CollisionGroup.hpp"
+#include "Archetype/DamageObjInfo.hpp"
+#include "Damage.hpp"
+#include "Strings.hpp"
 
 namespace Archetype
 {
@@ -39,7 +43,7 @@ class CArchGroup
         IMPORT unsigned int LinkedEquipmentType() const;
         IMPORT const CacheString& Name() const;
         IMPORT const Archetype::DamageObjInfoList& ParentDamageObjs() const;
-        IMPORT struct CObject* RetreiveDestroyedObj();
+        IMPORT CObject* RetreiveDestroyedObj();
         IMPORT bool Separable() const;
         IMPORT void SetHitPoints(float);
         IMPORT void SetRelativeHealth(float);
@@ -111,7 +115,6 @@ class CArchGrpTraverser
         IMPORT CArchGrpTraverser& operator=(const CArchGrpTraverser&);
         IMPORT void Restart();
 
-    public:
         unsigned char data[OBJECT_DATA_SIZE];
 };
 
@@ -123,7 +126,6 @@ struct CollisionGroupDesc
     IMPORT bool operator<(const CollisionGroupDesc&) const;
     IMPORT bool operator>(const CollisionGroupDesc&) const;
 
-    public:
     unsigned short id;
     float health;
 };

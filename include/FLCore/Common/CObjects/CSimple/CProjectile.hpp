@@ -1,9 +1,12 @@
 #pragma once
 #include "../../../FLCoreDefs.hpp"
 
-struct CProjectile : public CSimple
+namespace Archetype
 {
-    public:
+    struct Projectile;
+}
+struct CProjectile : CSimple
+{
     struct IMPORT CreateParms
     {
         // CreateParms();

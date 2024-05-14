@@ -1,15 +1,22 @@
 #pragma once
 #include "../../../FLCoreDefs.hpp"
 
-struct CAsteroid : public CSimple
+namespace CmnAsteroid
 {
-    public:
+    class CAsteroidField;
+}
+namespace Archetype
+{
+    class Asteroid;
+}
+
+struct CAsteroid : CSimple
+{
     struct IMPORT CreateParms
     {
         CreateParms();
         CreateParms& operator=(const CreateParms&);
 
-        public:
         unsigned char data[OBJECT_DATA_SIZE];
     };
 

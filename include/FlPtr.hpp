@@ -1,4 +1,20 @@
 #pragma once
+#include "FLCore/Common/CObjects/CDynamicAsteroid.hpp"
+#include "FLCore/Common/CObjects/CSimple.hpp"
+#include "FLCore/Common/CObjects/CSimple/CAsteroid.hpp"
+#include "FLCore/Common/CObjects/CSimple/CEqObj/CEqObj.hpp"
+#include "FLCore/Common/CObjects/CSimple/CEqObj/CShip.hpp"
+#include "FLCore/Common/CObjects/CSimple/CEqObj/CSolar.hpp"
+#include "FLCore/Common/CObjects/CSimple/CLoot.hpp"
+#include "FLCore/Common/CObjects/CSimple/CProjectile.hpp"
+#include "FLCore/Common/CObjects/CSimple/CProjectile/CBeam.hpp"
+#include "FLCore/Common/CObjects/CSimple/CProjectile/CCounterMeasure.hpp"
+#include "FLCore/Common/CObjects/CSimple/CProjectile/CGuided.hpp"
+#include "FLCore/Common/CObjects/CSimple/CProjectile/CMine.hpp"
+#include "FLCore/Common/MiscStructs.hpp"
+#include "FLCore/Common/PhySys/PhySysMethods.hpp"
+
+class IObjRW;
 
 template <typename P>
 class CPtrBase

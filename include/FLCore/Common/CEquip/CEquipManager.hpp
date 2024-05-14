@@ -1,6 +1,8 @@
 #pragma once
 #include "../../FLCoreDefs.hpp"
 
+class CExternalEquip;
+class CEquip;
 class CEquipManager;
 class CEquipTraverser
 {
@@ -70,7 +72,7 @@ class CEquipManager
         IMPORT bool HasDecayingCargo() const;
         IMPORT bool Init(CEqObj*);
         IMPORT unsigned short InstToSubObjID(long) const;
-        IMPORT CEquip* ReverseTraverse(class CEquipTraverser&);
+        IMPORT CEquip* ReverseTraverse(CEquipTraverser&);
         IMPORT const CEquip* ReverseTraverse(CEquipTraverser&) const;
         IMPORT int Size() const;
         IMPORT CEquip* Traverse(CEquipTraverser&);
@@ -91,7 +93,6 @@ class CEquipManager
 
         CEquipTraverser end() { return { this, EquipmentClass::All, false }; }
 
-    public:
         /* 0 */ uint iDunno0;
         /* 1 */ bool bDunno4;
         /* 2 */ uint unkPtr1;

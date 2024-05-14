@@ -1,7 +1,18 @@
 #pragma once
 
 #include "../../CSimple.hpp"
+#include "FLCore/Common/CArchGroup.hpp"
+#include "FLCore/Common/CEquip/CEquipManager.hpp"
+#include "FLCore/Common/Damage.hpp"
+#include "FLCore/Common/EquipDesc.hpp"
+#include "FLCore/Common/MiscStructs.hpp"
+#include "FLCore/Common/Unknown.hpp"
 
+namespace Archetype
+{
+    struct EqObj;
+    struct Equipment;
+} // namespace Archetype
 namespace PhySys
 {
     struct CreateParms;
@@ -9,18 +20,15 @@ namespace PhySys
 
 enum ObjActivateResult
 {
-
 };
 
-struct CEqObj : public CSimple
+struct CEqObj : CSimple
 {
-    public:
         struct IMPORT CreateParms
         {
                 CreateParms();
                 CreateParms& operator=(const CreateParms&);
 
-            public:
                 unsigned char data[OBJECT_DATA_SIZE];
         };
 
@@ -32,17 +40,17 @@ struct CEqObj : public CSimple
         IMPORT virtual void remake_physical(const PhySys::CreateParms&, float);           // 120
         IMPORT virtual unsigned int get_name() const;                                     // 136
         IMPORT virtual bool is_targetable() const;                                        // 140
-        IMPORT virtual void connect(struct IObjDB*);                                      // 144
-        IMPORT virtual void disconnect(struct IObjDB*);                                   // 148
+        IMPORT virtual void connect(IObjDB*);                                             // 144
+        IMPORT virtual void disconnect(IObjDB*);                                          // 148
         IMPORT virtual void init(const CreateParms&);                                     // 160
         IMPORT virtual void load_equip_and_cargo(const struct EquipDescVector&, bool);    // 164
         IMPORT virtual void clear_equip_and_cargo();                                      // 168
         IMPORT virtual void get_equip_desc_list(EquipDescVector&) const;                  // 172
         IMPORT virtual bool add_item(const EquipDesc&);                                   // 176
-        IMPORT virtual ObjActivateResult activate(bool, unsigned int);               // 180
+        IMPORT virtual ObjActivateResult activate(bool, unsigned int);                    // 180
         IMPORT virtual bool get_activate_state(st6::vector<bool, st6::allocator<bool>>&); // 184
         IMPORT virtual void disconnect(INotify*);                                         // 188
-        IMPORT virtual void disconnect(struct IObjRW*);                                   // 192
+        IMPORT virtual void disconnect(IObjRW*);                                          // 192
         IMPORT virtual void connect(INotify*);                                            // 196
         IMPORT virtual void notify(INotify::Event, void*);                                // 200
         IMPORT virtual void flush_animations();                                           // 204
@@ -67,7 +75,6 @@ struct CEqObj : public CSimple
                 DockAnimInfo();
                 DockAnimInfo& operator=(const DockAnimInfo&);
 
-            public:
                 unsigned char data[OBJECT_DATA_SIZE];
         };
 
@@ -77,7 +84,7 @@ struct CEqObj : public CSimple
         IMPORT float attitude_towards(const CEqObj*) const;
         IMPORT void attitude_towards_symmetrical(float&, const CEqObj*, float&) const;
         IMPORT void clear_arch_groups();
-        IMPORT class IBehaviorManager* create_behavior_interface(IObjRW*, int);
+        IMPORT IBehaviorManager* create_behavior_interface(IObjRW*, int);
         IMPORT Archetype::EqObj* eqobjarch() const;
         IMPORT unsigned int get_base() const;
         IMPORT unsigned int get_base_name() const;
@@ -106,25 +113,25 @@ struct CEqObj : public CSimple
         IMPORT void init_docking_points(unsigned int);
         IMPORT void update_docking_animations(float);
 
-        CEquipManager equip_manager;                               // 57
-        uint repVibe;                                              // 65
-        Costume commCostume;                                       // 66
-        uint voiceId;                                              // 79
-        float cloakPercentage;                                     // 80
-        CArchGroupManager archGroupManager;                        // 81
-        bool isCELauncher;                                         // 87 sub_6CEA4A0 casts eq to CELauncher only if this is true
-        uint dockTargetId;                                         // 88
-        IObjInspectImpl* dockTargetIObj;                           // 89
-        uint iDunnoEqObj23;                                        // 90
-        bool boundingExplosionBool;                                // 91
-        float boundingExplosionFloat;                              // 92
-        Vector boundingExplosionVector;                            // 93
-        st6::vector<CEqObj::DockAnimInfo> dockingAnimationsVector; // 96 could be st6::vector<IAnimation2>
-        uint controlExcludedDunno;                                 // 100
-        IBehaviorManager* behaviorManager;                         // 101
-        float power;                                               // 102
-        float maxPower;                                            // 103
-        uint iDunnoEqObj;                                          // 104 0xffffffff for all solars except those docking on lands you on a base, then it's 6?
+        CEquipManager equip_manager;                       // 57
+        uint repVibe;                                      // 65
+        Costume commCostume;                               // 66
+        uint voiceId;                                      // 79
+        float cloakPercentage;                             // 80
+        CArchGroupManager archGroupManager;                // 81
+        bool isCELauncher;                                 // 87 sub_6CEA4A0 casts eq to CELauncher only if this is true
+        uint dockTargetId;                                 // 88
+        IObjInspectImpl* dockTargetIObj;                   // 89
+        uint iDunnoEqObj23;                                // 90
+        bool boundingExplosionBool;                        // 91
+        float boundingExplosionFloat;                      // 92
+        Vector boundingExplosionVector;                    // 93
+        st6::vector<DockAnimInfo> dockingAnimationsVector; // 96 could be st6::vector<IAnimation2>
+        uint controlExcludedDunno;                         // 100
+        IBehaviorManager* behaviorManager;                 // 101
+        float power;                                       // 102
+        float maxPower;                                    // 103
+        uint iDunnoEqObj;                                  // 104 0xffffffff for all solars except those docking on lands you on a base, then it's 6?
 
     private:
         void destroy_equipment(const DamageList&, bool);

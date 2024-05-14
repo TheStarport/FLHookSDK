@@ -1,15 +1,17 @@
 #pragma once
 #include "FLCore/FLCoreDefs.hpp"
 
-struct CMine : public CProjectile
+namespace Archetype
 {
-    public:
+    struct Mine;
+}
+struct CMine : CProjectile
+{
     struct IMPORT CreateParms
     {
         CreateParms();
         CreateParms& operator=(const CreateParms&);
 
-        public:
         unsigned char data[OBJECT_DATA_SIZE];
     };
 

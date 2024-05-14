@@ -1,8 +1,10 @@
 #pragma once
 #include "../../FLCoreDefs.hpp"
+#include "CollisionEvent.hpp"
 
 namespace PhySys
 {
+    struct RayHit;
     struct CreateParms;
 
     enum IVP_BOOL

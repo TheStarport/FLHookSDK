@@ -1,6 +1,12 @@
 #pragma once
 
 #include "../FLCoreDefs.hpp"
+#include "AI/AIEnums.hpp"
+#include "AI/ContentCallback.hpp"
+#include "AI/Ops.hpp"
+#include "AI/Personality.hpp"
+#include "FmtStr.hpp"
+#include "Goods.hpp"
 #include "Watchable.hpp"
 
 #pragma comment(lib, "FLCoreCommon.lib")
@@ -833,75 +839,7 @@ struct IMPORT FileMap
         unsigned char data[OBJECT_DATA_SIZE];
 };
 
-struct FmtStr
-{
-        struct IMPORT Val
-        {
-                Val(const Val&);
-                Val(unsigned short, void*, unsigned char);
-                Val(const void*);
-                Val(const void*, int&);
-                ~Val();
-                const Val& operator=(const Val&);
-                bool operator==(const Val&) const;
-                unsigned int flatten(void*, unsigned int) const;
-                unsigned int get_flattened_size() const;
 
-                static void* operator new(unsigned int);
-                static void operator delete(void*);
-
-            private:
-                int InitFromVoid(const void*);
-
-            public:
-                unsigned char data[OBJECT_DATA_SIZE];
-        };
-
-        FmtStr() : FmtStr(0, nullptr) {}
-        IMPORT FmtStr(const FmtStr&);
-        IMPORT FmtStr(unsigned int, const Val*);
-        IMPORT ~FmtStr();
-        IMPORT const FmtStr& operator=(const FmtStr&);
-        IMPORT bool operator==(const FmtStr&) const;
-        IMPORT void append(Val*);
-        IMPORT void append_base(const unsigned int&);
-        IMPORT void append_fmt_str(const FmtStr&);
-        IMPORT void append_good(const unsigned int&);
-        IMPORT void append_installation(int);
-        IMPORT void append_int(unsigned int);
-        IMPORT void append_loot(int);
-        IMPORT void append_nav_marker(const struct NavMarker&);
-        IMPORT void append_rep_group(const unsigned int&);
-        IMPORT void append_rep_instance(const int&);
-        IMPORT void append_spaceobj_id(const unsigned int&);
-        IMPORT void append_string(unsigned int);
-        IMPORT void append_system(const unsigned int&);
-        IMPORT int append_void(void*);
-        IMPORT void append_zone_id(const unsigned int&);
-        IMPORT void begin_mad_lib(unsigned int);
-        IMPORT void destroy();
-        IMPORT void end_mad_lib();
-        IMPORT int flatten(void*, unsigned int) const;
-        IMPORT int unflatten(void*, unsigned int);
-
-    public:
-        uint something;
-        uint strid;       // resource containing text
-        BYTE tnav_marker; // counters for each type
-        BYTE tsystem;
-        BYTE tbase;
-        BYTE tstring;
-        BYTE tgood;
-        BYTE tunused;
-        BYTE tint;
-        BYTE trep_instance;
-        BYTE trep_group;
-        BYTE tzone_id;
-        BYTE tspace_obj_id;
-        BYTE tfmt_str;
-        BYTE tinstallation;
-        BYTE tloot;
-};
 
 class IMPORT HardpointSummary
 {
@@ -961,7 +899,6 @@ struct IMPORT IAction
         static void* operator new(unsigned int);
         static void operator delete(void*);
 
-    public:
         unsigned char data[OBJECT_DATA_SIZE];
 };
 
@@ -1001,7 +938,7 @@ class IMPORT IBehaviorManager
         EvaluateResult external_player_evaluate(int);
         bool get_camera_level_status();
         float get_closest_trailing_ship() const;
-        const struct IDirectiveInfo* get_current_directive();
+        const IDirectiveInfo* get_current_directive();
         const IObjRW* get_debugger_target() const;
         bool get_docking_port(const IObjRW*&, int&);
         unsigned int get_parent_id();
