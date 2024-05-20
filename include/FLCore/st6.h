@@ -10,6 +10,8 @@ extern const st6_malloc_t st6_malloc;
 extern const st6_free_t st6_free;
 #endif
 
+#include <yvals.h>
+
 #include <cstddef>
 #include <iterator>
 #include <stdexcept>
@@ -26,11 +28,6 @@ extern const st6_free_t st6_free;
 #ifndef _REFERENCE_X
     #define _REFERENCE_X(T, A) T&
 #endif
-
-#define _TRY_BEGIN     try {
-#define _CATCH(x)      } catch (x) {
-#define _CATCH_ALL     } catch (...) {
-#define _CATCH_END     }
 
 namespace st6
 {
@@ -2897,8 +2894,3 @@ namespace st6
     typedef basic_string<char, ci_char_traits, allocator<char>> string;
     typedef basic_string<unsigned short, ci_wchar_traits, allocator<unsigned short>> wstring;
 } // namespace st6
-
-#undef _TRY_BEGIN     try {
-#undef _CATCH(x)      } catch (x) {
-#undef _CATCH_ALL     } catch (...) {
-#undef _CATCH_END
