@@ -175,22 +175,22 @@ enum class MessageFormat
 
 struct StringHash
 {
-    using hash_type = std::hash<std::string_view>;
-    using is_transparent = void;
+        using hash_type = std::hash<std::string_view>;
+        using is_transparent = void;
 
-    std::size_t operator()(const char* str) const        { return hash_type{}(str); }
-    std::size_t operator()(const std::string_view str) const   { return hash_type{}(str); }
-    std::size_t operator()(std::string const& str) const { return hash_type{}(str); }
+        std::size_t operator()(const char* str) const { return hash_type{}(str); }
+        std::size_t operator()(const std::string_view str) const { return hash_type{}(str); }
+        std::size_t operator()(const std::string& str) const { return hash_type{}(str); }
 };
 
 struct WStringHash
 {
-    using hash_type = std::hash<std::wstring_view>;
-    using is_transparent = void;
+        using hash_type = std::hash<std::wstring_view>;
+        using is_transparent = void;
 
-    std::size_t operator()(const wchar_t* str) const        { return hash_type{}(str); }
-    std::size_t operator()(const std::wstring_view str) const   { return hash_type{}(str); }
-    std::size_t operator()(std::wstring const& str) const { return hash_type{}(str); }
+        std::size_t operator()(const wchar_t* str) const { return hash_type{}(str); }
+        std::size_t operator()(const std::wstring_view str) const { return hash_type{}(str); }
+        std::size_t operator()(const std::wstring& str) const { return hash_type{}(str); }
 };
 
 constexpr size_t Hash(const char* str)
@@ -216,8 +216,21 @@ class StringUtils
             requires(IsStringView<Str> || StringRestriction<Str>) && (std::is_integral_v<Ret> || std::is_floating_point_v<Ret> || std::is_same_v<Ret, bool>)
         static Ret Cast(Str str)
         {
+
             constexpr auto IsWide = std::is_same_v<Str, std::wstring> || std::is_same_v<Str, std::wstring_view>;
-            if (str.empty() || !IsAscii(str))
+            if constexpr (std::is_same_v<Ret, bool>)
+            {
+                if constexpr (IsWide)
+                {
+                    return str == L"1" || str == L"true";
+                }
+                else
+                {
+                    return str == "1" || str == "true";
+                }
+            }
+
+            if (str.empty() || !IsNumeric(str))
             {
                 return Ret();
             }
@@ -265,10 +278,6 @@ class StringUtils
                 {
                     static_cast<Ret>(std::atof(str.data()));
                 }
-            }
-            else if (std::is_same_v<Ret, bool>)
-            {
-                return *str.data() == IsWide ? L'1' : '1';
             }
 
             return 0;
@@ -324,8 +333,9 @@ class StringUtils
             return ret;
         }
 
-        template<typename T>
-            requires std::is_same_v<T, std::string> || std::is_same_v<T, std::string_view> || std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, char*>
+        template <typename T>
+            requires std::is_same_v<T, std::string> || std::is_same_v<T, std::string_view> ||
+                     std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, char*>
         static std::wstring stows(const T& text)
         {
             const char* data;
@@ -344,7 +354,7 @@ class StringUtils
 
             const int size = MultiByteToWideChar(CP_UTF8, 0, data, -1, buffer.data(), 4096);
 
-            if(!size)
+            if (!size)
             {
                 return L"";
             }
@@ -355,8 +365,9 @@ class StringUtils
             return { buffer.begin(), end };
         }
 
-        template<typename T>
-            requires std::is_same_v<T, std::wstring> || std::is_same_v<T, std::wstring_view> || std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, wchar_t*>
+        template <typename T>
+            requires std::is_same_v<T, std::wstring> || std::is_same_v<T, std::wstring_view> ||
+                     std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, wchar_t*>
         static std::string wstos(const T& text)
         {
             const wchar_t* data;
@@ -375,7 +386,7 @@ class StringUtils
 
             const int size = WideCharToMultiByte(CP_UTF8, 0, data, -1, buffer.data(), 4096, nullptr, nullptr);
 
-            if(!size)
+            if (!size)
             {
                 return "";
             }
@@ -403,6 +414,13 @@ class StringUtils
         static bool IsAscii(Str str)
         {
             return !std::any_of(str.begin(), str.end(), [](auto c) { return static_cast<unsigned char>(c) > 127; });
+        }
+
+        template <typename Str>
+            requires StringRestriction<Str> || IsStringView<Str>
+        static bool IsNumeric(Str str)
+        {
+            return !std::any_of(str.begin(), str.end(), [](auto c) { return std::isdigit(c); });
         }
 
         template <typename Str,
@@ -572,7 +590,7 @@ class StringUtils
             auto offset = view.begin();
             std::advance(offset, pos);
 
-            auto newRange = std::ranges:: views::counted(offset, std::distance(offset, view.end()));
+            auto newRange = std::ranges::views::counted(offset, std::distance(offset, view.end()));
             auto finalRange = newRange | std::ranges::views::take(std::distance(offset, view.end())) | std::ranges::views::join;
             return TViewType(&*finalRange.begin(), std::ranges::distance(finalRange) + 1);
         }
