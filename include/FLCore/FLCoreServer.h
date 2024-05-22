@@ -443,23 +443,6 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
 };
 #pragma warning(pop)
 
-struct VisitEntry
-{
-        char visitValue;
-};
-
-template <>
-inline void BinarySearchTree<VisitEntry>::Insert(uint key, VisitEntry value)
-{
-    static DWORD server = DWORD(GetModuleHandleA("server.dll"));
-    using sub_6D5C600Type = int(__thiscall*)(BinarySearchTree * ptr, uint * u, uint * state);
-    static auto sub_6D5C600 = sub_6D5C600Type(server + 0x7C600);
-
-    uint v166[6];
-    uint input[2] = { key, value.visitValue };
-    sub_6D5C600(this, v166, input);
-}
-
 struct CharacterData
 {
         CHARACTER_ID characterCode;
@@ -534,7 +517,7 @@ struct PlayerData
         uint dunno1[2];                       // 0x390
         int* SPNeuralNetLogUnk;               // 0x398
         int interfaceState;                   // 0x39C
-        FlMap<uint, VisitEntry> visitEntries; // 0x3A0
+        FlMap<uint, char> visitEntries;       // 0x3A0
         uint dunno2[4];                       // 0x3B4
         float difficulty;                     // 0x3C4
         ushort lastEquipId;                   // 0x3C8
