@@ -568,7 +568,15 @@ class StringUtils
             else
             {
                 return line | std::ranges::views::split(splitChar) |
-                       std::ranges::views::transform([](auto&& rng) { return TStr(&*rng.begin(), std::ranges::distance(rng)); });
+                   std::ranges::views::transform([](auto&& rng)
+                   {
+                       if (rng.empty())
+                       {
+                           return TStr();
+                       }
+
+                       return TStr(&*rng.begin(), std::ranges::distance(rng));
+                   });
             }
         }
 
