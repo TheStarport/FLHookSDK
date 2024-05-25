@@ -7,9 +7,9 @@ class TimeUtils
 
         template <typename Duration>
             requires IsChronoDurationV<Duration>
-        static uint64 UnixTime()
+        static int64 UnixTime()
         {
-            return static_cast<uint64>(std::chrono::duration_cast<Duration>(std::chrono::system_clock::now().time_since_epoch()).count());
+            return static_cast<int64>(std::chrono::duration_cast<Duration>(std::chrono::system_clock::now().time_since_epoch()).count());
         }
 
         Hook static std::chrono::sys_time<std::chrono::seconds> UnixToSysTime(const int64 time)
