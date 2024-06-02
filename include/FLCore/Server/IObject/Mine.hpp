@@ -3,7 +3,7 @@
 #include "../../FLCoreDefs.hpp"
 #include "GameObject.hpp"
 
-struct Mine : public GameObject, public IObjAffect, public IObjDestructor
+struct Mine : public GameObject
 {
     CMine* cmine(){return reinterpret_cast<CMine*>(cobject());};
     static Mine* Cast(IObjInspectImpl* iobj)

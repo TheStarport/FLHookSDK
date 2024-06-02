@@ -119,7 +119,7 @@ struct CEqObj : CSimple
         uint voiceId;                                      // 79
         float cloakPercentage;                             // 80
         CArchGroupManager archGroupManager;                // 81
-        bool isCELauncher;                                 // 87 sub_6CEA4A0 casts eq to CELauncher only if this is true
+        bool isDead;                                       // 87
         uint dockTargetId;                                 // 88
         IObjInspectImpl* dockTargetIObj;                   // 89
         uint iDunnoEqObj23;                                // 90

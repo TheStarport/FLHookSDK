@@ -3,7 +3,7 @@
 #include "../../FLCoreDefs.hpp"
 #include "GameObject.hpp"
 
-struct Loot : public GameObject, public IObjAffect, public IObjDestructor
+struct Loot : public GameObject
 {
     CLoot* cloot(){return reinterpret_cast<CLoot*>(cobject());};
 

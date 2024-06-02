@@ -3,7 +3,7 @@
 #include "../../FLCoreDefs.hpp"
 #include "GameObject.hpp"
 
-struct CounterMeasure : public GameObject, public IObjAffect, public IObjDestructor
+struct CounterMeasure : public GameObject
 {
     CCounterMeasure* ccountermeasure(){return reinterpret_cast<CCounterMeasure*>(cobject());};
     static CounterMeasure* Cast(IObjInspectImpl* iobj)

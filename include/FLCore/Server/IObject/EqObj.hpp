@@ -3,7 +3,7 @@
 #include "../../FLCoreDefs.hpp"
 #include "GameObject.hpp"
 
-struct EqObj : public GameObject, public IObjAffect, public IObjDestructor
+struct EqObj : public GameObject
 {
 
         virtual void sub_6CE7D00();                         // collision groups, sets off fuses?                                                //444
