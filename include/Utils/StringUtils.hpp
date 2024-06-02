@@ -420,7 +420,14 @@ class StringUtils
             requires StringRestriction<Str> || IsStringView<Str>
         static bool IsNumeric(Str str)
         {
-            return !std::any_of(str.begin(), str.end(), [](auto c) { return std::isdigit(c); });
+            if constexpr (std::is_same_v<Str, std::string_view> || std::is_same_v<Str, std::string>)
+            {
+                return std::ranges::all_of(str, [](const char c) { return isdigit(c); });
+            }
+            else
+            {
+                return std::ranges::all_of(str, [](const wchar_t c) { return iswdigit(c); });
+            }
         }
 
         template <typename Str,
@@ -662,9 +669,11 @@ class StringUtils
 
         static std::wstring FormatMsg(MessageColor color, MessageFormat format, const std::wstring& msg)
         {
+            using namespace std::string_view_literals;
             const uint bgrColor = RgbToBgr(static_cast<uint>(color));
             const std::wstring tra = UintToHexString(bgrColor, 6, true) + UintToHexString(static_cast<uint>(format), 2);
 
-            return std::format(L"<TRA data=\"{}\" mask=\"-1\"/><TEXT>{}</TEXT>", tra, XmlText(msg));
+            return std::format(L"<TRA data=\"{}\" mask=\"-1\"/><TEXT>{}</TEXT>", tra,
+                ReplaceStr(XmlText(msg), L"\n"sv, L"</TEXT><PARA/><TEXT>"sv));
         }
 };
