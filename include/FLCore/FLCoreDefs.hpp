@@ -152,19 +152,6 @@ class FlMap
 
         class Iterator
         {
-            public:
-                Iterator(NodePtr currentNode, FlMap<KeyType, ValType>* classPtr)
-                {
-                    this->currentNode = currentNode;
-                    classObj = classPtr;
-                }
-
-                Iterator()
-                {
-                    currentNode = 0;
-                    classObj = 0;
-                }
-
                 void Inc()
                 {
                     if (!classObj->IsNil(currentNode->right))
@@ -188,53 +175,52 @@ class FlMap
                     }
                 }
 
+            public:
+                Iterator(NodePtr currentNode, const FlMap* classPtr)
+                {
+                    this->currentNode = currentNode;
+                    classObj = classPtr;
+                }
+
+                Iterator()
+                {
+                    currentNode = 0;
+                    classObj = 0;
+                }
+
+                NodePtr operator*() { return currentNode; }
                 Iterator& operator++()
                 {
                     Inc();
                     return *this;
                 }
-                Iterator operator++(int)
-                {
-                    Iterator tmp(*this); // copy
-                    operator++();        // pre-increment
-                    return tmp;          // return old value
-                }
-
-                bool operator==(const Iterator& right) const
-                { // test for iterator equality
-                    return (currentNode == right.currentNode);
-                }
-
                 bool operator!=(const Iterator& right) const
-                { // test for iterator inequality
-                    return (!(*this == right));
+                {
+                    return currentNode != right.currentNode;
                 }
 
                 unsigned int key() { return currentNode->key; }
 
                 ValType* value() { return &currentNode->data; }
-
-                NodePtr operator*() { return currentNode; }
-
-                operator bool(){return currentNode && currentNode->left && currentNode->parent && currentNode->right;}
+                operator bool() { return currentNode && currentNode->left && currentNode->parent && currentNode->right; }
 
             private:
                 NodePtr currentNode;
-                FlMap<KeyType, ValType>* classObj;
+                const FlMap* classObj;
         };
 
-    public:
-        unsigned int size() { return _size; };
+        unsigned int size() const { return _size; };
 
         Iterator begin() { return Iterator(headNode->left, this); }
-
         Iterator end() { return Iterator(headNode, this); }
+        Iterator begin() const { return Iterator(headNode->left, this); }
+        Iterator end() const { return Iterator(headNode, this); }
 
-        Iterator find(KeyType key)
+        Iterator find(KeyType key) const
         {
             NodePtr searchNode = headNode->parent; // parent of headnode is first legit (upmost) node
 
-            while (IsNil(searchNode) == false)
+            while (!IsNil(searchNode))
             {
                 if (searchNode->key == key)
                 {
@@ -251,11 +237,11 @@ class FlMap
                 }
             }
 
-            return Iterator(searchNode, this);
+            return Iterator{searchNode, this};
         }
 
     protected:
-        NodePtr Min(NodePtr node)
+        NodePtr Min(NodePtr node) const
         {
             // go to leftmost child
             while (IsNil(node->left) == false)
@@ -266,7 +252,7 @@ class FlMap
             return node;
         }
 
-        bool IsNil(NodePtr node) { return (node == endNode || node == headNode); }
+        bool IsNil(NodePtr node) const { return (node == endNode || node == headNode); }
 
     private:
         void* dunno = nullptr;
