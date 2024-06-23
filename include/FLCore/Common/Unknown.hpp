@@ -127,14 +127,14 @@ struct DockHardpointInfo
 
 struct CHARACTER_ID final
 {
-        DLL CHARACTER_ID();
-        DLL CHARACTER_ID const& operator=(CHARACTER_ID const&);
+        IMPORT CHARACTER_ID();
+        IMPORT CHARACTER_ID const& operator=(CHARACTER_ID const&);
         bool operator<(CHARACTER_ID const& a) const { return _stricmp(charFilename, a.charFilename) < 0; }
         bool operator==(CHARACTER_ID const& a) const { return _stricmp(charFilename, a.charFilename) == 0; }
         bool operator!=(CHARACTER_ID const& a) const { return _stricmp(charFilename, a.charFilename) != 0; }
         CHARACTER_ID(const char* input) { strcpy_s(charFilename, input); }
-        DLL void invalidate();
-        DLL bool is_valid() const;
+        IMPORT void invalidate();
+        IMPORT bool is_valid() const;
 
         char charFilename[512]; // Only first 16 bytes are ever used
 };
