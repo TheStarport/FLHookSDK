@@ -15,6 +15,7 @@ namespace GameData
     inline static auto shieldResistMap = Ref(FlMap<uint MACRO_COMMA float>, 0x658A9C0);
     inline static auto equipment = Ref(Archetype::Equipment*, 0x63FCAD4);
     inline static auto explosions = Ref(Archetype::Explosion, 0x63FCF3C);
+    inline static auto motorData = Ref(Archetype::MotorData, 0x63FCA70);
     inline static auto ships = Ref(Archetype::Ship*, 0x63FCAC0);
     inline static auto asteroids = Ref(Archetype::Asteroid*, 0x63FCA98);
     inline static auto dynamicAsteroids = Ref(Archetype::DynamicAsteroid*, 0x063FCA84);
@@ -22,8 +23,8 @@ namespace GameData
     inline static auto allArchetypes = Ref(Archetype::Root*, 0x063FCAE8);
 
     // clang-format off
-    inline static std::array storyFactions = {
-        static_cast<uint>(MakeId("fc_ouk_grp")), // Explicit cast to ensure they are all stored as uints
+    inline static std::array<uint, 9> storyFactions = {
+        MakeId("fc_ouk_grp"),
         MakeId("fc_q_grp"),
         MakeId("fc_uk_grp"),
         MakeId("fc_f_grp"),
