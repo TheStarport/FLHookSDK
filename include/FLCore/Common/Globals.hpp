@@ -2,11 +2,11 @@
 
 #include "../FLCoreDefs.hpp"
 
-#include "Archetype/Root/Equipment.hpp"
 #include "Archetype/Explosion.hpp"
+#include "Archetype/Root/Equipment.hpp"
 #include "Reputation.hpp"
 
-#define MACRO_COMMA ,
+#define MACRO_COMMA        ,
 #define Ref(type, address) reinterpret_cast<FlMap<uint, type>&>(*(reinterpret_cast<FlMap<uint, type>*>(address)))
 
 namespace GameData
@@ -20,7 +20,21 @@ namespace GameData
     inline static auto dynamicAsteroids = Ref(Archetype::DynamicAsteroid*, 0x063FCA84);
     inline static auto solars = Ref(Archetype::Solar*, 0x63FCAAC);
     inline static auto allArchetypes = Ref(Archetype::Root*, 0x063FCAE8);
-}
+
+    // clang-format off
+    inline static std::array storyFactions = {
+        static_cast<uint>(MakeId("fc_ouk_grp")), // Explicit cast to ensure they are all stored as uints
+        MakeId("fc_q_grp"),
+        MakeId("fc_uk_grp"),
+        MakeId("fc_f_grp"),
+        MakeId("fc_or_grp"),
+        MakeId("fc_rn_grp"),
+        MakeId("fc_kn_grp"),
+        MakeId("fc_ln_grp"),
+        MakeId("fc_n_grp")
+    };
+    // clang-format on
+} // namespace GameData
 
 #undef Ref
 #undef MACRO_COMMA
