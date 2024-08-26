@@ -1882,7 +1882,7 @@ namespace st6
             _St state() const { return (_State); }
             void state(_St _S) { _State = _S; }
             fpos_t get_fpos_t() const { return (_Fpos); }
-            operator streamoff() const { return (_Off + _FPOSOFF(_Fpos)); }
+            operator streamoff() const { return _Off + static_cast<long long>(_Fpos); }
             streamoff operator-(const _Myt& _R) const { return ((streamoff) * this - (streamoff)_R); }
             _Myt& operator+=(streamoff _O)
             {
