@@ -446,6 +446,26 @@ class StringUtils
         }
 
         template <typename Str>
+            requires IsStringView<Str>
+        static bool CompareCaseInsensitive(Str str1, Str str2)
+        {
+            if (str1.size() != str2.size())
+            {
+                return false;
+            }
+
+            for (int i = 0; i < str1.size(); ++i)
+            {
+                if (std::tolower(str1[i]) != std::tolower(str2[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        template <typename Str>
         static Str Trim(const Str& stringInput)
             requires StringRestriction<Str> || IsStringView<Str>
         {
@@ -575,15 +595,16 @@ class StringUtils
             else
             {
                 return line | std::ranges::views::split(splitChar) |
-                   std::ranges::views::transform([](auto&& rng)
-                   {
-                       if (rng.empty())
-                       {
-                           return TStr();
-                       }
+                       std::ranges::views::transform(
+                           [](auto&& rng)
+                           {
+                               if (rng.empty())
+                               {
+                                   return TStr();
+                               }
 
-                       return TStr(&*rng.begin(), std::ranges::distance(rng));
-                   });
+                               return TStr(&*rng.begin(), std::ranges::distance(rng));
+                           });
             }
         }
 
@@ -673,7 +694,6 @@ class StringUtils
             const uint bgrColor = RgbToBgr(static_cast<uint>(color));
             const std::wstring tra = UintToHexString(bgrColor, 6, true) + UintToHexString(static_cast<uint>(format), 2);
 
-            return std::format(L"<TRA data=\"{}\" mask=\"-1\"/><TEXT>{}</TEXT>", tra,
-                ReplaceStr(XmlText(msg), L"\n"sv, L"</TEXT><PARA/><TEXT>"sv));
+            return std::format(L"<TRA data=\"{}\" mask=\"-1\"/><TEXT>{}</TEXT>", tra, ReplaceStr(XmlText(msg), L"\n"sv, L"</TEXT><PARA/><TEXT>"sv));
         }
 };
