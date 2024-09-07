@@ -2,6 +2,7 @@
 #include "../../../FLCoreDefs.hpp"
 #include "FLCore/Common/Archetype/ArchetypeMethods.hpp"
 #include "FLCore/Common/Archetype/Root.hpp"
+#include "FLCore/Common/Enums.hpp"
 #include "FLCore/Common/INI_Reader.hpp"
 
 namespace Archetype
