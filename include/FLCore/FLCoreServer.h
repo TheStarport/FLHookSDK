@@ -503,42 +503,42 @@ struct PlayerData
         int worth;                                        // 0x320
         uint shipArchetypeWhenLanding;                    // 0x324
         // Potentially something related to anti-cheat checking
-        EquipDescList shadowEquipDescList;    // 0x328
-        int numKills;                         // 0x334
-        int numMissionSuccesses;              // 0x338
-        int numMissionFailures;               // 0x33C
-        bool skipAutoSave;                    // 0x340
-        uint saveCount;                       // 0x344
-        uint clientId;                        // 0x348
-        bool cheated;                         // 0x34C
-        Vector position;                      // 0x350
-        Matrix orientation;                   // 0x35C
-        st6::string weaponGroups;             // 0x380
-        uint dunno1[2];                       // 0x390
-        int* SPNeuralNetLogUnk;               // 0x398
-        int interfaceState;                   // 0x39C
-        FlMap<uint, char> visitEntries;       // 0x3A0
-        uint dunno2[4];                       // 0x3B4
-        float difficulty;                     // 0x3C4
-        ushort lastEquipId;                   // 0x3C8
-        uint menuItem;                        // 0x3CC
-        uint onlineId2;                       // 0x3D0
-        uint dunno3[2];                       // 0x3D4
-        uint tradeRequestCount;               // 0x3DC
-        uint systemId;                        // 0x3E0
-        uint shipId;                          // 0x3E4
-        uint createdShipId;                   // 0x3E8
-        uint baseId;                          // 0x3EC
-        uint lastBaseId;                      // 0x3F0
-        uint enteredBase;                     // 0x3F4
-        uint baseRoomId;                      // 0x3F8
-        uint characterId;                     // 0x3FC
-        CAccount* account;                    // 0x400
-        CPlayerGroup* playerGroup;            // 0x404
-        uint missionId;                       // 0x408
-        uint missionSetBy;                    // 0x40C
-        uint exitedBase;                      // 0x410
-        uint unknownLocId;                    // 0x414
+        EquipDescList shadowEquipDescList; // 0x328
+        int numKills;                      // 0x334
+        int numMissionSuccesses;           // 0x338
+        int numMissionFailures;            // 0x33C
+        bool skipAutoSave;                 // 0x340
+        uint saveCount;                    // 0x344
+        uint clientId;                     // 0x348
+        bool cheated;                      // 0x34C
+        Vector position;                   // 0x350
+        Matrix orientation;                // 0x35C
+        st6::string weaponGroups;          // 0x380
+        uint dunno1[2];                    // 0x390
+        int* SPNeuralNetLogUnk;            // 0x398
+        int interfaceState;                // 0x39C
+        FlMap<uint, char> visitEntries;    // 0x3A0
+        uint dunno2[4];                    // 0x3B4
+        float difficulty;                  // 0x3C4
+        ushort lastEquipId;                // 0x3C8
+        uint menuItem;                     // 0x3CC
+        uint onlineId2;                    // 0x3D0
+        uint dunno3[2];                    // 0x3D4
+        uint tradeRequestCount;            // 0x3DC
+        uint systemId;                     // 0x3E0
+        uint shipId;                       // 0x3E4
+        uint createdShipId;                // 0x3E8
+        uint baseId;                       // 0x3EC
+        uint lastBaseId;                   // 0x3F0
+        uint enteredBase;                  // 0x3F4
+        uint baseRoomId;                   // 0x3F8
+        uint characterId;                  // 0x3FC
+        CAccount* account;                 // 0x400
+        CPlayerGroup* playerGroup;         // 0x404
+        uint missionId;                    // 0x408
+        uint missionSetBy;                 // 0x40C
+        uint exitedBase;                   // 0x410
+        uint unknownLocId;                 // 0x414
 };
 
 struct PlayerDbTreeNode
@@ -709,12 +709,36 @@ namespace SrvAsteroid
 
 }; // namespace SrvAsteroid
 
+struct MetaListNode
+{
+        MetaListNode* next;
+        MetaListNode* prev;
+        GameObject* value;
+};
+
+struct MetaList
+{
+        uint vtable;
+        MetaListNode* start;
+        MetaListNode* end;
+        uint dunno[2];
+};
+
 struct IMPORT StarSystem
 {
         unsigned int count_players(unsigned int) const;
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        uint vftable;                // 0
+        uint dunno[12];              // 4
+        MetaList shipList;           // 52/13
+        MetaList lootList;           // 72/18
+        MetaList solarList;          // 92/23
+        MetaList guidedList;         // 112
+        MetaList bulletList;         // 132
+        MetaList mineList;           // 152
+        MetaList counterMeasureList; // 172
+        MetaList asteroidList;       // 192
 };
 
 namespace SysDB

@@ -12,7 +12,11 @@ struct CSimple : CObject
                 CreateParms();
                 CreateParms& operator=(const CreateParms&);
 
-                unsigned char data[OBJECT_DATA_SIZE];
+                uint id;
+                struct StarSystem* starSystem;
+                uint ownerPlayer;
+                float hitpts;
+                uint dunno[20];
         };
 
         IMPORT virtual ~CSimple();                                           // 56
