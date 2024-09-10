@@ -194,10 +194,7 @@ class FlMap
                     Inc();
                     return *this;
                 }
-                bool operator!=(const Iterator& right) const
-                {
-                    return currentNode != right.currentNode;
-                }
+                bool operator==(const Iterator& right) const { return currentNode == right.currentNode; }
 
                 unsigned int key() { return currentNode->key; }
 
@@ -237,7 +234,7 @@ class FlMap
                 }
             }
 
-            return Iterator{searchNode, this};
+            return Iterator{ searchNode, this };
         }
 
     protected:
