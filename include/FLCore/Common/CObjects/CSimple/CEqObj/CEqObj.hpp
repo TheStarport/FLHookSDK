@@ -113,8 +113,8 @@ struct CEqObj : CSimple
         IMPORT void init_docking_points(unsigned int);
         IMPORT void update_docking_animations(float);
 
-        CEquipManager equip_manager;                       // 57
-        uint repVibe;                                      // 65
+        CEquipManager equipManager;                        // 57
+        int repVibe;                                       // 65
         Costume commCostume;                               // 66
         uint voiceId;                                      // 79
         float cloakPercentage;                             // 80

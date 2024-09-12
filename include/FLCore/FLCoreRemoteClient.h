@@ -129,7 +129,7 @@ struct FLPACKET_CREATESHIP
         uint clientId;
         uint groupId;
         uint rank;
-        Vector linearVelocity; // ignored by receiving client.
+        Vector linearVelocity;  // ignored by receiving client.
         Vector angularVelocity; // ignored by receiving client.
         float throttle;
         uint dunno;
@@ -139,21 +139,21 @@ struct FLPACKET_CREATESHIP
 
 struct FLPACKET_CREATESOLAR
 {
-    char* address; // pointer to CSolarCreate vtable
-    uint spaceId;
-    uint shipArch;
-    uint baseDockId;
-    uint rep;
-    Costume costume;
-    uint voiceId;
-    Vector pos;
-    Quaternion orientation;
-    uint64 health;
-    EquipDescVector equip;
-    st6::list<CollisionGroupDesc> colGrps;
-    DamageList dmg; // only holds shield state, which is ignored by receiving client.
-    bool isDynamic;
-    bool isDestructible;
+        char* address; // pointer to CSolarCreate vtable
+        uint spaceId;
+        uint shipArch;
+        uint baseDockId;
+        uint rep;
+        Costume costume;
+        uint voiceId;
+        Vector pos;
+        Quaternion orientation;
+        uint64 health;
+        EquipDescVector equip;
+        st6::list<CollisionGroupDesc> colGrps;
+        DamageList dmg; // only holds shield state, which is ignored by receiving client.
+        bool isDynamic;
+        bool isDestructible;
 };
 
 struct FLPACKET_LAND
@@ -344,25 +344,25 @@ struct IClientImpl
         [[NoPlugins]]
         virtual void unknown_101(uint& client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
-        virtual void unknown_102(uint client, uint);
+        virtual void PlayerInitiateTrade(uint client, uint targetShip);
         [[NoPlugins]]
-        virtual void unknown_103(uint client, uint);
+        virtual void PlayerTradeTarget(uint client, uint targetShip);
         [[NoPlugins]]
-        virtual void unknown_104(uint client, uint, uint);
+        virtual void PlayerAcceptTrade(uint client, uint targetShip, uint doAccept);
         [[NoPlugins]]
-        virtual void unknown_105(uint client, uint, uint);
+        virtual void PlayerSetTradeMoney(uint client, uint targetShipId, uint totalMoney);
         [[NoPlugins]]
-        virtual void unknown_106(uint client, uint, uint);
+        virtual void PlayerAddTradeEquip(uint client, uint targetShip, EquipDesc* item);
         [[NoPlugins]]
-        virtual void unknown_107(uint client, uint, uint);
+        virtual void PlayerRemoveTradeEquip(uint client, uint targetShip, EquipDesc* item);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_COMMON_PLAYER_TRADE(uint client, uint);
+        virtual bool PlayerRequestTrade(uint client, uint targetShip);
         [[NoPlugins]]
-        virtual void unknown_109(uint client, uint);
+        virtual void PlayerStopTradeRequest(uint client, uint targetShip);
         virtual bool Send_FLPACKET_SERVER_SCANNOTIFY(uint client, uint, uint);
         virtual bool Send_FLPACKET_SERVER_PLAYERLIST(uint client, wchar_t*, uint, char);
         [[NoPlugins]]
-        virtual void unknown_112(uint client, uint);
+        virtual void PlayerIsLeavingServer(uint onlineClient, uint leavingClient);
         virtual bool Send_FLPACKET_SERVER_PLAYERLIST_2(uint client);
         virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_6(uint client, uint, uint);
         virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_7(uint client, uint, uint);
@@ -394,7 +394,7 @@ IMPORT void SetRemoteClientResponseData(bool, bool, int, const unsigned short*, 
 IMPORT void SetRemoteClientSessionName(const unsigned short*);
 IMPORT void SetServerLogFunction(int (*)(struct ErrorCode, const char*, ...));
 
-//TODO: Explain that this is just an packet-sending interface, not an actual Client
+// TODO: Explain that this is just an packet-sending interface, not an actual Client
 extern "C" IMPORT IClientImpl Client;
 extern "C" IMPORT IClientImpl* GetClientInterface();
 

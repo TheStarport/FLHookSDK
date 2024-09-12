@@ -8,6 +8,12 @@ concept StringRestriction = std::is_same_v<std::string, T> || std::is_same_v<std
 template <typename T>
 concept IsStringView = std::is_same_v<std::string_view, T> || std::is_same_v<std::wstring_view, T>;
 
+template <typename T>
+concept IsString = std::is_same_v<std::string_view, T> || std::is_same_v<std::string, T>;
+
+template <typename T>
+concept IsWString = std::is_same_v<std::wstring_view, T> || std::is_same_v<std::wstring, T>;
+
 template <typename... T>
 concept AtLeastOne = sizeof...(T) > 0;
 
@@ -15,10 +21,10 @@ template <typename T>
 concept IsNumeric = std::is_integral_v<T> || std::is_floating_point_v<T>;
 
 template <typename T>
-concept IsSignedIntegral = IsNumeric<T> && std::is_signed_v<T>;
+concept IsSignedIntegral = std::is_integral_v<T> && std::is_signed_v<T>;
 
 template <typename T>
-concept IsUnsignedIntegral = IsNumeric<T> && !IsSignedIntegral<T>;
+concept IsUnsignedIntegral = std::is_integral_v<T> && !std::is_signed_v<T>;
 
 template <typename Base, typename Derived>
 concept IsDerivedFrom = std::derived_from<Derived, Base>;
