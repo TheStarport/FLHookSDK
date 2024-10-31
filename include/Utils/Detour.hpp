@@ -91,7 +91,7 @@ class VTableHook final
         }
 
         // ReSharper disable once CppMemberFunctionMayBeStatic
-        void Hook(const ushort index, const void* replacementFunction) const
+        void Hook(const unsigned short index, const void* replacementFunction) const
         {
             assert(index < Count);
             memcpy_s(reinterpret_cast<void*>(reinterpret_cast<DWORD>(GetModuleHandleA(dll)) + Start + index * 4), 4, replacementFunction, 4);
@@ -103,7 +103,7 @@ class VTableHook final
          * @returns Returns the function pointer casted into a given function type
          **/
         [[nodiscard]]
-        void* GetOriginal(const ushort index) const
+        void* GetOriginal(const unsigned short index) const
         {
             assert(index < Count);
             return originals[index];
@@ -113,7 +113,7 @@ class VTableHook final
          * @brief Unhooks specific index
          * @param index Index of the function that should be unhooked
          **/
-        void Unhook(const ushort index) const
+        void Unhook(const unsigned short index) const
         {
             assert(index < Count);
             memcpy_s(reinterpret_cast<void*>(reinterpret_cast<DWORD>(GetModuleHandleA(dll)) + Start + index * 4), 4, GetOriginal(index), 4);

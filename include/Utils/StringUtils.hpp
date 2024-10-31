@@ -283,14 +283,14 @@ class StringUtils
             return 0;
         }
 
-        static Hook bool IsValidHex(const std::wstring_view input)
+        static bool IsValidHex(const std::wstring_view input)
         {
             constexpr std::wstring_view characters = L"1234567890ABCDEFabcdf";
             return input.find_first_not_of(characters) == std::wstring::npos;
         }
 
         //! Converts numeric value with a metric suffix to the full value, eg 10k translates to 10000
-        static Hook uint MultiplyUIntBySuffix(const std::wstring_view valueString)
+        static uint MultiplyUIntBySuffix(const std::wstring_view valueString)
         {
             const uint value = Cast<uint>(valueString);
             const auto lastChar = valueString.back();
@@ -397,7 +397,7 @@ class StringUtils
             return { buffer.begin(), end };
         }
 
-        static Hook std::wstring ToHex(const std::wstring_view input)
+        static std::wstring ToHex(const std::wstring_view input)
         {
             std::wostringstream output;
 
@@ -502,7 +502,7 @@ class StringUtils
             return nullRemoved.substr(0, start + 1);
         }
 
-        static Hook std::wstring ExpandEnvironmentVariables(const std::wstring& input)
+        static std::wstring ExpandEnvironmentVariables(const std::wstring& input)
         {
             std::string accumulator;
             std::string output;

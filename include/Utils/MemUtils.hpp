@@ -1,6 +1,6 @@
 #pragma once
 
-class Hook MemUtils
+class MemUtils
 {
     public:
         MemUtils() = delete;

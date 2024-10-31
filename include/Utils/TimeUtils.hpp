@@ -19,7 +19,7 @@ class TimeUtils
             return static_cast<int64>(UnixTimeAsDuration<Duration>().count());
         }
 
-        Hook static std::chrono::sys_time<std::chrono::seconds> UnixToSysTime(const int64 time)
+        static std::chrono::sys_time<std::chrono::seconds> UnixToSysTime(const int64 time)
         {
             return std::chrono::sys_time(std::chrono::sys_seconds(std::chrono::seconds{ time }));
         }
@@ -114,7 +114,7 @@ class TimeUtils
             return tm;
         }
 
-        Hook static std::wstring AsTimePassed(std::chrono::seconds dur)
+        static std::wstring AsTimePassed(std::chrono::seconds dur)
         {
             using Days = std::chrono::duration<int, std::ratio<86400>>;
             const auto d = duration_cast<Days>(dur);
@@ -208,7 +208,7 @@ class TimeUtils
             return std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
         }
 
-        class Hook Stopwatch
+        class Stopwatch
         {
                 Stopwatch(const Stopwatch&) = delete;
                 Stopwatch& operator=(const Stopwatch&) = delete;

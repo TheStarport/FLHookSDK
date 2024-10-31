@@ -17,7 +17,6 @@
 #include "Server.hpp"
 
 #pragma warning(disable : 5030)
-#pragma comment(lib, "FLCoreServer.lib")
 
 #pragma warning(push)
 #pragma warning(disable : 5222)

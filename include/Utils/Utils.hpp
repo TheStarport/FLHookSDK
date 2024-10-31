@@ -1,11 +1,5 @@
 #pragma once
 
-#ifdef DLL
-    #define Hook DLL
-#else
-    #define Hook
-#endif
-
 #include "Concepts.hpp"
 #include "Singleton.hpp"
 #include "Typedefs.hpp"
