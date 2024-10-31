@@ -172,13 +172,13 @@ enum class FireResult
 
 struct IObject
 {
-    enum ThrustEquipType
-    {
-        ThrustEquipType_Normal = 1,
-        ThrustEquipType_Thruster = 2,
-        ThrustEquipType_Nudge = 3,
-        ThrustEquipType_Cruise = 4
-    };
+        enum ThrustEquipType
+        {
+            ThrustEquipType_Normal = 1,
+            ThrustEquipType_Thruster = 2,
+            ThrustEquipType_Nudge = 3,
+            ThrustEquipType_Cruise = 4
+        };
 };
 
 enum class BayState
@@ -187,4 +187,10 @@ enum class BayState
     Closing,
     Open,
     Opening
+};
+
+enum class DestroyType
+{
+    Vanish = 0,
+    Fuse = 1,
 };

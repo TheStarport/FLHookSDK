@@ -17,7 +17,6 @@
 #include "FLCoreDefs.hpp"
 
 #pragma warning(disable : 5030)
-#pragma comment(lib, "FLCoreRemoteClient.lib")
 
 struct SSPObjUpdateInfo;
 struct XJettisonCargo;
@@ -161,6 +160,13 @@ struct FLPACKET_LAND
         uint ship;
         uint landSpaceID;
         uint targetBase;
+};
+
+struct SObjectCargoUpdate
+{
+        uint client;
+        Vector position;
+        uint dunno[24];
 };
 
 struct IClientImpl

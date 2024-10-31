@@ -74,26 +74,27 @@ class FunctionDetour final
         }
 };
 
-template<class Class, DWORD Start, DWORD End, DWORD Count = (End - Start) / 4 + 1>
+template <DWORD Start, DWORD End, DWORD Count = (End - Start) / 4 + 1>
 class VTableHook final
 {
-    static constexpr DWORD Size = End - Start + 4;
+        static constexpr DWORD Size = End - Start + 4;
+        const char* dll;
 
-    MemProtect memProtect;
+        MemProtect memProtect;
 
-    std::array<void*, Count> originals;
+        std::array<void*, Count> originals;
 
     public:
-        explicit VTableHook() : memProtect(reinterpret_cast<void*>(Start), Size)
+        explicit VTableHook(const char* dll) : dll(dll), memProtect(reinterpret_cast<void*>(reinterpret_cast<DWORD>(GetModuleHandleA(dll)) + Start), Size)
         {
-            memcpy_s(originals.data(), Size, reinterpret_cast<void*>(Start), Size);
+            memcpy_s(originals.data(), Size, reinterpret_cast<void*>(reinterpret_cast<DWORD>(GetModuleHandleA(dll)) + Start), Size);
         }
 
         // ReSharper disable once CppMemberFunctionMayBeStatic
-        void Hook(const ushort index, const void* replacementFunction)
+        void Hook(const ushort index, const void* replacementFunction) const
         {
             assert(index < Count);
-            memcpy_s(reinterpret_cast<void*>(Start + index * 4), 4, replacementFunction, 4);
+            memcpy_s(reinterpret_cast<void*>(reinterpret_cast<DWORD>(GetModuleHandleA(dll)) + Start + index * 4), 4, replacementFunction, 4);
         }
 
         /**
@@ -101,7 +102,8 @@ class VTableHook final
          * @param index Index of the function that should be retrieved
          * @returns Returns the function pointer casted into a given function type
          **/
-        [[nodiscard]] void* GetOriginal(const ushort index) const
+        [[nodiscard]]
+        void* GetOriginal(const ushort index) const
         {
             assert(index < Count);
             return originals[index];
@@ -114,8 +116,17 @@ class VTableHook final
         void Unhook(const ushort index) const
         {
             assert(index < Count);
-            memcpy_s(reinterpret_cast<void*>(Start + index * 4), 4, GetOriginal(index), 4);
+            memcpy_s(reinterpret_cast<void*>(reinterpret_cast<DWORD>(GetModuleHandleA(dll)) + Start + index * 4), 4, GetOriginal(index), 4);
         }
 
-        ~VTableHook() { memcpy_s(reinterpret_cast<void*>(Start), Size, originals.data(), Size); }
+        ~VTableHook()
+        {
+            auto lib = GetModuleHandleA(dll);
+            if (!lib)
+            {
+                return;
+            }
+
+            memcpy_s(reinterpret_cast<void*>(reinterpret_cast<DWORD>(lib) + Start), Size, originals.data(), Size);
+        }
 };

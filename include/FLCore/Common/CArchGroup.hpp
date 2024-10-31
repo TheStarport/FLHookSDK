@@ -5,6 +5,7 @@
 #include "Damage.hpp"
 #include "Strings.hpp"
 
+struct CObject;
 namespace Archetype
 {
     class FuseIgnitionList;
@@ -120,12 +121,12 @@ class CArchGrpTraverser
 
 struct CollisionGroupDesc
 {
-    IMPORT CollisionGroupDesc& operator=(const CollisionGroupDesc&);
-    IMPORT bool operator==(const CollisionGroupDesc&) const;
-    IMPORT bool operator!=(const CollisionGroupDesc&) const;
-    IMPORT bool operator<(const CollisionGroupDesc&) const;
-    IMPORT bool operator>(const CollisionGroupDesc&) const;
+        IMPORT CollisionGroupDesc& operator=(const CollisionGroupDesc&);
+        IMPORT bool operator==(const CollisionGroupDesc&) const;
+        IMPORT bool operator!=(const CollisionGroupDesc&) const;
+        IMPORT bool operator<(const CollisionGroupDesc&) const;
+        IMPORT bool operator>(const CollisionGroupDesc&) const;
 
-    unsigned short id;
-    float health;
+        unsigned short id;
+        float health;
 };
