@@ -2,6 +2,8 @@
 
 #include "../../../PhySys/Controller.hpp"
 
+#include "CEqObj.hpp"
+
 class CStrafeEngine;
 class CNudgeEngine;
 class CSteering;

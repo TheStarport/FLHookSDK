@@ -2,6 +2,12 @@
 
 #include "CExternalEquip.hpp"
 
+namespace Archetype
+{
+    struct Equipment;
+    struct AttachedEquipment;
+} // namespace Archetype
+
 class CAttachedEquip : public CExternalEquip
 {
     public:

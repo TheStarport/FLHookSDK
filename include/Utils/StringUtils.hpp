@@ -2,6 +2,8 @@
 
 #include <ranges>
 
+#include "Concepts.hpp"
+
 enum class MessageColor
 {
     Default = 0x00FF00,
