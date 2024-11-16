@@ -38,7 +38,7 @@ namespace Archetype
         bool init_physical_representation();
 
         public:
-        /*  1 */ uint vtable;
+        /*  1 */ uint unknown;
         /*  2 */ uint archId;
         /*  3 */ char* name;
         /*  4 */ uint archType;
