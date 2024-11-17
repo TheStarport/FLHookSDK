@@ -13,10 +13,12 @@
 #pragma comment(lib, "FLCoreCommon.lib")
 
 struct CLoot;
+struct CObject;
 class CETractor;
 namespace Archetype
 {
     struct Munition;
+    struct IClObjFactory;
 }
 class CEShield;
 class CEquip;
