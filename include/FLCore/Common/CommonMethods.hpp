@@ -1,5 +1,7 @@
 #pragma once
 
+#include <FLCore/Common/Unknown.hpp>
+#include <FLCore/FLCoreDefs.hpp>
 
 IMPORT bool operator!=(const Rect&, const Rect&);
 

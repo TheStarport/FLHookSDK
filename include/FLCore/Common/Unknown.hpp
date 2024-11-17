@@ -5,6 +5,7 @@
 #include "AI/ContentCallback.hpp"
 #include "AI/Ops.hpp"
 #include "AI/Personality.hpp"
+#include "Enums.hpp"
 #include "FmtStr.hpp"
 #include "Goods.hpp"
 #include "Watchable.hpp"
