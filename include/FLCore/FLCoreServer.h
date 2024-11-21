@@ -240,8 +240,7 @@ struct PlayerData
         Vector position;                   // 0x350
         Matrix orientation;                // 0x35C
         st6::string weaponGroups;          // 0x380
-        uint dunno1[2];                    // 0x390
-        int* SPNeuralNetLogUnk;            // 0x398
+        st6::list<uint> neuralNetLog;      // 0x390
         int interfaceState;                // 0x39C
         FlMap<uint, char> visitEntries;    // 0x3A0
         uint dunno2[4];                    // 0x3B4
