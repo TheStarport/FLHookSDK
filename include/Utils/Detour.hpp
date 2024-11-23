@@ -3,7 +3,6 @@
 #include <Windows.h>
 #include <array>
 #include <memory>
-#include <string>
 
 class MemProtect
 {
@@ -23,6 +22,8 @@ class MemProtect
         /// Destroys the protection object and automatically restores old flags
         /// </summary>
         ~MemProtect() { VirtualProtect(addr, size, flags, &flags); }
+
+        void* GetAddr() { return addr; }
 };
 
 template <typename CallSig>
@@ -127,6 +128,10 @@ class VTableHook final
                 return;
             }
 
-            memcpy_s(reinterpret_cast<void*>(reinterpret_cast<DWORD>(lib) + Start), Size, originals.data(), Size);
+            // in case of address mismatch (due to dll being reloaded), omit reapplying the protection and gracefully exit
+            if (const auto patchAddr = reinterpret_cast<void*>(reinterpret_cast<DWORD>(lib) + Start); patchAddr == memProtect.GetAddr())
+            {
+                memcpy_s(patchAddr, Size, originals.data(), Size);
+            }
         }
 };
