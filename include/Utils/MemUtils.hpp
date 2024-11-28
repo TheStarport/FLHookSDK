@@ -87,7 +87,7 @@ class MemUtils
         static void NopAddress(DWORD address, size_t size)
         {
             DWORD dwOldProtection = 0;
-            VirtualProtect((void*)address, size, PAGE_READWRITE, &dwOldProtection);
+            VirtualProtect((void*)address, size, PAGE_EXECUTE_READWRITE, &dwOldProtection);
             memset((void*)address, 0x90, size);
             VirtualProtect((void*)address, size, dwOldProtection, NULL);
         }

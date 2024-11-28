@@ -23,7 +23,11 @@ class MemProtect
         /// </summary>
         ~MemProtect() { VirtualProtect(addr, size, flags, &flags); }
 
-        void* GetAddr() { return addr; }
+        [[nodiscard]]
+        void* GetAddr() const
+        {
+            return addr;
+        }
 };
 
 template <typename CallSig>
@@ -131,7 +135,10 @@ class VTableHook final
             // in case of address mismatch (due to dll being reloaded), omit reapplying the protection and gracefully exit
             if (const auto patchAddr = reinterpret_cast<void*>(reinterpret_cast<DWORD>(lib) + Start); patchAddr == memProtect.GetAddr())
             {
-                memcpy_s(patchAddr, Size, originals.data(), Size);
+                if (VirtualProtect(patchAddr, Size, PAGE_EXECUTE_READWRITE, nullptr))
+                {
+                    memcpy_s(patchAddr, Size, originals.data(), Size);
+                }
             }
         }
 };
