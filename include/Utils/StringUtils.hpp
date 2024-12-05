@@ -341,6 +341,7 @@ class StringUtils
         static std::wstring stows(const T& text)
         {
             const char* data;
+            size_t inputSize = 0;
             if constexpr (std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, char*>)
             {
                 data = text;
@@ -348,13 +349,14 @@ class StringUtils
             else
             {
                 data = text.data();
+                inputSize = text.size() + 1;
             }
 
             // Statically allocate buffer to prevent reallocations
             static std::array<wchar_t, 4096> buffer;
             std::memset(buffer.data(), 0, buffer.size());
 
-            const int size = MultiByteToWideChar(CP_UTF8, 0, data, -1, buffer.data(), 4096);
+            const int size = MultiByteToWideChar(CP_UTF8, 0, data, static_cast<int>(inputSize), buffer.data(), 4096);
 
             if (!size)
             {
@@ -373,6 +375,7 @@ class StringUtils
         static std::string wstos(const T& text)
         {
             const wchar_t* data;
+            size_t inputSize = -1;
             if constexpr (std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, wchar_t*>)
             {
                 data = text;
@@ -380,13 +383,14 @@ class StringUtils
             else
             {
                 data = text.data();
+                inputSize = text.size() + 1;
             }
 
             // Statically allocate buffer to prevent reallocations
             static std::array<char, 4096> buffer;
             std::memset(buffer.data(), 0, buffer.size());
 
-            const int size = WideCharToMultiByte(CP_UTF8, 0, data, -1, buffer.data(), 4096, nullptr, nullptr);
+            const int size = WideCharToMultiByte(CP_UTF8, 0, data, static_cast<int>(inputSize), buffer.data(), 4096, nullptr, nullptr);
 
             if (!size)
             {
@@ -512,8 +516,7 @@ class StringUtils
 
             for (uint i = 0; i < input.length(); i++)
             {
-                const auto ch = input[i];
-                if (ch == '%')
+                if (const auto ch = input[i]; ch == '%')
                 {
                     if (percentFound || input[i + 1] != '%')
                     {
