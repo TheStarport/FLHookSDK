@@ -426,13 +426,25 @@ class StringUtils
             requires StringRestriction<Str> || IsStringView<Str>
         static bool IsNumeric(Str str)
         {
-            if constexpr (std::is_same_v<Str, std::string_view> || std::is_same_v<Str, std::string>)
+            if(str.empty())
             {
-                return std::ranges::all_of(str, [](const char c) { return isdigit(c); });
+                return false;
+            }
+
+            constexpr bool isWide = !(std::is_same_v<Str, std::string_view> || std::is_same_v<Str, std::string>);
+            constexpr auto minus = isWide ? L'-' : '-';
+            using ViewType = std::conditional_t<isWide, std::wstring_view, std::string_view>;
+
+            bool isFirstMinusSign = *str.begin() == minus;
+            ViewType view{ isFirstMinusSign ? str.begin()+1 : str.begin() , str.end()};
+
+            if constexpr (!isWide)
+            {
+                return std::ranges::all_of(view, [](const char c) { return isdigit(c); });
             }
             else
             {
-                return std::ranges::all_of(str, [](const wchar_t c) { return iswdigit(c); });
+                return std::ranges::all_of(view, [](const wchar_t c) { return iswdigit(c); });
             }
         }
 
