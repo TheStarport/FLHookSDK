@@ -426,7 +426,7 @@ class StringUtils
             requires StringRestriction<Str> || IsStringView<Str>
         static bool IsNumeric(Str str)
         {
-            if(str.empty())
+            if (str.empty())
             {
                 return false;
             }
@@ -436,15 +436,42 @@ class StringUtils
             using ViewType = std::conditional_t<isWide, std::wstring_view, std::string_view>;
 
             bool isFirstMinusSign = *str.begin() == minus;
-            ViewType view{ isFirstMinusSign ? str.begin()+1 : str.begin() , str.end()};
+            ViewType view{ isFirstMinusSign ? str.begin() + 1 : str.begin(), str.end() };
 
+            bool hasDot = false;
             if constexpr (!isWide)
             {
-                return std::ranges::all_of(view, [](const char c) { return isdigit(c); });
+                return std::ranges::all_of(view,
+                                           [&hasDot](const char c)
+                                           {
+                                               if (c == '.')
+                                               {
+                                                   if (hasDot)
+                                                   {
+                                                       return FALSE;
+                                                   }
+                                                   hasDot = true;
+                                                   return TRUE;
+                                               }
+                                               return isdigit(c);
+                                           });
             }
             else
             {
-                return std::ranges::all_of(view, [](const wchar_t c) { return iswdigit(c); });
+                return std::ranges::all_of(view,
+                                           [&hasDot](const wchar_t c)
+                                           {
+                                               if (c == L'.')
+                                               {
+                                                   if (hasDot)
+                                                   {
+                                                       return FALSE;
+                                                   }
+                                                   hasDot = true;
+                                                   return TRUE;
+                                               }
+                                               return iswdigit(c);
+                                           });
             }
         }
 
