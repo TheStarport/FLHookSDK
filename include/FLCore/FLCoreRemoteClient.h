@@ -89,8 +89,8 @@ struct FLPACKET_LAUNCH
         uint ship;
         uint base;
         uint state;
-        float rotate[4];
-        float pos[3];
+        Quaternion rotate;
+        Vector pos;
 };
 
 struct FLPACKET_BURNFUSE
