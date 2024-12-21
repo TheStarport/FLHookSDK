@@ -341,7 +341,7 @@ class StringUtils
         static std::wstring stows(const T& text)
         {
             const char* data;
-            size_t inputSize = 0;
+            size_t inputSize = -1;
             if constexpr (std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, char*>)
             {
                 data = text;
