@@ -809,8 +809,18 @@ namespace pub
 
         struct LootInfo
         {
-                uint dunno; // "Flag" like the others?
-                uint archId;
+                uint systemId;
+                uint equipmentArchId;
+                uint infocardOverride;
+                uint ownerId;
+                Vector linearVelocity;
+                Vector pos;
+                Matrix rot;
+                Vector angularVelocity;
+                int itemCount;
+                float hitPtsPercentage;
+                bool canAITractor;
+                bool isMissionLoot;
         };
 
         struct TerminalInfo
