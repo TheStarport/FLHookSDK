@@ -1645,7 +1645,10 @@ struct IMPORT ScanList
         void reset();
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        uint vftable;
+        BaseWatcher objectArray[256];
+        uint currSize;
+        uint maxSize;
 };
 
 class IMPORT ScriptBehavior
