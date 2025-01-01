@@ -179,3 +179,6 @@ IMPORT char* safe_strcpy(char*, int, const char*);
 IMPORT unsigned short* safe_wcscpy(unsigned short*, int, const unsigned short*);
 IMPORT unsigned long select_option_from_string(char*, const option_spec* const, int, const char*);
 IMPORT bool strequal(const char*, const char*);
+
+inline CObject* BaseWatcherToCObject(BaseWatcher* basewatcher) { return reinterpret_cast<CObject*>(basewatcher) + 2; }
+inline IObjRW* BaseWatcherToCIObjRW(BaseWatcher* basewatcher) { return reinterpret_cast<IObjRW*>(basewatcher) - 2; };
