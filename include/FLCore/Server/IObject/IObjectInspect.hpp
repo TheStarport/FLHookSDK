@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../FLCoreDefs.hpp"
+#include "FLCore/Common/CObjects/CSimple/CEqObj/CShip.hpp"
 
 struct GameObject;
 struct IObjInspect

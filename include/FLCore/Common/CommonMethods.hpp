@@ -3,6 +3,9 @@
 #include <FLCore/Common/Unknown.hpp>
 #include <FLCore/FLCoreDefs.hpp>
 
+#include <FLCore/Common/CObjects/CObject.hpp>
+#include <FLCore/Server/IObject/IObjectInspect.hpp>
+
 IMPORT bool operator!=(const Rect&, const Rect&);
 
 IMPORT void AppendMissionLogData(const FmtStr*, unsigned char*&, int&, int);
