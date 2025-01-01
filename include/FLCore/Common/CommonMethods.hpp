@@ -181,4 +181,4 @@ IMPORT unsigned long select_option_from_string(char*, const option_spec* const, 
 IMPORT bool strequal(const char*, const char*);
 
 inline CObject* BaseWatcherToCObject(BaseWatcher* basewatcher) { return reinterpret_cast<CObject*>(basewatcher) + 2; }
-inline IObjRW* BaseWatcherToCIObjRW(BaseWatcher* basewatcher) { return reinterpret_cast<IObjRW*>(basewatcher) - 2; };
+inline IObjRW* BaseWatcherToIObjRW(BaseWatcher* basewatcher) { return reinterpret_cast<IObjRW*>(basewatcher) - 2; };
