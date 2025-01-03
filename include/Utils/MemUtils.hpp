@@ -33,22 +33,18 @@ class MemUtils
 
         static void ReadProcMem(const DWORD address, void* mem, const uint size)
         {
-            const auto ptr = reinterpret_cast<void*>(address);
-            const auto process = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
-            DWORD old;
-            VirtualProtectEx(process, ptr, size, PAGE_EXECUTE_READWRITE, &old);
-            ReadProcessMemory(process, ptr, mem, size, nullptr);
-            CloseHandle(process);
+            auto ptr = reinterpret_cast<void*>(address);
+            DWORD dwOldProtection = 0;
+            VirtualProtect(ptr, size, PAGE_EXECUTE_READWRITE, &dwOldProtection);
+            memcpy(mem, ptr, size);
         }
 
         static void WriteProcMem(const DWORD address, const void* mem, const uint size)
         {
-            const auto ptr = reinterpret_cast<void*>(address);
-            const auto process = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
-            DWORD old;
-            VirtualProtectEx(process, ptr, size, PAGE_EXECUTE_READWRITE, &old);
-            WriteProcessMemory(process, ptr, mem, size, nullptr);
-            CloseHandle(process);
+            auto ptr = reinterpret_cast<void*>(address);
+            DWORD dwOldProtection = 0;
+            VirtualProtect(ptr, size, PAGE_EXECUTE_READWRITE, &dwOldProtection);
+            memcpy(ptr, mem, size);
         }
 
         static FARPROC PatchCallAddr(void* mod, const DWORD installAddress, void* hookFunction)
