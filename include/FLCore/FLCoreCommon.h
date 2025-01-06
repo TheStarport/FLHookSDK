@@ -103,6 +103,8 @@ enum EquipmentClass : uint
 	InternalFX = 1 << 22,
 	TradeLaneEquip = 1 << 23,
 	Armor = 1 << 24,
+	ExternalEquipment = MineLauncher | CM | Gun | ShieldGenerator | Thruster | CargoPod | CloakingDevice,
+	InternalEquipment = Engine | Power | Scanner | TractorBeam | RepairDroid | InternalFX | TradeLaneEquip | Armor,
 };
 
 struct IMPORT CacheString
@@ -517,8 +519,25 @@ namespace Archetype
 
 	public:
 		CollisionGroup* next;
-		ushort	id;
+		USHORT	id;
 		CacheString name;
+		uint type;
+		uint hitPts;
+		bool separable;
+		bool destroyParent;
+		bool rootHealthProxy;
+		float parentImpulse;
+		float childImpulse;
+		bool hasRotationInertia;
+		Vector rotationInertia;
+		uint separationExplosionArch;
+		uint debrisTypeArch;
+		uint debrisTypeArch2;
+		float explosionResistance;
+		uint dunno1[6]; // 64 something about dmg_hp, dmg_obj, group_dmg_hp and group_dmg_obj
+		uint dunno[4]; //88 something about fuses
+		uint linkedEquipType;
+		float linkedEquipDamage;
 	};
 
 	struct IMPORT Commodity : Equipment
@@ -1366,7 +1385,17 @@ protected:
 	void LoadDamageObjs(void);
 
 public:
-	unsigned char data[OBJECT_DATA_SIZE];
+	/* 0  */ CEqObj* owner;
+	/* 1  */ Archetype::CollisionGroup* colGrp;
+	/* 2  */ int rootIndex;
+	/* 3  */ float hitPts;
+	/* 4  */ uint dunno;
+	/* 5  */ uint state;
+	/* 6  */ DamageEntry::SubObjFate fate;
+	/* 7  */ CObject* destroyedObj;
+	/* 8  */ bool boundingSphereInitialized;
+	/* 9  */ float boundingSphereRadius;
+	/* 10 */ Vector boundingSphere;
 };
 
 class IMPORT CArchGroupManager
@@ -1399,7 +1428,13 @@ protected:
 	static int const  MAX_GROUP_DEPTH;
 
 public:
-	unsigned char data[OBJECT_DATA_SIZE];
+	uint dunno0;  // 0
+	bool dunno4;  // 4
+	uint dunno8;  // 8
+	uint dunno12; // 12
+	uint dunno16; // 16
+	char size;    // 20
+	bool dunno21; // 21
 };
 
 class IMPORT CArchGrpTraverser
@@ -1736,6 +1771,7 @@ namespace PhySys
 		CObject* collision_object;
 		Vector collision_position;
 		Vector collision_velocity;
+		uint unknown;
 	};
 
 	struct IMPORT Controller
@@ -3032,6 +3068,19 @@ public:
 	void AddGen(class CEShieldGenerator *);
 	bool CanActivate(void)const ;
 	void RemGen(class CEShieldGenerator *);
+
+
+	bool internalActivationState;
+	float currShieldHitPoints;
+	uint seeminglyUnused;
+	double rebuildTimestamp;
+	st6::vector<CEShieldGenerator*> linkedShieldGen;
+	Archetype::ShieldGenerator* highestToughnessShieldGenArch;
+	float offlineThreshold;
+	float rebuildTime;
+	float maxShieldHitPoints;
+	void* IntruderCheckerPhySys1;
+	void* IntruderCheckerPhySys2;
 };
 
 class IMPORT CEShieldGenerator : public CAttachedEquip
