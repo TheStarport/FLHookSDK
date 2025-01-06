@@ -2132,7 +2132,11 @@ public:
 		struct CreateParms & operator=(struct CreateParms const &);
 
 	public:
-		unsigned char data[OBJECT_DATA_SIZE];
+		uint id;
+		struct StarSystem* starSystem;
+		uint ownerPlayer;
+		float hitpts;
+		uint dunno[20];
 	};
 
 	virtual ~CSimple(void);
