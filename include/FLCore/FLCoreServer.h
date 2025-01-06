@@ -38,16 +38,6 @@ enum DOCK_HOST_RESPONSE
 	DOCK = 5,
 };
 
-struct Costume
-{
-	uint head = 0;
-	uint body = 0;
-	uint lefthand = 0;
-	uint righthand = 0;
-	uint accessory[8] = {};
-	int accessories = 0;
-};
-
 enum MissionMessageType
 {
 	MissionMessageType_Failure, // mission failure
@@ -203,6 +193,16 @@ struct SSPObjUpdateInfo
 	double dTimestamp;
 	float fThrottle;
 	char cState;
+};
+
+struct SSPObjUpdateInfoSimple
+{
+	uint iShip;
+	Quaternion vDir;
+	Vector vPos;
+	float fTimestamp;
+	float throttle;
+	char state;
 };
 
 struct XJettisonCargo
@@ -642,12 +642,50 @@ namespace SrvAsteroid
 
 }; // namespace SrvAsteroid
 
+struct IObjRW;
+
+struct MetaListNode
+{
+	MetaListNode* next;
+	MetaListNode* prev;
+	IObjRW* value;
+};
+
+struct MetaList
+{
+	uint vtable;
+	MetaListNode* start;
+	MetaListNode* end;
+	uint dunno[2];
+};
+
+struct Observer
+{
+	uint vtable;
+	uint dunno[11];
+	double timestamp;
+	uint clientId;
+	Vector position;
+	uint dunno2[30]; //unknown size
+};
+
 struct IMPORT StarSystem
 {
 	unsigned int count_players(unsigned int) const;
 
   public:
-	unsigned char data[OBJECT_DATA_SIZE];
+	uint vftable; //0
+	uint dunno0; //4
+	st6::list<Observer> observerList; //8
+	uint dunno1[8]; //20, first 3 elements are another st6list
+	MetaList shipList; // 52/13
+	MetaList lootList; // 72/18
+	MetaList solarList; // 92/23
+	MetaList guidedList; // 112
+	MetaList bulletList; // 132
+	MetaList mineList; // 152
+	MetaList counterMeasureList; // 172
+	MetaList asteroidList; // 192
 };
 
 namespace SysDB

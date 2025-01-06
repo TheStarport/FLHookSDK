@@ -212,7 +212,7 @@ public:
 	virtual bool Send_FLPACKET_SERVER_CREATECOUNTER(uint client, FLPACKET_UNKNOWN&);
 	[[NoPlugins]] virtual void unknown_53(uint client, FLPACKET_UNKNOWN&);
 	[[NoPlugins]] virtual void unknown_54(uint client, uint, uint, uint);
-	[[NoLog]] virtual bool Send_FLPACKET_COMMON_UPDATEOBJECT(uint client, SSPObjUpdateInfo& update);
+	[[NoLog]] virtual bool Send_FLPACKET_COMMON_UPDATEOBJECT(uint client, SSPObjUpdateInfoSimple& update);
 	virtual bool Send_FLPACKET_SERVER_DESTROYOBJECT(uint client, FLPACKET_DESTROYOBJECT& destroy);
 	virtual bool Send_FLPACKET_SERVER_ACTIVATEOBJECT(uint client, XActivateEquip& aq);
 	[[NoPlugins]] virtual bool Send_FLPACKET_SERVER_SYSTEM_SWITCH_OUT(uint client, FLPACKET_UNKNOWN&);
