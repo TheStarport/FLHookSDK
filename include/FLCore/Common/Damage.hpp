@@ -13,8 +13,10 @@ struct DamageEntry
     enum class SubObjFate
     {
         Alive = 0,
-        Damaged = 1,
-        Destroyed = 2,
+        Destroyed = 1,
+        Debris = 2,
+        Disappear = 3,
+        Loot = 4
     };
 
     IMPORT DamageEntry();
