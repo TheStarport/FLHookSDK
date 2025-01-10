@@ -11,6 +11,18 @@ class MemUtils
             return *reinterpret_cast<HWND*>(*(static_cast<PDWORD>(unkThis) + 8) + 32);
         }
 
+        static DWORD Protect(const DWORD addr, const size_t length, const bool execute = true)
+        {
+            return Protect(reinterpret_cast<void*>(addr), length, execute);
+        }
+
+        static DWORD Protect(void* addr, const size_t length, const bool execute = true)
+        {
+            DWORD oldProtect;
+            VirtualProtect(addr, length, execute ? PAGE_EXECUTE_READWRITE : PAGE_READWRITE, &oldProtect);
+            return oldProtect;
+        }
+
         static void SwapBytes(void* ptr, const uint len)
         {
             if (len % 4)
@@ -52,7 +64,7 @@ class MemUtils
             return PatchCallAddr((DWORD)mod, installAddress, hookFunction);
         }
 
-        static FARPROC PatchCallAddr(DWORD mod, const DWORD installAddress, void* hookFunction)
+        static FARPROC PatchCallAddr(const DWORD mod, const DWORD installAddress, void* hookFunction)
         {
             DWORD relAddr;
             ReadProcMem(mod + installAddress + 1, &relAddr, 4);
@@ -64,23 +76,29 @@ class MemUtils
         }
 
         /**
-         * \brief Overwrite an address with a function call
+         * \brief Overwrite an address with a JMP instruction to the target function
          * \param address The absolute address where the function should be called from
          * \param hookFunction The function to be called at the provided address
+         * \param call Replace the JMP instruction with a CALL instruction, which will push the return address onto the stack.
+         * \param protect If true, apply needed protections to allow writing. Pass false if protection already removed elsewhere.
          */
-        static void PatchAssembly(DWORD address, const void* hookFunction)
+        static void PatchAssembly(const DWORD address, const void* hookFunction, const bool call = false, const bool protect = true)
         {
-            DWORD dwOldProtection = 0; // Create a DWORD for VirtualProtect calls to allow us to write.
-            BYTE bPatch[5];            // We need to change 5 bytes and I'm going to use memcpy so this is the simplest way.
-            bPatch[0] = 0xE9;          // Set the first byte of the byte array to the op code for the JMP instruction.
-            VirtualProtect((void*)address, 5, PAGE_EXECUTE_READWRITE, &dwOldProtection); // Allow us to write to the memory we need to change
-            DWORD dwRelativeAddress = (DWORD)hookFunction - (DWORD)address - 5;          // Calculate the relative JMP address.
-            memcpy(&bPatch[1], &dwRelativeAddress, 4);                                   // Copy the relative address to the byte array.
-            memcpy(PBYTE(address), bPatch, 5);                                           // Change the first 5 bytes to the JMP instruction.
-            VirtualProtect((void*)address, 5, dwOldProtection, nullptr);                 // Set the protection back to what it was.
+            DWORD dwOldProtection = 0;     // Create a DWORD for VirtualProtect calls to allow us to write.
+            BYTE patch[5];                 // We need to change 5 bytes and I'm going to use memcpy so this is the simplest way.
+            patch[0] = call ? 0xE8 : 0xE9; // Set the first byte of the byte array to the op code for the JMP instruction.
+            if (protect)
+            {
+                // Allow us to write to the memory we need to change
+                VirtualProtect(reinterpret_cast<void*>(address), 5, PAGE_EXECUTE_READWRITE, &dwOldProtection);
+            }
+
+            const auto relativeAddress = reinterpret_cast<DWORD>(hookFunction) - address - 5; // Calculate the relative JMP address.
+            memcpy(&patch[1], &relativeAddress, 4);                                           // Copy the relative address to the byte array.
+            memcpy(reinterpret_cast<PBYTE>(address), patch, 5);                               // Change the first 5 bytes to the CALL/JMP instruction.
         }
 
-        static void NopAddress(DWORD address, size_t size)
+        static void NopAddress(const DWORD address, const size_t size)
         {
             DWORD dwOldProtection = 0;
             VirtualProtect((void*)address, size, PAGE_EXECUTE_READWRITE, &dwOldProtection);
