@@ -1,6 +1,8 @@
 #pragma once
 #include "FLCore/FLCoreDefs.hpp"
 
+#include "FLCore/Common/Archetype/Root/Equipment/AttachedEquipment.hpp"
+
 namespace Archetype
 {
     struct ShieldGenerator final : public AttachedEquipment

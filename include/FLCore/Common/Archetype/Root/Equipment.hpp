@@ -34,6 +34,6 @@ namespace Archetype
         /* 24 */ uint useCount;
         /* 25 */ uint unitsPerContainer;
         /* 26 */ uint tractoredExplosionId;
-        /* 27 */ uint lootable;
+        /* 27 */ bool lootable;
     };
 }
