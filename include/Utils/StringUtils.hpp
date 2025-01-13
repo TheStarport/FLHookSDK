@@ -690,8 +690,7 @@ class StringUtils
 
         template <typename TString, typename View>
             requires StringRestriction<TString> && IsStringView<View>
-                                               static TString ReplaceStr(const TString& source, View searchForRaw, View replaceWithRaw)
-                         requires StringRestriction<TString>
+        static TString ReplaceStr(const TString& source, View searchForRaw, View replaceWithRaw)
         {
             uint lPos, sPos = 0;
 
