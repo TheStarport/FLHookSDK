@@ -13,7 +13,7 @@
 #ifndef _FLCOREDACOM_H_
 #define _FLCOREDACOM_H_
 
-#include "FLCoreDefs.h"
+#include "FLCoreDefs.hpp"
 
 #pragma comment( lib, "FLCoreDACom.lib" )
 
@@ -28,7 +28,7 @@ namespace DACOM_CRC
 
 namespace LogStream
 {
-	IMPORT  void  FlushToDisk(void);
+	IMPORT  void  FlushToDisk();
 	IMPORT  void  LogEvent(char const *,float,unsigned long);
 	IMPORT  void  LogNamedEvent(char const *,char const *,unsigned long);
 	IMPORT  bool  Startup(char const *);
