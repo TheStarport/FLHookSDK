@@ -161,23 +161,9 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
         [[Disable]]
         virtual void Dock(const uint&, const uint&);
 
-enum MissionMessageType
-{
-	MissionMessageType_Failure, // mission failure
-	MissionMessageType_Type1,   // objective
-	MissionMessageType_Type2,   // objective
-	MissionMessageType_Type3,   // mission success
+        virtual void SubmitChat(CHAT_ID cidFrom, ulong size, const void* rdlReader, CHAT_ID cidTo, int);
 };
 
-enum DestroyType
-{
-	VANISH = 0,
-	FUSE = 1,
-};
-
-    public:
-        unsigned char data[OBJECT_DATA_SIZE];
-};
 #pragma warning(pop)
 
 struct CharacterData
