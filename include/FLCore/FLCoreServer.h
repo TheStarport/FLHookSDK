@@ -575,10 +575,12 @@ namespace pub
     {
         struct Tryptich
         {
-                uint dunno;
-                uint dunno2;
-                uint dunno3;
-                uint musicId;
+                uint spaceMusic = 0;
+                uint dangerMusic = 0;
+                uint battleMusic = 0;
+                uint overrideMusic = 0;
+                bool playOnce = false;
+                float crossFadeDurationInS = 0.0f;
         };
 
         IMPORT int CancelMusic(unsigned int);

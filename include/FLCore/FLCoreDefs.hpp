@@ -276,6 +276,8 @@ class Vector : public glm::vec<3, float, glm::packed_highp>
         Vector() = default;
         Vector(const float a, const float b, const float c) : glm::vec3(a, b, c) {}
         Vector(glm::vec<3, float, glm::packed_highp> v) : glm::vec3(v.x, v.y, v.z) {}
+
+        bool InRadius(const Vector& v, float radius) const { return std::abs(glm::distance<3, float, glm::packed_highp>(*this, v)) < radius; }
 };
 
 class Matrix : public glm::mat3
@@ -348,6 +350,12 @@ struct Vector
         float x = 0.0f;
         float y = 0.0f;
         float z = 0.0f;
+
+        bool InRadius(const Vector& v, const float radius) const
+        {
+            const Vector n = { x - v.x, y - v.y, z - v.z };
+            return std::sqrtf(n.x * n.x + n.y * n.y + n.z * n.z) < radius;
+        }
 };
 
 union Matrix {
