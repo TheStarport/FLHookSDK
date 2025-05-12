@@ -16,14 +16,14 @@ enum class DamageCause
 
 enum class DockType
 {
-    Berth,
-    MoorSmall,
-    MoorMedium,
-    MoorLarge,
-    Ring,
-    Pad,
-    Jump,
-    Airlock
+    Berth = 1,
+    MoorSmall = 3,
+    MoorMedium = 4,
+    MoorLarge = 5,
+    Ring = 6,
+    Pad = 6,
+    Jump = 7,
+    Airlock = 8
 };
 
 enum class StrafeDir
