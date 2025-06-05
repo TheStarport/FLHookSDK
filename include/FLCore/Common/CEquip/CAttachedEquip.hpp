@@ -18,7 +18,7 @@ class CAttachedEquip : public CExternalEquip
         IMPORT virtual bool IsConnected() const;
         IMPORT virtual bool Connect(const char*);
         IMPORT virtual bool GetVelocity(Vector&) const;
-        IMPORT virtual bool GetCenterOMass(Vector&) const;
+        IMPORT virtual bool GetCenterOfMass(Vector&) const;
         IMPORT virtual void Disconnect();
         IMPORT virtual int GetToughness() const;                          // 120
         IMPORT virtual bool GetRadius(float&) const;                      // 124

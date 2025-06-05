@@ -28,7 +28,7 @@ struct EqObj : public GameObject
         virtual void process_explosion_damage_energy(ExplosionDamageEvent* explosion, DamageList* dmgList);        // 520 sub_6CE9940
         virtual void damage_shield(CEShield* shield, Archetype::Munition* munition, DamageList* dmgList);          // 524 sub_6CE94B0
         virtual bool damage_ext_eq(CEquip* eq, float dmgDealt, DamageList* dmgList);                               // 528 sub_6CEA4A0
-        virtual bool damage_general(IObjInspectImpl* target, float dmg, DamageList* dmgList);                      // NakedDamageHit2        //532 sub_6CEA740
+        virtual bool damage_general(CEShield* target, float dmg, DamageList* dmgList);                             // NakedDamageHit2        //532 sub_6CEA740
         virtual bool damage_col_grp(CArchGroup*, float, DamageList*);                                              // 536 sub_6CEAA80
         virtual bool damage_energy(float energyDamage, DamageList* dmgList);                       // deal energy damage                      //540 sub_6CEAFC0
         virtual void col_grp_death(CArchGroup*, DamageEntry::SubObjFate, DamageList*);             // 544 sub_6CEA9F0
@@ -44,11 +44,11 @@ struct EqObj : public GameObject
         virtual void sub_6CEBE80();                                     // 580 sub_6CEBE80
         virtual bool sub_6CEC260(CAttachedEquip* attachedEq);           // 584 sub_6CEC260
         virtual void process_perishable_cargo(float deltaTime);         // 588 sub_6CEC910
-        CEqObj* ceqobj(){return reinterpret_cast<CEqObj*>(cobject());};
+        CEqObj* ceqobj() { return reinterpret_cast<CEqObj*>(cobject()); };
 
         static CEqObj* Cast(IObjInspectImpl* iobj)
         {
-            if((iobj->cobject()->objectClass & CObject::CEQUIPMENT_OBJECT) == CObject::CEQUIPMENT_OBJECT)
+            if ((iobj->cobject()->objectClass & CObject::CEQUIPMENT_OBJECT) == CObject::CEQUIPMENT_OBJECT)
             {
                 return reinterpret_cast<CEqObj*>(iobj);
             }

@@ -22,7 +22,7 @@ class CArchGroup
         IMPORT float ExplosionResistance() const;
         IMPORT const ID_String& ExplosionTypeName() const;
         IMPORT const Archetype::FuseIgnitionList& FuseIgnitions() const;
-        IMPORT bool GetCenterOMass(Vector&) const;
+        IMPORT bool GetCenterOfMass(Vector&) const;
         IMPORT void GetCollisionGroupDesc(struct CollisionGroupDesc&) const;
         IMPORT unsigned int GetCollisionGroupType() const;
         IMPORT DamageEntry::SubObjFate GetFate() const;
