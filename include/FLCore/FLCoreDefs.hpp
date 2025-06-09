@@ -280,6 +280,9 @@ class Vector : public glm::vec<3, float, glm::packed_highp>
         bool InRadius(const Vector& v, float radius) const { return std::abs(glm::distance<3, float, glm::packed_highp>(*this, v)) < radius; }
 };
 
+class Matrix;
+Matrix EulerMatrix(const Vector&);
+
 class Matrix : public glm::mat3
 {
     public:
@@ -317,6 +320,8 @@ class Matrix : public glm::mat3
             }
             return { heading, bank, attitude };
         }
+
+        static Matrix FromEuler(Vector rot) { return EulerMatrix(rot); }
 };
 
 class Quaternion : public glm::qua<float, glm::packed_highp>
@@ -406,6 +411,8 @@ union Matrix {
             }
             return { heading, bank, attitude };
         }
+
+        static Matrix FromEuler(Vector rot) { return EulerMatrix(rot); }
 };
 
 struct Quaternion

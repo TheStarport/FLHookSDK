@@ -47,7 +47,6 @@ IMPORT ID_String DEATH_COMM_FUSE;
 IMPORT double DaysPerSecond;
 IMPORT void DebugPrint(const char*, ...);
 IMPORT unsigned int DecodeType(const char*);
-IMPORT Matrix EulerMatrix(const Vector&);
 IMPORT void ExtractMissionLogData(FmtStr*, unsigned char*&, int&);
 IMPORT float FIRE_FAILED_DELAY;
 IMPORT ID_String FIRE_FAILED_SOUND;
