@@ -1,5 +1,13 @@
 #pragma once
 #include "../../../FLCoreDefs.hpp"
+#include "../CAttachedEquip.hpp"
+#include "../../Archetype/Root/Equipment/AttachedEquipment/Launcher.hpp"
+#include "../../Archetype/Root/Equipment/Projectile.hpp"
+
+struct Barrel
+{
+        uint dunno[13];
+};
 
 class CELauncher : public CAttachedEquip
 {
@@ -38,8 +46,7 @@ class CELauncher : public CAttachedEquip
     IMPORT static CELauncher* cast(CEquip*);
     IMPORT static const CELauncher* cast(const CEquip*);
 
-    int dunno[28];
-    float OfflineThreshold;
-    float OfflineRebuildTime;
-    float MaxCapacity;
+	Archetype::Projectile* projArch; // 19
+    float refireDelayElapsed;        // 20
+    Barrel barrels[8];               // 21
 };
