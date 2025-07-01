@@ -19,6 +19,7 @@ class CELauncher : public CAttachedEquip
     IMPORT virtual void GetStatus(EquipStatus&) const;
     IMPORT virtual bool Connect(const char*);
     IMPORT virtual void Disconnect();
+
     IMPORT virtual FireResult Fire(const Vector&);
     IMPORT virtual void ConsumeFireResources();
     IMPORT virtual void ComputeLaunchInfo(st6::vector<struct ProjLaunchInfo>&, const Vector&) const;

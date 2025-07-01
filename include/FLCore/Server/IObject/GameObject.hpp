@@ -6,7 +6,7 @@
 struct GameObject : public IObjInspectImpl, public IObjAffect, public IObjDestructor
 {
         virtual ObjectType get_object_type() const;               // 340
-        virtual bool ObjectDestroyed(bool isKill, uint dunno);    // NakedShipDestroyed                                      //344 sub_6CE8080
+        virtual bool ObjectDestroyed(DestroyType destroyType, uint killerId);    // NakedShipDestroyed                                      //344 sub_6CE8080
         virtual int Disconnect();                                 // 348 sub_6CE7C80
         virtual bool get_dunno_0x40();                            // 352 sub_6CEE6D0
         virtual int InstantiateCobject(Archetype::Root* archPtr); // 356 sub_6D01040
