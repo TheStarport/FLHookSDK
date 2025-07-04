@@ -353,15 +353,16 @@ class StringUtils
             }
 
             // Statically allocate buffer to prevent reallocations
-            static std::array<wchar_t, 4096> buffer;
+            static std::array<wchar_t, 8192> buffer;
             std::memset(buffer.data(), 0, buffer.size());
 
-            const int size = MultiByteToWideChar(CP_UTF8, 0, data, static_cast<int>(inputSize), buffer.data(), 4096);
+            const int size = MultiByteToWideChar(CP_UTF8, 0, data, static_cast<int>(inputSize), buffer.data(), buffer.size());
 
             if (!size)
             {
                 return L"";
             }
+
             // Only copy the byes we need
             auto end = buffer.begin();
             std::advance(end, size - 1);
@@ -387,10 +388,10 @@ class StringUtils
             }
 
             // Statically allocate buffer to prevent reallocations
-            static std::array<char, 4096> buffer;
+            static std::array<char, 8192> buffer;
             std::memset(buffer.data(), 0, buffer.size());
 
-            const int size = WideCharToMultiByte(CP_UTF8, 0, data, static_cast<int>(inputSize), buffer.data(), 4096, nullptr, nullptr);
+            const int size = WideCharToMultiByte(CP_UTF8, 0, data, static_cast<int>(inputSize), buffer.data(), buffer.size(), nullptr, nullptr);
 
             if (!size)
             {
