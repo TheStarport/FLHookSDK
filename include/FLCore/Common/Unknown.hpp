@@ -460,7 +460,12 @@ class IMPORT CPlayerTradeOffer
         void SetTargetPlayerID(unsigned int);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        uint sourceClient;
+        uint targetClient;
+        CPlayerTradeOffer* counterOffer;
+        EquipDescList equipOffer;
+        int moneyOffered;
+        bool isAccepted;
 };
 
 class IMPORT CRemotePhysicsSimulation
@@ -751,7 +756,7 @@ struct SetEquipmentItem
 {
         ushort count;
         float health;
-        uint archId;
+        Id archId;
         ushort id;
         byte mounted;
         byte mission;
@@ -2101,7 +2106,7 @@ class IMPORT BaseData
         float startRoom;
         float priceVariance;
         float shipRepairCost;
-        st6::map<uint, MarketGoodInfo> marketMap;
+        st6::map<Id, MarketGoodInfo> marketMap;
         st6::list<RoomData*> roomData;
 };
 

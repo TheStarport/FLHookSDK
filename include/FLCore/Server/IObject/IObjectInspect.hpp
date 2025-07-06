@@ -121,7 +121,7 @@ struct IObjAffect
     virtual FORMATION_RTYPE add_follow_follower(IObjRW*);      // 44
     virtual FORMATION_RTYPE remove_follow_follower(IObjRW*);   // 48
     virtual int fire_weapons(ushort startIndex, ushort endIndex, void* unk, void* unk2); // 52
-    virtual int jettison_cargo(ushort sID, ushort amount, void* unused, void* unused2); // 56
+    virtual int jettison_cargo(ushort sID, ushort amount, void* unused); // 56
     virtual int tractor_all(ushort tractorSId, st6::vector<GameObject*> tractorArray, int clientId); // 60
     virtual int tractor_single(ushort sId, GameObject* loot, int clientId); // 64
     virtual int set_gun_target(ushort gunSId, uint target, ushort targetSId, int flag); // 68

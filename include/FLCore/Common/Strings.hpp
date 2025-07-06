@@ -16,5 +16,4 @@ struct ID_String
 
     public:
     uint id;
-    unsigned char data[128];
 };

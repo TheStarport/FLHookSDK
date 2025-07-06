@@ -39,7 +39,7 @@ namespace Archetype
 
         public:
         /*  1 */ uint unknown;
-        /*  2 */ uint archId;
+        /*  2 */ Id archId;
         /*  3 */ char* name;
         /*  4 */ uint archType;
         /*  5 */ uint idsName;

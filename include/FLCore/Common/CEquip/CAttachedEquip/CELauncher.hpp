@@ -51,3 +51,9 @@ class CELauncher : public CAttachedEquip
     float refireDelayElapsed;        // 20
     Barrel barrels[8];               // 21
 };
+
+struct SrvGun
+{
+        void* vtable;
+        CELauncher* launcher;
+};

@@ -38,7 +38,7 @@ struct EquipDesc
     public:
         /* 0 */ ushort dunno;
         ushort id;
-        /* 1 */ uint archId;
+        /* 1 */ Id archId;
         /* 2 */ CacheString hardPoint;
         /* 3 */ bool mounted;
         /* 4 */ float health;

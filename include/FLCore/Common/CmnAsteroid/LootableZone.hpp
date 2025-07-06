@@ -6,15 +6,15 @@ namespace CmnAsteroid
 {
     struct LootableZone
     {
-        ulong asteroidLootContainer; // not used
-        ulong dynamicLootContainer;
-        ulong asteroidLootCommodity; // not used
-        ulong dynamicLootCommodity;
-        ulong asteroidLootCount1; // not used
-        ulong asteroidLootCount2; // not used
-        ulong dynamicLootCount1;  // min 1
-        ulong dynamicLootCount2;
-        ulong asteroidLootDifficulty; // not used
-        ulong dynamicLootDifficulty;  // default 1, maximum 100
+        Id asteroidLootContainer; // not used
+        Id dynamicLootContainer;
+        Id asteroidLootCommodity; // not used
+        Id dynamicLootCommodity;
+        Id asteroidLootCount1; // not used
+        Id asteroidLootCount2; // not used
+        Id dynamicLootCount1;  // min 1
+        Id dynamicLootCount2;
+        Id asteroidLootDifficulty; // not used
+        Id dynamicLootDifficulty;  // default 1, maximum 100
     };
 }

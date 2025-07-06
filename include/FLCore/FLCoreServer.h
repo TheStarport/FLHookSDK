@@ -52,7 +52,8 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
         virtual void ElapseTime(float);
         [[NoHook]]
         virtual void __nullopt1();
-        [[NoHook]] virtual bool SwapConnections(EFLConnection, EFLConnection);
+        [[NoHook]]
+        virtual bool SwapConnections(EFLConnection, EFLConnection);
         [[NoHook]]
         virtual void __nullopt2();
         [[CallInner]]
@@ -69,7 +70,8 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
         virtual void __nullopt3();
         virtual void CreateNewCharacter(const SCreateCharacterInfo&, uint client);
         virtual void DestroyCharacter(CHARACTER_ID const&, uint client);
-        [[NoHook]] virtual void CharacterSkipAutosave(uint);
+        [[NoHook]]
+        virtual void CharacterSkipAutosave(uint);
         virtual void ReqShipArch(uint archID, uint client);
         virtual void ReqHullStatus(float status, uint client);
         virtual void ReqCollisionGroups(const st6::list<CollisionGroupDesc>& collisionGroups, uint client);
@@ -117,24 +119,28 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
         virtual void SPRequestInvincibility(uint shipID, bool enable, InvincibilityReason reason, uint client);
         [[NoHook]]
         virtual void SaveGame(const CHARACTER_ID&, const ushort*, uint);
-        [[NoHook]] virtual void MissionSaveB(uint, ulong);
+        [[NoHook]]
+        virtual void MissionSaveB(uint, ulong);
         // eventType: 0 = docking, 1 = formation
         virtual void RequestEvent(int eventType, uint shipID, uint dockTarget, uint, ulong, uint client);
         // eventType: 0 = docking, 1 = formation
         virtual void RequestCancel(int eventType, uint shipID, uint, ulong, uint client);
         virtual void MineAsteroid(uint systemID, const Vector& pos, uint crateID, uint lootID, uint count, uint client);
-        [[NoHook]] virtual void CommComplete(uint, uint, uint, CommResult);
+        [[NoHook]]
+        virtual void CommComplete(uint, uint, uint, CommResult);
         virtual void RequestCreateShip(uint client);
         virtual void SPScanCargo(const uint&, const uint&, uint);
         virtual void SetManeuver(uint client, const XSetManeuver& sm);
         virtual void InterfaceItemUsed(uint, uint);
         virtual void AbortMission(uint client, uint);
-        [[NoHook]] virtual void RTCDone(uint, uint);
+        [[NoHook]]
+        virtual void RTCDone(uint, uint);
         virtual void SetWeaponGroup(uint client, uchar*, int);
         virtual void SetVisitedState(uint client, uchar*, int);
         virtual void RequestBestPath(uint client, uchar*, int);
         virtual void RequestPlayerStats(uint client, uchar*, int);
-        [[NoHook]] virtual void PopUpDialog(uint, uint);
+        [[NoHook]]
+        virtual void PopUpDialog(uint, uint);
         virtual void RequestGroupPositions(uint client, uchar*, int);
         [[NoHook]]
         virtual void SetMissionLog(uint, uchar*, int);
@@ -243,23 +249,23 @@ struct PlayerData
         uint dunno2[4];                    // 0x3B4
         float difficulty;                  // 0x3C4
         ushort lastEquipId;                // 0x3C8
-        uint menuItem;                     // 0x3CC
+        CPlayerTradeOffer* tradeOffer;     // 0x3CC
         uint onlineId2;                    // 0x3D0
         uint dunno3[2];                    // 0x3D4
         uint tradeRequestCount;            // 0x3DC
-        uint systemId;                     // 0x3E0
+        SystemId systemId;                 // 0x3E0
         uint shipId;                       // 0x3E4
         uint createdShipId;                // 0x3E8
-        uint baseId;                       // 0x3EC
-        uint lastBaseId;                   // 0x3F0
-        uint enteredBase;                  // 0x3F4
+        BaseId baseId;                     // 0x3EC
+        BaseId lastBaseId;                 // 0x3F0
+        BaseId enteredBase;                // 0x3F4
         uint baseRoomId;                   // 0x3F8
         uint characterId;                  // 0x3FC
         CAccount* account;                 // 0x400
         CPlayerGroup* playerGroup;         // 0x404
         uint missionId;                    // 0x408
         uint missionSetBy;                 // 0x40C
-        uint exitedBase;                   // 0x410
+        BaseId exitedBase;                 // 0x410
         uint unknownLocId;                 // 0x414
 };
 
@@ -448,31 +454,31 @@ struct MetaList
 
 struct Observer
 {
-	uint vtable;
-	uint dunno[11];
-	double timestamp;
-	uint clientId;
-	Vector position;
-	uint dunno2[30]; //unknown size
+        uint vtable;
+        uint dunno[11];
+        double timestamp;
+        uint clientId;
+        Vector position;
+        uint dunno2[30]; // unknown size
 };
 
 struct IMPORT StarSystem
 {
         unsigned int count_players(unsigned int) const;
 
-  public:
-	uint vftable; //0
-	uint dunno0; //4
-	st6::list<Observer> observerList; //8
-	uint dunno1[8]; //20, first 3 elements are another st6list
-	MetaList shipList; // 52/13
-	MetaList lootList; // 72/18
-	MetaList solarList; // 92/23
-	MetaList guidedList; // 112
-	MetaList bulletList; // 132
-	MetaList mineList; // 152
-	MetaList counterMeasureList; // 172
-	MetaList asteroidList; // 192
+    public:
+        uint vftable;                     // 0
+        uint dunno0;                      // 4
+        st6::list<Observer> observerList; // 8
+        uint dunno1[8];                   // 20, first 3 elements are another st6list
+        MetaList shipList;                // 52/13
+        MetaList lootList;                // 72/18
+        MetaList solarList;               // 92/23
+        MetaList guidedList;              // 112
+        MetaList bulletList;              // 132
+        MetaList mineList;                // 152
+        MetaList counterMeasureList;      // 172
+        MetaList asteroidList;            // 192
 };
 
 namespace SysDB
@@ -802,15 +808,15 @@ namespace pub
         struct SolarInfo
         {
                 int flag; // 0x290; ShipInfo has this too, no clue whether actually a flag
-                uint archId;
-                uint systemId;
+                Id archId;
+                SystemId systemId;
                 Vector pos;
                 Matrix orientation;
-                uint loadoutId;
+                Id loadoutId;
                 Costume costume;
                 int rep;
-                uint voiceId;
-                uint dockWith;
+                Id voiceId;
+                BaseId dockWith;
                 bool missionBool;
                 int hitPointsLeft;
                 char nickName[64]; // Has to be unique
@@ -820,9 +826,9 @@ namespace pub
 
         struct LootInfo
         {
-                uint systemId;
-                uint equipmentArchId;
-                uint infocardOverride;
+                SystemId systemId;
+                Id equipmentArchId;
+                Id infocardOverride;
                 uint ownerId;
                 Vector linearVelocity;
                 Vector pos;

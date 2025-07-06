@@ -1,12 +1,14 @@
 #pragma once
 #include "../../FLCoreDefs.hpp"
 #include "Personality.hpp"
+#include "AIEnums.hpp"
 
 namespace pub
 {
     namespace AI
     {
 
+        struct ContentCallback;
         class BaseOp
         {
             public:

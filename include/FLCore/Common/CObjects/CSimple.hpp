@@ -51,7 +51,7 @@ struct CSimple : CObject
         uint dunnoScanner;       // 41
         uint dunnoCSimple3;      // 42
         IObjDB* objDB;           // 43
-        uint id;                 // 44
+        Id id;                   // 44
         uint ownerPlayer;        // 45
         float hitPoints;         // 46
         uint dunnoCSimple4[0x5]; // 47

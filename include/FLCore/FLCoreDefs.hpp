@@ -1,6 +1,20 @@
 #ifndef _FLCOREDEFS_H_
 #define _FLCOREDEFS_H_
 
+#ifndef SERVER
+
+using Id = unsigned int;
+using SystemId = unsigned int;
+using BaseId = unsigned int;
+using ShipId = unsigned int;
+using ObjectId = unsigned int;
+using EquipmentId = unsigned int;
+using ClientId = unsigned int;
+struct GoodInfo;
+using GoodId = GoodInfo*;
+
+#endif
+
 #ifdef USE_GLM
     #include "glm/glm.hpp"
     #include "glm/gtc/quaternion.hpp"
@@ -9,6 +23,7 @@
 
 #include "../Typedefs.hpp"
 #include "st6.h"
+#include <API/Utils/Random.hpp>
 
 #pragma warning(disable : 4251 4002 4099 4302)
 
@@ -270,6 +285,7 @@ struct TString
 
 #ifdef USE_GLM
 
+class Matrix;
 class Vector : public glm::vec<3, float, glm::packed_highp>
 {
     public:
@@ -278,9 +294,13 @@ class Vector : public glm::vec<3, float, glm::packed_highp>
         Vector(glm::vec<3, float, glm::packed_highp> v) : glm::vec3(v.x, v.y, v.z) {}
 
         bool InRadius(const Vector& v, float radius) const { return std::abs(glm::distance<3, float, glm::packed_highp>(*this, v)) < radius; }
+        void TranslateX(const Matrix& rot, float length);
+        void TranslateY(const Matrix& rot, float length);
+        void TranslateZ(const Matrix& rot, float length);
+
+        static float Distance(const Vector& v1, const Vector& v2) { return glm::length<3, float, glm::packed_highp>(v1 - v2); }
 };
 
-class Matrix;
 Matrix EulerMatrix(const Vector&);
 
 class Matrix : public glm::mat3
@@ -321,8 +341,33 @@ class Matrix : public glm::mat3
             return { heading, bank, attitude };
         }
 
+        [[nodiscard]]
+        static Matrix RandomMatrix()
+        {
+            return EulerMatrix(Vector(Random::UniformFloat(-180.f, 180.f), Random::UniformFloat(-180.f, 180.f), Random::UniformFloat(-180.f, 180.f)));
+        }
+
         static Matrix FromEuler(Vector rot) { return EulerMatrix(rot); }
 };
+
+inline void Vector::TranslateX(const Matrix& rot, float length)
+{
+    this->x += length * rot[0][0];
+    this->y += length * rot[1][0];
+    this->z += length * rot[2][0];
+}
+inline void Vector::TranslateY(const Matrix& rot, float length)
+{
+    this->x += length * rot[0][1];
+    this->y += length * rot[1][1];
+    this->z += length * rot[2][1];
+}
+inline void Vector::TranslateZ(const Matrix& rot, float length)
+{
+    this->x += length * rot[0][2];
+    this->y += length * rot[1][2];
+    this->z += length * rot[2][2];
+}
 
 class Quaternion : public glm::qua<float, glm::packed_highp>
 {

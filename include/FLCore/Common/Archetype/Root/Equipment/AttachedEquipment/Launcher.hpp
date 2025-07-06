@@ -19,7 +19,7 @@ namespace Archetype
         /* 35 */ float powerUsage;
         /* 36 */ float refireDelay;
         /* 37 */ float muzzleVelocity;
-        /* 38 */ uint projectileArchId;
+        /* 38 */ Id projectileArchId;
         /* 39 */ char* useAnimation;
     };
 }

@@ -93,7 +93,7 @@ struct CObject : public EngineObject
         IMPORT long part_to_inst(unsigned int) const;
 
         Class objectClass; // 19
-        uint system;       // 20
+        SystemId system;   // 20
         uint dunnoCObject; // 21, relates to all PhySys calls, PhySys calls only occur if this value is nonzero
         struct SurfaceExtents
         {

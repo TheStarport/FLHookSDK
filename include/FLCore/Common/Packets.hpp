@@ -44,9 +44,9 @@ struct SGFGoodVaporizedInfo
 
 struct SSPMunitionCollisionInfo
 {
-        uint projectileArchId;
+        Id projectileArchId;
         DWORD dunno;
-        DWORD targetShip;
+        DWORD targetObjId;
         ushort s1;
 };
 
@@ -86,7 +86,7 @@ struct XActivateCruise
 
 struct XActivateThrusters
 {
-        uint ship;
+        Id ship;
         bool activate;
 };
 
@@ -102,21 +102,21 @@ struct XTractorObjects
 struct SGFGoodSellInfo
 {
         long dunno1;
-        uint archId;
+        Id archId;
         int count;
 };
 
 struct SGFGoodBuyInfo
 {
-        uint baseId;
+        BaseId baseId;
         ulong null;
-        uint goodId;
+        Id goodId;
         int count;
 };
 
 struct XFireWeaponInfo
 {
-        uint object;
+        Id object;
         Vector target;
         st6::vector<ushort> hpIds;
 };
@@ -142,9 +142,19 @@ struct XSetTarget
         ushort subObjId;
 };
 
+struct SSPObjUpdateInfoSimple
+{
+        uint objId;
+        Quaternion dir;
+        Vector pos;
+        float timestamp;
+        float throttle;
+        char state;
+};
+
 struct SSPObjUpdateInfo
 {
-        uint ship;
+        uint objId;
         Quaternion dir;
         Vector pos;
         float timestamp;

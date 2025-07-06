@@ -19,7 +19,8 @@ using LocationId = const uint;
 using st6_malloc_t = void* (*)(size_t);
 using st6_free_t = void (*)(void*);
 
+class StarSystem;
 using RCSendChatMsgT = void(__thiscall*)(void* hook, uint id, uint to, uint size, void* RDL);
 using CRCAntiCheatT = void(__stdcall*)();
 using GetFLNameT = int(__cdecl*)(char* buf, const wchar_t* str);
-using GetShipInspectT = bool(__cdecl*)(uint& ship, class IObjInspectImpl*& inspect, uint& dunno);
+using GetShipInspectT = bool(__cdecl*)(const uint& ship, class IObjInspectImpl*& inspect, StarSystem*& starSystem);

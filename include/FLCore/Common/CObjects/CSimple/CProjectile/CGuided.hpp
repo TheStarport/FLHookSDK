@@ -36,6 +36,6 @@ struct CGuided : public CProjectile
 
     BaseWatcher targetBaseWatcher;   // 60
     ushort targetSId;                // 62
-    Archetype::MotorData* mototData; // 63
+    Archetype::MotorData* motorData; // 63
     float lifetime;                  // 64
 };

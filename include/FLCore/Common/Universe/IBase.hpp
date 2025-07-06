@@ -6,11 +6,11 @@ namespace Universe
     struct IBase
     {
         void* vftable;
-        uint baseId;
+        BaseId baseId;
         char* nickname;
         uint baseIdS;
         char* filepath;
-        uint systemId;
+        SystemId systemId;
         st6::string baseRunBy;
         ulong spaceObjId;
         bool dunno1;

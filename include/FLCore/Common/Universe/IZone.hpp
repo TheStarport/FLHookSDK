@@ -2,6 +2,11 @@
 #include "../../FLCoreDefs.hpp"
 #include "../Strings.hpp"
 
+namespace CmnAsteroid
+{
+    struct LootableZone;
+}
+
 namespace Universe
 {
     struct IZone
@@ -12,7 +17,24 @@ namespace Universe
             float chance; // Spawn chance
         };
 
+        enum ShapeType
+        {
+            Sphere = 1,
+            Ellipsoid,
+            Box,
+            Cylinder,
+            Ring,
+            Mesh
+        };
+
         void* vtable;
+        Id zoneId;
+        SystemId systemId;
+        Matrix orientation;
+        Vector position;
+        ShapeType shapeType;
+        uint propertyFlags;
+        Vector size;
         long mesh;
         float edgeFraction;
         long unused1; // -1
@@ -23,8 +45,8 @@ namespace Universe
         ID_String music;       // ID_String
         CacheString spaceDust; // CacheString
         int spaceDustMaxParticles;
-        float fogColor[3]; // an RGB type
-        uint startFaction;
+        Vector fogColor; // an RGB type
+        CmnAsteroid::LootableZone* lootableZone;
         bool pathLabel;
         uint countMaxFaction;
         st6::list<FactionSpawn> factionSpawns; // st6::weighted_vector<FactionSpawn> factionSpawns;

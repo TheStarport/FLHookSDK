@@ -5,6 +5,7 @@
 
 struct Guided : public GameObject
 {
+    public:
     CGuided* cguided() { return reinterpret_cast<CGuided*>(cobject()); };
     static Guided* Cast(IObjInspectImpl* iobj)
     {

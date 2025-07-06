@@ -33,13 +33,21 @@ struct DamageEntry
     SubObjFate fate;
 };
 
+struct MunitionImpactData
+{
+        uint attackerId;
+        Archetype::Munition* munitionId;
+        ushort subObjId;
+};
+
 struct ExplosionDamageEvent
 {
-    uint victimId;
+    uint projectileId;
     uint attackerId;
     DamageCause dmgCause;
     Vector explosionPosition;
     Archetype::Explosion* explosionArchetype;
+    uint dunno;
 };
 
 struct DamageList
@@ -65,7 +73,7 @@ struct DamageList
     st6::list<DamageEntry> damageEntries;
     bool isDestroyed;
     DamageCause damageCause;
-    uint inflictorId;
+    Id inflictorId;
     uint inflictorPlayerId;
     bool dunno;
 };
