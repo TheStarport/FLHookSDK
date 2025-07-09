@@ -23,7 +23,6 @@ using GoodId = GoodInfo*;
 
 #include "../Typedefs.hpp"
 #include "st6.h"
-#include <API/Utils/Random.hpp>
 
 #pragma warning(disable : 4251 4002 4099 4302)
 
@@ -339,12 +338,6 @@ class Matrix : public glm::mat3
                 return { heading * mod, bank * mod, attitude * mod };
             }
             return { heading, bank, attitude };
-        }
-
-        [[nodiscard]]
-        static Matrix RandomMatrix()
-        {
-            return EulerMatrix(Vector(Random::UniformFloat(-180.f, 180.f), Random::UniformFloat(-180.f, 180.f), Random::UniformFloat(-180.f, 180.f)));
         }
 
         static Matrix FromEuler(Vector rot) { return EulerMatrix(rot); }
