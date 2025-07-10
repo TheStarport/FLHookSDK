@@ -16,7 +16,7 @@ struct GameObject : public IObjInspectImpl, public IObjAffect, public IObjDestru
         virtual int sub_6CEE810(void* PhySys_unk);                // 372 physics collsion handling?
         virtual void sub_6CEE980(int dunno);                      // 376 Behavior interface update
         virtual void sub_6CE9250(void* unk, DamageList*);         // 380
-        virtual void sub_6CE9350(void* unk, DamageList*);         // 384
+        virtual void process_munition_impact(MunitionImpactData* unk, DamageList*);    // 384 sub_6CE9350
         virtual void process_all_explosion_damage(ExplosionDamageEvent*, DamageList*); // calls methods 508-520         //388
         virtual void sub_6D01A10();                                                    // 392 sub_6D01A10
         virtual bool get_dunno_0x41();                                                 // 396
