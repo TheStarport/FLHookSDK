@@ -773,8 +773,8 @@ namespace pub
         struct ShipInfo
         {
                 uint flag = 0;
-                uint system = 0;
-                uint shipArchetype = 0;
+                SystemId system;
+                Id shipArchetype;
                 Vector pos = { 0, 0, 0 };
                 Vector unk1 = { 0, 0, 0 }; // all 0
                 Vector unk2 = { 0, 0, 0 }; // all 0
@@ -797,7 +797,7 @@ namespace pub
                 uint unk14 = 0;
 
                 int rep = 0; // increases for each NPC spawned, starts at 0 or 1
-                uint pilotVoice = 0;
+                Id pilotVoice;
                 uint unk15 = 0;   // 0
                 uint health = -1; // -1 = max health
                 uint unk16 = 0;   // 0

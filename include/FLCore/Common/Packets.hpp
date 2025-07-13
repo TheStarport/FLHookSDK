@@ -129,22 +129,22 @@ struct XCollision
 
 struct XSetManeuver
 {
-        uint shipFrom;
-        uint shipTo;
+        Id shipFrom;
+        Id shipTo;
         uint flag;
 };
 
 struct XSetTarget
 {
-        uint ship;
+        Id ship;
         uint slot;
-        uint spaceId;
+        Id spaceId;
         ushort subObjId;
 };
 
 struct SSPObjUpdateInfoSimple
 {
-        uint objId;
+        Id objId;
         Quaternion dir;
         Vector pos;
         float timestamp;
@@ -154,7 +154,7 @@ struct SSPObjUpdateInfoSimple
 
 struct SSPObjUpdateInfo
 {
-        uint objId;
+        Id objId;
         Quaternion dir;
         Vector pos;
         float timestamp;
@@ -166,7 +166,7 @@ struct SSPObjUpdateInfo
 
 struct XJettisonCargo
 {
-        uint ship;
+        Id ship;
         ushort slot;
         ushort _padding;
         ushort count;
@@ -174,9 +174,9 @@ struct XJettisonCargo
 
 struct XGoTradelane
 {
-        uint ship;
-        uint tradelaneSpaceObj1;
-        uint tradelaneSpaceObj2;
+        Id ship;
+        Id tradelaneSpaceObj1;
+        Id tradelaneSpaceObj2;
 };
 
 struct CAccountListNode

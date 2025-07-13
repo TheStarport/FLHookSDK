@@ -36,7 +36,7 @@ struct DamageEntry
 struct MunitionImpactData
 {
         uint attackerId;
-        Archetype::Munition* munitionId;
+        Archetype::Munition* munitionArch;
         ushort subObjId;
 };
 

@@ -15,7 +15,7 @@ namespace Archetype
         IMPORT void reset();
 
         public:
-        /*  0 */ uint id;
+        /*  0 */ Id id;
         /*  1 */ float radius;
         /*  2 */ float impulse;
         /*  3 */ float hullDamage;
