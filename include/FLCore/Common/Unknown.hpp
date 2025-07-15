@@ -9,6 +9,7 @@
 #include "FmtStr.hpp"
 #include "Goods.hpp"
 #include "Watchable.hpp"
+#include "XML.hpp"
 
 #pragma comment(lib, "FLCoreCommon.lib")
 
@@ -19,7 +20,7 @@ namespace Archetype
 {
     struct Munition;
     struct IClObjFactory;
-}
+} // namespace Archetype
 class CEShield;
 class CEquip;
 class CAttachedEquip;
@@ -31,8 +32,6 @@ namespace Universe
 {
     struct IZone;
 }
-class TRANode;
-class RDLReNode;
 class IStateGraph;
 
 enum class TransactionType
@@ -163,35 +162,6 @@ namespace Async
     IMPORT void Startup();
     IMPORT int WorkQueueSize();
 }; // namespace Async
-
-class IMPORT AttribStackNode
-{
-    public:
-        enum class Op
-        {
-        };
-
-        AttribStackNode(const AttribStackNode&);
-        AttribStackNode(Op);
-        AttribStackNode();
-        virtual ~AttribStackNode();
-        AttribStackNode& operator=(const AttribStackNode&);
-        virtual class RDLNode* Clone() const;
-        virtual void Execute(class TextRenderContext&, bool);
-        virtual void GetElementPos(int, TextRenderContext&, int&) const;
-        virtual void GetElementSize(int&) const;
-        virtual void GetVisualSize(const TextRenderContext&, struct VisualSize&) const;
-        virtual bool SplitAtSize(const TextRenderContext&, int, unsigned int, RDLNode*&, RDLNode*&) const;
-        virtual void Update(float);
-        Op get_operation();
-        void set_operation(Op);
-
-        virtual operator AttribStackNode*();
-        virtual operator const AttribStackNode*() const;
-
-    public:
-        unsigned char data[OBJECT_DATA_SIZE];
-};
 
 struct IMPORT BaseHint
 {
@@ -519,31 +489,6 @@ class IMPORT CharacterProperties
         unsigned char data[OBJECT_DATA_SIZE];
 };
 
-class IMPORT ClipNode
-{
-    public:
-        ClipNode(const tagRECT&);
-        ClipNode(const ClipNode&);
-        ClipNode();
-        virtual ~ClipNode();
-        ClipNode& operator=(const ClipNode&);
-        virtual RDLNode* Clone() const;
-        virtual void Execute(TextRenderContext&, bool);
-        virtual void GetElementPos(int, TextRenderContext&, int&) const;
-        virtual void GetElementSize(int&) const;
-        virtual void GetVisualSize(const TextRenderContext&, VisualSize&) const;
-        virtual bool SplitAtSize(const TextRenderContext&, int, unsigned int, RDLNode*&, RDLNode*&) const;
-        virtual void Update(float);
-        const tagRECT& get_rect();
-        void set_rect(const tagRECT&);
-
-        virtual operator ClipNode*();
-        virtual operator const ClipNode*() const;
-
-    public:
-        unsigned char data[OBJECT_DATA_SIZE];
-};
-
 namespace Collision
 {
     IMPORT float CalcCollisionDamage(unsigned int, const Vector&, const Vector&);
@@ -656,45 +601,6 @@ class IMPORT DetailSwitchTable
 
     private:
         void add_table_entry(float, float);
-
-    public:
-        unsigned char data[OBJECT_DATA_SIZE];
-};
-
-class IMPORT TextRenderContext
-{
-    public:
-        class Image;
-        struct FontDesc;
-
-        TextRenderContext(const TextRenderContext&);
-        TextRenderContext();
-        virtual ~TextRenderContext();
-        TextRenderContext& operator=(const TextRenderContext&);
-        void clear_default_attributes();
-        const struct TextRenderAttributes& get_current_attributes();
-        const TextRenderAttributes& get_default_attributes();
-        int get_origin_h();
-        int get_origin_v();
-        int get_pos_h();
-        int get_pos_v();
-        void pop_default_attributes();
-        void pop_state();
-        void push_default_attributes();
-        void push_state();
-        void reset_to_default();
-        void set_current_attributes(const TextRenderAttributes&);
-        void set_default_attributes(const TextRenderAttributes&);
-        void set_origin(int, int);
-        void set_origin_h(int);
-        void set_origin_v(int);
-        void set_pos(int, int);
-        void set_pos_h(int);
-        void set_pos_v(int);
-
-    private:
-        void get_state(struct State&);
-        void set_state(const State&);
 
     public:
         unsigned char data[OBJECT_DATA_SIZE];
@@ -1034,31 +940,6 @@ struct IMPORT ICRSplineSegment
         unsigned char data[OBJECT_DATA_SIZE];
 };
 
-class IMPORT ImageNode
-{
-    public:
-        ImageNode(const ImageNode&);
-        ImageNode(const TextRenderContext::Image*);
-        ImageNode();
-        virtual ~ImageNode();
-        ImageNode& operator=(const ImageNode&);
-        virtual RDLNode* Clone() const;
-        virtual void Execute(TextRenderContext&, bool);
-        virtual void GetElementPos(int, TextRenderContext&, int&) const;
-        virtual void GetElementSize(int&) const;
-        virtual void GetVisualSize(const TextRenderContext&, VisualSize&) const;
-        virtual bool SplitAtSize(const TextRenderContext&, int, unsigned int, RDLNode*&, RDLNode*&) const;
-        virtual void Update(float);
-        const TextRenderContext::Image* get_image();
-        void set_image(const TextRenderContext::Image*);
-
-        virtual operator ImageNode*();
-        virtual operator const ImageNode*() const;
-
-    public:
-        unsigned char data[OBJECT_DATA_SIZE];
-};
-
 namespace LaunchActionVars
 {
     //@@@TODO	IMPORT  float const  launch_coast_time;
@@ -1369,47 +1250,6 @@ class IMPORT PetalInterfaceDatabase
         unsigned char data[OBJECT_DATA_SIZE];
 };
 
-/*class IMPORT TextNode
-{
-    char Buf[1024];
-public:
-    TextNode(unsigned short const *,int);
-    TextNode();
-};*/
-
-/*class IMPORT StyleNode
-{
-public:
-    StyleNode(unsigned short);
-
-public:
-    unsigned char data[1024];
-};*/
-
-/*class IMPORT ParagraphNode
-{
-public:
-    ParagraphNode();
-};*/
-
-/*class IMPORT RDLReNode
-{
-public:
-    RDLReNode(class RDLReNode const &);
-
-public:
-    unsigned char data[1024];
-};*/
-
-/*class IMPORT JustifyNode
-{
-public:
-    JustifyNode(enum TextJustify);
-
-public:
-    unsigned char data[1024];
-};*/
-
 struct IMPORT Rect
 {
         Rect(int, int, int, int);
@@ -1429,24 +1269,6 @@ struct IMPORT Rect
         int rightmost() const;
         int topmost() const;
         int width() const;
-
-    public:
-        unsigned char data[OBJECT_DATA_SIZE];
-};
-
-class IMPORT RenderDisplayList
-{
-    public:
-        RenderDisplayList(const RenderDisplayList&);
-        RenderDisplayList();
-        ~RenderDisplayList();
-        RenderDisplayList& operator=(const RenderDisplayList&);
-        void execute(TextRenderContext&, bool);
-        void get_dimensions(TextRenderContext&, float&, float&, float&);
-        int get_element_count() const;
-        bool get_element_pos(TextRenderContext&, int, float&, float&, float&);
-        void optimize();
-        void update(float);
 
     public:
         unsigned char data[OBJECT_DATA_SIZE];
@@ -1861,35 +1683,6 @@ class IMPORT StyleCollection
         unsigned char data[OBJECT_DATA_SIZE];
 };
 ; // namespace SubObjectID
-
-class IMPORT TRANode
-{
-    public:
-        TRANode(const TextRenderAttributes&, unsigned int, unsigned int);
-        TRANode(const TRANode&);
-        TRANode();
-        virtual ~TRANode();
-        TRANode& operator=(const TRANode&);
-        virtual RDLNode* Clone() const;
-        virtual void Execute(TextRenderContext&, bool);
-        virtual void GetElementPos(int, TextRenderContext&, int&) const;
-        virtual void GetElementSize(int&) const;
-        virtual void GetVisualSize(const TextRenderContext&, VisualSize&) const;
-        virtual bool SplitAtSize(const TextRenderContext&, int, unsigned int, RDLNode*&, RDLNode*&) const;
-        virtual void Update(float);
-        const TextRenderAttributes& get_attributes();
-        unsigned int get_default_mask();
-        unsigned int get_mask();
-        void set_attributes(const TextRenderAttributes&, unsigned int);
-        void set_default_mask(unsigned int);
-        void set_mask(unsigned int);
-
-        virtual operator TRANode*();
-        virtual operator const TRANode*() const;
-
-    public:
-        unsigned char data[OBJECT_DATA_SIZE];
-};
 
 struct IMPORT TargetManager
 {
