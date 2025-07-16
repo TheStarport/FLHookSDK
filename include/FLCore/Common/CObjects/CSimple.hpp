@@ -46,16 +46,16 @@ struct CSimple : CObject
         IMPORT unsigned int get_type() const;
         IMPORT void update_zones(float, unsigned int);
 
-        uint dunnoCSimple;       // 39
-        uint dunnoTargetable;    // 40
-        uint dunnoScanner;       // 41
-        uint dunnoCSimple3;      // 42
-        IObjDB* objDB;           // 43
-        Id id;                   // 44
-        uint ownerPlayer;        // 45
-        float hitPoints;         // 46
-        uint dunnoCSimple4[0x5]; // 47
-        Vector radiusCenter;     // 52
-        float radiusCentered;    // 55
-        ObjectType type;         // 56
+        uint dunnoCSimple;                  // 39
+        uint dunnoTargetable;               // 40
+        Universe::IZone* currentDamageZone; // 41
+        float zoneDmgMultiplier;            // 42
+        StarSystem* starSystem;             // 43
+        Id id;                              // 44
+        uint ownerPlayer;                   // 45
+        float hitPoints;                    // 46
+        uint dunnoCSimple4[0x5];            // 47
+        Vector radiusCenter;                // 52
+        float radiusCentered;               // 55
+        ObjectType type;                    // 56
 };
