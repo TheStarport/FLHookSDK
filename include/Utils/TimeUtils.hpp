@@ -12,7 +12,7 @@ class TimeUtils
             return std::chrono::duration_cast<Duration>(std::chrono::system_clock::now().time_since_epoch());
         }
 
-        template <typename Duration>
+        template <typename Duration = std::chrono::milliseconds>
             requires IsChronoDurationV<Duration>
         static int64 UnixTime()
         {

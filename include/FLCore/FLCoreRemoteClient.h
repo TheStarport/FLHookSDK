@@ -113,19 +113,19 @@ struct FLPACKET_DESTROYOBJECT
 struct FLPACKET_CREATESHIP
 {
         char* address; // pointer to CShipCreate vtable
-        uint spaceId;
-        uint solarArch;
-        uint dockBaseId;
+        Id spaceId;
+        Id solarArch;
+        Id dockBaseId;
         uint rep;
         Costume costume;
-        uint voiceId;
+        Id voiceId;
         Vector pos;
         Quaternion orientation;
         uint64 health;
         EquipDescVector equip;
         st6::list<CollisionGroupDesc> colGrps;
         DamageList dmgList; // only holds shield state, which is ignored by receiving client.
-        uint clientId;
+        ClientId clientId;
         uint groupId;
         uint rank;
         Vector linearVelocity;  // ignored by receiving client.

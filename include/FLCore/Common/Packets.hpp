@@ -46,7 +46,7 @@ struct SSPMunitionCollisionInfo
 {
         Id projectileArchId;
         DWORD dunno;
-        DWORD targetObjId;
+        Id targetObjId;
         ushort s1;
 };
 
@@ -66,21 +66,21 @@ struct SSPObjCollisionInfo
 
 struct SSPUseItem
 {
-        uint userShipId;
+        Id userShipId;
         ushort itemId;
         ushort amountUsed;
 };
 
 struct XActivateEquip
 {
-        uint spaceId;
+        Id spaceId;
         ushort id;
         bool activate;
 };
 
 struct XActivateCruise
 {
-        uint ship;
+        Id ship;
         bool activate;
 };
 
