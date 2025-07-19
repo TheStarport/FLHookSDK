@@ -270,7 +270,7 @@ class StringUtils
                     return std::atoll(str.data());
                 }
             }
-            else if constexpr (std::is_same_v<Ret, float> || std::is_same_v<Ret, float>)
+            else if constexpr (std::is_same_v<Ret, float> || std::is_same_v<Ret, double>)
             {
                 if constexpr (IsWide)
                 {
