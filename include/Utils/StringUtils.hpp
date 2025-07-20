@@ -336,27 +336,16 @@ class StringUtils
         }
 
         template <typename T>
-            requires std::is_same_v<T, std::string> || std::is_same_v<T, std::string_view> ||
-                     std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, char*>
+            requires std::convertible_to<T, std::string_view>
         static std::wstring stows(const T& text)
         {
-            const char* data;
-            size_t inputSize = -1;
-            if constexpr (std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, char*>)
-            {
-                data = text;
-            }
-            else
-            {
-                data = text.data();
-                inputSize = text.size() + 1;
-            }
+            const std::string_view view = text;
 
             // Statically allocate buffer to prevent reallocations
             static std::array<wchar_t, 8192> buffer;
             std::memset(buffer.data(), 0, buffer.size());
 
-            const int size = MultiByteToWideChar(CP_UTF8, 0, data, static_cast<int>(inputSize), buffer.data(), buffer.size());
+            const int size = MultiByteToWideChar(CP_UTF8, 0, view.data(), static_cast<int>(view.size()), buffer.data(), buffer.size());
 
             if (!size)
             {
@@ -365,33 +354,22 @@ class StringUtils
 
             // Only copy the byes we need
             auto end = buffer.begin();
-            std::advance(end, size - 1);
+            std::advance(end, size);
 
             return { buffer.begin(), end };
         }
 
         template <typename T>
-            requires std::is_same_v<T, std::wstring> || std::is_same_v<T, std::wstring_view> ||
-                     std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, wchar_t*>
+            requires std::convertible_to<T, std::wstring_view>
         static std::string wstos(const T& text)
         {
-            const wchar_t* data;
-            size_t inputSize = -1;
-            if constexpr (std::is_same_v<std::add_pointer_t<std::remove_cv_t<std::remove_pointer_t<T>>>, wchar_t*>)
-            {
-                data = text;
-            }
-            else
-            {
-                data = text.data();
-                inputSize = text.size() + 1;
-            }
+            const std::wstring_view view = text;
 
             // Statically allocate buffer to prevent reallocations
             static std::array<char, 8192> buffer;
             std::memset(buffer.data(), 0, buffer.size());
 
-            const int size = WideCharToMultiByte(CP_UTF8, 0, data, static_cast<int>(inputSize), buffer.data(), buffer.size(), nullptr, nullptr);
+            const int size = WideCharToMultiByte(CP_UTF8, 0, view.data(), static_cast<int>(view.size()), buffer.data(), buffer.size(), nullptr, nullptr);
 
             if (!size)
             {
@@ -399,7 +377,7 @@ class StringUtils
             }
             // Only copy the byes we need
             auto end = buffer.begin();
-            std::advance(end, size - 1);
+            std::advance(end, size);
 
             return { buffer.begin(), end };
         }
