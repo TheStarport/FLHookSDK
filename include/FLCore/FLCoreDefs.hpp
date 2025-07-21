@@ -476,8 +476,6 @@ struct Quaternion
 class Transform
 {
     public:
-        Transform() = default;
-
         Vector pos;
         Matrix orient;
 };

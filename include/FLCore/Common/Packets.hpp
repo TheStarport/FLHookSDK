@@ -30,6 +30,13 @@ enum class DOCK_HOST_RESPONSE
     Dock = 5,
 };
 
+enum class EventRequestType
+{
+    StationJumpDock = 0,
+    TradeLaneDock = 1,
+    FormationJoin = 2,
+};
+
 enum class ResponseCode
 {
     Success = 0,
