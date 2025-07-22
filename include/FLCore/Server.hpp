@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Server/CPlayerGroup.hpp"
+#include "Server/Paths.hpp"
 
 #include "Server/IObject/Bullet.hpp"
 #include "Server/IObject/CounterMeasure.hpp"

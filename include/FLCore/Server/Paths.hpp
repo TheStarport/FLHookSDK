@@ -5,14 +5,14 @@
 struct PathEntry
 {
     Vector pos;
-    uint objId = 0;
-    uint systemId;
+    Id objId;
+    SystemId systemId;
 };
 
 template <uint count>
 struct RequestPath
 {
-    int repId;
+    RepId repId;
     uint waypointCount;
     bool noPathFound = false;
     bool funny[3];
