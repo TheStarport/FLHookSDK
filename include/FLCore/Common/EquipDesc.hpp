@@ -35,13 +35,6 @@ struct EquipDesc
         IMPORT void set_status(float);
         IMPORT void set_temporary(bool);
 
-        bool is_commodity()
-        {
-            bool isCommodity;
-            pub::IsCommodity(archId.GetValue(), isCommodity);
-            return isCommodity;
-        }
-
     public:
         /* 0 */ ushort dunno;
         ushort id;
