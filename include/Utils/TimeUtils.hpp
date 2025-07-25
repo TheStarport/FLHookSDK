@@ -170,7 +170,7 @@ class TimeUtils
             return std::format(L"{0:%Y-%m-%d %H:%M:%S}", time);
         }
 
-        static std::wstring CurrentDate() { return AsDate(UnixTimeAsDuration<std::chrono::seconds>()); }
+        static std::wstring CurrentDateTimeString() { return AsDate(UnixTimeAsDuration<std::chrono::seconds>()); }
 
         template <typename T>
         static std::chrono::microseconds ToMicroseconds(T duration)
