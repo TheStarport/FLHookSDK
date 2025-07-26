@@ -1754,6 +1754,10 @@ namespace Timing
 
 enum class TractorFailureCode
 {
+    Success = 0,
+    InvalidLootFailure = 1,
+    LootTooFarFailure = 2,
+    InsufficientCargoSpaceFailure = 3,
 };
 
 class IMPORT TractorArm
