@@ -296,6 +296,8 @@ class Vector : public glm::vec<3, float, glm::packed_highp>
         void TranslateX(const Matrix& rot, float length);
         void TranslateY(const Matrix& rot, float length);
         void TranslateZ(const Matrix& rot, float length);
+        float Magnitude();
+        void Resize(float targetLength);
 
         static float Distance(const Vector& v1, const Vector& v2) { return glm::length<3, float, glm::packed_highp>(v1 - v2); }
 };
@@ -360,6 +362,20 @@ inline void Vector::TranslateZ(const Matrix& rot, float length)
     this->x += length * rot[0][2];
     this->y += length * rot[1][2];
     this->z += length * rot[2][2];
+}
+
+inline float Vector::Magnitude()
+{
+    return sqrtf(x * x + y * y + z * z);
+}
+
+inline void Vector::Resize(float targetLength)
+{
+    float ratio = targetLength / Magnitude();
+
+    x *= ratio;
+    y *= ratio;
+    z *= ratio;
 }
 
 class Quaternion : public glm::qua<float, glm::packed_highp>
