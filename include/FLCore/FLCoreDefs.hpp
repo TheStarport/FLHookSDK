@@ -10,6 +10,7 @@ using ShipId = unsigned int;
 using ObjectId = unsigned int;
 using EquipmentId = unsigned int;
 using ClientId = unsigned int;
+using RepId = int;
 struct GoodInfo;
 using GoodId = GoodInfo*;
 
