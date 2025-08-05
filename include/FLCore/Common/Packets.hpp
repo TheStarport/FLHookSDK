@@ -1,5 +1,6 @@
 #pragma once
 
+struct CollisionGroupDesc;
 enum class MissionMessageType
 {
     Failure,

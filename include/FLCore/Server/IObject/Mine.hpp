@@ -1,19 +1,20 @@
 #pragma once
 
 #include "../../FLCoreDefs.hpp"
+#include "../../Common/CObjects/CSimple/CProjectile/CMine.hpp"
 #include "GameObject.hpp"
 
 struct Mine : public GameObject
 {
-    CMine* cmine(){return reinterpret_cast<CMine*>(cobject());};
-    static Mine* Cast(IObjInspectImpl* iobj)
-    {
-        if(iobj->cobject()->objectClass == CObject::CMINE_OBJECT)
+        CMine* cmine() { return reinterpret_cast<CMine*>(cobject()); };
+        static Mine* Cast(IObjInspectImpl* iobj)
         {
-            return reinterpret_cast<Mine*>(iobj);
+            if (iobj->cobject()->objectClass == CObject::CMINE_OBJECT)
+            {
+                return reinterpret_cast<Mine*>(iobj);
+            }
+            return nullptr;
         }
-        return nullptr;
-    }
-    //TODO: Fields and methods
-    // 5 separate vftables, damn.
+        // TODO: Fields and methods
+        //  5 separate vftables, damn.
 };
