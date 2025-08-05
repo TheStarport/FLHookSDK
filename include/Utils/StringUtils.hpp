@@ -292,9 +292,11 @@ class StringUtils
         }
 
         //! Converts numeric value with a metric suffix to the full value, eg 10k translates to 10000
-        static uint MultiplyUIntBySuffix(const std::wstring_view valueString)
+        template <typename T>
+            requires std::is_integral_v<T> || std::is_floating_point_v<T>
+        static T MultiplyBySuffix(const std::wstring_view valueString)
         {
-            const uint value = Cast<uint>(valueString);
+            const T value = Cast<T>(valueString);
             const auto lastChar = valueString.back();
 
             if (lastChar == *L"k" || lastChar == *L"K")
@@ -306,6 +308,7 @@ class StringUtils
             {
                 return value * 1000000;
             }
+
             return value;
         }
 
