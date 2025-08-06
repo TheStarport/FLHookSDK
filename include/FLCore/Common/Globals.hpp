@@ -7,12 +7,12 @@
 #include "Reputation.hpp"
 
 #define MACRO_COMMA        ,
-#define Ref(type, address) reinterpret_cast<FlMap<uint, type>&>(*(reinterpret_cast<FlMap<uint, type>*>(address)))
+#define Ref(type, address) reinterpret_cast<st6::map<uint, type>&>(*(reinterpret_cast<st6::map<uint, type>*>(address)))
 
 namespace GameData
 {
     inline static auto& repGroups = Ref(Reputation::RepGroup, 0x64018EC);
-    inline static auto& shieldResistMap = Ref(FlMap<uint MACRO_COMMA float>, 0x658A9C0);
+    inline static auto& shieldResistMap = Ref(st6::map<uint MACRO_COMMA float>, 0x658A9C0);
     inline static auto& equipment = Ref(Archetype::Equipment*, 0x63FCAD4);
     inline static auto& explosions = Ref(Archetype::Explosion, 0x63FCF3C);
     inline static auto& motorData = Ref(Archetype::MotorData, 0x63FCA70);

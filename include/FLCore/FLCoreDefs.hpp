@@ -146,134 +146,6 @@ struct BinarySearchTree
         unsigned int _size = 0u;
 };
 
-// Not quite a BST, through very similar.
-template <typename KeyType, typename ValType>
-class FlMap
-{
-
-    public:
-        struct Node;
-
-        typedef Node* NodePtr;
-
-        struct Node
-        {
-                NodePtr left;
-                NodePtr parent;
-                NodePtr right;
-                KeyType key;
-                ValType data;
-        };
-
-        class Iterator
-        {
-                void Inc()
-                {
-                    if (!classObj->IsNil(currentNode->right))
-                    {
-                        currentNode = classObj->Min(currentNode->right);
-                    }
-                    else if (!classObj->IsNil(currentNode))
-                    { // climb looking for right subtree
-                        NodePtr node;
-                        while (!classObj->IsNil(node = currentNode->parent) && currentNode == node->right)
-                        {
-                            currentNode = node; // ==> parent while right subtree
-                        }
-                        currentNode = node; // ==> parent (head if end())
-                    }
-
-                    // set to end node if we are at nil (so we can compare against end-iterator)
-                    if (classObj->IsNil(currentNode))
-                    {
-                        currentNode = classObj->end().currentNode;
-                    }
-                }
-
-            public:
-                Iterator(NodePtr currentNode, const FlMap* classPtr)
-                {
-                    this->currentNode = currentNode;
-                    classObj = classPtr;
-                }
-
-                Iterator()
-                {
-                    currentNode = 0;
-                    classObj = 0;
-                }
-
-                NodePtr operator*() { return currentNode; }
-                Iterator& operator++()
-                {
-                    Inc();
-                    return *this;
-                }
-                bool operator==(const Iterator& right) const { return currentNode == right.currentNode; }
-
-                unsigned int key() { return currentNode->key; }
-
-                ValType* value() { return &currentNode->data; }
-                operator bool() { return currentNode && currentNode->left && currentNode->parent && currentNode->right; }
-
-            private:
-                NodePtr currentNode;
-                const FlMap* classObj;
-        };
-
-        unsigned int size() const { return _size; };
-
-        Iterator begin() { return Iterator(headNode->left, this); }
-        Iterator end() { return Iterator(headNode, this); }
-        Iterator begin() const { return Iterator(headNode->left, this); }
-        Iterator end() const { return Iterator(headNode, this); }
-
-        Iterator find(KeyType key) const
-        {
-            NodePtr searchNode = headNode->parent; // parent of headnode is first legit (upmost) node
-
-            while (!IsNil(searchNode))
-            {
-                if (searchNode->key == key)
-                {
-                    break;
-                }
-
-                if (key < searchNode->key)
-                {
-                    searchNode = searchNode->left;
-                }
-                else
-                {
-                    searchNode = searchNode->right;
-                }
-            }
-
-            return Iterator{ searchNode, this };
-        }
-
-    protected:
-        NodePtr Min(NodePtr node) const
-        {
-            // go to leftmost child
-            while (IsNil(node->left) == false)
-            {
-                node = node->left;
-            }
-
-            return node;
-        }
-
-        bool IsNil(NodePtr node) const { return (node == endNode || node == headNode); }
-
-    private:
-        void* dunno = nullptr;
-        NodePtr headNode = nullptr; // headnode stores min/max in left/right and upmost node in parent
-        NodePtr endNode = nullptr;
-        void* dunno2 = nullptr;
-        unsigned int _size = 0; // NOLINT
-};
-
 template <int size>
 struct TString
 {
@@ -365,10 +237,7 @@ inline void Vector::TranslateZ(const Matrix& rot, float length)
     this->z += length * rot[2][2];
 }
 
-inline float Vector::Magnitude()
-{
-    return sqrtf(x * x + y * y + z * z);
-}
+inline float Vector::Magnitude() { return sqrtf(x * x + y * y + z * z); }
 
 inline void Vector::Resize(float targetLength)
 {

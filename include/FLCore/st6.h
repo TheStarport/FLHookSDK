@@ -1,7 +1,5 @@
 ﻿#pragma once
 
-// N.B.: Must be included *after* FLHook.hpp; st6_malloc and st6_free must be defined!
-
 #ifdef SERVER
 extern DLL const st6_malloc_t st6_malloc;
 extern DLL const st6_free_t st6_free;
@@ -29,7 +27,7 @@ extern const st6_free_t st6_free;
     #define _REFERENCE_X(T, A) T&
 #endif
 #ifndef _FPOSOFF
-	#define _FPOSOFF(fp)((long long)(fp))
+    #define _FPOSOFF(fp) ((long long)(fp))
 #endif
 
 namespace st6
@@ -405,29 +403,32 @@ namespace st6
             bool operator()(const _Ty& _X, const _Ty& _Y) const { return (_X < _Y); }
     };
 
+    // TEMPLATE CLASS _Tree
     template <class _K, class _Ty, class _Kfn, class _Pr, class _A>
     class _Tree
     {
         protected:
-            enum _Redbl
+            typedef _POINTER_X(void, _A) _Genptr;
+            enum
             {
                 _Red,
                 _Black
             };
             struct _Node;
             friend struct _Node;
-            typedef _POINTER_X(_Node, _A) _Nodeptr;
             struct _Node
             {
-                    _Nodeptr _Left, _Parent, _Right;
+                    _Genptr _Left, _Parent, _Right;
                     _Ty _Value;
-                    _Redbl _Color;
+                    char _Color, _Isnil;
             };
+            typedef _POINTER_X(_Node, _A) _Nodeptr;
             typedef _REFERENCE_X(_Nodeptr, _A) _Nodepref;
             typedef _REFERENCE_X(const _K, _A) _Keyref;
-            typedef _REFERENCE_X(_Redbl, _A) _Rbref;
+            typedef _REFERENCE_X(char, _A) _Charref;
             typedef _REFERENCE_X(_Ty, _A) _Vref;
-            static _Rbref _Color(_Nodeptr _P) { return ((_Rbref)(*_P)._Color); }
+            static _Charref _Color(_Nodeptr _P) { return ((_Charref)(*_P)._Color); }
+            static _Charref _Isnil(_Nodeptr _P) { return ((_Charref)(*_P)._Isnil); }
             static _Keyref _Key(_Nodeptr _P) { return (_Kfn()(_Value(_P))); }
             static _Nodepref _Left(_Nodeptr _P) { return ((_Nodepref)(*_P)._Left); }
             static _Nodepref _Parent(_Nodeptr _P) { return ((_Nodepref)(*_P)._Parent); }
@@ -438,55 +439,53 @@ namespace st6
             typedef _Tree<_K, _Ty, _Kfn, _Pr, _A> _Myt;
             typedef _K key_type;
             typedef _Ty value_type;
-            typedef typename _A::size_type size_type;
-            typedef typename _A::difference_type difference_type;
+            typedef _A::size_type size_type;
+            typedef _A::difference_type difference_type;
             typedef _POINTER_X(_Ty, _A) _Tptr;
             typedef _POINTER_X(const _Ty, _A) _Ctptr;
             typedef _REFERENCE_X(_Ty, _A) reference;
             typedef _REFERENCE_X(const _Ty, _A) const_reference;
-            // CLASS const_iterator
+            // CLASS iterator
             class iterator;
-            class const_iterator;
-            friend class const_iterator;
-            class const_iterator
+            friend class iterator;
+            class iterator /*: public _Bidit<_Ty, difference_type>*/
             {
                 public:
-                    const_iterator() {}
-                    const_iterator(_Nodeptr _P) : _Ptr(_P) {}
-                    const_iterator(const iterator& _X) : _Ptr(_X._Ptr) {}
-                    const_reference operator*() const { return (_Value(_Ptr)); }
-                    _Ctptr operator->() const { return (&**this); }
-                    const_iterator& operator++()
+                    iterator() {}
+                    iterator(_Nodeptr _P) : _Ptr(_P) {}
+                    reference operator*() const { return (_Value(_Ptr)); }
+                    _Tptr operator->() const { return (&**this); }
+                    iterator& operator++()
                     {
                         _Inc();
                         return (*this);
                     }
-                    const_iterator operator++(int)
+                    iterator operator++(int)
                     {
-                        const_iterator _Tmp = *this;
+                        iterator _Tmp = *this;
                         ++*this;
                         return (_Tmp);
                     }
-                    const_iterator& operator--()
+                    iterator& operator--()
                     {
                         _Dec();
                         return (*this);
                     }
-                    const_iterator operator--(int)
+                    iterator operator--(int)
                     {
-                        const_iterator _Tmp = *this;
+                        iterator _Tmp = *this;
                         --*this;
                         return (_Tmp);
                     }
-                    bool operator==(const const_iterator& _X) const { return (_Ptr == _X._Ptr); }
-                    bool operator!=(const const_iterator& _X) const { return (!(*this == _X)); }
+                    bool operator==(const iterator& _X) const { return (_Ptr == _X._Ptr); }
+                    bool operator!=(const iterator& _X) const { return (!(*this == _X)); }
                     void _Dec()
                     {
                         if (_Color(_Ptr) == _Red && _Parent(_Parent(_Ptr)) == _Ptr)
                         {
                             _Ptr = _Right(_Ptr);
                         }
-                        else if (_Left(_Ptr) != _Nil)
+                        else if (!_Isnil(_Left(_Ptr)))
                         {
                             _Ptr = _Max(_Left(_Ptr));
                         }
@@ -502,7 +501,7 @@ namespace st6
                     }
                     void _Inc()
                     {
-                        if (_Right(_Ptr) != _Nil)
+                        if (!_Isnil(_Right(_Ptr)))
                         {
                             _Ptr = _Min(_Right(_Ptr));
                         }
@@ -524,40 +523,48 @@ namespace st6
                 protected:
                     _Nodeptr _Ptr;
             };
-            // CLASS iterator
-            friend class iterator;
-            class iterator : public const_iterator
+            // CLASS const_iterator
+            class const_iterator;
+            friend class const_iterator;
+            class const_iterator : public iterator
             {
                 public:
-                    iterator() {}
-                    iterator(_Nodeptr _P) : const_iterator(_P) {}
-                    reference operator*() const { return (_Value(this->_Ptr)); }
-                    _Tptr operator->() const { return (&**this); }
-                    iterator& operator++()
+                    const_iterator() {}
+                    const_iterator(_Nodeptr _P) : iterator(_P) {}
+                    const_iterator(const iterator& _X) : iterator(_X) {}
+                    const_reference operator*() const { return (_Value(iterator::_Ptr)); }
+                    _Ctptr operator->() const { return (&**this); }
+                    const_iterator& operator++()
                     {
                         this->_Inc();
                         return (*this);
                     }
-                    iterator operator++(int)
+                    const_iterator operator++(int)
                     {
                         iterator _Tmp = *this;
                         ++*this;
                         return (_Tmp);
                     }
-                    iterator& operator--()
+                    const_iterator& operator--()
                     {
                         this->_Dec();
                         return (*this);
                     }
-                    iterator operator--(int)
+                    const_iterator operator--(int)
                     {
                         iterator _Tmp = *this;
                         --*this;
                         return (_Tmp);
                     }
-                    bool operator==(const iterator& _X) const { return (this->_Ptr == _X._Ptr); }
-                    bool operator!=(const iterator& _X) const { return (!(*this == _X)); }
+                    bool operator==(const const_iterator& _X) const { return (iterator::_Ptr == _X._Ptr); }
+                    bool operator!=(const const_iterator& _X) const { return (!(*this == _X)); }
             };
+            // typedef reverse_bidirectional_iterator<iterator,
+            //     value_type, reference, _Tptr, difference_type>
+            //     reverse_iterator;
+            // typedef reverse_bidirectional_iterator<const_iterator,
+            //     value_type, const_reference, _Ctptr, difference_type>
+            //     const_reverse_iterator;
             typedef std::pair<iterator, bool> _Pairib;
             typedef std::pair<iterator, iterator> _Pairii;
             typedef std::pair<const_iterator, const_iterator> _Paircc;
@@ -577,13 +584,8 @@ namespace st6
                 erase(begin(), end());
                 _Freenode(_Head);
                 _Head = 0, _Size = 0;
-                {
-                    if (--_Nilrefs == 0)
-                    {
-                        _Freenode(_Nil);
-                        _Nil = 0;
-                    }
-                }
+                _Freenode(_Nil);
+                _Nil = 0;
             }
             _Myt& operator=(const _Myt& _X)
             {
@@ -599,6 +601,22 @@ namespace st6
             const_iterator begin() const { return (const_iterator(_Lmost())); }
             iterator end() { return (iterator(_Head)); }
             const_iterator end() const { return (const_iterator(_Head)); }
+            // reverse_iterator rbegin()
+            //{
+            //     return (reverse_iterator(end()));
+            // }
+            // const_reverse_iterator rbegin() const
+            //{
+            //     return (const_reverse_iterator(end()));
+            // }
+            // reverse_iterator rend()
+            //{
+            //     return (reverse_iterator(begin()));
+            // }
+            // const_reverse_iterator rend() const
+            //{
+            //     return (const_reverse_iterator(begin()));
+            // }
             size_type size() const { return (_Size); }
             size_type max_size() const { return (allocator.max_size()); }
             bool empty() const { return (size() == 0); }
@@ -609,13 +627,11 @@ namespace st6
                 _Nodeptr _X = _Root();
                 _Nodeptr _Y = _Head;
                 bool _Ans = true;
+                while (_X != _Nil)
                 {
-                    while (_X != _Nil)
-                    {
-                        _Y = _X;
-                        _Ans = key_compare(_Kfn()(_V), _Key(_X));
-                        _X = _Ans ? _Left(_X) : _Right(_X);
-                    }
+                    _Y = _X;
+                    _Ans = key_compare(_Kfn()(_V), _Key(_X));
+                    _X = _Ans ? _Left(_X) : _Right(_X);
                 }
                 if (_Multi)
                 {
@@ -908,6 +924,7 @@ namespace st6
                 if (allocator == _X.allocator)
                 {
                     std::swap(_Head, _X._Head);
+                    std::swap(_Nil, _X._Nil);
                     std::swap(_Multi, _X._Multi);
                     std::swap(_Size, _X._Size);
                 }
@@ -920,8 +937,6 @@ namespace st6
             friend void swap(_Myt& _X, _Myt& _Y) { _X.swap(_Y); }
 
         protected:
-            static _Nodeptr _Nil;
-            static size_t _Nilrefs;
             void _Copy(const _Myt& _X)
             {
                 _Root() = _Copy(_X._Root(), _Head);
@@ -938,20 +953,19 @@ namespace st6
             }
             _Nodeptr _Copy(_Nodeptr _X, _Nodeptr _P)
             {
-                _Nodeptr _R = _X;
-                for (; _X != _Nil; _X = _Left(_X))
+                _Nodeptr _R = _Nil;
+                if (!_Isnil(_X))
                 {
                     _Nodeptr _Y = _Buynode(_P, _Color(_X));
-                    if (_R == _X)
+                    _Consval(&_Value(_Y), _Value(_X));
+                    _Left(_Y) = _Nil, _Right(_Y) = _Nil;
+                    if (_R == _Nil)
                     {
                         _R = _Y;
                     }
+                    _Left(_Y) = _Copy(_Left(_X), _Y);
                     _Right(_Y) = _Copy(_Right(_X), _Y);
-                    _Consval(&_Value(_Y), _Value(_X));
-                    _Left(_P) = _Y;
-                    _P = _Y;
                 }
-                _Left(_P) = _Nil;
                 return (_R);
             }
             void _Erase(_Nodeptr _X)
@@ -966,14 +980,12 @@ namespace st6
             }
             void _Init()
             {
-                if (_Nil == 0)
-                {
-                    _Nil = _Buynode(0, _Black);
-                    _Left(_Nil) = 0, _Right(_Nil) = 0;
-                }
-                ++_Nilrefs;
-                _Head = _Buynode(_Nil, _Red), _Size = 0;
+                _Nil = _Buynode(0, _Black);
+                _Isnil(_Nil) = true;
+                _Left(_Nil) = 0, _Right(_Nil) = 0;
+                _Head = _Buynode(_Nil, _Red);
                 _Lmost() = _Head, _Rmost() = _Head;
+                _Size = 0;
             }
             iterator _Insert(_Nodeptr _X, _Nodeptr _Y, const _Ty& _V)
             {
@@ -1097,7 +1109,7 @@ namespace st6
             }
             static _Nodeptr _Max(_Nodeptr _P)
             {
-                while (_Right(_P) != _Nil)
+                while (!_Isnil(_Right(_P)))
                 {
                     _P = _Right(_P);
                 }
@@ -1105,7 +1117,7 @@ namespace st6
             }
             static _Nodeptr _Min(_Nodeptr _P)
             {
-                while (_Left(_P) != _Nil)
+                while (!_Isnil(_Left(_P)))
                 {
                     _P = _Left(_P);
                 }
@@ -1156,11 +1168,12 @@ namespace st6
                 }
                 return (_Y);
             }
-            _Nodeptr _Buynode(_Nodeptr _Parg, _Redbl _Carg)
+            _Nodeptr _Buynode(_Nodeptr _Parg, char _Carg)
             {
                 _Nodeptr _S = (_Nodeptr)allocator._Charalloc(1 * sizeof(_Node));
                 _Parent(_S) = _Parg;
                 _Color(_S) = _Carg;
+                _Isnil(_S) = false;
                 return (_S);
             }
             void _Consval(_Tptr _P, const _Ty& _V) { _Construct(&*_P, _V); }
@@ -1168,14 +1181,11 @@ namespace st6
             void _Freenode(_Nodeptr _S) { allocator.deallocate(_S, 1); }
             _A allocator;
             _Pr key_compare;
-            _Nodeptr _Head;
+            _Nodeptr _Head, _Nil;
             bool _Multi;
             size_type _Size;
     };
-    template <class _K, class _Ty, class _Kfn, class _Pr, class _A>
-    typename _Tree<_K, _Ty, _Kfn, _Pr, _A>::_Nodeptr _Tree<_K, _Ty, _Kfn, _Pr, _A>::_Nil = 0;
-    template <class _K, class _Ty, class _Kfn, class _Pr, class _A>
-    size_t _Tree<_K, _Ty, _Kfn, _Pr, _A>::_Nilrefs = 0;
+    // tree TEMPLATE OPERATORS
     template <class _K, class _Ty, class _Kfn, class _Pr, class _A>
     inline bool operator==(const _Tree<_K, _Ty, _Kfn, _Pr, _A>& _X, const _Tree<_K, _Ty, _Kfn, _Pr, _A>& _Y)
     {

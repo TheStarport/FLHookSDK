@@ -209,13 +209,13 @@ struct CharacterData
         st6::string prefilledWeaponGroupIni;                  // 876
         st6::list<uint> logInfo;                              // 888
         int interfaceState = 3;                               // 896
-        FlMap<uint, char> visits;                             // 900
+        st6::map<uint, char> visits;                             // 900
 };
 
 struct PlayerData
 {
         wchar_t accId[40];                                // 0
-        FlMap<CHARACTER_ID, CharacterData> characterMap;  // 0x50
+        st6::map<CHARACTER_ID, CharacterData> characterMap;  // 0x50
         CHARACTER_ID charFile;                            // 0x64
         uint shipArchetype;                               // 0x264
         float relativeHealth;                             // 0x268
@@ -245,7 +245,7 @@ struct PlayerData
         st6::string weaponGroups;          // 0x380
         st6::list<uint> neuralNetLog;      // 0x390
         int interfaceState;                // 0x39C
-        FlMap<uint, char> visitEntries;    // 0x3A0
+        st6::map<uint, char> visitEntries;    // 0x3A0
         uint dunno2[4];                    // 0x3B4
         float difficulty;                  // 0x3C4
         ushort lastEquipId;                // 0x3C8
