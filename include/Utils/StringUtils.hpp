@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ranges>
+#include <cwctype>
 
 #include "Concepts.hpp"
 
@@ -720,5 +721,133 @@ class StringUtils
             const std::wstring tra = UintToHexString(bgrColor, 6, true) + UintToHexString(static_cast<uint>(format), 2);
 
             return std::format(L"<TRA data=\"{}\" mask=\"-1\"/><TEXT>{}</TEXT>", tra, ReplaceStr(XmlText(msg), L"\n"sv, L"</TEXT><PARA/><TEXT>"sv));
+        }
+
+        /**
+         * @brief Match a string against a wildcard pattern, where an '*' matches one or more characters and '?' matches any one character
+         * @tparam Str A type that is convertible to an std::string_view or std::wstring_view
+         * @param input The input string that will be compared against
+         * @param pattern The wildcard pattern, e.g. Kin*Jam?S = King James
+         * @param partialString If true only checks that any part of the string matches (as if placing an asterix at the start and end)
+         * @param caseSensitive if true strings must match case to return a successful match
+         * @code{.cpp}
+         *    MatchStr("Dave The Brave"sv, "Dave*Brave"sv, false) == true;
+         *    MatchStr("Dave The Brave"sv, "The"sv) == true;
+         *    MatchStr("Dave The Brave"sv, "*Dave"sv, false) == false;
+         *    MatchStr("Jeff"sv, "Dave"sv) == false;
+         *    MatchStr("Jeff The Brave"sv, "Jeff"sv, false) == false;
+         *    MatchStr("Jeff The Brave"sv, "jeff"sv, true, true) == false;
+         * @endcode
+         * @return True if the string matches
+         */
+        template <typename Str>
+            requires std::convertible_to<Str, std::string_view> || std::convertible_to<Str, std::wstring_view>
+        static bool WildcardMatch(const Str& input, const Str& pattern, const bool partialString = true, const bool caseSensitive = false)
+        {
+            if (input.empty() || pattern.empty())
+            {
+                return false;
+            }
+
+            using ViewType = std::conditional_t<std::convertible_to<Str, std::string_view>, std::string_view, std::wstring_view>;
+            using CharType = std::conditional_t<std::convertible_to<Str, std::string_view>, char, wchar_t>;
+            constexpr auto multiWildcardCharacter = static_cast<CharType>('*');
+            constexpr auto singularWildcardCharacter = static_cast<CharType>('?');
+
+            ViewType inputView = input;
+            ViewType patternView = pattern;
+
+            static const auto compareChar = [caseSensitive](const CharType a, const CharType b)
+            {
+                if constexpr (std::is_same_v<char, CharType>)
+                {
+                    return caseSensitive ? a == b : std::tolower(a) == std::tolower(b);
+                }
+                else
+                {
+                    return caseSensitive ? a == b : std::towlower(a) == std::towlower(b);
+                }
+            };
+
+            bool matched = !partialString;
+            int wildCardCharactersMatched = 0;
+
+            // If the first character is an asterix, it's effectively a partial string match
+            if (pattern.front() == multiWildcardCharacter)
+            {
+                matched = true;
+                wildCardCharactersMatched++;
+            }
+
+            for (int inputIndex = 0, patternIndex = 0; inputIndex < inputView.size(); inputIndex++)
+            {
+                if (patternIndex >= pattern.size())
+                {
+                    // If we are trying to match a full string and the pattern ran out, ensure that it ends with a asterix or it's not a match
+                    if (!partialString && patternView.back() != multiWildcardCharacter)
+                    {
+                        matched = false;
+                    }
+
+                    break;
+                }
+
+                CharType currentChar = inputView[inputIndex];
+                CharType patternChar = patternView[patternIndex];
+
+                // If we encounter a '?', skip the character
+                if (patternChar == singularWildcardCharacter)
+                {
+                    matched = true;
+                    patternIndex++;
+                    continue;
+                }
+
+                // We have encountered our asterix
+                if (patternChar == multiWildcardCharacter)
+                {
+                    matched = true;
+
+                    if (patternIndex + 1 == inputView.size())
+                    {
+                        matched = true;
+                        break;
+                    }
+
+                    if (CharType nextPatternChar = inputView[patternIndex + 1]; wildCardCharactersMatched++ > 0 && compareChar(currentChar, nextPatternChar))
+                    {
+                        patternIndex++;
+                        // The asterix will 'eat' the character we are trying to match
+                        inputIndex--;
+                    }
+
+                    continue;
+                }
+
+                wildCardCharactersMatched = 0;
+
+                // If we haven't started matching, go until we find a character that matches
+                if (!matched)
+                {
+                    if (compareChar(currentChar, patternChar))
+                    {
+                        matched = true;
+                        patternIndex++;
+                    }
+
+                    continue;
+                }
+
+                // If we have matched, ensure that we still match
+                matched = compareChar(currentChar, patternChar);
+                patternIndex++;
+
+                if (!matched)
+                {
+                    break;
+                }
+            }
+
+            return matched;
         }
 };
