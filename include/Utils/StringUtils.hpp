@@ -779,7 +779,8 @@ class StringUtils
                 wildCardCharactersMatched++;
             }
 
-            for (int inputIndex = 0, patternIndex = 0; inputIndex < inputView.size(); inputIndex++)
+            int patternIndex = 0;
+            for (int inputIndex = 0; inputIndex < inputView.size(); inputIndex++)
             {
                 if (patternIndex >= pattern.size())
                 {
@@ -810,11 +811,10 @@ class StringUtils
 
                     if (patternIndex + 1 == inputView.size())
                     {
-                        matched = true;
                         break;
                     }
 
-                    if (CharType nextPatternChar = inputView[patternIndex + 1]; wildCardCharactersMatched++ > 0 && compareChar(currentChar, nextPatternChar))
+                    if (CharType nextPatternChar = patternView[patternIndex + 1]; wildCardCharactersMatched++ > 0 && compareChar(currentChar, nextPatternChar))
                     {
                         patternIndex++;
                         // The asterix will 'eat' the character we are trying to match
@@ -846,6 +846,11 @@ class StringUtils
                 {
                     break;
                 }
+            }
+
+            if (patternIndex != patternView.size() && (patternIndex != patternView.size() - 1 && patternView.back() != multiWildcardCharacter))
+            {
+                matched = false;
             }
 
             return matched;
