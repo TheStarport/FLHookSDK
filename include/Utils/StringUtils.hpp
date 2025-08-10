@@ -809,7 +809,7 @@ class StringUtils
                 {
                     matched = true;
 
-                    if (patternIndex + 1 == inputView.size())
+                    if (patternIndex + 1 == patternView.size())
                     {
                         break;
                     }
