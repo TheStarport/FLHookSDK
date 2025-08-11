@@ -9,6 +9,17 @@ namespace Reputation
             float reputation;
     };
 
+    struct ReputationEntry
+    {
+            uint affliation;
+            uint dunno;
+            uint clientId;
+            uint dunno2[14];
+            wchar_t name[24];
+            uint rank;
+            st6::vector<Reputation::Relation> reputations;
+    };
+
     struct RepGroup
     {
             uint nameLength;
