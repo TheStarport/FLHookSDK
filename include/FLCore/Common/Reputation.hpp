@@ -27,6 +27,7 @@ namespace Reputation
             uint nameIds;
             uint infocardIds;
             uint shortNameIds;
+            st6::map<uint, float> feelingsTowardsMap;
     };
 
     using RepGroupCB = bool (***)(RepGroup*);
