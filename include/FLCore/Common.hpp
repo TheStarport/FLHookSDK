@@ -122,6 +122,5 @@
 #include "Common/Watchable.hpp"
 #include "Common/XML.hpp"
 
-#include "Common/BinarySearchTree.hpp"
 #include "Common/CArchGroup.hpp"
 #include "Common/Packets.hpp"
