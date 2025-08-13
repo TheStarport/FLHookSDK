@@ -209,28 +209,28 @@ struct CharacterData
         st6::string prefilledWeaponGroupIni;                  // 876
         st6::list<uint> logInfo;                              // 888
         int interfaceState = 3;                               // 896
-        st6::map<uint, char> visits;                             // 900
+        st6::map<uint, char> visits;                          // 900
 };
 
 struct PlayerData
 {
-        wchar_t accId[40];                                // 0
-        st6::map<CHARACTER_ID, CharacterData> characterMap;  // 0x50
-        CHARACTER_ID charFile;                            // 0x64
-        uint shipArchetype;                               // 0x264
-        float relativeHealth;                             // 0x268
-        st6::list<CollisionGroupDesc> collisionGroupDesc; // 0x26C
-        EquipDescList equipAndCargo;                      // 0x278
-        int rank;                                         // 0x284
-        int moneyNeededToNextRank;                        // 0x288
-        Costume commCostume;                              // 0x28C
-        uint voiceLen;                                    // 0x2C0
-        char voice[32];                                   // 0x2C4
-        Costume baseCostume;                              // 0x2E4
-        int reputation;                                   // 0x318
-        int money;                                        // 0x31C
-        int worth;                                        // 0x320
-        uint shipArchetypeWhenLanding;                    // 0x324
+        wchar_t accId[40];                                  // 0
+        st6::map<CHARACTER_ID, CharacterData> characterMap; // 0x50
+        CHARACTER_ID charFile;                              // 0x64
+        uint shipArchetype;                                 // 0x264
+        float relativeHealth;                               // 0x268
+        st6::list<CollisionGroupDesc> collisionGroupDesc;   // 0x26C
+        EquipDescList equipAndCargo;                        // 0x278
+        int rank;                                           // 0x284
+        int moneyNeededToNextRank;                          // 0x288
+        Costume commCostume;                                // 0x28C
+        uint voiceLen;                                      // 0x2C0
+        char voice[32];                                     // 0x2C4
+        Costume baseCostume;                                // 0x2E4
+        int reputation;                                     // 0x318
+        int money;                                          // 0x31C
+        int worth;                                          // 0x320
+        uint shipArchetypeWhenLanding;                      // 0x324
         // Potentially something related to anti-cheat checking
         EquipDescList shadowEquipDescList; // 0x328
         int numKills;                      // 0x334
@@ -245,7 +245,7 @@ struct PlayerData
         st6::string weaponGroups;          // 0x380
         st6::list<uint> neuralNetLog;      // 0x390
         int interfaceState;                // 0x39C
-        st6::map<uint, char> visitEntries;    // 0x3A0
+        st6::map<uint, char> visitEntries; // 0x3A0
         uint dunno2[4];                    // 0x3B4
         float difficulty;                  // 0x3C4
         ushort lastEquipId;                // 0x3C8
@@ -462,29 +462,39 @@ struct Observer
         uint dunno2[30]; // unknown size
 };
 
-struct IMPORT StarSystem
+class IMPORT StarSystem
 {
-        unsigned int count_players(unsigned int) const;
+        unsigned int count_players(unsigned int clientIdToIgnore) const;
 
     public:
-        uint vftable;                     // 0
-        uint dunno0;                      // 4
-        st6::list<Observer> observerList; // 8
-        uint dunno1[8];                   // 20, first 3 elements are another st6list
-        MetaList shipList;                // 52/13
-        MetaList lootList;                // 72/18
-        MetaList solarList;               // 92/23
-        MetaList guidedList;              // 112
-        MetaList bulletList;              // 132
-        MetaList mineList;                // 152
-        MetaList counterMeasureList;      // 172
-        MetaList asteroidList;            // 192
+        uint vftable;                           // 0
+        void* commReferableRelatedPtr;          // 4
+        st6::list<Observer> observerList;       // 8
+        st6::list<uint> dunnoList;              // 20
+        ISpatialPartition* spatialPartitionBSP; // 32
+        st6::vector<uint> dunnoVector;          // 36
+        MetaList shipList;                      // 52/13
+        MetaList lootList;                      // 72/18
+        MetaList solarList;                     // 92/23
+        MetaList guidedList;                    // 112
+        MetaList bulletList;                    // 132
+        MetaList mineList;                      // 152
+        MetaList counterMeasureList;            // 172
+        MetaList asteroidList;                  // 192
+        MetaList unkList1;                      // 212 one of those is dynamic asteroids?
+        MetaList unkList2;                      // 232 
+        bool systemLoaded;                      // 252
 };
 
 namespace SysDB
 {
-    IMPORT st6::map<unsigned int, StarSystem, st6::less<unsigned int>, st6::allocator<std::pair<const unsigned int, StarSystem>>> SysMap;
-};
+    // IMPORT std::map<unsigned int, StarSystem, std::less<unsigned int>, std::allocator<StarSystem>> SysMap;
+    inline static st6::map<unsigned int, StarSystem>* GetSysMap()
+    {
+        static auto SysMap = reinterpret_cast<st6::map<unsigned int, StarSystem>*>(DWORD(GetModuleHandleA("server")) + 0xADA2C);
+        return SysMap;
+    }
+}; // namespace SysDB
 
 namespace Controller
 {
