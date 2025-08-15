@@ -124,3 +124,4 @@
 
 #include "Common/CArchGroup.hpp"
 #include "Common/Packets.hpp"
+#include "Common/PlayerData.hpp"

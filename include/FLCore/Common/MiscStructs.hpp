@@ -8,7 +8,7 @@ struct Costume
     uint body = 0;
     uint leftHand = 0;
     uint rightHand = 0;
-    UINT accessory[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+    uint accessory[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
     int accessories = 0;
 };
 
