@@ -1031,8 +1031,8 @@ struct IMPORT MarketGoodInfo
         TransactionType transType;
         float rank;
         float rep;
-        int quantity;
-        float scale;
+        //int quantity; Those two fields are not actually there? Where'd we get those from?
+        //float scale;
 };
 
 class IMPORT MarshalBuffer
