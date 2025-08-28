@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../FLCoreDefs.hpp"
-#include "../../Common/CObjects/CSimple/CProjectile/CCounterMeasure.hpp" #
+#include "../../Common/CObjects/CSimple/CProjectile/CCounterMeasure.hpp"
 #include "GameObject.hpp"
 
 struct CounterMeasure : public GameObject
