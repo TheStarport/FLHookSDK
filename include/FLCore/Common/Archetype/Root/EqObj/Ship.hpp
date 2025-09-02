@@ -22,7 +22,9 @@ namespace Archetype
             st6::vector<CacheString> hp;
         };
 
-        /* 37 */ uint dunno12[18];
+        /* 37 */ uint dunno12;
+        /* 38 */ size_t msgidprefix_len;
+        /* 39 */ char msgidprefix_str[64];
         /* 55 */ char* bayDoorAnim;
         /* 56 */ char* hpBaySurface;
         /* 57 */ char* hpBayExternal;
