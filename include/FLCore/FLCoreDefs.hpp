@@ -252,8 +252,8 @@ struct Quaternion
 class Transform
 {
     public:
-        Vector pos;
         Matrix orient;
+        Vector pos;
 };
 
 // We need to specialize the BST insert function for each type and then proxy it to the original function

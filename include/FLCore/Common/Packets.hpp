@@ -176,8 +176,7 @@ struct XJettisonCargo
 {
         Id ship;
         ushort slot;
-        ushort _padding;
-        ushort count;
+        uint count;
 };
 
 struct XGoTradelane
