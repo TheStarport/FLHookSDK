@@ -287,8 +287,10 @@ struct IClientImpl
         virtual bool Send_FLPACKET_SERVER_SETREPUTATION(uint client, FLPACKET_SETREPUTATION& rep);
         [[NoPlugins]]
         virtual void unknown_68(uint client, FLPACKET_UNKNOWN*);
-        virtual bool Send_FLPACKET_SERVER_SENDCOMM(uint client, uint, uint, uint, uint, uint, uint, uint, uint, uint, uint, uint, uint, uint, uint, uint, uint,
-                                                   uint, uint, uint, uint, uint, uint);
+        virtual bool Send_FLPACKET_SERVER_SENDCOMM(uint client, uint senderObjId, uint receiverObjId, uint voice, uint head, uint body, uint leftHand,
+                                                   uint rightHand, uint accessory1, uint accessory2, uint accessory3, uint accessory4, uint accessory5,
+                                                   uint accessory6, uint accessory7, uint accessory8, uint accessories, uint name, uint* lines, uint lineCount,
+                                                   uint commType, float radioSilenceAfter, bool global);
         [[NoPlugins]]
         virtual void unknown_70(uint client, uint);
         virtual bool Send_FLPACKET_SERVER_SET_MISSION_MESSAGE(uint client, FLPACKET_UNKNOWN*);
