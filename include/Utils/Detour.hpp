@@ -9,6 +9,7 @@ class MemProtect
         void* addr;
         uint size;
         DWORD flags;
+        bool released = false;
 
     public:
         /// <summary>
@@ -21,7 +22,20 @@ class MemProtect
         /// <summary>
         /// Destroys the protection object and automatically restores old flags
         /// </summary>
-        ~MemProtect() { VirtualProtect(addr, size, flags, &flags); }
+        ~MemProtect()
+        {
+            if (!released)
+            {
+                VirtualProtect(addr, size, flags, &flags);
+            }
+        }
+
+        /**
+         * @brief
+         * Mark this memory protection as released, or otherwise no longer valid.
+         * If released, destructing this object will no longer attempt to revert the protection
+         */
+        void Release() { released = true; }
 
         [[nodiscard]]
         void* GetAddr() const
@@ -44,10 +58,25 @@ class FunctionDetour final
         CallSig GetOriginalFunc() { return reinterpret_cast<CallSig>(originalFunc); }
 
         explicit FunctionDetour(CallSig origFunc) : originalFunc(reinterpret_cast<void*>(origFunc)), protection(originalFunc, 5) { data = alloc.allocate(5); }
-        ~FunctionDetour() { alloc.deallocate(data, 5); }
+        ~FunctionDetour()
+        {
+            UnDetour();
+            alloc.deallocate(data, 5);
+        }
 
         FunctionDetour(const FunctionDetour&) = delete;
         FunctionDetour& operator=(FunctionDetour) = delete;
+
+        /**
+         * @brief
+         * Release the underlying memory protection, preventing lockup if the hooked address is no longer valid
+         * It will also set the detour state to false, so the destructor will not attempt to remove the detour
+         */
+        void Release()
+        {
+            detoured = false;
+            protection.Release();
+        }
 
         void Detour(const CallSig hookedFunc)
         {
