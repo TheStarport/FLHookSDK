@@ -33,6 +33,10 @@ enum class StrafeDir
     Right = 2,
     Up = 3,
     Down = 4,
+    UpLeft = 5,
+    DownLeft = 6,
+    UpRight = 7,
+    DownRight = 8,
 };
 
 enum class ObjectType
