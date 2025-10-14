@@ -105,4 +105,10 @@ class MemUtils
             memset((void*)address, 0x90, size);
             VirtualProtect((void*)address, size, dwOldProtection, NULL);
         }
+
+        static bool IsRunningOnWine()
+        {
+            const HMODULE ntDll = GetModuleHandleA("ntdll.dll");
+            return ntDll && GetProcAddress(ntDll, "wine_get_version");
+        }
 };
