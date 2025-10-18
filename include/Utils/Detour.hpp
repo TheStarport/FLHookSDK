@@ -114,21 +114,37 @@ class VTableHook final
         static constexpr DWORD Size = End - Start + 4;
         const char* dll;
 
-        MemProtect memProtect;
+        std::unique_ptr<MemProtect> memProtect;
 
         std::array<void*, Count> originals;
 
     public:
-        explicit VTableHook(const char* dll) : dll(dll), memProtect(reinterpret_cast<void*>(reinterpret_cast<DWORD>(GetModuleHandleA(dll)) + Start), Size)
+        explicit VTableHook(const char* dll) : dll(dll) { Init(); }
+
+        bool Init()
         {
-            memcpy_s(originals.data(), Size, reinterpret_cast<void*>(reinterpret_cast<DWORD>(GetModuleHandleA(dll)) + Start), Size);
+            auto handle = reinterpret_cast<DWORD>(GetModuleHandleA(dll));
+            if (!handle)
+            {
+                return false;
+            }
+
+            memProtect = std::make_unique<MemProtect>(reinterpret_cast<void*>(handle + Start), Size);
+            memcpy_s(originals.data(), Size, reinterpret_cast<void*>(handle + Start), Size);
+            return true;
         }
 
         // ReSharper disable once CppMemberFunctionMayBeStatic
-        void Hook(const unsigned short index, const void* replacementFunction) const
+        void Hook(const unsigned short index, const void* replacementFunction)
         {
+            const auto handle = reinterpret_cast<DWORD>(GetModuleHandleA(dll));
+            if (!handle || (!memProtect && !Init()))
+            {
+                return;
+            }
+
             assert(index < Count);
-            memcpy_s(reinterpret_cast<void*>(reinterpret_cast<DWORD>(GetModuleHandleA(dll)) + Start + index * 4), 4, replacementFunction, 4);
+            memcpy_s(reinterpret_cast<void*>(handle + Start + index * 4), 4, replacementFunction, 4);
         }
 
         /**
@@ -137,8 +153,13 @@ class VTableHook final
          * @returns Returns the function pointer casted into a given function type
          **/
         [[nodiscard]]
-        void* GetOriginal(const unsigned short index) const
+        void* GetOriginal(const unsigned short index)
         {
+            if (!memProtect && !Init())
+            {
+                return nullptr;
+            }
+
             assert(index < Count);
             return originals[index];
         }
@@ -149,8 +170,14 @@ class VTableHook final
          **/
         void Unhook(const unsigned short index) const
         {
+            auto handle = reinterpret_cast<DWORD>(GetModuleHandleA(dll));
+            if (!handle || !memProtect)
+            {
+                return;
+            }
+
             assert(index < Count);
-            memcpy_s(reinterpret_cast<void*>(reinterpret_cast<DWORD>(GetModuleHandleA(dll)) + Start + index * 4), 4, GetOriginal(index), 4);
+            memcpy_s(reinterpret_cast<void*>(handle + Start + index * 4), 4, GetOriginal(index), 4);
         }
 
         ~VTableHook()
@@ -158,11 +185,16 @@ class VTableHook final
             auto lib = GetModuleHandleA(dll);
             if (!lib)
             {
+                if (memProtect)
+                {
+                    memProtect->Release();
+                }
+
                 return;
             }
 
             // in case of address mismatch (due to dll being reloaded), omit reapplying the protection and gracefully exit
-            if (const auto patchAddr = reinterpret_cast<void*>(reinterpret_cast<DWORD>(lib) + Start); patchAddr == memProtect.GetAddr())
+            if (const auto patchAddr = reinterpret_cast<void*>(reinterpret_cast<DWORD>(lib) + Start); patchAddr == memProtect->GetAddr())
             {
                 if (VirtualProtect(patchAddr, Size, PAGE_EXECUTE_READWRITE, nullptr))
                 {
