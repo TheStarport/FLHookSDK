@@ -5,20 +5,20 @@
 
 struct GameObject : public IObjInspectImpl, public IObjAffect, public IObjDestructor
 {
-        virtual ObjectType get_object_type() const;               // 340
-        virtual bool ObjectDestroyed(DestroyType destroyType, uint killerId);    // NakedShipDestroyed                                      //344 sub_6CE8080
-        virtual int Disconnect();                                 // 348 sub_6CE7C80
-        virtual bool get_dunno_0x40();                            // 352 sub_6CEE6D0
-        virtual int InstantiateCobject(Archetype::Root* archPtr); // 356 sub_6D01040
-        virtual bool SetCObjectById(uint cobjId);                 // 360 sub_6D010A0
-        virtual void Update(float timeDelta);                     // 364 sub_6D01450
-        virtual void sub_6D01A60();                               // 368 sub_6D01A60
-        virtual int sub_6CEE810(void* PhySys_unk);                // 372 physics collsion handling?
-        virtual void sub_6CEE980(int dunno);                      // 376 Behavior interface update
-        virtual void sub_6CE9250(void* unk, DamageList*);         // 380
-        virtual void process_munition_impact(MunitionImpactData* unk, DamageList*);    // 384 sub_6CE9350
+        virtual ObjectType get_object_type() const;                                 // 340
+        virtual bool ObjectDestroyed(DestroyType destroyType, uint killerId);       // NakedShipDestroyed                                      //344 sub_6CE8080
+        virtual int Disconnect();                                                   // 348 sub_6CE7C80
+        virtual bool get_dunno_0x40();                                              // 352 sub_6CEE6D0
+        virtual int InstantiateCobject(Archetype::Root* archPtr);                   // 356 sub_6D01040
+        virtual bool SetCObjectById(uint cobjId);                                   // 360 sub_6D010A0
+        virtual void Update(float timeDelta);                                       // 364 sub_6D01450
+        virtual void sub_6D01A60();                                                 // 368 sub_6D01A60
+        virtual int sub_6CEE810(void* PhySys_unk);                                  // 372 physics collsion handling?
+        virtual void sub_6CEE980(int dunno);                                        // 376 Behavior interface update
+        virtual void sub_6CE9250(void* unk, DamageList*);                           // 380
+        virtual void process_munition_impact(MunitionImpactData* unk, DamageList*); // 384 sub_6CE9350
         virtual void process_all_explosion_damage(ExplosionDamageEvent*, DamageList*); // calls methods 508-520         //388
-        virtual void sub_6D01A10();                                                    // 392 sub_6D01A10
+        virtual void apply_damage_list(DamageList*);                                   // 392 sub_6D01A10
         virtual bool get_dunno_0x41();                                                 // 396
         virtual void sub_6CEEFA0();                                                    // 400 sub_6CEEFA0
         virtual void sub_6CEF0F0();                                                    // 404 sub_6CEF0F0
