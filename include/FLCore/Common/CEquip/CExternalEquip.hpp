@@ -18,7 +18,7 @@ class CExternalEquip : public CEquip
         IMPORT virtual long GetParentConnector(bool) const;                // 100
         IMPORT virtual bool GetHardPointInfo(struct HardpointInfo&) const; // 104
         IMPORT virtual bool GetVelocity(Vector&) const;                    // 108
-        IMPORT virtual bool GetCenterOMass(Vector&) const;                 // 112
+        IMPORT virtual bool GetCenterOfMass(Vector&) const;                // 112
         IMPORT virtual void Disconnect();                                  // 116
 
         IMPORT static CExternalEquip* cast(CEquip*);
