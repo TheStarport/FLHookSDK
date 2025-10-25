@@ -2,6 +2,7 @@
 #include "../FLCoreDefs.hpp"
 
 class INI_Reader;
+
 class Fuse
 {
     public:
@@ -44,8 +45,6 @@ class Fuse
         /* 10 */ bool dunno9;
         /* 11 */ void* dunno10; // 0x1C size struct, used in isSpentAt
         /* 12 */ uint dunno11;  // isBurning
-
-        unsigned char data[OBJECT_DATA_SIZE];
 };
 
 class FuseAction
@@ -53,24 +52,42 @@ class FuseAction
     public:
         IMPORT FuseAction(const FuseAction&);
         IMPORT FuseAction();
-        IMPORT virtual ~FuseAction();
         IMPORT FuseAction& operator=(const FuseAction&);
         IMPORT float GetTriggerTime() const;
-        IMPORT virtual bool IsTriggered(unsigned short) const;
-        IMPORT virtual bool IsTriggered() const;
-        IMPORT virtual int Load();
-        IMPORT virtual float Randomize();
-        IMPORT virtual bool ShouldRandomize() const;
-        IMPORT virtual void Trigger(unsigned int, unsigned short);
-        IMPORT virtual int UnLoad();
-        IMPORT virtual void UnTrigger(unsigned short);
-
-    protected:
-        IMPORT virtual void CopyArchProperties(const FuseAction&);
         IMPORT bool ReadFuseActionValue(INI_Reader&);
 
-    public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        virtual ~FuseAction();
+        virtual FuseAction ResetAndCopyArch();
+        virtual int Load();
+        virtual int UnLoad();
+        virtual bool IsTriggered(unsigned short) const;
+        virtual bool IsTriggered() const;
+        virtual void Trigger(unsigned int, unsigned short);
+        virtual void UnTrigger(unsigned short);
+        virtual bool ShouldRandomize() const;
+        virtual float Randomize();
+        virtual void CopyArchProperties(const FuseAction&);
+
+        /* 1 */ float triggerTime;
+        /* 2 */ float triggerUntil;
+        /* 3 */ Archetype::FuseIgnitionList* arch;
+        /* 4 */ bool isTriggered;
+        st6::vector<ushort> sIdVector;
+};
+struct FuseHardpointPositionOffset
+{
+        char* hardpoint;
+        Transform offset;
+};
+
+class StartEffectAction : public FuseAction
+{
+        /* 9 */ void* clientIObj;
+        /* 10 */ ID_String hash;
+        /* 11 */ bool attached;
+        /* 12 */ uint unknown; // possibly unused
+        /* 13 */ st6::vector<FuseHardpointPositionOffset> posOffsets;
+        /* 17-20 */ uint dunno2[4]; // possibly unused
 };
 
 class FuseDB
