@@ -38,6 +38,7 @@ struct MunitionImpactData
         uint attackerId;
         Archetype::Munition* munitionArch;
         ushort subObjId;
+        Vector impactPosition;
 };
 
 struct ExplosionDamageEvent
