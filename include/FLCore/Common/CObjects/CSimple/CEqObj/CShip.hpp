@@ -8,7 +8,7 @@ class CStrafeEngine;
 class CNudgeEngine;
 class CSteering;
 class CPlayerGroup;
-class IObjInspect;
+struct IObjInspect;
 
 enum class FORMATION_RTYPE
 {
