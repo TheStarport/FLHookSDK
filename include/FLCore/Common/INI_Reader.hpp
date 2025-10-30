@@ -1,4 +1,5 @@
 #pragma once
+#include <Utils/StringUtils.hpp>
 class INI_Reader
 {
     public:
@@ -42,7 +43,50 @@ class INI_Reader
         IMPORT unsigned int tell() const;
         IMPORT double value_num(unsigned int);
 
-    public:
+        float GetFloat(const std::string_view key, bool& found, const int param = 0)
+        {
+            if (is_value(key.data()))
+            {
+                found = true;
+                return get_value_float(param);
+            }
+
+            return {};
+        }
+
+        int GetInt(const std::string_view key, bool& found, const int param = 0)
+        {
+            if (is_value(key.data()))
+            {
+                found = true;
+                return get_value_int(param);
+            }
+
+            return {};
+        }
+
+        std::string GetString(const std::string_view key, bool& found, const int param = 0)
+        {
+            if (is_value(key.data()))
+            {
+                found = true;
+                return get_value_string(param);
+            }
+
+            return {};
+        }
+
+        std::wstring GetWString(const std::string_view key, bool& found, const int param = 0)
+        {
+            if (is_value(key.data()))
+            {
+                found = true;
+                return StringUtils::stows(get_value_string(param));
+            }
+
+            return {};
+        }
+
         st6::string fileName;
         unsigned long dunno[5];
         int lineNumber;
