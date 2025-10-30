@@ -46,6 +46,8 @@ class CELauncher : public CAttachedEquip
         IMPORT static CELauncher* cast(CEquip*);
         IMPORT static const CELauncher* cast(const CEquip*);
 
+        float GetEffectiveRange() const { return projArch->lifeTime * LauncherArch()->muzzleVelocity; }
+
         Archetype::Projectile* projArch; // 19
         float refireDelayElapsed;        // 20
         Barrel barrels[8];               // 21
