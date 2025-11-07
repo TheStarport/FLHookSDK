@@ -43,48 +43,51 @@ class INI_Reader
         IMPORT unsigned int tell() const;
         IMPORT double value_num(unsigned int);
 
-        float GetFloat(const std::string_view key, bool& found, const int param = 0)
+        bool GetFloat(const std::string_view key, float& value, bool& found, const int param = 0)
         {
-            if (is_value(key.data()))
+            if (!is_value(key.data()))
             {
-                found = true;
-                return get_value_float(param);
+                return false;
             }
-
-            return {};
+            
+            found = true;
+            value = get_value_float(param);
+            return true;
         }
 
-        int GetInt(const std::string_view key, bool& found, const int param = 0)
+        bool GetInt(const std::string_view key, int& value, bool& found, const int param = 0)
         {
-            if (is_value(key.data()))
+            if (!is_value(key.data()))
             {
-                found = true;
-                return get_value_int(param);
+                return false;
             }
 
-            return {};
+            found = true;
+            value = get_value_int(param);
+            return true;
         }
 
-        std::string GetString(const std::string_view key, bool& found, const int param = 0)
+        bool GetString(const std::string_view key, std::string& value, bool& found, const int param = 0)
         {
-            if (is_value(key.data()))
+            if (!is_value(key.data()))
             {
-                found = true;
-                return get_value_string(param);
+                return false;
             }
 
-            return {};
+            found = true;
+            value = get_value_string(param);
+            return true;
         }
 
-        std::wstring GetWString(const std::string_view key, bool& found, const int param = 0)
+        bool GetWString(const std::string_view key, std::wstring& value, bool& found, const int param = 0)
         {
-            if (is_value(key.data()))
+            if (!is_value(key.data()))
             {
-                found = true;
-                return StringUtils::stows(get_value_string(param));
+                return false;
             }
-
-            return {};
+            found = true;
+            value = StringUtils::stows(get_value_string(param));
+            return true;
         }
 
         st6::string fileName;
