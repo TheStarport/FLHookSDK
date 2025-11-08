@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../../FLCoreDefs.hpp"
-#include "FLCore/Common/INI_Reader.hpp"
 #include "FLCore/Common/Strings.hpp"
 
 namespace Archetype
@@ -95,4 +94,4 @@ namespace Archetype
     IMPORT int LoadSimples(const char*, bool, IClObjFactory*);
     IMPORT int LoadSolar(const char*, bool, IClObjFactory*);
     IMPORT unsigned int SmallIdToLargeID(unsigned short);
-}
+} // namespace Archetype

@@ -1,5 +1,9 @@
 #pragma once
+
+#include "CommonMethods.hpp"
+
 #include <Utils/StringUtils.hpp>
+
 class INI_Reader
 {
     public:
@@ -49,7 +53,7 @@ class INI_Reader
             {
                 return false;
             }
-            
+
             found = true;
             value = get_value_float(param);
             return true;
@@ -87,6 +91,18 @@ class INI_Reader
             }
             found = true;
             value = StringUtils::stows(get_value_string(param));
+            return true;
+        }
+
+        bool GetHash(const std::string_view key, uint& value, bool& found, const int param = 0)
+        {
+            if (!is_value(key.data()))
+            {
+                return false;
+            }
+
+            found = true;
+            value = CreateID(get_value_string(param));
             return true;
         }
 
