@@ -16,7 +16,7 @@
 #include "FLCoreDefs.hpp"
 #include <vector>
 
-#pragma comment( lib, "FLCoreDALib.lib" )
+//#pragma comment( lib, "FLCoreDALib.lib" )
 
 class IMPORT CDPClient
 {

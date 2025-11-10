@@ -38,7 +38,7 @@ struct EngineObject
         IMPORT void set_transform(const Transform&);
         IMPORT void update_tree() const;
 
-        void* index;         // 1 fetched in CBase::get_index()
+        long index;         // 1 fetched in CBase::get_index()
         Matrix orientation;  // 2
         Vector position;     // 11
         float radius;        // 14
