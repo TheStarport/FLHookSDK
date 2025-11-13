@@ -104,3 +104,74 @@ class FuseDB
     public:
         unsigned char data[OBJECT_DATA_SIZE];
 };
+
+struct AleEffect
+{
+    struct AlchemyEmitter
+    {
+            virtual void* __stdcall dunno0();
+            virtual void* __stdcall dunno4();
+            virtual void* __stdcall dunno8();
+            virtual void* __stdcall dunnoC();
+            virtual void* __stdcall dunno10();
+            virtual void* __stdcall dunno14();
+            virtual void* __stdcall dunno18();
+            virtual void* __stdcall dunno1C();
+            virtual void* __stdcall dunno20();
+            virtual void* __stdcall dunno24();
+            virtual void* __stdcall dunno28();
+            virtual void* __stdcall dunno2C();
+            virtual void* __stdcall dunno30();
+            virtual void* __stdcall dunno34();
+            virtual void* __stdcall dunno38();
+            virtual void* __stdcall dunno3C();
+            virtual void* __stdcall dunno40();
+            virtual void* __stdcall dunno44();
+            virtual void* __stdcall dunno48();
+            virtual void* __stdcall dunno4C();
+            virtual void* __stdcall dunno50();
+            virtual void* __stdcall dunno54();
+            virtual void* __stdcall dunno58();
+            virtual void* __stdcall SetKeyframe(float);
+    };
+
+    struct AlchemyEffect
+    {
+            virtual void* __stdcall dunno0();
+            virtual void* __stdcall dunno4();
+            virtual void* __stdcall dunno8();
+            virtual void* __stdcall dunnoC();
+            virtual void* __stdcall dunno10();
+            virtual void* __stdcall dunno14();
+            virtual int __stdcall   SetKeyframe(float);
+
+            int dunno;
+            st6::vector<AlchemyEmitter> emitters;
+            uint dunno2[3];
+    };
+
+        virtual void Initialize(void* effectData);
+        virtual void Cleanup();
+        virtual void fdunno2();
+        virtual void SetIntensity(float);
+        virtual bool nulloptTrue();
+        virtual void fdunno5();
+        virtual void LoadAlchemy(float, void*);
+        virtual void fdunno7();
+        virtual void* Deallocate();
+        virtual int SetIntensity2(float);
+
+        void* ptrdunno;
+        uint dunno;
+        float fDunno1;
+        Transform offset;
+        long index;
+        uint dunno2[8];
+        void* unkMapIter;
+        void* effectInfo;
+        AlchemyEffect* alchemy;
+        void* alchemy2dunno;
+        float fDunno2[2];
+        uint dunno3;
+        float fDunno3;
+};

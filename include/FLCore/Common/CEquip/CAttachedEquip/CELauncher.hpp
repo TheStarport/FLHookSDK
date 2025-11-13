@@ -6,7 +6,8 @@
 
 struct Barrel
 {
-        uint dunno[13];
+        long index;
+        uint dunno[12];
 };
 
 class CELauncher : public CAttachedEquip
