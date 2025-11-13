@@ -131,9 +131,9 @@ struct IObjAffect
         virtual int tractor_single(ushort sId, GameObject* loot, int clientId);                              // 64
         virtual int set_gun_target(ushort gunSId, uint target, ushort targetSId, int flag);                  // 68
         virtual int set_target(IObjRW* target, ushort sId, int dunno);                                       // 72
-        virtual int sub_6CE70B0(ushort sId, int dunno, int flag);                                            // 76 something about strafing/thrusting
+        virtual int toggle_item(ushort& sId, bool newState, int dunno);                                      // 76
         virtual int toggle_cruise(bool cruiseActive, bool disruptCruise, int dunno2);                        // 80
-        virtual int sub_6D02500();                                                                           // 84 activates thrusters?
+        virtual int toggle_thrusters(bool dunno, bool newState);                                             // 84
         virtual int use_item(ushort sId, uint amount, int unused);                                           // 88 sub_6CE7210
         virtual int request_event(uint eventType, uint requestTarget, uint param1, uint param2, uint dunno); // 92
         virtual int request_cancel(uint eventType, uint param1, uint param2);                                // 96

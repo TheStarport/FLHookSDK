@@ -153,7 +153,7 @@ struct AleEffect
         virtual void Initialize(void* effectData);
         virtual void Cleanup();
         virtual void fdunno2();
-        virtual void SetIntensity(float);
+        virtual void SetKeyframe(float);
         virtual bool nulloptTrue();
         virtual void fdunno5();
         virtual void LoadAlchemy(float, void*);
