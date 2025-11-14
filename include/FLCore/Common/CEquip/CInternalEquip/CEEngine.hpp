@@ -39,7 +39,10 @@ class CEEngine : public CInternalEquip, public CPhysControllerEquip
     IMPORT float GetThrust(float) const;
     IMPORT bool IsCruiseEngaged() const;
 
-    /* 13 */ uint dunno[9]; // nozzle hardpoints in here, vector/list?
+    
+    /* 10 */ uint dunno[4];
+    /* 14 */ st6::vector<ExhaustNozzleInfo> nozzleInfo;
+    /* 18 */ uint dunno2;
     /* 19 */ float targetSpeed;
     /* 20 */ float cruiseChargeTimeElapsed;
     /* 21 */ bool isCruiseEngaged;
