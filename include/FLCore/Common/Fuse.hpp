@@ -171,7 +171,8 @@ struct AleEffect
         void* effectInfo;
         AlchemyEffect* alchemy;
         void* alchemy2dunno;
-        float fDunno2[2];
+        float fDunno2;
+        float lifetime;
         uint dunno3;
         float fDunno3;
 };
