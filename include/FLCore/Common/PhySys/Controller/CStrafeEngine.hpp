@@ -17,5 +17,8 @@ class CStrafeEngine : public PhySys::Controller
     //@@@ virtual void do_simulation_controller(class IVP_Event_Sim *,class IVP_U_Vector<class IVP_Core> *);
 
     public:
-    unsigned char data[OBJECT_DATA_SIZE];
+        uint dunno[3];
+        bool phySysControllerConnected;
+        CShip* owner;
+        StrafeDir strafeDir;
 };

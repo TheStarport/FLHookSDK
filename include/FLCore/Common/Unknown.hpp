@@ -26,7 +26,13 @@ class CEquip;
 class CAttachedEquip;
 // Forward Declarations
 struct IObjRW;
-struct HardpointInfo;
+struct HardpointInfo
+{
+        uint dunno;
+        Vector position;
+        Matrix rotation;
+        uint dunno2[5];
+};
 struct EquipStatus;
 namespace Universe
 {
