@@ -23,7 +23,8 @@ class CNudgeEngine : public CPhysControllerEquip
     //@@@
 
     public:
-    DWORD dunno10[4];   // 151
+    DWORD dunno10[3];   // 151
     struct CShip* owner;
+    bool isActive;
     Vector nudgeVector; // 157
 };

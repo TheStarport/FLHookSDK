@@ -59,7 +59,7 @@ class CArchGroup
     public:
         /* 0  */ CEqObj* owner;
         /* 1  */ Archetype::CollisionGroup* colGrp;
-        /* 2  */ int rootIndex;
+        /* 2  */ long rootIndex;
         /* 3  */ float hitPts;
         /* 4  */ uint dunno;
         /* 5  */ uint state;
