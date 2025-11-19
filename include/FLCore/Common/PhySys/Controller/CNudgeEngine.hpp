@@ -1,5 +1,6 @@
 #pragma once
 #include "../../../FLCoreDefs.hpp"
+#include "CPhysControllerEquip.hpp"
 
 class CNudgeEngine : public CPhysControllerEquip
 {
@@ -15,12 +16,14 @@ class CNudgeEngine : public CPhysControllerEquip
     IMPORT Vector GetNudgeVec() const;
     IMPORT bool IsActive() const;
     IMPORT void SetNudgeVec(const Vector&);
-    IMPORT void SetOwner(CShip*);
+    IMPORT void SetOwner(struct CShip*);
 
     protected:
     IMPORT static const float NUDGE_CHANGE_THRESHOLD;
     //@@@
 
     public:
-    unsigned char data[OBJECT_DATA_SIZE];
+    DWORD dunno10[4];   // 151
+    struct CShip* owner;
+    Vector nudgeVector; // 157
 };

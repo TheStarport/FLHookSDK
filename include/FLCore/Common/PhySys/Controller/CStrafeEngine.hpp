@@ -10,7 +10,7 @@ class CStrafeEngine : public PhySys::Controller
     IMPORT CStrafeEngine& operator=(const CStrafeEngine&);
     IMPORT virtual bool EnableController();
     IMPORT StrafeDir GetStrafe() const;
-    IMPORT void SetOwner(CShip*);
+    IMPORT void SetOwner(struct CShip*);
     IMPORT void SetStrafe(StrafeDir);
 
     protected:
@@ -19,6 +19,6 @@ class CStrafeEngine : public PhySys::Controller
     public:
         uint dunno[3];
         bool phySysControllerConnected;
-        CShip* owner;
+        struct CShip* owner;
         StrafeDir strafeDir;
 };

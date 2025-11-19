@@ -3,6 +3,8 @@
 #include "../../../PhySys/Controller.hpp"
 
 #include "CEqObj.hpp"
+#include "../../../PhySys/Controller/CNudgeEngine.hpp"
+#include "../../../PhySys/Controller/CStrafeEngine.hpp"
 
 class CStrafeEngine;
 class CNudgeEngine;
@@ -161,12 +163,8 @@ struct CShip : public CEqObj, public PhySys::Controller
         CSteering* cSteering;                     // 140
         DWORD dunno13[6];                         // 141
         Vector axisThrottle;                      // 147
-        CNudgeEngine* nudgeEngine;                // 150
-        DWORD dunno10[6];                         // 151
-        Vector nudgeVector;                       // 157
-        CStrafeEngine* strafeEngine;              // 160
-        DWORD dunno12[5];                         // 161
-        StrafeDir strafeDir;                      // 166
+        CNudgeEngine nudgeEngine;                // 150
+        CStrafeEngine strafeEngine;               // 160
         float throttle;                           // 167
         float thrustPower;                        // 168
         float maxThrustPower;                     // 169
