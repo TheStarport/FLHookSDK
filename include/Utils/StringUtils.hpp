@@ -511,7 +511,7 @@ class StringUtils
             {
                 if constexpr (std::is_same_v<Char, char>)
                 {
-                    return std::wstring_view(L" \t\n\r");
+                    return std::string_view(" \t\n\r");
                 }
                 else if constexpr (std::is_same_v<Char, wchar_t>)
                 {
