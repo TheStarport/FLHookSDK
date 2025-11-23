@@ -1335,6 +1335,10 @@ struct Camera
         Vector dunno2;
         uint dunno3[6];
         Vector cameraOffset;
+        uint dunno4[40];
+        float angularPart2;
+        float dunno5[9];
+        float angularAcceleration;
 };
 
 class IMPORT RoomData
