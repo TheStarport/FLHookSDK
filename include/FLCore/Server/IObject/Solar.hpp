@@ -3,9 +3,10 @@
 #include "../../FLCoreDefs.hpp"
 #include "EqObj.hpp"
 
+class CSolar;
 struct Solar : public EqObj
 {
-    CSolar* csolar(){return reinterpret_cast<CSolar*>(cobject());};
+    CSolar* csolar() { return reinterpret_cast<CSolar*>(this->cobject()); }
     virtual Vector& ChooseSystemArrivalLocation(uint unused, Vector& pos, Matrix& ori);
 
     static Solar* Cast(IObjInspectImpl* iobj)
