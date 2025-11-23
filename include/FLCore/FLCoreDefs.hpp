@@ -1,5 +1,4 @@
-#ifndef _FLCOREDEFS_H_
-#define _FLCOREDEFS_H_
+#pragma once
 
 #ifndef SERVER
 
@@ -13,12 +12,6 @@ using ClientId = unsigned int;
 using RepId = int;
 struct GoodInfo;
 using GoodId = GoodInfo*;
-
-#endif
-
-#ifdef USE_GLM
-    #include "glm/glm.hpp"
-    #include "glm/gtc/quaternion.hpp"
 
 #endif
 
@@ -36,6 +29,15 @@ using GoodId = GoodInfo*;
 
 #define OBJECT_DATA_SIZE 2048
 
+class Matrix;
+class Vector;
+Matrix EulerMatrix(const Vector&);
+
+#include "X86Math/Vector.hpp"
+#include "X86Math/Quaternion.hpp"
+#include "X86Math/Matrix.hpp"
+#include "X86Math/Transform.hpp"
+
 template <int size>
 struct TString
 {
@@ -43,217 +45,6 @@ struct TString
         char data[size + 1];
 
         TString() : len(0) { data[0] = 0; }
-};
-
-#ifdef USE_GLM
-
-class Matrix;
-class Vector : public glm::vec<3, float, glm::packed_highp>
-{
-    public:
-        Vector() = default;
-        Vector(const float a, const float b, const float c) : glm::vec3(a, b, c) {}
-        Vector(glm::vec<3, float, glm::packed_highp> v) : glm::vec3(v.x, v.y, v.z) {}
-
-        bool InRadius(const Vector& v, float radius) const { return std::abs(glm::distance<3, float, glm::packed_highp>(*this, v)) < radius; }
-        void TranslateX(const Matrix& rot, float length);
-        void TranslateY(const Matrix& rot, float length);
-        void TranslateZ(const Matrix& rot, float length);
-        float Magnitude();
-        void Resize(float targetLength);
-
-        static float Distance(const Vector& v1, const Vector& v2) { return glm::length<3, float, glm::packed_highp>(v1 - v2); }
-};
-
-Matrix EulerMatrix(const Vector&);
-
-class Matrix : public glm::mat3
-{
-    public:
-        Matrix() = default;
-        Matrix(const glm::vec3 a, const glm::vec3 b, const glm::vec3 c) : glm::mat3(a, b, c) {}
-        static Matrix Identity() { return Matrix({ 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.0f, 1.0f }); }
-
-        [[nodiscard]]
-        Vector ToEuler(const bool inDegrees) const
-        {
-            float heading = 0.0f;
-            float bank = 0.0f;
-            float attitude = 0.0f;
-
-            const float mathDunno = sqrtf(operator[](0)[0] * operator[](0)[0] + operator[](1)[0] * operator[](1)[0]);
-
-            // singularity at south or north pole
-            if (mathDunno <= 0.0000019f)
-            {
-                heading = atan2(-operator[](1)[2], operator[](1)[1]);
-                bank = atan2(-operator[](2)[0], mathDunno);
-                attitude = 0.0f;
-            }
-            else
-            {
-                heading = atan2(operator[](2)[1], operator[](2)[2]);
-                bank = atan2(-operator[](2)[0], mathDunno);
-                attitude = atan2(operator[](1)[0], operator[](0)[0]);
-            }
-
-            if (inDegrees)
-            {
-                constexpr float mod = 57.295776f;
-                return { heading * mod, bank * mod, attitude * mod };
-            }
-            return { heading, bank, attitude };
-        }
-
-        static Matrix FromEuler(Vector rot) { return EulerMatrix(rot); }
-};
-
-inline void Vector::TranslateX(const Matrix& rot, float length)
-{
-    this->x += length * rot[0][0];
-    this->y += length * rot[1][0];
-    this->z += length * rot[2][0];
-}
-inline void Vector::TranslateY(const Matrix& rot, float length)
-{
-    this->x += length * rot[0][1];
-    this->y += length * rot[1][1];
-    this->z += length * rot[2][1];
-}
-inline void Vector::TranslateZ(const Matrix& rot, float length)
-{
-    this->x += length * rot[0][2];
-    this->y += length * rot[1][2];
-    this->z += length * rot[2][2];
-}
-
-inline float Vector::Magnitude() { return sqrtf(x * x + y * y + z * z); }
-
-inline void Vector::Resize(float targetLength)
-{
-    float ratio = targetLength / Magnitude();
-
-    x *= ratio;
-    y *= ratio;
-    z *= ratio;
-}
-
-class Quaternion : public glm::qua<float, glm::packed_highp>
-{
-    public:
-        Quaternion() = default;
-        Quaternion(const float a, const float b, const float c, const float d) : glm::qua<float, glm::packed_highp>(a, b, c, d) {}
-        explicit Quaternion(const glm::quat& quat)
-        {
-            w = quat.w;
-            x = quat.x;
-            y = quat.y;
-            z = quat.z;
-        }
-        explicit Quaternion(const Matrix& rotation)
-        {
-            w = sqrt(std::max(0.0f, 1 + rotation[0][0] + rotation[1][1] + rotation[2][2])) / 2;
-            x = sqrt(std::max(0.0f, 1 + rotation[0][0] - rotation[1][1] - rotation[2][2])) / 2;
-            y = sqrt(std::max(0.0f, 1 - rotation[0][0] + rotation[1][1] - rotation[2][2])) / 2;
-            z = sqrt(std::max(0.0f, 1 - rotation[0][0] - rotation[1][1] + rotation[2][2])) / 2;
-            x = static_cast<float>(_copysign(x, rotation[2][1] - rotation[1][2]));
-            y = static_cast<float>(_copysign(y, rotation[0][2] - rotation[2][0]));
-            z = static_cast<float>(_copysign(z, rotation[1][0] - rotation[0][1]));
-        }
-};
-
-#else
-
-struct Vector
-{
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
-
-        bool InRadius(const Vector& v, const float radius) const
-        {
-            const Vector n = { x - v.x, y - v.y, z - v.z };
-            return std::sqrtf(n.x * n.x + n.y * n.y + n.z * n.z) < radius;
-        }
-};
-
-union Matrix {
-        struct
-        {
-                Vector a;
-                Vector b;
-                Vector c;
-        };
-        float data[3][3]{};
-
-        Matrix()
-        {
-            a = { 1.0f, 0.0f, 0.0f };
-            b = { 0.0f, 1.0f, 0.0f };
-            c = { 0.0f, 0.0f, 1.0f };
-        }
-
-        const float (&operator[](const size_t i) const)[3] { return data[i]; }
-
-        [[nodiscard]]
-        Vector ToEuler(const bool inDegrees) const
-        {
-            float heading = 0.0f;
-            float bank = 0.0f;
-            float attitude = 0.0f;
-
-            const float mathDunno = sqrtf(data[0][0] * data[0][0] + data[1][0] * data[1][0]);
-
-            // singularity at south or north pole
-            if (data[0][0] <= 0.0000019f)
-            {
-                heading = atan2(-data[1][2], data[1][1]);
-                bank = atan2(-data[2][0], mathDunno);
-                attitude = 0.0f;
-            }
-            else
-            {
-                heading = atan2(data[2][1], data[2][2]);
-                bank = atan2(-data[2][0], mathDunno);
-                attitude = atan2(data[1][0], data[0][0]);
-            }
-
-            if (inDegrees)
-            {
-                constexpr float mod = 57.295776f;
-                return { heading * mod, bank * mod, attitude * mod };
-            }
-            return { heading, bank, attitude };
-        }
-
-        static Matrix FromEuler(Vector rot) { return EulerMatrix(rot); }
-};
-
-struct Quaternion
-{
-        float w = 0.0f;
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
-        explicit Quaternion(const Matrix& rotation)
-        {
-            w = sqrtf(std::max(0.0f, 1 + rotation[0][0] + rotation[1][1] + rotation[2][2])) / 2;
-            x = sqrtf(std::max(0.0f, 1 + rotation[0][0] - rotation[1][1] - rotation[2][2])) / 2;
-            y = sqrtf(std::max(0.0f, 1 - rotation[0][0] + rotation[1][1] - rotation[2][2])) / 2;
-            z = sqrtf(std::max(0.0f, 1 - rotation[0][0] - rotation[1][1] + rotation[2][2])) / 2;
-            x = static_cast<float>(_copysign(x, rotation[2][1] - rotation[1][2]));
-            y = static_cast<float>(_copysign(y, rotation[0][2] - rotation[2][0]));
-            z = static_cast<float>(_copysign(z, rotation[1][0] - rotation[0][1]));
-        }
-};
-
-#endif
-
-class Transform
-{
-    public:
-        Matrix orient;
-        Vector pos;
 };
 
 // We need to specialize the BST insert function for each type and then proxy it to the original function
@@ -279,5 +70,3 @@ class Transform
                                                                                       \
         insertFunc(this, value, &key);                                                \
     }
-
-#endif // _FLCOREDEFS_H_
