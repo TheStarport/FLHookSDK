@@ -847,6 +847,35 @@ class IMPORT IBehaviorManager
         {
         };
 
+        struct Behavior
+        {
+                virtual void dunno0();
+                virtual void dunno4();
+                virtual void dunno8();
+                virtual void dunnoC();
+                virtual void dunno10();
+                virtual void dunno14();
+                virtual void dunno18();
+                virtual void dunno1C();
+                virtual void dunno20();
+                virtual void dunno24();
+                virtual bool SetOp(int op);
+                virtual void dunno2C();
+                virtual void dunno30();
+                virtual void SetThrottle(float throttle);
+                virtual void SetCruise(bool cruiseState);
+                virtual void SetEngine(bool engineState);
+                virtual void SetThruster(bool thrusterState);
+                virtual void SetSlideStrafeBurst(StrafeDir dir);
+                virtual void SetBrakeReverse(bool newState);
+                virtual bool GetAllowHeadTracking();
+                virtual void dunno50();
+                virtual void dunno54();
+                virtual void dunno58();
+                virtual void dunno5C();
+                virtual IObjRW* GetDebuggerTarget();
+        };
+
         bool allow_head_tracking();
         bool cancel_behavior(CancelRequestType);
         bool enable_all_maneuvers();
@@ -900,10 +929,10 @@ class IMPORT IBehaviorManager
         int iCurrentBehaviourIndex;    // 0xC0 - -1 when no behaviour, otherwise index of behaviourArray
         IDirectiveInfo* directiveInfo; // 0xC4
         int iDirectivePriority;        // 0xC8
-        int iDunno_0xCC;
+        int iDirectiveOp;              // 0xCC
         float fDunno_0xD0;
         float fDunno_0xD4;
-        byte bDunno54_0xD8;
+        byte bDunno54_0xD8; // set in update_current_behaviour_throttle, cruise, afterburner
         float fDunno55_0xDC;
         float fDunno56_0xE0;
         float fDunno57_0xE4;
