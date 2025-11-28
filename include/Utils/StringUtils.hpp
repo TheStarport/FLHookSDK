@@ -576,24 +576,6 @@ class StringUtils
             return ret;
         }
 
-    private:
-        template <typename TTransformView, typename ViewType>
-        static ViewType GetParam(TTransformView view, int pos)
-        {
-            if (pos >= 0)
-            {
-                throw std::invalid_argument("GetParam pos must be positive");
-            }
-
-            if (pos >= std::distance(view.begin(), view.end()))
-            {
-                return ViewType();
-            }
-
-            return *std::ranges::get<0>(std::ranges::subrange{ std::next(view.begin(), pos), view.end() });
-        }
-
-    public:
         static std::wstring_view GetParam(IsConvertibleRangeOf<std::wstring_view> auto view, int pos)
         {
             return GetParam<decltype(view), std::wstring_view>(view, pos);
@@ -603,36 +585,28 @@ class StringUtils
         static auto GetParams(const TStr& line, TChar splitChar)
             requires(StringRestriction<TStr> || IsStringView<TStr>) && (std::is_same_v<TChar, char> || std::is_same_v<TChar, wchar_t>)
         {
-            if constexpr (StringRestriction<TStr>)
-            {
-                using T = std::conditional<std::is_same_v<TStr, std::string>, std::string_view, std::wstring_view>::type;
-                return line | std::ranges::views::split(splitChar) |
-                       std::ranges::views::transform(
-                           [](auto&& rng)
-                           {
-                               if (!std::ranges::distance(rng))
-                               {
-                                   return T();
-                               }
+            using ViewType = std::conditional_t<std::is_same_v<TChar, char>, std::string_view, std::wstring_view>;
+            std::vector<ViewType> result;
 
-                               return T(&*rng.begin(), std::ranges::distance(rng));
-                           }) |
-                       std::ranges::views::filter([](auto&& rng) { return std::ranges::distance(rng) != 0; });
-            }
-            else
-            {
-                return line | std::ranges::views::split(splitChar) |
-                       std::ranges::views::transform(
-                           [](auto&& rng)
-                           {
-                               if (rng.empty())
-                               {
-                                   return TStr();
-                               }
+            int indexCommaToLeftOfColumn = 0;
+            int indexCommaToRightOfColumn = -1;
 
-                               return TStr(&*rng.begin(), std::ranges::distance(rng));
-                           });
+            for (int i = 0; i < static_cast<int>(line.size()); i++)
+            {
+                if (line[i] == splitChar)
+                {
+                    indexCommaToLeftOfColumn = indexCommaToRightOfColumn;
+                    indexCommaToRightOfColumn = i;
+                    int index = indexCommaToLeftOfColumn + 1;
+                    const int length = indexCommaToRightOfColumn - index;
+                    ViewType column(line.data() + index, length);
+                    result.push_back(column);
+                }
             }
+
+            const ViewType finalColumn(line.data() + indexCommaToRightOfColumn + 1, line.size() - indexCommaToRightOfColumn - 1);
+            result.emplace_back(finalColumn);
+            return result;
         }
 
         // TODO: Fix this template error
