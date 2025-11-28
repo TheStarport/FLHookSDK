@@ -926,7 +926,7 @@ class IMPORT IBehaviorManager
         int iDunnos_0x10[42];
         int iEnabledManeuversFlag;     // 0xB8 - 0 = all enabled
         bool bLockManeuvers;           // 0xBC
-        int iCurrentBehaviourIndex;    // 0xC0 - -1 when no behaviour, otherwise index of behaviourArray
+        pub::AI::OpType iCurrentBehaviourIndex; // 0xC0 - -1 when no behaviour, otherwise index of behaviourArray
         IDirectiveInfo* directiveInfo; // 0xC4
         int iDirectivePriority;        // 0xC8
         int iDirectiveOp;              // 0xCC
