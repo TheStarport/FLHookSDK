@@ -930,7 +930,7 @@ class IMPORT IBehaviorManager
         IDirectiveInfo* directiveInfo; // 0xC4
         int iDirectivePriority;        // 0xC8
         int iDirectiveOp;              // 0xCC
-        float fDunno_0xD0;
+        float fDunno_0xD0; //time alive?
         float fDunno_0xD4;
         byte bDunno54_0xD8; // set in update_current_behaviour_throttle, cruise, afterburner
         float fDunno55_0xDC;
@@ -956,7 +956,7 @@ class IMPORT IBehaviorManager
         byte bDunno_0x168;
         byte bDunno_0x169;
         int iDunno_0x16C;
-        byte bDunno_0x170;
+        byte disableUpdates;
         struct Behavior* behaviourArray[21]; // 0x174 - index 7 seems to be docking
         byte bDunno_0x1C8;
 };
@@ -1963,4 +1963,26 @@ class IMPORT BaseDataList
 
     public:
         unsigned char data[OBJECT_DATA_SIZE];
+};
+
+struct Pilot
+{
+        static const uint pilotMapOffset = 0x130AA4;
+        Id inheritedPilot;
+        Id evadeDodge;
+        Id evadeBreak;
+        Id buzzHeadToward;
+        Id buzzPassBy;
+        Id trail;
+        Id strafe;
+        Id engineKill;
+        Id repair;
+        Id gun;
+        Id mine;
+        Id missile;
+        Id damageReaction;
+        Id missileReaction;
+        Id countermeasure;
+        Id formation;
+        Id job;
 };
