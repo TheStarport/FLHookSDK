@@ -918,22 +918,28 @@ class IMPORT IBehaviorManager
         void update_current_behavior_throttle(float);
         void update_level_camera(bool);
 
+        struct BehaviorSwitchRatios
+        {
+                float percentage;
+                pub::AI::OpType type;
+        };
+
     public:
         int* vft;                        // 0x00
         IStateGraph* stateGraphInternal; // 0x04
         void* pDunno_0x08;
-        struct PathfindManager* pathfindManager; // 0x0C
-        int iDunnos_0x10[42];
+        struct PathfindManager* pathfindManager; // 0xC
+        BehaviorSwitchRatios switchRatios[21];
         int iEnabledManeuversFlag;     // 0xB8 - 0 = all enabled
         bool bLockManeuvers;           // 0xBC
         pub::AI::OpType iCurrentBehaviourIndex; // 0xC0 - -1 when no behaviour, otherwise index of behaviourArray
         IDirectiveInfo* directiveInfo; // 0xC4
         int iDirectivePriority;        // 0xC8
         int iDirectiveOp;              // 0xCC
-        float fDunno_0xD0; //time alive?
-        float fDunno_0xD4;
-        byte bDunno54_0xD8; // set in update_current_behaviour_throttle, cruise, afterburner
-        float fDunno55_0xDC;
+        float timeSinceLastDirectiveChange; //0xD0
+        float timeSinceLastDirectiveChangeAttempt; //0xD4
+        byte forceDirectiveRefresh; //0xD8
+        float timeAlive; //0xDC
         float fDunno56_0xE0;
         float fDunno57_0xE4;
         int iDunnos58_0xE8[2];
@@ -942,7 +948,9 @@ class IMPORT IBehaviorManager
         bool bCameraLevelStatusFlag;                       // 0xF9
         pub::AI::DirectiveCallback* directiveCallbacks[5]; // 0xFC
         pub::AI::ContentCallback* contentCallback;         // 0x110
-        int iDunnos_0x114[7];
+        int iDunnos_0x114[3];
+        pub::AI::OpType queuedBehaviourIndex; // 0x120
+        int iDunnos_0x124[3];
         bool bDunno_0x130;
         Vector shipUpDirection;   // 0x134
         Vector cameraUpDirection; // 0x140
