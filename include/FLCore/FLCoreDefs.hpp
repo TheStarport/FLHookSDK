@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef SERVER
+#ifndef FLUF_SDK
 
 using Id = unsigned int;
 using SystemId = unsigned int;
