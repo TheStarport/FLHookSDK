@@ -1,8 +1,12 @@
 ﻿#pragma once
 
-#ifdef SERVER
-extern DLL const st6_malloc_t st6_malloc;
-extern DLL const st6_free_t st6_free;
+using st6_malloc_t = void* (*)(size_t);
+using st6_free_t = void (*)(void*);
+
+#ifdef FLUF_SDK
+    #include <ImportFluf.hpp>
+extern FLUF_API const st6_malloc_t st6_malloc;
+extern FLUF_API const st6_free_t st6_free;
 #else
 extern const st6_malloc_t st6_malloc;
 extern const st6_free_t st6_free;

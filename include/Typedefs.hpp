@@ -16,9 +16,6 @@ using byte = uchar;
 using ArchId = const uint;
 using LocationId = const uint;
 
-using st6_malloc_t = void* (*)(size_t);
-using st6_free_t = void (*)(void*);
-
 class StarSystem;
 using RCSendChatMsgT = void(__thiscall*)(void* hook, uint id, uint to, uint size, void* RDL);
 using CRCAntiCheatT = void(__stdcall*)();
