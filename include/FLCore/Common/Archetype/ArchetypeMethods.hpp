@@ -3,6 +3,7 @@
 #include "../../FLCoreDefs.hpp"
 #include "FLCore/Common/Strings.hpp"
 
+class INI_Reader;
 namespace Archetype
 {
     struct Equipment;

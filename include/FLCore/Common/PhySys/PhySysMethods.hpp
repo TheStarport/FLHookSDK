@@ -35,9 +35,9 @@ namespace PhySys
     IMPORT void DestroyPhantom(void*);
     IMPORT void Detach(CObject*, const struct DetachParms&);
     IMPORT int DetachPhantom(void*);
-    IMPORT int FindRayCollisions(unsigned int system, const Vector& origin, const Vector& end, RayHit* rh, int rh_count);
+    IMPORT int FindRayCollisions(unsigned system, const Vector& origin, const Vector& end, RayHit* rh, int rh_count);
     IMPORT int FindRayIntersect(CObject*, const Vector&, const Vector&, RayHit*, int);
-    IMPORT int FindSphereCollisions(unsigned int, const Vector&, float, CObject**, int);
+    IMPORT int FindSphereCollisions(unsigned system, const Vector&, float, CObject**, int);
     IMPORT float GOLEM_ANGULAR_DAMP_FACTOR;
     IMPORT Vector GOLEM_CHILD_ANGULAR_DAMP;
     IMPORT float GOLEM_CHILD_LINEAR_DAMP;

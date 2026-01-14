@@ -1,9 +1,13 @@
 #pragma once
 #include "../../FLCoreDefs.hpp"
 
+#include "../Enums.hpp"
+
 class CExternalEquip;
 class CEquip;
 class CEquipManager;
+struct CacheString;
+struct CEqObj;
 class CEquipTraverser
 {
     public:
