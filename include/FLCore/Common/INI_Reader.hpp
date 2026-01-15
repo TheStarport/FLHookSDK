@@ -118,7 +118,7 @@ class INI_Reader
             return GetWString(key, value, dummy, param);
         }
 
-        bool GetHash(const std::string_view key, uint& value, bool& found, const int param = 0)
+        bool GetHash(const std::string_view key, Id& value, bool& found, const int param = 0)
         {
             if (!is_value(key.data()))
             {
@@ -130,7 +130,7 @@ class INI_Reader
             return true;
         }
 
-        bool GetHash(const std::string_view key, uint& value, const int param = 0)
+        bool GetHash(const std::string_view key, Id& value, const int param = 0)
         {
             bool dummy;
             return GetHash(key, value, dummy, param);

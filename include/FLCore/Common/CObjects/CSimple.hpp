@@ -51,7 +51,7 @@ struct CSimple : CObject
         Universe::IZone* currentDamageZone; // 41
         float zoneDmgMultiplier;            // 42
         StarSystem* starSystem;             // 43
-        Id id;                              // 44
+        uint id;                            // 44
         uint ownerPlayer;                   // 45
         float hitPoints;                    // 46
         uint dunnoCSimple4[0x5];            // 47

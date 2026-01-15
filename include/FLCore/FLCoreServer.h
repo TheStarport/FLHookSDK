@@ -180,7 +180,7 @@ struct CharacterData
         uint descripStrId;                                    // 544
         uint datetimeHigh;                                    // 548
         uint datetimeLow;                                     // 552
-        uint shipHash;                                        // 556
+        Id shipHash;                                          // 556
         int money;                                            // 560
         int numOfKills;                                       // 564
         int numOfSuccessMissions;                             // 568
@@ -191,16 +191,16 @@ struct CharacterData
         float baseHullStatus;                                 // 604
         st6::list<EquipDesc> baseEquipAndCargo;               // 608
         st6::list<CollisionGroupDesc> baseCollisionGroups;    // 620
-        uint currentBase;                                     // 632
-        uint lastDockedBase;                                  // 636
-        uint currentRoom;                                     // 640
-        uint system;                                          // 644
+        Id currentBase;                                       // 632
+        Id lastDockedBase;                                    // 636
+        Id currentRoom;                                       // 640
+        Id system;                                            // 644
         Vector pos;                                           // 648 - 656
         Matrix rot;                                           // 660 - 692
-        uint startingRing;                                    // 696
+        Id startingRing;                                      // 696
         int rank;                                             // 700
         st6::vector<Reputation::Relation> repList;            // 704
-        uint affiliation;                                     // 720, see Reputation::get_id();
+        Id affiliation;                                       // 720, see Reputation::get_id();
         Costume commCostume;                                  // 724 - 772
         uint voiceLen;                                        // 776
         char voice[32] = "trent_voice";                       // 780
@@ -217,7 +217,7 @@ struct PlayerData
         wchar_t accId[40];                                  // 0
         st6::map<CHARACTER_ID, CharacterData> characterMap; // 0x50
         CHARACTER_ID charFile;                              // 0x64
-        uint shipArchetype;                                 // 0x264
+        Id shipArchetype;                                   // 0x264
         float relativeHealth;                               // 0x268
         st6::list<CollisionGroupDesc> collisionGroupDesc;   // 0x26C
         EquipDescList equipAndCargo;                        // 0x278
@@ -230,7 +230,7 @@ struct PlayerData
         int reputation;                                     // 0x318
         int money;                                          // 0x31C
         int worth;                                          // 0x320
-        uint shipArchetypeWhenLanding;                      // 0x324
+        Id shipArchetypeWhenLanding;                        // 0x324
         // Potentially something related to anti-cheat checking
         EquipDescList shadowEquipDescList; // 0x328
         int numKills;                      // 0x334
@@ -259,7 +259,7 @@ struct PlayerData
         BaseId baseId;                     // 0x3EC
         BaseId lastBaseId;                 // 0x3F0
         BaseId enteredBase;                // 0x3F4
-        uint baseRoomId;                   // 0x3F8
+        Id baseRoomId;                     // 0x3F8
         uint characterId;                  // 0x3FC
         CAccount* account;                 // 0x400
         CPlayerGroup* playerGroup;         // 0x404
@@ -482,7 +482,7 @@ class IMPORT StarSystem
         MetaList counterMeasureList;            // 172
         MetaList asteroidList;                  // 192
         MetaList unkList1;                      // 212 one of those is dynamic asteroids?
-        MetaList unkList2;                      // 232 
+        MetaList unkList2;                      // 232
         bool systemLoaded;                      // 252
 };
 
