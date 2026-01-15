@@ -1,19 +1,12 @@
 #pragma once
 
-#ifndef FLUF_SDK
-
 using Id = unsigned int;
 using SystemId = unsigned int;
 using BaseId = unsigned int;
 using ShipId = unsigned int;
 using ObjectId = unsigned int;
 using EquipmentId = unsigned int;
-using ClientId = unsigned int;
-using RepId = int;
-struct GoodInfo;
-using GoodId = GoodInfo*;
-
-#endif
+using GoodId = unsigned int;
 
 #include "../Typedefs.hpp"
 #include "st6.h"

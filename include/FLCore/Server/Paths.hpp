@@ -12,7 +12,7 @@ struct PathEntry
 template <uint count>
 struct RequestPath
 {
-    RepId repId;
+    uint repId;
     uint waypointCount;
     bool noPathFound = false;
     bool funny[3];
