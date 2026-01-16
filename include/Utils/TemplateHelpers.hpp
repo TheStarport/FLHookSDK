@@ -7,17 +7,26 @@ struct first_template_type;
 template <template <typename T, typename...> class t, typename T, typename... Args>
 struct first_template_type<t<T, Args...>>
 {
-        typedef T Type;
+        typedef T type;
 };
 
 template <typename T>
-using FirstTemplateType = typename first_template_type<T>::Type;
+using FirstTemplateType = typename first_template_type<T>::type;
 
 template <typename T>
-struct MemberFunctionPointerClassType;
+struct MemberFunctionClassType;
 
 template <typename M, typename T>
-struct MemberFunctionPointerClassType<M T::*>
+struct MemberFunctionClassType<M T::*>
 {
         using type = T;
+};
+
+template <typename R, typename... Args>
+struct [[maybe_unused]] MemberFunctionReturnType;
+
+template <class Class, typename R, typename... Args>
+struct [[maybe_unused]] MemberFunctionReturnType<R (Class::*)(Args...)>
+{
+        using type = R;
 };

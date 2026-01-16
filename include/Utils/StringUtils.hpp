@@ -212,6 +212,51 @@ constexpr size_t Hash(const char* str)
 
 class StringUtils
 {
+        // ReSharper disable CppExplicitSpecializationInNonNamespaceScope
+
+        template <typename CharT,
+                  typename C1 = std::conditional_t<IsStringView<CharT>, std::string_view, std::conditional_t<std::is_same_v<CharT, char>, char, const char*>>,
+                  typename C2 =
+                      std::conditional_t<IsStringView<CharT>, std::wstring_view, std::conditional_t<std::is_same_v<CharT, wchar_t>, wchar_t, const wchar_t*>>>
+        static constexpr CharT NarrowOrWide(C1, C2);
+
+        template <>
+        static constexpr const char* NarrowOrWide<const char*>(const char* c, const wchar_t*)
+        { return c; }
+
+        template <>
+        static constexpr wchar_t NarrowOrWide<wchar_t>(char, wchar_t w)
+        { return w; }
+
+        template <>
+        static constexpr char NarrowOrWide<char>(char c, wchar_t)
+        { return c; }
+
+        template <>
+        static constexpr const wchar_t* NarrowOrWide<const wchar_t*>(const char*, const wchar_t* w)
+        { return w; }
+
+        template <>
+        static constexpr std::string_view NarrowOrWide<std::string_view>(std::string_view c, std::wstring_view)
+        {
+            // ReSharper disable once CppDFALocalValueEscapesFunction
+            return { c };
+        }
+
+        template <>
+        static constexpr std::wstring_view NarrowOrWide<std::wstring_view>(std::string_view, std::wstring_view w)
+        {
+            // ReSharper disable once CppDFALocalValueEscapesFunction
+            return { w };
+        }
+
+#define TOWSTRING1(x)               L##x
+#define TOWSTRING(x)                TOWSTRING1(x)
+#define TOWSTRINGVIEW1(x)           L##x##sv
+#define TOWSTRINGVIEW(x)            TOWSTRINGVIEW1(x)
+#define NARROW_OR_WIDE(C, STR)      NarrowOrWide<C>((STR), TOWSTRING(STR))
+#define NARROW_OR_WIDE_VIEW(C, STR) NarrowOrWide<C>((STR##sv), TOWSTRINGVIEW1(STR))
+
     public:
         StringUtils() = delete;
 
@@ -313,22 +358,24 @@ class StringUtils
             return value;
         }
 
-        static std::wstring XmlText(const std::wstring_view text)
+        template <typename View, typename Str = std::conditional_t<std::is_same_v<std::string_view, View>, std::string, std::wstring>>
+            requires IsStringView<View>
+        static Str XmlText(View text)
         {
-            std::wstring ret;
+            Str ret;
             for (uint i = 0; i < text.length(); i++)
             {
                 if (text[i] == '<')
                 {
-                    ret.append(L"&#60;");
+                    ret.append(NARROW_OR_WIDE_VIEW(View, "&#60;"));
                 }
                 else if (text[i] == '>')
                 {
-                    ret.append(L"&#62;");
+                    ret.append(NARROW_OR_WIDE_VIEW(View, "&#62;"));
                 }
                 else if (text[i] == '&')
                 {
-                    ret.append(L"&#38;");
+                    ret.append(NARROW_OR_WIDE_VIEW(View, "&#38;"));
                 }
                 else
                 {
@@ -530,7 +577,9 @@ class StringUtils
             return nullRemoved.substr(0, start + 1);
         }
 
-        static std::wstring ExpandEnvironmentVariables(const std::wstring& input)
+        template <typename View, typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
+            requires IsStringView<View>
+        static Str ExpandEnvironmentVariables(const View& input)
         {
             std::string accumulator;
             std::string output;
@@ -572,14 +621,19 @@ class StringUtils
                 }
             }
 
-            auto ret = Trim(stows(output));
-            return ret;
+            if constexpr (std::is_same_v<View, std::string_view>)
+            {
+                return Trim(output);
+            }
+            else
+            {
+                auto ret = Trim(stows(output));
+                return ret;
+            }
         }
 
         static std::wstring_view GetParam(IsConvertibleRangeOf<std::wstring_view> auto view, int pos)
-        {
-            return GetParam<decltype(view), std::wstring_view>(view, pos);
-        }
+        { return GetParam<decltype(view), std::wstring_view>(view, pos); }
 
         template <typename TStr, typename TChar>
         static auto GetParams(const TStr& line, TChar splitChar)
@@ -667,9 +721,10 @@ class StringUtils
         }
 
         template <typename T>
-        static std::wstring ToMoneyStr(T cash)
+            requires StringRestriction<T>
+        static T ToMoneyStr(T cash)
         {
-            std::wstringstream ss;
+            std::conditional_t<std::is_same_v<T, std::string>, std::stringstream, std::wstringstream> ss;
             ss.imbue(std::locale(""));
             ss << std::fixed << cash;
             return ss.str();
@@ -677,24 +732,36 @@ class StringUtils
 
         static uint RgbToBgr(const uint color) { return color & 0xFF000000 | (color & 0xFF0000) >> 16 | color & 0x00FF00 | (color & 0x0000FF) << 16; };
 
-        static std::wstring UintToHexString(const uint number, const uint width, const bool addPrefix = false)
+        template <typename T>
+            requires StringRestriction<T>
+        static T UintToHexString(const uint number, const uint width, const bool addPrefix = false)
         {
-            std::wstringstream stream;
+            using CharType = std::conditional_t<std::is_same_v<T, std::string>, char, wchar_t>;
+            using CharPtrType = std::conditional_t<std::is_same_v<T, std::string>, const char*, const wchar_t*>;
+            std::conditional_t<std::is_same_v<T, std::string>, std::stringstream, std::wstringstream> stream;
             if (addPrefix)
             {
-                stream << L"0x";
+                stream << NARROW_OR_WIDE(CharPtrType, "0x");
             }
-            stream << std::setfill(L'0') << std::setw(width) << std::hex << number;
+
+            stream << std::setfill(NARROW_OR_WIDE(CharType, '0')) << std::setw(width) << std::hex << number;
             return stream.str();
         }
 
-        static std::wstring FormatMsg(MessageColor color, MessageFormat format, const std::wstring& msg)
+        template <typename T, typename TStr = std::conditional_t<std::is_same_v<T, std::string_view>, std::string_view, std::wstring_view>>
+            requires IsStringView<T>
+        static TStr FormatMsg(MessageColor color, MessageFormat format, T msg)
         {
             using namespace std::string_view_literals;
-            const uint bgrColor = RgbToBgr(static_cast<uint>(color));
-            const std::wstring tra = UintToHexString(bgrColor, 6, true) + UintToHexString(static_cast<uint>(format), 2);
+            using CharType = std::conditional_t<std::is_same_v<T, std::string_view>, const char*, const wchar_t*>;
+            using Str = std::conditional_t<std::is_same_v<T, std::string_view>, std::string, std::wstring>;
 
-            return std::format(L"<TRA data=\"{}\" mask=\"-1\"/><TEXT>{}</TEXT>", tra, ReplaceStr(XmlText(msg), L"\n"sv, L"</TEXT><PARA/><TEXT>"sv));
+            const uint bgrColor = RgbToBgr(static_cast<uint>(color));
+            const Str tra = UintToHexString<Str>(bgrColor, 6, true) + UintToHexString<Str>(static_cast<uint>(format), 2);
+
+            return std::format(NARROW_OR_WIDE(CharType, "<TRA data=\"{}\" mask=\"-1\"/><TEXT>{}</TEXT>"),
+                               tra,
+                               ReplaceStr(XmlText(msg), NARROW_OR_WIDE_VIEW(T, "\n"), NARROW_OR_WIDE_VIEW(T, "</TEXT><PARA/><TEXT>")));
         }
 
         /**
@@ -830,3 +897,9 @@ class StringUtils
             return matched;
         }
 };
+
+#undef TOWSTRING
+#undef TOWSTRING1
+#undef TOWSTRINGVIEW
+#undef TOWSTRINGVIEW1
+#undef NARROW_OR_WIDE
