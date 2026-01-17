@@ -8,6 +8,6 @@ namespace PhySys
         CObject* collision_object;
         Vector collision_position;
         Vector collision_velocity;
-        uint unknown;
+        uint dacomCRC32hash;
     };
 }
