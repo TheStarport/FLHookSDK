@@ -1,6 +1,8 @@
 #pragma once
 #include "../../FLCoreDefs.hpp"
 
+#include <FLCore/Common/CEquip/CEquip.hpp>
+
 class CInternalEquip : public CEquip
 {
     public:

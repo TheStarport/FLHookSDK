@@ -1,6 +1,8 @@
 #pragma once
 
 #include <FLCore/Common/PhySys/Controller/CPhysControllerEquip.hpp>
+#include <FLCore/Common/CEquip/CInternalEquip.hpp>
+
 #include "../../../FLCoreDefs.hpp"
 
 struct CShip;
