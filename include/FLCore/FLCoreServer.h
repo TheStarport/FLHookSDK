@@ -253,19 +253,19 @@ struct PlayerData
         uint onlineId2;                    // 0x3D0
         uint dunno3[2];                    // 0x3D4
         uint tradeRequestCount;            // 0x3DC
-        SystemRef systemId;                 // 0x3E0
+        SystemId systemId;                 // 0x3E0
         uint shipId;                       // 0x3E4
         uint createdShipId;                // 0x3E8
-        BaseRef baseId;                     // 0x3EC
-        BaseRef lastBaseId;                 // 0x3F0
-        BaseRef enteredBase;                // 0x3F4
+        BaseId baseId;                     // 0x3EC
+        BaseId lastBaseId;                 // 0x3F0
+        BaseId enteredBase;                // 0x3F4
         Id baseRoomId;                     // 0x3F8
         uint characterId;                  // 0x3FC
         CAccount* account;                 // 0x400
         CPlayerGroup* playerGroup;         // 0x404
         uint missionId;                    // 0x408
         uint missionSetBy;                 // 0x40C
-        BaseRef exitedBase;                 // 0x410
+        BaseId exitedBase;                 // 0x410
         uint unknownLocId;                 // 0x414
 };
 
