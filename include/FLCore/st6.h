@@ -161,7 +161,7 @@ namespace st6
                     ;
                 else if (_X.size() <= size())
                 {
-                    iterator _S = copy(_X.begin(), _X.end(), _First);
+                    iterator _S = std::copy(_X.begin(), _X.end(), _First);
                     _Destroy(_S, _Last);
                     _Last = _First + _X.size();
                 }

@@ -440,9 +440,8 @@ class StringUtils
 
         template <typename Ret, typename Str>
             requires(IsStringView<Str> || StringRestriction<Str>) && (std::is_integral_v<Ret> || std::is_floating_point_v<Ret> || std::is_same_v<Ret, bool>)
-        static Ret Cast(Str str)
+        static Ret Cast(const Str& str)
         {
-
             constexpr auto IsWide = std::is_same_v<Str, std::wstring> || std::is_same_v<Str, std::wstring_view>;
             if constexpr (std::is_same_v<Ret, bool>)
             {
@@ -456,7 +455,8 @@ class StringUtils
                 }
             }
 
-            if (str.empty() || !IsNumeric(str))
+            Str trimmed = Trim(str);
+            if (trimmed.empty() || !IsNumeric(trimmed))
             {
                 return Ret();
             }
@@ -465,44 +465,44 @@ class StringUtils
             {
                 if constexpr (IsWide)
                 {
-                    return _wtoi(str.data());
+                    return _wtoi(trimmed.data());
                 }
                 else
                 {
-                    return std::atoi(str.data());
+                    return std::atoi(trimmed.data());
                 }
             }
             else if constexpr (std::is_same_v<Ret, long> || std::is_same_v<Ret, ulong>)
             {
                 if constexpr (IsWide)
                 {
-                    return _wtol(str.data());
+                    return _wtol(trimmed.data());
                 }
                 else
                 {
-                    return std::atol(str.data());
+                    return std::atol(trimmed.data());
                 }
             }
             else if constexpr (std::is_same_v<Ret, int64> || std::is_same_v<Ret, uint64>)
             {
                 if constexpr (IsWide)
                 {
-                    return _wtoi64_l(str.data());
+                    return _wtoi64_l(trimmed.data());
                 }
                 else
                 {
-                    return std::atoll(str.data());
+                    return std::atoll(trimmed.data());
                 }
             }
             else if constexpr (std::is_same_v<Ret, float> || std::is_same_v<Ret, double>)
             {
                 if constexpr (IsWide)
                 {
-                    return static_cast<Ret>(_wtof(str.data()));
+                    return static_cast<Ret>(_wtof(trimmed.data()));
                 }
                 else
                 {
-                    static_cast<Ret>(std::atof(str.data()));
+                    static_cast<Ret>(std::atof(trimmed.data()));
                 }
             }
 

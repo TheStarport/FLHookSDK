@@ -3,27 +3,22 @@
 
 class TimeUtils
 {
+    using SysClock = std::chrono::system_clock;
     public:
         TimeUtils() = delete;
 
         template <typename Duration>
             requires IsChronoDurationV<Duration>
         static Duration UnixTimeAsDuration()
-        {
-            return std::chrono::duration_cast<Duration>(std::chrono::system_clock::now().time_since_epoch());
-        }
+        { return std::chrono::duration_cast<Duration>(SysClock::now().time_since_epoch()); }
 
         template <typename Duration = std::chrono::milliseconds>
             requires IsChronoDurationV<Duration>
         static int64 UnixTime()
-        {
-            return static_cast<int64>(UnixTimeAsDuration<Duration>().count());
-        }
+        { return static_cast<int64>(UnixTimeAsDuration<Duration>().count()); }
 
         static std::chrono::sys_time<std::chrono::seconds> UnixToSysTime(const int64 time)
-        {
-            return std::chrono::sys_time(std::chrono::sys_seconds(std::chrono::seconds{ time }));
-        }
+        { return std::chrono::sys_time(std::chrono::sys_seconds(std::chrono::seconds{ time })); }
 
         // Returns number of days since civil 1970-01-01.  Negative values indicate
         //    days prior to 1970-01-01.
@@ -70,9 +65,7 @@ class TimeUtils
 
         template <class Int>
         static constexpr unsigned WeekdayFromDays(Int z) noexcept
-        {
-            return static_cast<unsigned>(z >= -4 ? (z + 4) % 7 : (z + 5) % 7 + 6);
-        }
+        { return static_cast<unsigned>(z >= -4 ? (z + 4) % 7 : (z + 5) % 7 + 6); }
 
         template <class To, class Rep, class Period>
         static To round_down(const std::chrono::duration<Rep, Period>& d)
@@ -85,9 +78,10 @@ class TimeUtils
             return t;
         }
 
-        template <class Duration>
+        template <class Duration = std::chrono::seconds>
             requires IsChronoDurationV<Duration>
-        static std::tm MakeUtcTm(std::chrono::time_point<std::chrono::system_clock, Duration> tp)
+        static std::tm MakeUtcTm(
+            std::chrono::time_point<SysClock, Duration> tp = std::chrono::time_point_cast<Duration>(SysClock::now()))
         {
             using namespace std;
             using namespace std::chrono;
@@ -175,39 +169,27 @@ class TimeUtils
 
         template <typename T>
         static std::chrono::microseconds ToMicroseconds(T duration)
-        {
-            return std::chrono::duration_cast<std::chrono::microseconds>(duration);
-        }
+        { return std::chrono::duration_cast<std::chrono::microseconds>(duration); }
 
         template <typename T>
         static std::chrono::milliseconds ToMilliseconds(T duration)
-        {
-            return std::chrono::duration_cast<std::chrono::milliseconds>(duration);
-        }
+        { return std::chrono::duration_cast<std::chrono::milliseconds>(duration); }
 
         template <typename T>
         static std::chrono::seconds ToSeconds(T duration)
-        {
-            return std::chrono::duration_cast<std::chrono::seconds>(duration);
-        }
+        { return std::chrono::duration_cast<std::chrono::seconds>(duration); }
 
         template <typename T>
         static std::chrono::minutes ToMinutes(T duration)
-        {
-            return std::chrono::duration_cast<std::chrono::minutes>(duration);
-        }
+        { return std::chrono::duration_cast<std::chrono::minutes>(duration); }
 
         template <typename T>
         static std::chrono::hours ToHours(T duration)
-        {
-            return std::chrono::duration_cast<std::chrono::hours>(duration);
-        }
+        { return std::chrono::duration_cast<std::chrono::hours>(duration); }
 
         template <typename T>
         static std::chrono::nanoseconds ToNanoseconds(T duration)
-        {
-            return std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-        }
+        { return std::chrono::duration_cast<std::chrono::nanoseconds>(duration); }
 
         class Stopwatch
         {

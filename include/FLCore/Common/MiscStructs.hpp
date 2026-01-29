@@ -10,6 +10,16 @@ struct Costume
     uint rightHand = 0;
     uint accessory[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
     int accessories = 0;
+
+    static Costume Trent()
+    {
+        return Costume{
+            .head = 2223155968, // pi_pirate5_head
+            .body = 3144214861,
+            .leftHand = 2479975689,
+            .rightHand = 2264565644,
+        };
+    }
 };
 
 class IMPORT CEquipmentObj : public CObject

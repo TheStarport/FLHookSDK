@@ -175,8 +175,8 @@ struct IMPORT [[Hook, ServerCall]] IServerImpl
 struct CharacterData
 {
         CHARACTER_ID characterCode;
-        st6::wstring name;                                    // 512
-        st6::wstring description;                             // 528
+        st6::wstring name{};                                    // 512
+        st6::wstring description{};                             // 528
         uint descripStrId;                                    // 544
         uint datetimeHigh;                                    // 548
         uint datetimeLow;                                     // 552
@@ -186,11 +186,11 @@ struct CharacterData
         int numOfSuccessMissions;                             // 568
         int numOfFailedMissions;                              // 572
         float hullStatus;                                     // 576
-        st6::list<EquipDesc> currentEquipAndCargo;            // 580
-        st6::list<CollisionGroupDesc> currentCollisionGroups; // 592
+        st6::list<EquipDesc> currentEquipAndCargo{};            // 580
+        st6::list<CollisionGroupDesc> currentCollisionGroups{}; // 592
         float baseHullStatus;                                 // 604
-        st6::list<EquipDesc> baseEquipAndCargo;               // 608
-        st6::list<CollisionGroupDesc> baseCollisionGroups;    // 620
+        st6::list<EquipDesc> baseEquipAndCargo{};               // 608
+        st6::list<CollisionGroupDesc> baseCollisionGroups{};    // 620
         Id currentBase;                                       // 632
         Id lastDockedBase;                                    // 636
         Id currentRoom;                                       // 640
@@ -199,17 +199,17 @@ struct CharacterData
         Matrix rot;                                           // 660 - 692
         Id startingRing;                                      // 696
         int rank;                                             // 700
-        st6::vector<Reputation::Relation> repList;            // 704
+        st6::vector<Reputation::Relation> repList{};            // 704
         Id affiliation;                                       // 720, see Reputation::get_id();
-        Costume commCostume;                                  // 724 - 772
+        Costume commCostume{};                                  // 724 - 772
         uint voiceLen;                                        // 776
         char voice[32] = "trent_voice";                       // 780
         Costume baseCostume;                                  // 812 - 860
         SubObjectID::EquipIdMaker equipIdEnumerator;          // 864
-        st6::string prefilledWeaponGroupIni;                  // 876
-        st6::list<uint> logInfo;                              // 888
+        st6::string prefilledWeaponGroupIni{};                  // 876
+        st6::list<uint> logInfo{};                              // 888
         int interfaceState = 3;                               // 896
-        st6::map<uint, char> visits;                          // 900
+        st6::map<uint, char> visits{};                          // 900
 };
 
 struct PlayerData
