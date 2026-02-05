@@ -45,7 +45,7 @@ class DynPatch
 
             for (auto& entry : patches)
             {
-                if (entry.newValue)
+                if (!entry.newValue)
                 {
                     continue;
                 }
@@ -68,6 +68,7 @@ class DynPatch
             const auto base = reinterpret_cast<DWORD>(GetModuleHandleA(binary.data()));
             if (!base || !applied)
             {
+                applied = false;
                 return;
             }
 
