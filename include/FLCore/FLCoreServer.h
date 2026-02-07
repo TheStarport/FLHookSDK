@@ -177,38 +177,38 @@ struct CharacterData
         CHARACTER_ID characterCode;
         st6::wstring name{};                                    // 512
         st6::wstring description{};                             // 528
-        uint descripStrId;                                    // 544
-        uint datetimeHigh;                                    // 548
-        uint datetimeLow;                                     // 552
-        Id shipHash;                                          // 556
-        int money;                                            // 560
-        int numOfKills;                                       // 564
-        int numOfSuccessMissions;                             // 568
-        int numOfFailedMissions;                              // 572
-        float hullStatus;                                     // 576
+        uint descripStrId;                                      // 544
+        uint datetimeHigh;                                      // 548
+        uint datetimeLow;                                       // 552
+        Id shipHash;                                            // 556
+        int money;                                              // 560
+        int numOfKills;                                         // 564
+        int numOfSuccessMissions;                               // 568
+        int numOfFailedMissions;                                // 572
+        float hullStatus;                                       // 576
         st6::list<EquipDesc> currentEquipAndCargo{};            // 580
         st6::list<CollisionGroupDesc> currentCollisionGroups{}; // 592
-        float baseHullStatus;                                 // 604
+        float baseHullStatus;                                   // 604
         st6::list<EquipDesc> baseEquipAndCargo{};               // 608
         st6::list<CollisionGroupDesc> baseCollisionGroups{};    // 620
-        Id currentBase;                                       // 632
-        Id lastDockedBase;                                    // 636
-        Id currentRoom;                                       // 640
-        Id system;                                            // 644
-        Vector pos;                                           // 648 - 656
-        Matrix rot;                                           // 660 - 692
-        Id startingRing;                                      // 696
-        int rank;                                             // 700
+        Id currentBase;                                         // 632
+        Id lastDockedBase;                                      // 636
+        Id currentRoom;                                         // 640
+        Id system;                                              // 644
+        Vector pos;                                             // 648 - 656
+        Matrix rot;                                             // 660 - 692
+        Id startingRing;                                        // 696
+        int rank;                                               // 700
         st6::vector<Reputation::Relation> repList{};            // 704
-        Id affiliation;                                       // 720, see Reputation::get_id();
+        Id affiliation;                                         // 720, see Reputation::get_id();
         Costume commCostume{};                                  // 724 - 772
-        uint voiceLen;                                        // 776
-        char voice[32] = "trent_voice";                       // 780
-        Costume baseCostume;                                  // 812 - 860
-        SubObjectID::EquipIdMaker equipIdEnumerator;          // 864
+        uint voiceLen;                                          // 776
+        char voice[32] = "trent_voice";                         // 780
+        Costume baseCostume;                                    // 812 - 860
+        SubObjectID::EquipIdMaker equipIdEnumerator;            // 864
         st6::string prefilledWeaponGroupIni{};                  // 876
         st6::list<uint> logInfo{};                              // 888
-        int interfaceState = 3;                               // 896
+        int interfaceState = 3;                                 // 896
         st6::map<uint, char> visits{};                          // 900
 };
 
@@ -715,8 +715,8 @@ namespace pub
         IMPORT int SetInitialOrnt(const unsigned int&, const Matrix&);
         IMPORT int SetInitialPos(const unsigned int&, const Vector&);
         IMPORT int SetMissionObjectiveState(const unsigned int&, const unsigned int&, int, unsigned int);
-        IMPORT int SetMissionObjectives(const unsigned int&, const unsigned int&, const MissionObjective*, unsigned int, const FmtStr&, unsigned char,
-                                        const FmtStr&);
+        IMPORT int SetMissionObjectives(const unsigned int&, const unsigned int&, const MissionObjective*, unsigned int, const FmtStr&,
+                                        unsigned char, const FmtStr&);
         IMPORT int SetMoneyNeededToNextRank(unsigned int, int);
         IMPORT int SetMonkey(unsigned int);
         IMPORT int SetMsnID(unsigned int, unsigned int, unsigned int, bool, unsigned int);
@@ -783,7 +783,7 @@ namespace pub
         struct ShipInfo
         {
                 uint flag = 0;
-                SystemRef system;
+                SystemId system;
                 Id shipArchetype;
                 Vector pos = { 0, 0, 0 };
                 Vector unk1 = { 0, 0, 0 }; // all 0
@@ -808,10 +808,10 @@ namespace pub
 
                 int rep = 0; // increases for each NPC spawned, starts at 0 or 1
                 Id pilotVoice;
-                uint unk15 = 0;   // 0
-                uint health = -1; // -1 = max health
-                uint unk16 = 0;   // 0
-                uint unk17 = 0;   // 0
+                uint unk15 = 0;         // 0
+                uint health = UINT_MAX; // -1 = max health
+                uint unk16 = 0;         // 0
+                uint unk17 = 0;         // 0
                 uint level = 1;
         };
 
@@ -819,14 +819,14 @@ namespace pub
         {
                 int flag; // 0x290; ShipInfo has this too, no clue whether actually a flag
                 Id archId;
-                SystemRef systemId;
+                SystemId systemId;
                 Vector pos;
                 Matrix orientation;
                 Id loadoutId;
                 Costume costume;
                 int rep;
                 Id voiceId;
-                BaseRef dockWith;
+                BaseId dockWith;
                 bool missionBool;
                 int hitPointsLeft;
                 char nickName[64]; // Has to be unique
@@ -836,7 +836,7 @@ namespace pub
 
         struct LootInfo
         {
-                SystemRef systemId;
+                SystemId systemId;
                 Id equipmentArchId;
                 Id infocardOverride;
                 uint ownerId;
@@ -915,7 +915,8 @@ namespace pub
         IMPORT int LightFuse(const unsigned int&, const char*, float);
         IMPORT int Relocate(const unsigned int&, const unsigned int&, const Vector&, const Matrix&);
         IMPORT int RequestSpaceScript(const unsigned int&, const Vector&, const int&, unsigned int, const char*);
-        IMPORT int SendComm(unsigned int, unsigned int, unsigned int, const Costume*, unsigned int, unsigned int*, int, unsigned int, float, bool);
+        IMPORT int SendComm(unsigned int, unsigned int, unsigned int, const Costume*, unsigned int, unsigned int*, int, unsigned int, float,
+                            bool);
         IMPORT int SetInvincible2(unsigned int, bool, bool, float);
         IMPORT int SetInvincible(unsigned int, bool, bool, float);
         IMPORT int SetRelativeHealth(const unsigned int&, float);
