@@ -3,16 +3,16 @@
 #include <string>
 
 template <typename T>
-concept StringRestriction = std::is_same_v<std::string, T> || std::is_same_v<std::wstring, T>;
+concept StringRestriction = std::is_convertible_v<T, std::string> || std::is_convertible_v<T, std::wstring>;
 
 template <typename T>
-concept IsStringView = std::is_same_v<std::string_view, T> || std::is_same_v<std::wstring_view, T>;
+concept IsStringViewConvertable = std::is_convertible_v<T, std::string_view> || std::is_convertible_v<T, std::wstring_view>;
 
 template <typename T>
-concept IsString = std::is_same_v<std::string_view, T> || std::is_same_v<std::string, T>;
+concept IsString = std::is_convertible_v<T, std::string> || std::is_convertible_v<T, std::string>;
 
 template <typename T>
-concept IsWString = std::is_same_v<std::wstring_view, T> || std::is_same_v<std::wstring, T>;
+concept IsWString = std::is_convertible_v<T, std::wstring_view> || std::is_convertible_v<T, std::wstring>;
 
 template <typename... T>
 concept AtLeastOne = sizeof...(T) > 0;
