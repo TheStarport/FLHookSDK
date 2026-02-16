@@ -42,7 +42,7 @@ struct GameObject : public IObjInspectImpl, public IObjAffect, public IObjDestru
         }
 
         CObject* cobj;
-        byte bDunno_0x14;
+        GameObject* next; // warning: might only apply to client variant of the object
         void* pDunno_0x18; // struct size: 12 bytes
         int iDunnos_0x1C;  // length of 0x1C
         double timer;
