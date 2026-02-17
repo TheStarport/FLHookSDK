@@ -95,16 +95,25 @@ class FunctionDetour final
             memcpy(originalFunc, patch.data(), 5); // Change the first 5 bytes to the JMP instruction.
         }
 
-        void UnDetour()
+        void UnDetour(bool release = false)
         {
             if (!detoured)
             {
+                if (release)
+                {
+                    Release();
+                }
                 return;
             }
 
             detoured = false;
 
             memcpy(originalFunc, data, 5);
+
+            if (release)
+            {
+                Release();
+            }
         }
 };
 
