@@ -1474,16 +1474,23 @@ namespace st6
             {
                 if (this != &_X)
                 {
-                    iterator _F1 = begin();
-                    iterator _L1 = end();
-                    const_iterator _F2 = _X.begin();
-                    const_iterator _L2 = _X.end();
-                    for (; _F1 != _L1 && _F2 != _L2; ++_F1, ++_F2)
+                    if (_X._Head)
                     {
-                        *_F1 = *_F2;
+                        iterator _F1 = begin();
+                        iterator _L1 = end();
+                        const_iterator _F2 = _X.begin();
+                        const_iterator _L2 = _X.end();
+                        for (; _F1 != _L1 && _F2 != _L2; ++_F1, ++_F2)
+                        {
+                            *_F1 = *_F2;
+                        }
+                        erase(_F1, _L1);
+                        insert(_L1, _F2, _L2);
                     }
-                    erase(_F1, _L1);
-                    insert(_L1, _F2, _L2);
+                    else
+                    {
+                        this->clear();
+                    }
                 }
                 return (*this);
             }
