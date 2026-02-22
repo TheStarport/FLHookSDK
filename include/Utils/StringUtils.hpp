@@ -436,9 +436,7 @@ class StringUtils
         StringUtils() = delete;
 
         // TODO: add support to cast to optionally return a boolean to handle conversion errors
-
         template <typename Ret, typename T,
-                  typename Str = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string, std::wstring>,
                   typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>>
             requires IsStringViewConvertable<T> && (std::is_integral_v<Ret> || std::is_floating_point_v<Ret> || std::is_same_v<Ret, bool>)
         static Ret Cast(const T& str)
@@ -458,58 +456,33 @@ class StringUtils
             }
 
             // Construct explicit string to prevent partial-view buffer overflow when passing into the C functions
-            Str trimmed{ Trim(view) };
+            View trimmed{ Trim(view, NARROW_OR_WIDE_VIEW(View, "{}")) };
             if (trimmed.empty() || !IsNumeric(trimmed))
             {
                 return Ret();
             }
 
-            if constexpr (std::is_same_v<Ret, int> || std::is_same_v<Ret, uint>)
+            std::string_view numberView;
+            if constexpr (IsWide)
             {
-                if constexpr (IsWide)
-                {
-                    return _wtoi(trimmed.data());
-                }
-                else
-                {
-                    return std::atoi(trimmed.data());
-                }
+                static std::string data = StringUtils::wstos(trimmed);
+                numberView = data;
             }
-            else if constexpr (std::is_same_v<Ret, long> || std::is_same_v<Ret, ulong>)
+            else
             {
-                if constexpr (IsWide)
-                {
-                    return _wtol(trimmed.data());
-                }
-                else
-                {
-                    return std::atol(trimmed.data());
-                }
-            }
-            else if constexpr (std::is_same_v<Ret, int64> || std::is_same_v<Ret, uint64>)
-            {
-                if constexpr (IsWide)
-                {
-                    return _wtoi64_l(trimmed.data());
-                }
-                else
-                {
-                    return std::atoll(trimmed.data());
-                }
-            }
-            else if constexpr (std::is_same_v<Ret, float> || std::is_same_v<Ret, double>)
-            {
-                if constexpr (IsWide)
-                {
-                    return static_cast<Ret>(_wtof(trimmed.data()));
-                }
-                else
-                {
-                    static_cast<Ret>(std::atof(trimmed.data()));
-                }
+                numberView = trimmed;
             }
 
-            return 0;
+            Ret result;
+            auto [ptr, ec] = std::from_chars(numberView.data(), numberView.data() + numberView.size(), result);
+
+            // TODO: Pass error code back to the user?
+            if (ec != std::errc())
+            {
+                return Ret();
+            }
+
+            return result;
         }
 
         template <typename View>
@@ -648,7 +621,7 @@ class StringUtils
                 return false;
             }
 
-            constexpr bool isWide = std::is_convertible_v<Str, std::wstring>;
+            constexpr bool isWide = std::is_convertible_v<Str, std::wstring_view>;
             constexpr auto minus = isWide ? L'-' : '-';
             using ViewType = std::conditional_t<isWide, std::wstring_view, std::string_view>;
 
@@ -729,31 +702,30 @@ class StringUtils
 
             return true;
         }
-
         template <typename T,
                   typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>,
                   typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
             requires IsStringViewConvertable<T>
-        static Str Trim(const T& stringInput)
+        static View Trim(const T& stringInput, View extraTrimChars = View{})
         {
-            if (stringInput.empty())
+            View str = stringInput;
+            if (str.empty())
             {
-                return Str{};
+                return str;
             }
 
-            // Reallocate the str to remove needless null terminators
-            Str nullRemoved = stringInput.data();
-            View trimmable = NARROW_OR_WIDE_VIEW(View, " \t\n\r");
+            View defaultTrimmable = NARROW_OR_WIDE_VIEW(View, " \n\r\0\t");
+            Str trimmable = std::format(NARROW_OR_WIDE_VIEW(View, "{}{}"), defaultTrimmable, extraTrimChars);
 
-            auto start = nullRemoved.find_last_not_of(trimmable);
-            auto end = nullRemoved.find_last_of(trimmable);
+            size_t start = 0;
+            for (; start < str.size() && trimmable.find(str[start]) != std::string_view::npos; ++start)
+                ;
 
-            if (start >= end)
-            {
-                return nullRemoved;
-            }
+            size_t end = str.size();
+            for (; end > start && trimmable.find(str[end - 1]) != std::string_view::npos; --end)
+                ;
 
-            return nullRemoved.substr(0, start + 1);
+            return View(&str[start], end - start);
         }
 
         template <typename T,

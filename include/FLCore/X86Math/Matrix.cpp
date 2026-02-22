@@ -316,32 +316,27 @@ bool Matrix::equal(const Matrix& m, const SINGLE tolerance) const
 
 Vector Matrix::euler(const bool inDegrees) const
 {
-    float heading = 0.0f;
-    float bank = 0.0f;
-    float attitude = 0.0f;
-
-    const float mathDunno = sqrtf(d[0][0] * d[0][0] + d[1][0] * d[1][0]);
-
-    // singularity at south or north pole
-    if (d[0][0] <= 0.0000019f)
+    Vector vec;
+    float h = (float)_hypot(d[0][0], d[1][0]);
+    if (h > 1 / 524288.0f)
     {
-        heading = atan2(-d[1][2], d[1][1]);
-        bank = atan2(-d[2][0], mathDunno);
-        attitude = 0.0f;
+        vec.x = atan2f(d[2][1], d[2][2]);
+        vec.y = atan2f(-d[2][0], h);
+        vec.z = atan2f(d[1][0], d[0][0]);
     }
     else
     {
-        heading = atan2(d[2][1], d[2][2]);
-        bank = atan2(-d[2][0], mathDunno);
-        attitude = atan2(d[1][0], d[0][0]);
+        vec.x = atan2f(-d[1][2], d[1][1]);
+        vec.y = atan2f(-d[2][0], h);
+        vec.z = 0;
     }
 
     if (inDegrees)
     {
-        constexpr float mod = 57.295776f;
-        return { heading * mod, bank * mod, attitude * mod };
+        constexpr float mod = 180.f / PI;
+        vec *= mod;
     }
-    return { heading, bank, attitude };
+    return vec;
 }
 
 Vector Matrix::get_i() const { return Vector(d[0][0], d[1][0], d[2][0]); }
