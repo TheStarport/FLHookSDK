@@ -935,16 +935,15 @@ class StringUtils
         }
 
         template <typename T,
-                  typename TStr = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>>
+                  typename TStr = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string, std::wstring>>
             requires IsStringViewConvertable<T>
         static TStr FormatMsg(MessageColor color, MessageFormat format, T msg)
         {
             using namespace std::string_view_literals;
             using CharType = std::conditional_t<std::is_convertible_v<T, std::string_view>, const char*, const wchar_t*>;
-            using Str = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string, std::wstring>;
 
             const uint bgrColor = RgbToBgr(static_cast<uint>(color));
-            const Str tra = UintToHexString<Str>(bgrColor, 6, true) + UintToHexString<Str>(static_cast<uint>(format), 2);
+            const TStr tra = UintToHexString<TStr>(bgrColor, 6, true) + UintToHexString<TStr>(static_cast<uint>(format), 2);
 
             return std::format(NARROW_OR_WIDE(CharType, "<TRA data=\"{}\" mask=\"-1\"/><TEXT>{}</TEXT>"),
                                tra,
