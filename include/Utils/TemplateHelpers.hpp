@@ -16,6 +16,24 @@ using FirstTemplateType = typename first_template_type<T>::type;
 template <std::size_t I, typename... Ts>
 using NthType = std::tuple_element_t<I, std::tuple<Ts...>>;
 
+template <typename T, typename Tuple>
+struct TupleHasType;
+
+template <typename T>
+struct TupleHasType<T, std::tuple<>> : std::false_type
+{};
+
+template <typename T, typename U, typename... Ts>
+struct TupleHasType<T, std::tuple<U, Ts...>> : TupleHasType<T, std::tuple<Ts...>>
+{};
+
+template <typename T, typename... Ts>
+struct TupleHasType<T, std::tuple<T, Ts...>> : std::true_type
+{};
+
+template <typename Tuple, typename T>
+constexpr bool TupleHasTypeV = TupleHasType<T, Tuple>::value;
+
 template <typename>
 constexpr bool IsOptional = false;
 template <typename T>
@@ -45,8 +63,10 @@ template <typename T, typename... Ts>
 struct IsAnyOf : std::bool_constant<(std::is_same<T, Ts>{} || ...)>
 {};
 
-template<typename Test, template<typename...> class Ref>
-struct IsSpecialization : std::false_type {};
+template <typename Test, template <typename...> class Ref>
+struct IsSpecialization : std::false_type
+{};
 
-template<template<typename...> class Ref, typename... Args>
-struct IsSpecialization<Ref<Args...>, Ref>: std::true_type {};
+template <template <typename...> class Ref, typename... Args>
+struct IsSpecialization<Ref<Args...>, Ref> : std::true_type
+{};
