@@ -177,7 +177,7 @@ class VTableHook final
          * @brief Unhooks specific index
          * @param index Index of the function that should be unhooked
          **/
-        void Unhook(const unsigned short index) const
+        void Unhook(const unsigned short index)
         {
             auto handle = reinterpret_cast<DWORD>(GetModuleHandleA(dll));
             if (!handle || !memProtect)
@@ -186,7 +186,8 @@ class VTableHook final
             }
 
             assert(index < Count);
-            memcpy_s(reinterpret_cast<void*>(handle + Start + index * 4), 4, GetOriginal(index), 4);
+            auto original = GetOriginal(index);
+            memcpy_s(reinterpret_cast<void*>(handle + Start + index * 4), 4, &original, 4);
         }
 
         ~VTableHook()
