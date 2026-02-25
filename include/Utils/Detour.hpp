@@ -17,7 +17,8 @@ class MemProtect
         /// </summary>
         /// <param name="address">The address which should be affected</param>
         /// <param name="size">The size of the memory which should be affected</param>
-        MemProtect(LPVOID address, uint size) : addr(address), size(size), flags(0) { VirtualProtect(addr, this->size, PAGE_EXECUTE_READWRITE, &this->flags); }
+        MemProtect(LPVOID address, uint size) : addr(address), size(size), flags(0)
+        { VirtualProtect(addr, this->size, PAGE_EXECUTE_READWRITE, &this->flags); }
 
         /// <summary>
         /// Destroys the protection object and automatically restores old flags
@@ -39,15 +40,14 @@ class MemProtect
 
         [[nodiscard]]
         void* GetAddr() const
-        {
-            return addr;
-        }
+        { return addr; }
 };
 
 template <typename CallSig>
-class FunctionDetour final
+class FunctionDetour
 {
-        void* originalFunc;
+        CallSig originalFunc;
+        CallSig detourFunc;
         PBYTE data;
         std::allocator<unsigned char> alloc;
         bool detoured = false;
@@ -55,9 +55,19 @@ class FunctionDetour final
         MemProtect protection;
 
     public:
-        CallSig GetOriginalFunc() { return reinterpret_cast<CallSig>(originalFunc); }
+        template <typename... Args>
+            requires std::invocable<CallSig, Args...>
+        decltype(auto) CallOriginalFunc(Args&&... args)
+        {
+            UnDetour();
+            decltype(auto) ret = std::invoke(originalFunc, std::forward<Args>(args)...);
+            Detour(detourFunc);
+            return ret;
+        }
 
-        explicit FunctionDetour(CallSig origFunc) : originalFunc(reinterpret_cast<void*>(origFunc)), protection(originalFunc, 5) { data = alloc.allocate(5); }
+        CallSig GetOriginalFunc() { return originalFunc; }
+
+        explicit FunctionDetour(CallSig origFunc) : originalFunc(origFunc), protection(originalFunc, 5) { data = alloc.allocate(5); }
         ~FunctionDetour()
         {
             UnDetour();
@@ -85,6 +95,7 @@ class FunctionDetour final
                 return;
             }
 
+            detourFunc = hookedFunc;
             detoured = true;
 
             std::array<byte, 5> patch{}; // We need to change 5 bytes and I'm going to use memcpy so this is the simplest way.
