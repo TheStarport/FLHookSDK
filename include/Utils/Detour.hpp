@@ -59,10 +59,26 @@ class FunctionDetour
             requires std::invocable<CallSig, Args...>
         decltype(auto) CallOriginalFunc(Args&&... args)
         {
+            using RetType = std::invoke_result_t<CallSig, Args...>;
+            constexpr bool IsVoid = std::is_same_v<RetType, void>;
+            std::conditional_t<IsVoid, int, RetType> ret;
+
             UnDetour();
-            decltype(auto) ret = std::invoke(originalFunc, std::forward<Args>(args)...);
+            if constexpr (IsVoid)
+            {
+                std::invoke(originalFunc, std::forward<Args>(args)...);
+            }
+            else
+            {
+                ret = std::invoke(originalFunc, std::forward<Args>(args)...);
+            }
+
             Detour(detourFunc);
-            return ret;
+
+            if constexpr (!IsVoid)
+            {
+                return ret;
+            }
         }
 
         CallSig GetOriginalFunc() { return originalFunc; }
