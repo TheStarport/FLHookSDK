@@ -875,13 +875,11 @@ class StringUtils
             return result;
         }
 
-        template <typename T,
-                  typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>,
-                  typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
-            requires IsStringViewConvertable<T>
+        template <typename Str, typename T>
+            requires(std::is_integral_v<T> || std::is_floating_point_v<T>) && (std::is_same_v<Str, std::string> || std::is_same_v<Str, std::wstring>)
         static Str ToMoneyStr(const T& cash)
         {
-            std::conditional_t<std::is_convertible_v<T, std::string>, std::stringstream, std::wstringstream> ss;
+            std::conditional_t<std::is_same_v<Str, std::string>, std::stringstream, std::wstringstream> ss;
             ss.imbue(std::locale(""));
             ss << std::fixed << cash;
             return ss.str();
