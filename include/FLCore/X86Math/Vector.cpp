@@ -1,6 +1,12 @@
 #include "Vector.hpp"
 
-Vector::Vector() {}
+Vector::Vector()
+{
+    x = 0.f;
+    y = 0.f;
+    z = 0.f;
+}
+
 Vector::Vector(const SINGLE xx, const SINGLE yy, const SINGLE zz)
 {
     x = xx;
