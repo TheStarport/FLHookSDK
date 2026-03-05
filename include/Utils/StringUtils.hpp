@@ -226,19 +226,27 @@ class StringUtils
 
         template <>
         static constexpr const char* NarrowOrWide<const char*>(const char* c, const wchar_t*)
-        { return c; }
+        {
+            return c;
+        }
 
         template <>
         static constexpr wchar_t NarrowOrWide<wchar_t>(char, wchar_t w)
-        { return w; }
+        {
+            return w;
+        }
 
         template <>
         static constexpr char NarrowOrWide<char>(char c, wchar_t)
-        { return c; }
+        {
+            return c;
+        }
 
         template <>
         static constexpr const wchar_t* NarrowOrWide<const wchar_t*>(const char*, const wchar_t* w)
-        { return w; }
+        {
+            return w;
+        }
 
         template <>
         static constexpr std::string_view NarrowOrWide<std::string_view>(std::string_view c, std::wstring_view)
@@ -786,7 +794,9 @@ class StringUtils
         }
 
         static std::wstring_view GetParam(IsConvertibleRangeOf<std::wstring_view> auto view, int pos)
-        { return GetParam<decltype(view), std::wstring_view>(view, pos); }
+        {
+            return GetParam<decltype(view), std::wstring_view>(view, pos);
+        }
 
         template <typename TStr, typename TChar>
         static auto GetParams(const TStr& line, TChar splitChar)
@@ -876,7 +886,8 @@ class StringUtils
         }
 
         template <typename Str, typename T>
-            requires(std::is_integral_v<T> || std::is_floating_point_v<T>) && (std::is_same_v<Str, std::string> || std::is_same_v<Str, std::wstring>)
+            requires(std::is_integral_v<T> || std::is_floating_point_v<T>) &&
+                    (std::is_same_v<Str, std::string> || std::is_same_v<Str, std::wstring>)
         static Str ToMoneyStr(const T& cash)
         {
             std::conditional_t<std::is_same_v<Str, std::string>, std::stringstream, std::wstringstream> ss;
@@ -886,7 +897,9 @@ class StringUtils
         }
 
         static uint RgbToBgr(const uint color)
-        { return color & 0xFF000000 | (color & 0xFF0000) >> 16 | color & 0x00FF00 | (color & 0x0000FF) << 16; };
+        {
+            return color & 0xFF000000 | (color & 0xFF0000) >> 16 | color & 0x00FF00 | (color & 0x0000FF) << 16;
+        };
 
         template <typename T>
             requires StringRestriction<T>
@@ -904,8 +917,7 @@ class StringUtils
             return stream.str();
         }
 
-        template <typename T,
-                  typename TStr = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string, std::wstring>>
+        template <typename T, typename TStr = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string, std::wstring>>
             requires IsStringViewConvertable<T>
         static TStr FormatMsg(MessageColor color, MessageFormat format, T msg)
         {
@@ -937,9 +949,11 @@ class StringUtils
          * @endcode
          * @return True if the string matches
          */
-        template <typename Str>
-            requires std::convertible_to<Str, std::string_view> || std::convertible_to<Str, std::wstring_view>
-        static bool WildcardMatch(const Str& input, const Str& pattern, const bool partialString = true, const bool caseSensitive = false)
+        template <typename Str, typename Str2, bool IsWide = std::convertible_to<Str, std::wstring_view>,
+                  bool IsWide2 = std::convertible_to<Str2, std::wstring_view>>
+            requires(IsWide == IsWide2) &&
+                    ((std::convertible_to<Str, std::string_view> || IsWide) && (std::convertible_to<Str2, std::string_view> || IsWide2))
+        static bool WildcardMatch(const Str& input, const Str2& pattern, const bool partialString = true, const bool caseSensitive = false)
         {
             if (input.empty() || pattern.empty())
             {
