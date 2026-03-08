@@ -79,6 +79,8 @@ class FLSDK_IMPORT Matrix
 
         [[nodiscard]]
         Vector euler(const bool inDegrees) const;
+        [[nodiscard]]
+        static Matrix from_direction(Vector vec);
 
         const Matrix& operator+=(const Matrix& m);
         const Matrix& operator-=(const Matrix& m);

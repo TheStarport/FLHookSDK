@@ -2,6 +2,7 @@
 
 #include "../../FLCoreDefs.hpp"
 #include "IObjectInspect.hpp"
+#include "FLCore/Common/CObjects/CSimple/CEqObj/CSolar.hpp"
 
 struct GameObject : public IObjInspectImpl, public IObjAffect, public IObjDestructor
 {
@@ -39,6 +40,18 @@ struct GameObject : public IObjInspectImpl, public IObjAffect, public IObjDestru
                 return reinterpret_cast<GameObject*>(iobj);
             }
             return nullptr;
+        }
+        bool IsStaticSolar()
+        { 
+            if (!cobj)
+            {
+                return false;
+            }
+            if (!(cobj->objectClass & CObject::CSOLAR_OBJECT))
+            {
+                return false;
+            }
+            return !RC(CSolar*, cobj)->isDynamic;
         }
 
         CObject* cobj;

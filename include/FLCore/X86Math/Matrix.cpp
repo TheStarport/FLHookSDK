@@ -1,4 +1,5 @@
 #include "Matrix.hpp"
+#include "Matrix.hpp"
 #include "Quaternion.hpp"
 
 static constexpr float MIN_DET = 1e-8f;
@@ -60,8 +61,8 @@ Matrix::Matrix(const Quaternion& q)
     d[2][2] = 1.0f - (xx + yy);
 }
 
-Matrix::Matrix(const SINGLE e00, const SINGLE e01, const SINGLE e02, const SINGLE e10, const SINGLE e11, const SINGLE e12, const SINGLE e20, const SINGLE e21,
-               const SINGLE e22)
+Matrix::Matrix(const SINGLE e00, const SINGLE e01, const SINGLE e02, const SINGLE e10, const SINGLE e11, const SINGLE e12, const SINGLE e20,
+               const SINGLE e21, const SINGLE e22)
 {
     d[0][0] = e00;
     d[0][1] = e01;
@@ -309,9 +310,11 @@ SINGLE Matrix::pow2(const SINGLE f)
 bool Matrix::equal(const Matrix& m, const SINGLE tolerance) const
 {
     const SINGLE tolerance_sq = tolerance * tolerance;
-    return ((pow2(d[0][0] - d[0][0]) <= tolerance_sq) && (pow2(d[0][1] - d[0][1]) <= tolerance_sq) && (pow2(d[0][2] - d[0][2]) <= tolerance_sq) &&
-            (pow2(d[1][0] - d[1][0]) <= tolerance_sq) && (pow2(d[1][1] - d[1][1]) <= tolerance_sq) && (pow2(d[1][2] - d[1][2]) <= tolerance_sq) &&
-            (pow2(d[2][0] - d[2][0]) <= tolerance_sq) && (pow2(d[2][1] - d[2][1]) <= tolerance_sq) && (pow2(d[2][2] - d[2][2]) <= tolerance_sq));
+    return ((pow2(d[0][0] - d[0][0]) <= tolerance_sq) && (pow2(d[0][1] - d[0][1]) <= tolerance_sq) &&
+            (pow2(d[0][2] - d[0][2]) <= tolerance_sq) && (pow2(d[1][0] - d[1][0]) <= tolerance_sq) &&
+            (pow2(d[1][1] - d[1][1]) <= tolerance_sq) && (pow2(d[1][2] - d[1][2]) <= tolerance_sq) &&
+            (pow2(d[2][0] - d[2][0]) <= tolerance_sq) && (pow2(d[2][1] - d[2][1]) <= tolerance_sq) &&
+            (pow2(d[2][2] - d[2][2]) <= tolerance_sq));
 }
 
 Vector Matrix::euler(const bool inDegrees) const
@@ -337,6 +340,27 @@ Vector Matrix::euler(const bool inDegrees) const
         vec *= mod;
     }
     return vec;
+}
+
+Matrix Matrix::from_direction(Vector vec)
+{
+    vec.x *= -1.f;
+    vec.z *= -1.f;
+
+    Matrix mat;
+    mat.d[0][1] = vec.x;
+    mat.d[1][1] = vec.y;
+    mat.d[2][1] = vec.z;
+
+    mat.d[0][2] = vec.z;
+    mat.d[1][2] = vec.x;
+    mat.d[2][2] = vec.y;
+
+    mat.d[0][0] = vec.y;
+    mat.d[1][0] = vec.z;
+    mat.d[2][0] = vec.x;
+
+    return mat;
 }
 
 Vector Matrix::get_i() const { return Vector(d[0][0], d[1][0], d[2][0]); }
