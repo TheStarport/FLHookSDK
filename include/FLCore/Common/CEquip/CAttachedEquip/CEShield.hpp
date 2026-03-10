@@ -54,3 +54,11 @@ class CEShield : public CAttachedEquip
         void* IntruderCheckerPhySys1;
         void* IntruderCheckerPhySys2;
 };
+
+class EqObj;
+struct SrvShield
+{
+        void* vtable;
+        CEShield* shield;
+        EqObj* owner;
+};

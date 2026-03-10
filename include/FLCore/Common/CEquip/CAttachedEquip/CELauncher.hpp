@@ -54,8 +54,10 @@ class CELauncher : public CAttachedEquip
         Barrel barrels[8];               // 21
 };
 
+class EqObj;
 struct SrvGun
 {
         void* vtable;
         CELauncher* launcher;
+        EqObj* owner;
 };
