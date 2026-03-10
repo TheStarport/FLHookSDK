@@ -32,3 +32,9 @@ class IMPORT CEquipmentObj : public CObject
 
     unsigned char data[OBJECT_DATA_SIZE];
 };
+
+struct ImpactNormalVector
+{
+        Vector impactPosition;
+        Vector impactNormal;
+};
