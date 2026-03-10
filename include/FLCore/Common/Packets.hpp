@@ -53,9 +53,10 @@ struct SGFGoodVaporizedInfo
 struct SSPMunitionCollisionInfo
 {
         Id projectileArchId;
-        DWORD dunno;
-        Id targetObjId;
-        ushort s1;
+        ObjectId attackerId;
+        ObjectId targetObjId;
+        ushort subObjId;
+        Vector impactPosition;
 };
 
 struct SSPBadLandsObjCollisionInfo
