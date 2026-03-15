@@ -61,18 +61,23 @@ class MemUtils
 
         static FARPROC PatchCallAddr(void* mod, const DWORD installAddress, void* hookFunction)
         {
-            return PatchCallAddr((DWORD)mod, installAddress, hookFunction);
+            return PatchCallAddr((DWORD)mod + installAddress, hookFunction);
         }
 
         static FARPROC PatchCallAddr(const DWORD mod, const DWORD installAddress, void* hookFunction)
         {
+            return PatchCallAddr(mod + installAddress, hookFunction);
+        }
+
+        static FARPROC PatchCallAddr(const DWORD installAddress, void* hookFunction)
+        {
             DWORD relAddr;
-            ReadProcMem(mod + installAddress + 1, &relAddr, 4);
+            ReadProcMem(installAddress + 1, &relAddr, 4);
 
-            DWORD offset = (DWORD)hookFunction - (DWORD)(mod + installAddress + 5);
-            WriteProcMem(mod + installAddress + 1, &offset, 4);
+            DWORD offset = (DWORD)hookFunction - (DWORD)(installAddress + 5);
+            WriteProcMem(installAddress + 1, &offset, 4);
 
-            return (FARPROC)(mod + relAddr + installAddress + 5);
+            return (FARPROC)(relAddr + installAddress + 5);
         }
 
         /**
@@ -94,8 +99,8 @@ class MemUtils
             }
 
             const auto relativeAddress = reinterpret_cast<DWORD>(hookFunction) - address - 5; // Calculate the relative JMP address.
-            memcpy(&patch[1], &relativeAddress, 4);                                           // Copy the relative address to the byte array.
-            memcpy(reinterpret_cast<PBYTE>(address), patch, 5);                               // Change the first 5 bytes to the CALL/JMP instruction.
+            memcpy(&patch[1], &relativeAddress, 4);             // Copy the relative address to the byte array.
+            memcpy(reinterpret_cast<PBYTE>(address), patch, 5); // Change the first 5 bytes to the CALL/JMP instruction.
         }
 
         static void NopAddress(const DWORD address, const size_t size)
