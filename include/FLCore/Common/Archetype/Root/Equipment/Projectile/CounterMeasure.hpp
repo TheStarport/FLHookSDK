@@ -17,6 +17,6 @@ namespace Archetype
         public:
         /* 32 */ float linearDrag;
         /* 33 */ float range;
-        /* 34 */ float diversionPercentage;
+        /* 34 */ uint diversionPercentage;
     };
 }
