@@ -2,6 +2,7 @@
 
 #include "../FLCoreDefs.hpp"
 #include "Strings.hpp"
+#include "FLCore/Common/SubObjectID.hpp"
 
 struct EquipDescVector;
 struct EquipDesc
@@ -70,6 +71,7 @@ class EquipDescList
 
     public:
         st6::list<EquipDesc> equip;
+        SubObjectID::EquipIdMaker equipIdMaker;
 };
 
 struct EquipDescVector
@@ -85,4 +87,5 @@ struct EquipDescVector
 
     public:
         st6::vector<EquipDesc> equip;
+        SubObjectID::EquipIdMaker equipIdMaker;
 };
