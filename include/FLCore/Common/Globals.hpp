@@ -21,6 +21,7 @@ namespace GameData
     inline static auto& dynamicAsteroids = Ref(Archetype::DynamicAsteroid*, 0x063FCA84);
     inline static auto& solars = Ref(Archetype::Solar*, 0x63FCAAC);
     inline static auto& allArchetypes = Ref(Archetype::Root*, 0x063FCAE8);
+    inline static auto& loadouts = Ref(EquipDescVector, 0x63FD2A8);
 
     // clang-format off
     inline static std::array<uint, 9> storyFactions = {

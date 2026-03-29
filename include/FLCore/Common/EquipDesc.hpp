@@ -71,7 +71,6 @@ class EquipDescList
 
     public:
         st6::list<EquipDesc> equip;
-        SubObjectID::EquipIdMaker equipIdMaker;
 };
 
 struct EquipDescVector
@@ -87,5 +86,4 @@ struct EquipDescVector
 
     public:
         st6::vector<EquipDesc> equip;
-        SubObjectID::EquipIdMaker equipIdMaker;
 };
