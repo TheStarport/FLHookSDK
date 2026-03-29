@@ -120,8 +120,8 @@ struct CEqObj : CSimple
         float cloakPercentage;                             // 80
         CArchGroupManager archGroupManager;                // 81
         bool isDead;                                       // 87
-        uint dockTargetId;                                 // 88
-        IObjInspectImpl* dockTargetIObj;                   // 89
+        Id dockTargetId;                                   // 88
+        Id dockTargetId2;                                  // 89
         uint iDunnoEqObj23;                                // 90
         bool boundingExplosionBool;                        // 91
         float boundingExplosionFloat;                      // 92
@@ -131,7 +131,7 @@ struct CEqObj : CSimple
         IBehaviorManager* behaviorManager;                 // 101
         float power;                                       // 102
         float maxPower;                                    // 103
-        uint iDunnoEqObj;                                  // 104 0xffffffff for all solars except those docking on lands you on a base, then it's 6?
+        uint iDunnoEqObj; // 104 0xffffffff for all solars except those docking on lands you on a base, then it's 6?
 
     private:
         void destroy_equipment(const DamageList&, bool);
