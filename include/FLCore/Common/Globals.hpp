@@ -5,14 +5,17 @@
 #include "Archetype/Explosion.hpp"
 #include "Archetype/Root/Equipment.hpp"
 #include "Reputation.hpp"
+#include "CommonMethods.hpp"
+
+#include <array>
 
 #define MACRO_COMMA        ,
-#define Ref(type, address) reinterpret_cast<st6::map<uint, type>&>(*(reinterpret_cast<st6::map<uint, type>*>(address)))
+#define Ref(type, address) reinterpret_cast<st6::map<unsigned, type>&>(*(reinterpret_cast<st6::map<unsigned, type>*>(address)))
 
 namespace GameData
 {
     inline static auto& repGroups = Ref(Reputation::RepGroup, 0x64018EC);
-    inline static auto& shieldResistMap = Ref(st6::map<uint MACRO_COMMA float>, 0x658A9C0);
+    inline static auto& shieldResistMap = Ref(st6::map<unsigned MACRO_COMMA float>, 0x658A9C0);
     inline static auto& equipment = Ref(Archetype::Equipment*, 0x63FCAD4);
     inline static auto& explosions = Ref(Archetype::Explosion, 0x63FCF3C);
     inline static auto& motorData = Ref(Archetype::MotorData, 0x63FCA70);
@@ -24,7 +27,7 @@ namespace GameData
     inline static auto& loadouts = Ref(EquipDescVector, 0x63FD2A8);
 
     // clang-format off
-    inline static std::array<uint, 9> storyFactions = {
+    inline static std::array<unsigned, 9> storyFactions = {
         MakeId("fc_ouk_grp"),
         MakeId("fc_q_grp"),
         MakeId("fc_uk_grp"),

@@ -61,8 +61,8 @@ class CArchGroup
         /* 1  */ Archetype::CollisionGroup* colGrp;
         /* 2  */ long rootIndex;
         /* 3  */ float hitPts;
-        /* 4  */ uint dunno;
-        /* 5  */ uint state;
+        /* 4  */ unsigned dunno;
+        /* 5  */ unsigned state;
         /* 6  */ DamageEntry::SubObjFate fate;
         /* 7  */ CObject* destroyedObj;
         /* 8  */ bool boundingSphereInitialized;
@@ -100,11 +100,11 @@ class CArchGroupManager
         IMPORT static const int MAX_GROUP_DEPTH;
 
     public:
-        uint dunno0;  // 0
+        unsigned dunno0;  // 0
         bool dunno4;  // 4
-        uint dunno8;  // 8
-        uint dunno12; // 12
-        uint dunno16; // 16
+        unsigned dunno8;  // 8
+        unsigned dunno12; // 12
+        unsigned dunno16; // 16
         char size;    // 20
         bool dunno21; // 21
 };

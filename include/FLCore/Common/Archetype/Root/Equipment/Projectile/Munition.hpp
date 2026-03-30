@@ -25,15 +25,15 @@ namespace Archetype
         public:
         /* 32 */ float hullDamage;
         /* 33 */ float energyDamage;
-        /* 34 */ uint weaponTypeId;
-        /* 35 */ uint motorId;
-        /* 36 */ uint seeker; // 2 = lock, dumb = 1, ? = 0
+        /* 34 */ unsigned weaponTypeId;
+        /* 35 */ unsigned motorId;
+        /* 36 */ unsigned seeker; // 2 = lock, dumb = 1, ? = 0
         /* 37 */ float timeToLock;
         /* 38 */ float seekerRange;
         /* 39 */ float seekerFovDeg;
         /* 40 */ float maxAngularVelocity;
         /* 41 */ float detonationDist;
-        /* 42 */ uint hpType;
+        /* 42 */ unsigned hpType;
         /* 43 */ bool cruiseDisruptor;
     };
 }

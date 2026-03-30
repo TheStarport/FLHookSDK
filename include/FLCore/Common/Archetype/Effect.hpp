@@ -7,7 +7,7 @@ namespace Archetype
     {
         Effect* prevEffect;
         Effect* nextEffect;
-        uint archId;
+        unsigned archId;
         float lifetime; // -1.0 if skipped in config
     };
 }

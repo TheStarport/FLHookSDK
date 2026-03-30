@@ -94,28 +94,28 @@ struct CObject : public EngineObject
 
         Class objectClass; // 19
         SystemId system;   // 20
-        uint dunnoCObject; // 21, relates to all PhySys calls, PhySys calls only occur if this value is nonzero
+        unsigned dunnoCObject; // 21, relates to all PhySys calls, PhySys calls only occur if this value is nonzero
         struct SurfaceExtents
         {
-                uint dunno[2];
+                unsigned dunno[2];
                 Vector min, max;
         };
         SurfaceExtents* surf; // 22
 
-        uint dunnoCObject2;                                // 23 Parts related
-        uint dunnoCObject3;                                // 24
+        unsigned dunnoCObject2;                                // 23 Parts related
+        unsigned dunnoCObject3;                                // 24
         bool dunnoCObject4;                                // 25
-        uint dunnoCObjectShield1;                          // 26 maybe just Parts related
-        uint dunnoCObjectShield2;                          // 27
-        uint dunnoCObject5;                                // 28
-        uint dunnoCObject6;                                // 29
+        unsigned dunnoCObjectShield1;                          // 26 maybe just Parts related
+        unsigned dunnoCObjectShield2;                          // 27
+        unsigned dunnoCObject5;                                // 28
+        unsigned dunnoCObject6;                                // 29
         bool dunnoCObject7;                                // 30
         void* unkListCObj;                                 // 31 twodirectional list containing a single value
-        uint unkListSize;                                  // 32
+        unsigned unkListSize;                                  // 32
         PhySys::PhyCollisionStateManager* colStateManager; // 33
         Archetype::Root* archetype;                        // 34
-        uint dunnoCObject8;                                // 35
+        unsigned dunnoCObject8;                                // 35
         void* unkListCObj2;                                // 36 used in CObject::advise
-        uint unkList2Size;                                 // 37
-        uint referenceCounter;                             // 38
+        unsigned unkList2Size;                                 // 37
+        unsigned referenceCounter;                             // 38
 };

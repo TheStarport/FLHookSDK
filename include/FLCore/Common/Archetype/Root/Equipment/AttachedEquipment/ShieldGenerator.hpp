@@ -30,14 +30,14 @@ namespace Archetype
         ClassType get_class_type() const override { return ClassType::ShieldGenerator; }
 
         public:
-        /* 34 */ uint hpType;
-        /* 35 */ uint shieldTypeId;
+        /* 34 */ unsigned hpType;
+        /* 35 */ unsigned shieldTypeId;
         /* 36 */ float regenerationRate;
         /* 37 */ float maxCapacity;
         /* 38 */ float constantPowerDraw;
         /* 39 */ float rebuildPowerDraw;
         /* 40 */ float offlineThreshold;
         float offlineRebuildTime;
-        /* 41 */ uint hpShieldType[4]; // std6::vector?
+        /* 41 */ unsigned hpShieldType[4]; // std6::vector?
     };
 }

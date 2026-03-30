@@ -48,7 +48,7 @@ class CEquipTraverser
         EquipmentClass equipClass;
         bool skipDestroyed;
         IteratorState iteratorState;
-        uint unk3;
+        unsigned unk3;
         // Fields below added by us
         CEquip* currentEquip = nullptr;
         CEquipManager* equipManager = nullptr;
@@ -97,14 +97,14 @@ class CEquipManager
 
         CEquipTraverser end() { return { this, EquipmentClass::All, false }; }
 
-        /* 0 */ uint iDunno0;
+        /* 0 */ unsigned iDunno0;
         /* 1 */ bool bDunno4;
-        /* 2 */ uint unkPtr1;
+        /* 2 */ unsigned unkPtr1;
         /* 3 */ int size1;
         /* 4 */ bool bDunno10;
-        /* 5 */ uint unkPtr2;
+        /* 5 */ unsigned unkPtr2;
         /* 6 */ int size2;
-        /* 7 */ uint decayingCargo;
+        /* 7 */ unsigned decayingCargo;
 };
 
 inline CEquipTraverser& CEquipTraverser::operator++()

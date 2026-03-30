@@ -1,9 +1,15 @@
 #pragma once
 
 #include "../CProjectile.hpp"
-#include "../../../Archetype/MotorData.hpp"
 #include "../../../Watchable.hpp"
 
+namespace Archetype
+{
+    struct Munition;
+    struct MotorData;
+}
+
+struct IObjRW;
 struct CGuided : public CProjectile
 {
     public:
@@ -35,7 +41,7 @@ struct CGuided : public CProjectile
     IMPORT void set_target(IObjRW*);
 
     BaseWatcher targetBaseWatcher;   // 60
-    ushort targetSId;                // 62
+    unsigned short targetSId;                // 62
     Archetype::MotorData* motorData; // 63
     float lifetime;                  // 64
 };

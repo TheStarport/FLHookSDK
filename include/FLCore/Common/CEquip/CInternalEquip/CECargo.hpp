@@ -29,5 +29,5 @@ class CECargo : public CInternalEquip
 
     CECargoPod* cargoPod;
     float hitPts;
-    uint count;
+    unsigned count;
 };

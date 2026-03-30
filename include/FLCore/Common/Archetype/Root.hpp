@@ -38,22 +38,22 @@ namespace Archetype
         bool init_physical_representation();
 
         public:
-        /*  1 */ uint unknown;
+        /*  1 */ unsigned unknown;
         /*  2 */ Id archId;
         /*  3 */ char* name;
-        /*  4 */ uint archType;
-        /*  5 */ uint idsName;
-        /*  6 */ uint idsInfo;
+        /*  4 */ unsigned archType;
+        /*  5 */ unsigned idsName;
+        /*  6 */ unsigned idsInfo;
         /*  7 */ float hitPoints;
         /*  8 */ float mass;
-        /*  9 */ uint explosionArchId;
+        /*  9 */ unsigned explosionArchId;
         /* 10 */ float explosionResistance;
         /* 11x4 */ Vector rotationInertia;
         /* 14 */ bool hasRotationInertia;
         bool phantomPhysics;
-        /* 15 */ uint dunno1;
-        /* 16 */ uint dunno2;
+        /* 15 */ unsigned dunno1;
+        /* 16 */ unsigned dunno2;
         /* 17 */ void* anim;
-        /* 18 */ uint array[5]; // not sure about this.
+        /* 18 */ unsigned array[5]; // not sure about this.
     };
 }

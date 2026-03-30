@@ -12,8 +12,8 @@ struct FmtStr
                 ~Val();
                 const Val& operator=(const Val&);
                 bool operator==(const Val&) const;
-                uint flatten(void*, unsigned int) const;
-                uint get_flattened_size() const;
+                unsigned flatten(void*, unsigned int) const;
+                unsigned get_flattened_size() const;
 
                 static void* operator new(unsigned int);
                 static void operator delete(void*);
@@ -22,8 +22,8 @@ struct FmtStr
                 int InitFromVoid(const void*);
 
             public:
-                uint dunno;
-                uint dunno2;
+                unsigned dunno;
+                unsigned dunno2;
                 wchar_t dunno3;
                 uchar dunno4;
         };
@@ -55,8 +55,8 @@ struct FmtStr
         IMPORT int flatten(void*, unsigned int) const;
         IMPORT int unflatten(void*, unsigned int);
 
-        uint something;
-        uint strid;        // resource containing text
+        unsigned something;
+        unsigned strid;        // resource containing text
         uchar tnav_marker; // counters for each type
         uchar tsystem;
         uchar tbase;

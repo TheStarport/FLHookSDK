@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../st6.h"
+
 class AttribStackNode;
 class ClipNode;
 class ImageNode;
@@ -12,6 +14,7 @@ class StyleNode;
 class TRANode;
 class TextNode;
 class TextPtrNode;
+struct tagRECT;
 
 class IMPORT RDLNode
 {
@@ -106,10 +109,10 @@ class IMPORT RenderDisplayList
 // TODO: What do the four visual size values mean?
 struct VisualSize
 {
-        DWORD a;
-        DWORD b;
-        DWORD c;
-        DWORD d;
+        unsigned a;
+        unsigned b;
+        unsigned c;
+        unsigned d;
 };
 
 class IMPORT ClipNode : public RDLNode
@@ -133,10 +136,10 @@ class IMPORT ClipNode : public RDLNode
         virtual operator ClipNode*();
         virtual operator const ClipNode*() const;
 
-        DWORD unk04;
-        DWORD unk08;
-        DWORD unk0C;
-        DWORD unk10;
+        unsigned unk04;
+        unsigned unk08;
+        unsigned unk0C;
+        unsigned unk10;
 };
 
 class IMPORT NullNode : public RDLNode
@@ -179,7 +182,7 @@ class IMPORT StyleNode : public RDLNode
         virtual operator class StyleNode *();
         virtual operator class StyleNode const*() const;
 
-        ushort styleFlag;
+        unsigned short styleFlag;
 };
 
 class IMPORT ParagraphNode : public RDLNode
@@ -394,7 +397,7 @@ class IMPORT TRANode
         virtual operator TRANode*();
         virtual operator const TRANode*() const;
 
-        DWORD attributes;
+        unsigned attributes;
         int mask;
         int defaultMask;
 };

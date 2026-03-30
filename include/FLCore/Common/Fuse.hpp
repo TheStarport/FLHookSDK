@@ -30,7 +30,7 @@ class Fuse
         IMPORT bool ReadFuseValues(INI_Reader&);
 
     public:
-        /* 1  */ uint archId;
+        /* 1  */ unsigned archId;
         /* 2  */ float defaultLifetime;
         /* 3  */ bool deathFuse;
         bool align[3];
@@ -38,13 +38,13 @@ class Fuse
         bool dunno3;
         /* 5  */ void* dunno4; // 0x18 size struct
         /* 6  */ void* dunno5; // 0x18 size struct
-        /* 7  */ uint dunno6;
-        /* 8  */ uint actionCount;
+        /* 7  */ unsigned dunno6;
+        /* 8  */ unsigned actionCount;
         /* 9  */ bool dunno8;
         bool align2[3];
         /* 10 */ bool dunno9;
         /* 11 */ void* dunno10; // 0x1C size struct, used in isSpentAt
-        /* 12 */ uint dunno11;  // isBurning
+        /* 12 */ unsigned dunno11;  // isBurning
 };
 
 class FuseAction
@@ -72,7 +72,7 @@ class FuseAction
         /* 2 */ float triggerUntil;
         /* 3 */ Archetype::FuseIgnitionList* arch;
         /* 4 */ bool isTriggered;
-        st6::vector<ushort> sIdVector;
+        st6::vector<unsigned short> sIdVector;
 };
 struct FuseHardpointPositionOffset
 {
@@ -85,9 +85,9 @@ class StartEffectAction : public FuseAction
         /* 9 */ void* clientIObj;
         /* 10 */ ID_String hash;
         /* 11 */ bool attached;
-        /* 12 */ uint unknown; // possibly unused
+        /* 12 */ unsigned unknown; // possibly unused
         /* 13 */ st6::vector<FuseHardpointPositionOffset> posOffsets;
-        /* 17-20 */ uint dunno2[4]; // possibly unused
+        /* 17-20 */ unsigned dunno2[4]; // possibly unused
 };
 
 class FuseDB
@@ -147,7 +147,7 @@ struct AleEffect
 
             int dunno;
             st6::vector<AlchemyEmitter> emitters;
-            uint dunno2[3];
+            unsigned dunno2[3];
     };
 
         virtual void Initialize(void* effectData);
@@ -162,17 +162,17 @@ struct AleEffect
         virtual int SetIntensity2(float);
 
         void* ptrdunno;
-        uint dunno;
+        unsigned dunno;
         float fDunno1;
         Transform offset;
         long index;
-        uint dunno2[8];
+        unsigned dunno2[8];
         void* unkMapIter;
         void* effectInfo;
         AlchemyEffect* alchemy;
         void* alchemy2dunno;
         float fDunno2;
         float lifetime;
-        uint dunno3;
+        unsigned dunno3;
         float fDunno3;
 };

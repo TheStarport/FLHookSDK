@@ -1,10 +1,9 @@
 #pragma once
 
-#include "FLCore/Common/Archetype/Root.hpp"
+#include "../Equipment.hpp"
 
 namespace Archetype
 {
-
     struct AttachedEquipment : Equipment
     {
         IMPORT AttachedEquipment(const AttachedEquipment&);
@@ -17,8 +16,8 @@ namespace Archetype
         IMPORT virtual void redefine(const Root&);
 
         public:
-        /* 28 */ uint separationExplosionId;
-        /* 29 */ uint debrisTypeId;
+        /* 28 */ unsigned separationExplosionId;
+        /* 29 */ unsigned debrisTypeId;
         /* 30 */ float childImpulse;
         /* 31 */ float parentImpulse;
         /* 32 */ char* hpChild;

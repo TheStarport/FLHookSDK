@@ -22,18 +22,18 @@ namespace Archetype
             st6::vector<CacheString> hp;
         };
 
-        /* 37 */ uint dunno12;
+        /* 37 */ unsigned dunno12;
         /* 38 */ size_t msgidprefix_len;
         /* 39 */ char msgidprefix_str[64];
         /* 55 */ char* bayDoorAnim;
         /* 56 */ char* hpBaySurface;
         /* 57 */ char* hpBayExternal;
         /* 58 */ char* hpTractorSource;
-        /* 59 */ uint idsInfo1;
-        /* 60 */ uint idsInfo2;
-        /* 61 */ uint idsInfo3;
-        /* 62 */ uint shipClass;
-        /* 63 */ uint numExhaustNozzles;
+        /* 59 */ unsigned idsInfo1;
+        /* 60 */ unsigned idsInfo2;
+        /* 61 */ unsigned idsInfo3;
+        /* 62 */ unsigned shipClass;
+        /* 63 */ unsigned numExhaustNozzles;
         /* 64 */ float holdSize;
         /* 65 */ float linearDrag;
         /* 66 */ Vector angularDrag;
@@ -43,7 +43,7 @@ namespace Archetype
         /* 74 */ float strafePowerUsage;
         /* 75 */ float maxBankAngle;
         st6::vector<HpType> hardpoints;
-        /* 80 */ uint maxNanobots;
-        /* 81 */ uint maxShieldBats;
+        /* 80 */ unsigned maxNanobots;
+        /* 81 */ unsigned maxShieldBats;
     };
 }

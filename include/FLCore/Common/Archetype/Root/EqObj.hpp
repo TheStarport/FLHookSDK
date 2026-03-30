@@ -24,14 +24,14 @@ namespace Archetype
 
         public:
         /* 23 */ CollisionGroup* collisionGroup;
-        /* 24 */ ushort equipmentIdCounter;
-        /* 25 */ uint dunno2;
-        /* 26 */ uint dunno3;
-        /* 27 */ uint dunno4; // something to do with shield link
-        /* 28 */ uint dunno5;
-        /* 29 */ uint dunno6;
-        /* 30 */ uint dunno7; // fuses?
-        /* 31 */ uint dunno9; // fuses?
+        /* 24 */ unsigned short equipmentIdCounter;
+        /* 25 */ unsigned dunno2;
+        /* 26 */ unsigned dunno3;
+        /* 27 */ unsigned dunno4; // something to do with shield link
+        /* 28 */ unsigned dunno5;
+        /* 29 */ unsigned dunno6;
+        /* 30 */ unsigned dunno7; // fuses?
+        /* 31 */ unsigned dunno9; // fuses?
         /* 32 */ bool isNomad;
         bool dockingCamera;
         /* 33-36 */ st6::vector<DockHardpointInfo> dockInfo;

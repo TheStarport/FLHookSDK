@@ -1,7 +1,13 @@
 #pragma once
 
+#include <Windows.h>
+#include <algorithm>
+#include <string>
+#include <string_view>
 #include <ranges>
 #include <cwctype>
+
+using namespace std::string_view_literals;
 
 #include "Concepts.hpp"
 
@@ -269,177 +275,6 @@ class StringUtils
 #define NARROW_OR_WIDE(C, STR)      NarrowOrWide<C>((STR), TOWSTRING(STR))
 #define NARROW_OR_WIDE_VIEW(C, STR) NarrowOrWide<C>((STR##sv), TOWSTRINGVIEW1(STR))
 
-        static bool FuzzySearchRecursive(std::string_view pattern, std::string_view src, int& outScore,
-                                         std::string_view strBegin, // NOLINT(*-no-recursion)
-                                         const std::array<uint8_t, 256>* srcMatches, std::array<uint8_t, 256>& newMatches, int& nextMatch,
-                                         int& recursionCount, int recursionLimit)
-        {
-            // Count recursions
-            ++recursionCount;
-            if (recursionCount >= recursionLimit)
-            {
-                return false;
-            }
-
-            // Detect end of strings
-            if (pattern.empty() || src.empty())
-            {
-                return false;
-            }
-
-            // Recursion params
-            bool recursiveMatch = false;
-            std::array<uint8_t, 256> bestRecursiveMatches{};
-            int bestRecursiveScore = 0;
-
-            // Loop through pattern and str looking for a match
-            bool firstMatch = true;
-            while (!pattern.empty() && !src.empty())
-            {
-                // Found match
-                if (tolower(pattern[0]) == tolower(src[0]))
-                {
-                    // Supplied matches buffer was too short
-                    if (nextMatch >= newMatches.size())
-                    {
-                        return false;
-                    }
-
-                    // "Copy-on-Write" srcMatches into matches
-                    if (firstMatch && srcMatches)
-                    {
-                        memcpy(newMatches.data(), srcMatches->data(), nextMatch);
-                        firstMatch = false;
-                    }
-
-                    // Recursive call that "skips" this match
-                    std::array<uint8_t, 256> recursiveMatches{};
-                    int recursiveScore;
-                    int recursiveNextMatch = nextMatch;
-                    if (FuzzySearchRecursive(pattern,
-                                             src.substr(1),
-                                             recursiveScore,
-                                             strBegin,
-                                             &newMatches,
-                                             recursiveMatches,
-                                             recursiveNextMatch,
-                                             recursionCount,
-                                             recursionLimit))
-                    {
-                        // Pick the best recursive score
-                        if (!recursiveMatch || recursiveScore > bestRecursiveScore)
-                        {
-                            memcpy(bestRecursiveMatches.data(), recursiveMatches.data(), recursiveMatches.size());
-                            bestRecursiveScore = recursiveScore;
-                        }
-                        recursiveMatch = true;
-                    }
-
-                    // Advance
-                    newMatches[nextMatch++] = static_cast<uint8_t>(strBegin.size() - src.size());
-                    pattern = pattern.substr(1);
-                }
-
-                src = src.substr(1);
-            }
-
-            // Determine if full pattern was matched
-            bool matched = pattern.empty();
-
-            // Calculate score
-            if (matched)
-            {
-                constexpr int sequentialBonus = 15;  // bonus for adjacent matches
-                constexpr int separatorBonus = 30;   // bonus if match occurs after a separator
-                constexpr int camelBonus = 30;       // bonus if match is uppercase and prev is lower
-                constexpr int firstLetterBonus = 15; // bonus if the first letter is matched
-
-                constexpr int leadingLetterPenalty = -5;     // penalty applied for every letter in str before the first match
-                constexpr int maxLeadingLetterPenalty = -15; // maximum penalty for leading letters
-                constexpr int unmatchedLetterPenalty = -1;   // penalty for every letter that doesn't matter
-
-                // Iterate str to end
-                while (!src.empty())
-                {
-                    src = src.substr(1);
-                }
-
-                // Initialize score
-                outScore = 100;
-
-                // Apply leading letter penalty
-                int penalty = leadingLetterPenalty * newMatches[0];
-                if (penalty < maxLeadingLetterPenalty)
-                {
-                    penalty = maxLeadingLetterPenalty;
-                }
-                outScore += penalty;
-
-                // Apply unmatched penalty
-                int unmatched = static_cast<int>(strBegin.size() - src.size()) - nextMatch;
-                outScore += unmatchedLetterPenalty * unmatched;
-
-                // Apply ordering bonuses
-                for (int i = 0; i < nextMatch; ++i)
-                {
-                    uint8_t currIdx = newMatches[i];
-
-                    if (i > 0)
-                    {
-                        uint8_t prevIdx = newMatches[i - 1];
-
-                        // Sequential
-                        if (currIdx == (prevIdx + 1))
-                        {
-                            outScore += sequentialBonus;
-                        }
-                    }
-
-                    // Check for bonuses based on neighbor character value
-                    if (currIdx > 0)
-                    {
-                        // Camel case
-                        char neighbor = strBegin[currIdx - 1];
-                        char curr = strBegin[currIdx];
-                        if (::islower(neighbor) && ::isupper(curr))
-                        {
-                            outScore += camelBonus;
-                        }
-
-                        // Separator
-                        bool neighborSeparator = neighbor == '_' || neighbor == ' ';
-                        if (neighborSeparator)
-                        {
-                            outScore += separatorBonus;
-                        }
-                    }
-                    else
-                    {
-                        // First letter
-                        outScore += firstLetterBonus;
-                    }
-                }
-            }
-
-            // Return best result
-            if (recursiveMatch && (!matched || bestRecursiveScore > outScore))
-            {
-                // Recursive score is better than "this"
-                memcpy(newMatches.data(), bestRecursiveMatches.data(), bestRecursiveMatches.size());
-                outScore = bestRecursiveScore;
-                return true;
-            }
-
-            if (matched)
-            {
-                // "this" score is better than recursive
-                return true;
-            }
-
-            // no match
-            return false;
-        }
-
     public:
         StringUtils() = delete;
 
@@ -530,7 +365,7 @@ class StringUtils
         {
             View data = text;
             Str ret;
-            for (uint i = 0; i < data.length(); i++)
+            for (unsigned i = 0; i < data.length(); i++)
             {
                 if (data[i] == NARROW_OR_WIDE(typename Str::value_type, '<'))
                 {
@@ -746,7 +581,7 @@ class StringUtils
             std::string output;
             bool percentFound = false;
 
-            for (uint i = 0; i < input.length(); i++)
+            for (unsigned i = 0; i < input.length(); i++)
             {
                 if (const auto ch = input[i]; ch == '%')
                 {
@@ -828,7 +663,7 @@ class StringUtils
 
         // TODO: Fix this template error
         template <typename TTransformView, typename TViewType>
-        static TViewType GetParamToEnd(TTransformView view, uint pos)
+        static TViewType GetParamToEnd(TTransformView view, unsigned pos)
         {
             if (pos == 0)
             {
@@ -850,7 +685,7 @@ class StringUtils
         }
 
         template <typename TString, typename TChar>
-        static TString GetParamToEnd(TString line, TChar splitChar, uint pos)
+        static TString GetParamToEnd(TString line, TChar splitChar, unsigned pos)
         {
             if (pos == 0)
             {
@@ -868,10 +703,10 @@ class StringUtils
             requires IsStringViewConvertable<T> && IsStringViewConvertable<View>
         static Str ReplaceStr(const T& source, View searchForRaw, View replaceWithRaw)
         {
-            uint lPos, sPos = 0;
+            unsigned lPos, sPos = 0;
 
             Str result = source;
-            while ((lPos = static_cast<uint>(result.find(searchForRaw, sPos))) != UINT_MAX)
+            while ((lPos = static_cast<unsigned>(result.find(searchForRaw, sPos))) != UINT_MAX)
             {
                 result.replace(lPos, searchForRaw.length(), replaceWithRaw);
                 sPos = lPos + replaceWithRaw.length();
@@ -896,14 +731,14 @@ class StringUtils
             return ss.str();
         }
 
-        static uint RgbToBgr(const uint color)
+        static unsigned RgbToBgr(const unsigned color)
         {
             return color & 0xFF000000 | (color & 0xFF0000) >> 16 | color & 0x00FF00 | (color & 0x0000FF) << 16;
         };
 
         template <typename T>
             requires StringRestriction<T>
-        static T UintToHexString(const uint number, const uint width, const bool addPrefix = false)
+        static T unsignedToHexString(const unsigned number, const unsigned width, const bool addPrefix = false)
         {
             using CharType = std::conditional_t<std::is_convertible_v<T, std::string>, char, wchar_t>;
             using CharPtrType = std::conditional_t<std::is_convertible_v<T, std::string>, const char*, const wchar_t*>;
@@ -924,8 +759,8 @@ class StringUtils
             using namespace std::string_view_literals;
             using CharType = std::conditional_t<std::is_convertible_v<T, std::string_view>, const char*, const wchar_t*>;
 
-            const uint bgrColor = RgbToBgr(static_cast<uint>(color));
-            const TStr tra = UintToHexString<TStr>(bgrColor, 6, true) + UintToHexString<TStr>(static_cast<uint>(format), 2);
+            const unsigned bgrColor = RgbToBgr(static_cast<unsigned>(color));
+            const TStr tra = unsignedToHexString<TStr>(bgrColor, 6, true) + unsignedToHexString<TStr>(static_cast<unsigned>(format), 2);
 
             return std::format(NARROW_OR_WIDE(CharType, "<TRA data=\"{}\" mask=\"-1\"/><TEXT>{}</TEXT>"),
                                tra,
@@ -1067,42 +902,6 @@ class StringUtils
             }
 
             return matched;
-        }
-
-        template <typename T>
-            requires IsStringViewConvertable<T>
-        static bool FuzzySearch(T pattern, T haystack, int& outScore, std::array<uint8_t, 256>& matches, int& outMatches)
-        {
-            int recursionCount = 0;
-            int recursionLimit = 10;
-            int newMatches = 0;
-            if constexpr (std::is_same_v<T, std::string_view>)
-            {
-                bool result = FuzzySearchRecursive(
-                    pattern, haystack, outScore, haystack, nullptr, matches, newMatches, recursionCount, recursionLimit);
-                outMatches = newMatches;
-                return result;
-            }
-            else
-            {
-                auto strPattern = wstos(pattern);
-                auto strHaystack = wstos(haystack);
-                bool result = FuzzySearchRecursive(
-                    strPattern, strHaystack, outScore, strHaystack, nullptr, matches, newMatches, recursionCount, recursionLimit);
-                outMatches = newMatches;
-                return result;
-            }
-        }
-
-        template <typename T>
-            requires IsStringViewConvertable<T>
-        static bool FuzzySearch(T pattern, T input, int& outScore)
-        {
-            static std::array<uint8_t, 256> matches{};
-            std::ranges::fill(matches, 0);
-
-            int matchCount = 0;
-            return FuzzySearch(pattern, input, outScore, matches, matchCount);
         }
 };
 

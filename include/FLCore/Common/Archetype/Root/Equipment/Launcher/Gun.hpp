@@ -26,6 +26,6 @@ namespace Archetype
         /* 46 */ bool useGunAzimuth;
         bool useGunElevation;
         bool autoTurret;
-        /* 47 */ uint hpTypes[4]; // st6::vector?
+        /* 47 */ unsigned hpTypes[4]; // st6::vector?
     };
 }

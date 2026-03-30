@@ -7,7 +7,7 @@ class CSolar;
 struct Solar : public EqObj
 {
     CSolar* csolar() { return reinterpret_cast<CSolar*>(this->cobject()); }
-    virtual Vector& ChooseSystemArrivalLocation(uint unused, Vector& pos, Matrix& ori);
+    virtual Vector& ChooseSystemArrivalLocation(unsigned unused, Vector& pos, Matrix& ori);
 
     static Solar* Cast(IObjInspectImpl* iobj)
     {

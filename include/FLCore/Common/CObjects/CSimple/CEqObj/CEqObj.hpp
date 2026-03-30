@@ -116,7 +116,7 @@ struct CEqObj : CSimple
         CEquipManager equipManager;                        // 57
         int repVibe;                                       // 65
         Costume commCostume;                               // 66
-        uint voiceId;                                      // 79
+        unsigned voiceId;                                      // 79
         float cloakPercentage;                             // 80
         CArchGroupManager archGroupManager;                // 81
         bool isDead;                                       // 87
@@ -127,12 +127,13 @@ struct CEqObj : CSimple
         float boundingExplosionFloat;                      // 92
         Vector boundingExplosionVector;                    // 93
         st6::vector<DockAnimInfo> dockingAnimationsVector; // 96 could be st6::vector<IAnimation2>
-        uint controlExcludedDunno;                         // 100
+        unsigned controlExcludedDunno;                         // 100
         IBehaviorManager* behaviorManager;                 // 101
         float power;                                       // 102
         float maxPower;                                    // 103
-        uint iDunnoEqObj; // 104 0xffffffff for all solars except those docking on lands you on a base, then it's 6?
+        unsigned iDunnoEqObj;                                  // 104 0xffffffff for all solars except those docking on lands you on a base, then it's 6?
 
     private:
         void destroy_equipment(const DamageList&, bool);
 };
+

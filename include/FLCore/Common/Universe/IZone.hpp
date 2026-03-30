@@ -13,7 +13,7 @@ namespace Universe
     {
         struct FactionSpawn
         {
-            uint faction; // Faction Id, obtainable with e.g. pub::Reputation::GetReputationGroup()
+            unsigned faction; // Faction Id, obtainable with e.g. pub::Reputation::GetReputationGroup()
             float chance; // Spawn chance
         };
 
@@ -33,7 +33,7 @@ namespace Universe
         Matrix orientation;
         Vector position;
         ShapeType shapeType;
-        uint propertyFlags;
+        unsigned propertyFlags;
         Vector size;
         long mesh;
         float edgeFraction;
@@ -48,12 +48,12 @@ namespace Universe
         Vector fogColor; // an RGB type
         CmnAsteroid::LootableZone* lootableZone;
         bool pathLabel;
-        uint countMaxFaction;
+        unsigned countMaxFaction;
         st6::list<FactionSpawn> factionSpawns; // st6::weighted_vector<FactionSpawn> factionSpawns;
 
         BYTE visit;
-        uint idsName;
-        uint idsInfo;
-        uint iDunno5[2];
+        unsigned idsName;
+        unsigned idsInfo;
+        unsigned iDunno5[2];
     };
 }

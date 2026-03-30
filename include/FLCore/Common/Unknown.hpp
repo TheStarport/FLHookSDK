@@ -11,6 +11,8 @@
 #include "Watchable.hpp"
 #include "XML.hpp"
 
+struct HDC__;
+
 #pragma comment(lib, "FLCoreCommon.lib")
 
 struct CLoot;
@@ -28,10 +30,10 @@ class CAttachedEquip;
 struct IObjRW;
 struct HardpointInfo
 {
-        uint dunno;
+        unsigned dunno;
         Vector position;
         Matrix rotation;
-        uint dunno2[5];
+        unsigned dunno2[5];
 };
 struct EquipStatus;
 namespace Universe
@@ -436,8 +438,8 @@ class IMPORT CPlayerTradeOffer
         void SetTargetPlayerID(unsigned int);
 
     public:
-        uint sourceClient;
-        uint targetClient;
+        unsigned sourceClient;
+        unsigned targetClient;
         CPlayerTradeOffer* counterOffer;
         EquipDescList equipOffer;
         int moneyOffered;
@@ -666,19 +668,19 @@ namespace EngineEquipConsts
 #pragma pack(push, 1)
 struct SetEquipmentItem
 {
-        ushort count;
+        unsigned short count;
         float health;
         Id archId;
-        ushort id;
+        unsigned short id;
         byte mounted;
         byte mission;
-        ushort hardPointLen;
+        unsigned short hardPointLen;
 };
 #pragma pack(pop)
 
 struct FlPacketSetEquipment
 {
-        ushort count;
+        unsigned short count;
         byte items[1];
 };
 
@@ -1020,7 +1022,7 @@ namespace Loadout
             Map& operator=(const Map&);
 
         public:
-            uint id;
+            unsigned id;
             char cdunno; // -1
             EquipDesc* first;
             EquipDesc* last;
@@ -1067,7 +1069,7 @@ struct IMPORT MarketGoodInfo
         MarketGoodInfo& operator=(const MarketGoodInfo&);
 
     public:
-        uint goodId;
+        unsigned goodId;
         float price;
         int min;
         int stock;
@@ -1365,14 +1367,14 @@ struct Camera
         float aspect;
         float zNear;
         float zFar;
-        uint screenExtents[4];
-        uint dunno;
+        unsigned screenExtents[4];
+        unsigned dunno;
         Watchable* watchable; // 49
-        uint dunno1[6];
+        unsigned dunno1[6];
         Vector dunno2;
-        uint dunno3[6];
+        unsigned dunno3[6];
         Vector cameraOffset;
-        uint dunno4[40];
+        unsigned dunno4[40];
         float angularPart2;
         float dunno5[9];
         float angularAcceleration;
@@ -1519,10 +1521,10 @@ struct IMPORT ScanList
         void reset();
 
     public:
-        uint vftable;
+        unsigned vftable;
         BaseWatcher objectArray[256];
-        uint currSize;
-        uint maxSize;
+        unsigned currSize;
+        unsigned maxSize;
 };
 
 class IMPORT ScriptBehavior
@@ -1583,11 +1585,11 @@ struct IMPORT ShipGunStats
         void clear();
 
     public:
-        uint activeGunCount;
+        unsigned activeGunCount;
         float avgGunSpeed;
         float maxGunRange;
-        uint dunno1;
-        uint dunno2;
+        unsigned dunno1;
+        unsigned dunno2;
 };
 
 struct IMPORT ShipPlaceInfo
@@ -1946,7 +1948,7 @@ class IMPORT BaseData
         void read_Room_block(INI_Reader*);
 
     public:
-        uint dunno;
+        unsigned dunno;
         float startRoom;
         float priceVariance;
         float shipRepairCost;
@@ -1975,7 +1977,7 @@ class IMPORT BaseDataList
 
 struct Pilot
 {
-        static const uint pilotMapOffset = 0x130AA4;
+        static const unsigned pilotMapOffset = 0x130AA4;
         Id inheritedPilot;
         Id evadeDodge;
         Id evadeBreak;

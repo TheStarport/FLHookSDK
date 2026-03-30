@@ -16,9 +16,9 @@ namespace Archetype
         public:
         /* 37 */ bool destrutible;
         /* 38 */ float solarRadius;
-        /* 39 */ uint toughness;
+        /* 39 */ unsigned toughness;
         /* 40 */ char* openAnim;
         /* 41 */ char* jumpOutHp;
-        /* 42 */ uint loadoutId;
+        /* 42 */ unsigned loadoutId;
     };
 }

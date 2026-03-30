@@ -20,7 +20,7 @@ namespace Archetype
 
         public:
         /* 28 */ float decayPerSecond;
-        /* 29 */ uint lootAppearanceId;
-        /* 30 */ uint podAppearanceId;
+        /* 29 */ unsigned lootAppearanceId;
+        /* 30 */ unsigned podAppearanceId;
     };
 }

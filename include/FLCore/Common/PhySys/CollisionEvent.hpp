@@ -8,7 +8,7 @@ namespace PhySys
     {
         CObject* a;
         CObject* b;
-        uint dunno1[2];
+        unsigned dunno1[2];
         Vector position;
         Vector normal;
         Vector velocity;

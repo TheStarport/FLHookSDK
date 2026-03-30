@@ -19,7 +19,7 @@ enum class PopupDialog
 
 struct CHAT_ID
 {
-        uint id;
+        unsigned id;
 };
 
 enum class DOCK_HOST_RESPONSE
@@ -47,7 +47,7 @@ enum class ResponseCode
 
 struct SGFGoodVaporizedInfo
 {
-        uint dunno[128];
+        unsigned dunno[128];
 };
 
 struct SSPMunitionCollisionInfo
@@ -55,35 +55,35 @@ struct SSPMunitionCollisionInfo
         Id projectileArchId;
         ObjectId attackerId;
         ObjectId targetObjId;
-        ushort subObjId;
+        unsigned short subObjId;
         Vector impactPosition;
 };
 
 struct SSPBadLandsObjCollisionInfo
 {
-        uint dunno[128];
+        unsigned dunno[128];
 };
 
 struct SSPObjCollisionInfo
 {
-        uint colliderObjectId;
-        uint colliderSubObjId;
-        uint damagedObjectId;
-        uint damagedSubObjId;
+        unsigned colliderObjectId;
+        unsigned colliderSubObjId;
+        unsigned damagedObjectId;
+        unsigned damagedSubObjId;
         float damage;
 };
 
 struct SSPUseItem
 {
         Id userShipId;
-        ushort itemId;
-        ushort amountUsed;
+        unsigned short itemId;
+        unsigned short amountUsed;
 };
 
 struct XActivateEquip
 {
         Id spaceId;
-        ushort id;
+        unsigned short id;
         bool activate;
 };
 
@@ -127,12 +127,12 @@ struct XFireWeaponInfo
 {
         Id object;
         Vector target;
-        st6::vector<ushort> hpIds;
+        st6::vector<unsigned short> hpIds;
 };
 
 struct XCollision
 {
-        ushort componentId;
+        unsigned short componentId;
         float componentHp;
 };
 
@@ -140,15 +140,15 @@ struct XSetManeuver
 {
         Id shipFrom;
         Id shipTo;
-        uint flag;
+        unsigned flag;
 };
 
 struct XSetTarget
 {
         Id ship;
-        uint slot;
+        unsigned slot;
         Id spaceId;
-        ushort subObjId;
+        unsigned short subObjId;
 };
 
 struct SSPObjUpdateInfoSimple
@@ -168,7 +168,7 @@ struct SSPObjUpdateInfo
         Vector pos;
         float timestamp;
         float throttle;
-        uint stateValue;
+        unsigned stateValue;
         // Enum of some kind
         char state;
 };
@@ -176,8 +176,8 @@ struct SSPObjUpdateInfo
 struct XJettisonCargo
 {
         Id ship;
-        ushort slot;
-        uint count;
+        unsigned short slot;
+        unsigned count;
 };
 
 struct XGoTradelane
@@ -191,9 +191,9 @@ struct CAccountListNode
 {
         CAccountListNode* next;
         CAccountListNode* prev;
-        uint dunno1;
+        unsigned dunno1;
         wchar_t* charname;
-        uint dunno2[32];
+        unsigned dunno2[32];
 };
 
 enum class ConnectionType
@@ -220,16 +220,16 @@ struct CollisionGroupDescList
 struct SCreateCharacterInfo
 {
         wchar_t charname[24];
-        uint nickName; // From [Faction] section of newcharacter.ini
-        uint base;     // From [Faction] section of newcharacter.ini
-        uint package;  // From [Faction] section of newcharacter.ini
-        uint pilot;    // From [Faction] section of newcharacter.ini
-        uint dunno[96];
+        unsigned nickName; // From [Faction] section of newcharacter.ini
+        unsigned base;     // From [Faction] section of newcharacter.ini
+        unsigned package;  // From [Faction] section of newcharacter.ini
+        unsigned pilot;    // From [Faction] section of newcharacter.ini
+        unsigned dunno[96];
 };
 
 struct SStartupInfo
 {
-        uint dunno[130];
+        unsigned dunno[130];
         int maxPlayers;
 };
 
@@ -240,15 +240,15 @@ struct SLoginInfo
 
 struct RequestBestPathStruct
 {
-        uint clientId;
-        uint dunno0;
-        uint dunno1;
+        unsigned clientId;
+        unsigned dunno0;
+        unsigned dunno1;
         Vector startPos;
-        uint dunno2;
-        uint startSystem;
+        unsigned dunno2;
+        unsigned startSystem;
         Vector endPos;
-        uint dunno3;
-        uint endSystem;
+        unsigned dunno3;
+        unsigned endSystem;
 };
 
 class IMPORT CAccount
@@ -264,14 +264,14 @@ class IMPORT CAccount
         void InitFromFolder(const char*);
 
     public:
-        uint dunno1;
+        unsigned dunno1;
         wchar_t* accId;
-        uint dunno2[7];
+        unsigned dunno2[7];
         CAccountListNode* firstListNode;
-        uint numberOfCharacters;
-        uint dunno4;
-        uint clientId;
-        uint dunno5[30];
+        unsigned numberOfCharacters;
+        unsigned dunno4;
+        unsigned clientId;
+        unsigned dunno5[30];
 };
 
 enum CommResult

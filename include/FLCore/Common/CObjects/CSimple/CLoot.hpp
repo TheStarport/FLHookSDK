@@ -35,13 +35,13 @@ struct CLoot : public CSimple
         IMPORT void set_contents_hit_pts(float);
         IMPORT void set_units(unsigned int);
 
-        uint ownerId;                       // 57
-        uint name;                          // 58 infocard number
+        unsigned ownerId;                       // 57
+        unsigned name;                          // 58 infocard number
         Archetype::Equipment* contentsArch; // 59
-        uint unitCount;                     // 60
+        unsigned unitCount;                     // 60
         float contentsHitPts;               // 61
         float lootOwnerSafeTime;            // 62
         bool canAITractor;                  // 63
         bool isTemporary;
-        uint dunnoCLoot; // 64 doesn't seem to be actually used
+        unsigned dunnoCLoot; // 64 doesn't seem to be actually used
 };

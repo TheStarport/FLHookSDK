@@ -29,6 +29,6 @@ namespace Archetype
         public:
         bool dunno1;
         void* dunnoPtr; // 16 byte size
-        uint dunno2;
+        unsigned dunno2;
     };
 }

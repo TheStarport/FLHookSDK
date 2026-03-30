@@ -29,27 +29,27 @@ struct DamageEntry
         IMPORT static const char* FateToString(SubObjFate);
 
     public:
-        ushort subObj;
+        unsigned short subObj;
         float health;
         SubObjFate fate;
 };
 
 struct MunitionImpactData
 {
-        uint attackerId;
+        unsigned attackerId;
         Archetype::Munition* munitionArch;
-        ushort subObjId;
+        unsigned short subObjId;
         Vector impactPosition;
 };
 
 struct ExplosionDamageEvent
 {
-        uint projectileId;
-        uint attackerId;
+        unsigned projectileId;
+        unsigned attackerId;
         DamageCause dmgCause;
         Vector explosionPosition;
         Archetype::Explosion* explosionArchetype;
-        uint dunno;
+        unsigned dunno;
 };
 
 struct DamageList
@@ -76,6 +76,6 @@ struct DamageList
         bool isDestroyed;
         DamageCause damageCause;
         Id inflictorId;
-        uint inflictorPlayerId;
+        unsigned inflictorPlayerId;
         bool dunno;
 };

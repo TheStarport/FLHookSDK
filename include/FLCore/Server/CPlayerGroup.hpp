@@ -45,5 +45,5 @@ class CPlayerGroup
 
     public:
         byte unk[0x14];
-        uint memberCount;
+        unsigned memberCount;
 };

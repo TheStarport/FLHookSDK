@@ -38,14 +38,14 @@ namespace CmnAsteroid
         IMPORT void update(float);
 
         public:
-        uint dunno[10];
+        unsigned dunno[10];
         /* 10 */ Universe::IZone* zone;
-        /* 11 */ uint dunno4;
+        /* 11 */ unsigned dunno4;
         /* 12 */ Exclusion::AsteroidExclusionZoneMgr* exclusionZoneMgr;
-        /* 13 */ uint dunno1;
-        /* 14 */ uint dunno2;
-        /* 15 */ uint dunno3;
-        /* 16 */ uint systemId;
+        /* 13 */ unsigned dunno1;
+        /* 14 */ unsigned dunno2;
+        /* 15 */ unsigned dunno3;
+        /* 16 */ unsigned systemId;
         /* 17 */ int cubeSize;
         /* 18 */ int fillDist;
         /* 19 */ float emptyFreq;

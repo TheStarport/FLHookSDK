@@ -9,7 +9,7 @@ namespace Archetype
     class IMPORT FuseIgnitionList
     {
         public:
-            uint dunno[4];
+            unsigned dunno[4];
     };
 
     struct Equipment : Root
@@ -30,9 +30,9 @@ namespace Archetype
             IMPORT virtual bool is_attached() const;
 
             /* 23 */ float volume;
-            /* 24 */ uint useCount;
-            /* 25 */ uint unitsPerContainer;
-            /* 26 */ uint tractoredExplosionId;
+            /* 24 */ unsigned useCount;
+            /* 25 */ unsigned unitsPerContainer;
+            /* 26 */ unsigned tractoredExplosionId;
             /* 27 */ bool lootable;
     };
 } // namespace Archetype

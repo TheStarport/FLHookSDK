@@ -5,29 +5,29 @@ namespace Reputation
 {
     struct Relation
     {
-            uint hash;
+            unsigned hash;
             float reputation;
     };
 
     struct ReputationEntry
     {
-            uint affliation;
-            uint dunno;
-            uint clientId;
-            uint dunno2[14];
+            unsigned affliation;
+            unsigned dunno;
+            unsigned clientId;
+            unsigned dunno2[14];
             wchar_t name[24];
-            uint rank;
+            unsigned rank;
             st6::vector<Reputation::Relation> reputations;
     };
 
     struct RepGroup
     {
-            uint nameLength;
+            unsigned nameLength;
             char name[16];
-            uint nameIds;
-            uint infocardIds;
-            uint shortNameIds;
-            st6::map<uint, float> feelingsTowardsMap;
+            unsigned nameIds;
+            unsigned infocardIds;
+            unsigned shortNameIds;
+            st6::map<unsigned, float> feelingsTowardsMap;
     };
 
     using RepGroupCB = bool (***)(RepGroup*);

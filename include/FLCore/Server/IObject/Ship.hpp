@@ -24,7 +24,7 @@ struct Ship : public EqObj
         int iDunno_0x9C;
         float Dunno_0xA0;
         int* iDunno_0xA4; // struct size 0x28
-        uint A4Size;
+        unsigned A4Size;
         int iDunno_0xAC;
         int iDunno_0xB0;
         int iDunno_0xB4;

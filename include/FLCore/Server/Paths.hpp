@@ -9,11 +9,11 @@ struct PathEntry
     SystemId systemId;
 };
 
-template <uint count>
+template <unsigned count>
 struct RequestPath
 {
-    uint repId;
-    uint waypointCount;
+    unsigned repId;
+    unsigned waypointCount;
     bool noPathFound = false;
     bool funny[3];
     PathEntry pathEntries[count];

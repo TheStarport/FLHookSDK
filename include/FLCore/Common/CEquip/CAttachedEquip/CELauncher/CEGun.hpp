@@ -1,6 +1,13 @@
 #pragma once
 #include "../../../../FLCoreDefs.hpp"
 
+#include "../CELauncher.hpp"
+
+namespace Archetype
+{
+    struct Gun;
+}
+
 struct CSimple;
 class CEGun : public CELauncher
 {

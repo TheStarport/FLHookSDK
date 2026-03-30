@@ -6,6 +6,8 @@
 #include <FLCore/Common/CObjects/CObject.hpp>
 #include <FLCore/Server/IObject/IObjectInspect.hpp>
 
+struct _FILETIME;
+
 IMPORT bool operator!=(const Rect&, const Rect&);
 
 IMPORT void AppendMissionLogData(const FmtStr*, unsigned char*&, int&, int);

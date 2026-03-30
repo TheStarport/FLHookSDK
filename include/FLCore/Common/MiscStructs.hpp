@@ -4,11 +4,11 @@
 
 struct Costume
 {
-    uint head = 0;
-    uint body = 0;
-    uint leftHand = 0;
-    uint rightHand = 0;
-    uint accessory[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+    unsigned head = 0;
+    unsigned body = 0;
+    unsigned leftHand = 0;
+    unsigned rightHand = 0;
+    unsigned accessory[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
     int accessories = 0;
 
     static Costume Trent()

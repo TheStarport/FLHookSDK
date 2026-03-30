@@ -30,7 +30,7 @@ namespace Archetype
         IMPORT virtual bool read(INI_Reader&);
 
         public:
-        /* 28 */ uint lootAppearanceId;
+        /* 28 */ unsigned lootAppearanceId;
     };
 
     struct IMPORT RepairKit final : ShieldBattery

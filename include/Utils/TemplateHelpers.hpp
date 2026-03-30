@@ -1,6 +1,10 @@
 // ReSharper disable CppClangTidyClangDiagnosticReturnStackAddress
 #pragma once
 
+#include <type_traits>
+#include <optional>
+#include <tuple>
+
 template <typename T>
 struct first_template_type;
 

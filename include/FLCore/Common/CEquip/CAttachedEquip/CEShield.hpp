@@ -44,7 +44,7 @@ class CEShield : public CAttachedEquip
 
         bool internalActivationState;
         float currShieldHitPoints;
-        uint seeminglyUnused;
+        unsigned seeminglyUnused;
         double rebuildTimestamp;
         st6::vector<CEShieldGenerator*> linkedShieldGen;
         Archetype::ShieldGenerator* highestToughnessShieldGenArch;

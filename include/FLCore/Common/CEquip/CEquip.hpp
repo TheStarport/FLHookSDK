@@ -3,6 +3,16 @@
 
 #include "../Unknown.hpp"
 
+namespace Archetype
+{
+    struct Equipment;
+}
+
+struct CEqObj;
+class CEquip;
+struct EquipDesc;
+struct EquipStatus;
+
 class CEquip
 {
     public:
@@ -16,8 +26,8 @@ class CEquip
         IMPORT virtual void NotifyArchGroupDestroyed(unsigned short);      // 28
         IMPORT virtual bool IsLootable() const;                            // 32
         IMPORT virtual bool Update(float, unsigned int);                   // 36
-        IMPORT virtual bool GetEquipDesc(struct EquipDesc&) const;         // 40
-        IMPORT virtual void GetStatus(struct EquipStatus&) const;          // 44
+        IMPORT virtual bool GetEquipDesc(EquipDesc&) const;         // 40
+        IMPORT virtual void GetStatus(EquipStatus&) const;          // 44
         IMPORT virtual bool Activate(bool);                                // 48
         IMPORT virtual void Destroy();                                     // 52
         IMPORT virtual float GetMaxHitPoints() const;                      // 56
@@ -47,7 +57,7 @@ class CEquip
         IMPORT void NotifyDisconnecting(INotify*);
 
         /* 1 */ CEqObj* owner;
-        /* 2 */ ushort SubObjId;
+        /* 2 */ unsigned short SubObjId;
         /* 3 */ Archetype::Equipment* archetype;
         /* 4 */ bool isActive;
         bool isDestroyed;

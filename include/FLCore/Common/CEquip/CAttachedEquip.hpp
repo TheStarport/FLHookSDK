@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CExternalEquip.hpp"
+#include "../Damage.hpp"
 
 namespace Archetype
 {
@@ -38,7 +39,7 @@ class CAttachedEquip : public CExternalEquip
 
     public:
         /* 10 */ void* physicsPtr; // either CPhysAttachment::`vftable' or CNonPhysAttachment::`vftable'
-        /* 11 */ uint debrisObject;
+        /* 11 */ unsigned debrisObject;
         /* 12 */ float hitPts;
         /* 13 */ DamageEntry::SubObjFate fate;
         /* 14 */ bool isBoundingSphereInitialized;

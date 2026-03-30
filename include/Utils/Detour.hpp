@@ -7,8 +7,8 @@
 class MemProtect
 {
         void* addr;
-        uint size;
-        DWORD flags;
+        unsigned size;
+        unsigned long flags;
         bool released = false;
 
     public:
@@ -17,7 +17,7 @@ class MemProtect
         /// </summary>
         /// <param name="address">The address which should be affected</param>
         /// <param name="size">The size of the memory which should be affected</param>
-        MemProtect(LPVOID address, uint size) : addr(address), size(size), flags(0)
+        MemProtect(void* address, unsigned size) : addr(address), size(size), flags(0)
         { VirtualProtect(addr, this->size, PAGE_EXECUTE_READWRITE, &this->flags); }
 
         /// <summary>
@@ -114,9 +114,9 @@ class FunctionDetour
             detourFunc = hookedFunc;
             detoured = true;
 
-            std::array<byte, 5> patch{}; // We need to change 5 bytes and I'm going to use memcpy so this is the simplest way.
+            std::array<unsigned char, 5> patch{}; // We need to change 5 bytes and I'm going to use memcpy so this is the simplest way.
             patch[0] = 0xE9;             // Set the first byte of the byte array to the op code for the JMP instruction.
-            DWORD relativeAddress = (DWORD)hookedFunc - (DWORD)originalFunc - 5; // Calculate the relative JMP address.
+            unsigned long relativeAddress = (unsigned long)hookedFunc - (unsigned long)originalFunc - 5; // Calculate the relative JMP address.
             memcpy(&patch[1], &relativeAddress, 4);                              // Copy the relative address to the byte array.
             memcpy(data, originalFunc, 5);
             memcpy(originalFunc, patch.data(), 5); // Change the first 5 bytes to the JMP instruction.
@@ -144,10 +144,10 @@ class FunctionDetour
         }
 };
 
-template <DWORD Start, DWORD End, DWORD Count = (End - Start) / 4 + 1>
+template <unsigned long Start, unsigned long End, unsigned long Count = (End - Start) / 4 + 1>
 class VTableHook final
 {
-        static constexpr DWORD Size = End - Start + 4;
+        static constexpr unsigned long Size = End - Start + 4;
         const char* dll;
 
         std::unique_ptr<MemProtect> memProtect;
@@ -159,7 +159,7 @@ class VTableHook final
 
         bool Init()
         {
-            auto handle = reinterpret_cast<DWORD>(GetModuleHandleA(dll));
+            auto handle = reinterpret_cast<unsigned long>(GetModuleHandleA(dll));
             if (!handle)
             {
                 return false;
@@ -173,7 +173,7 @@ class VTableHook final
         // ReSharper disable once CppMemberFunctionMayBeStatic
         void Hook(const unsigned short index, const void* replacementFunction)
         {
-            const auto handle = reinterpret_cast<DWORD>(GetModuleHandleA(dll));
+            const auto handle = reinterpret_cast<unsigned long>(GetModuleHandleA(dll));
             if (!handle || (!memProtect && !Init()))
             {
                 return;
@@ -206,7 +206,7 @@ class VTableHook final
          **/
         void Unhook(const unsigned short index)
         {
-            auto handle = reinterpret_cast<DWORD>(GetModuleHandleA(dll));
+            auto handle = reinterpret_cast<unsigned long>(GetModuleHandleA(dll));
             if (!handle || !memProtect)
             {
                 return;
@@ -231,7 +231,7 @@ class VTableHook final
             }
 
             // in case of address mismatch (due to dll being reloaded), omit reapplying the protection and gracefully exit
-            if (const auto patchAddr = reinterpret_cast<void*>(reinterpret_cast<DWORD>(lib) + Start); patchAddr == memProtect->GetAddr())
+            if (const auto patchAddr = reinterpret_cast<void*>(reinterpret_cast<unsigned long>(lib) + Start); patchAddr == memProtect->GetAddr())
             {
                 if (VirtualProtect(patchAddr, Size, PAGE_EXECUTE_READWRITE, nullptr))
                 {

@@ -44,10 +44,10 @@ struct TString
 
 #define ArchetypeBstInsertError(type, module, insertAddr)                                              \
     template <>                                                                                        \
-    inline void BinarySearchTree<type>::Insert(uint key, type value)                                   \
+    inline void BinarySearchTree<type>::Insert(unsigned key, type value)                                   \
     {                                                                                                  \
-        static DWORD mod = DWORD(GetModuleHandleA(module));                                            \
-        using InsertFuncType = int(__thiscall*)(BinarySearchTree * ptr, type, uint*, char* errorName); \
+        static unsigned long mod = unsigned long(GetModuleHandleA(module));                                            \
+        using InsertFuncType = int(__thiscall*)(BinarySearchTree * ptr, type, unsigned*, char* errorName); \
         static auto insertFunc = reinterpret_cast<InsertFuncType>(mod + insertAddr);                   \
                                                                                                        \
         insertFunc(this, value, &key, nullptr);                                                        \
@@ -55,10 +55,10 @@ struct TString
 
 #define ArchetypeBstInsert(type, module, insertAddr)                                  \
     template <>                                                                       \
-    inline void BinarySearchTree<type>::Insert(uint key, type value)                  \
+    inline void BinarySearchTree<type>::Insert(unsigned key, type value)                  \
     {                                                                                 \
-        static DWORD mod = DWORD(GetModuleHandleA(module));                           \
-        using InsertFuncType = int(__thiscall*)(BinarySearchTree * ptr, type, uint*); \
+        static unsigned long mod = unsigned long(GetModuleHandleA(module));                           \
+        using InsertFuncType = int(__thiscall*)(BinarySearchTree * ptr, type, unsigned*); \
         static auto insertFunc = reinterpret_cast<InsertFuncType>(mod + insertAddr);  \
                                                                                       \
         insertFunc(this, value, &key);                                                \

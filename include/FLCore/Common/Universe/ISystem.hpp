@@ -14,8 +14,8 @@ namespace Universe
         const char* nickname; // CacheString
         st6::vector<ISystem*> connections;
         uchar visit;
-        uint idsName;
-        uint idsInfo;
+        unsigned idsName;
+        unsigned idsInfo;
         const char* file; // CacheString
         Vector navMapPos;
         st6::list<struct IZone*> zones; // st6::list

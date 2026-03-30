@@ -43,5 +43,5 @@ struct EngineObject
         Vector position;     // 11
         float radius;        // 14
         Vector centerOfMass; // 15
-        uint instanceFlags;  // 18
+        unsigned instanceFlags;  // 18
 };

@@ -19,7 +19,7 @@ namespace Archetype
         /* 34 */ float powerUsage;
         /* 35 */ float cloakInTime;
         /* 36 */ float cloakOutTime;
-        /* 37 */ uint cloakInFxId;
-        /* 38 */ uint cloakOutFxId;
+        /* 37 */ unsigned cloakInFxId;
+        /* 38 */ unsigned cloakOutFxId;
     };
 }

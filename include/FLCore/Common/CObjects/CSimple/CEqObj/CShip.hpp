@@ -141,45 +141,45 @@ struct CShip : public CEqObj, public PhySys::Controller
         IMPORT float get_time_to_accelerate(float, float, float, float, float) const;
         IMPORT void recalculate_formation_speed();
 
-        DWORD dunno5[2];                          // 106
-        uint physicsPtr;                          // 108
+        unsigned long dunno5[2];                          // 106
+        unsigned physicsPtr;                          // 108
         CPlayerGroup* playerGroup;                // 109
-        DWORD dunno6;                             // 110
+        unsigned long dunno6;                             // 110
         IObjRW* followLeader2;                    // 111
-        uint dunno16;                             // 112
+        unsigned dunno16;                             // 112
         Vector followOffset2;                     // 113
         st6::vector<IObjRW*> followerVector;      // 116
         IObjRW* followLeader;                     // 120
-        DWORD followLeaderID_unk;                 // 121
+        unsigned long followLeaderID_unk;                 // 121
         Vector followOffset;                      // 122
-        DWORD dunno8[3];                          // 125
+        unsigned long dunno8[3];                          // 125
         st6::vector<IObjRW*> targetedEnemyVector; // 128
-        DWORD dunno11[3];                         // 132
-        uint groupId;                             // 135
+        unsigned long dunno11[3];                         // 132
+        unsigned groupId;                             // 135
         IObjRW* target;                           // 136
-        DWORD targetId_unk;                       // 137
-        ushort subTargetId;                       // 138
-        DWORD BayAnim;                            // 139
+        unsigned long targetId_unk;                       // 137
+        unsigned short subTargetId;                       // 138
+        unsigned long BayAnim;                            // 139
         CSteering* cSteering;                     // 140
-        DWORD dunno13[6];                         // 141
+        unsigned long dunno13[6];                         // 141
         Vector axisThrottle;                      // 147
         CNudgeEngine nudgeEngine;                // 150
         CStrafeEngine strafeEngine;               // 160
         float throttle;                           // 167
         float thrustPower;                        // 168
         float maxThrustPower;                     // 169
-        uint dunno14;                             // 170
+        unsigned dunno14;                             // 170
         BayState bayState;                        // 171
         ActionDB* ActionDB;                       // 172
-        uint dunnoCShip1;                         // 173
+        unsigned dunnoCShip1;                         // 173
         float tradeLaneSpeed;                     // 174
         bool inTradeLane;                         // 175
         bool gunRelatedBool;                      // has active guns?
         float angularDragFactor;                  // 176
-        uint gunStatsDirty;                       // 177
-        uint activeGunCount1;                     // 178
+        unsigned gunStatsDirty;                       // 177
+        unsigned activeGunCount1;                     // 178
         float rectHeight;                         // 179 no clue
         float maxActiveGunRange1;                 // 180
-        uint activeGunCount2;                     // 181
+        unsigned activeGunCount2;                     // 181
         float maxActiveGunRange2;                 // 182 1-missiles 2-guns?
 };

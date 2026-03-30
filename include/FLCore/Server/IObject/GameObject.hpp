@@ -7,11 +7,11 @@
 struct GameObject : public IObjInspectImpl, public IObjAffect, public IObjDestructor
 {
         virtual ObjectType get_object_type() const;                                 // 340
-        virtual bool ObjectDestroyed(DestroyType destroyType, uint killerId);       // NakedShipDestroyed                                      //344 sub_6CE8080
+        virtual bool ObjectDestroyed(DestroyType destroyType, unsigned killerId);       // NakedShipDestroyed                                      //344 sub_6CE8080
         virtual int Disconnect();                                                   // 348 sub_6CE7C80
         virtual bool get_dunno_0x40();                                              // 352 sub_6CEE6D0
         virtual int InstantiateCobject(Archetype::Root* archPtr);                   // 356 sub_6D01040
-        virtual bool SetCObjectById(uint cobjId);                                   // 360 sub_6D010A0
+        virtual bool SetCObjectById(unsigned cobjId);                                   // 360 sub_6D010A0
         virtual void Update(float timeDelta);                                       // 364 sub_6D01450
         virtual void sub_6D01A60();                                                 // 368 sub_6D01A60
         virtual int sub_6CEE810(void* PhySys_unk);                                  // 372 physics collsion handling?
@@ -51,7 +51,7 @@ struct GameObject : public IObjInspectImpl, public IObjAffect, public IObjDestru
             {
                 return false;
             }
-            return !RC(CSolar*, cobj)->isDynamic;
+            return !reinterpret_cast<CSolar*>(cobj)->isDynamic;
         }
 
         CObject* cobj;
@@ -59,7 +59,7 @@ struct GameObject : public IObjInspectImpl, public IObjAffect, public IObjDestru
         void* pDunno_0x18; // struct size: 12 bytes
         int iDunnos_0x1C;  // length of 0x1C
         double timer;
-        struct StarSystem* starSystem; // has something to do with fuses
+        StarSystem* starSystem; // has something to do with fuses
         byte bDunno_0x2C;
         void* pDunno_0x30;   // struct size: 20 bytes
         int iDunno_0x34;     // length of 0x30

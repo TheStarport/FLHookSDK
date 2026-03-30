@@ -5,7 +5,7 @@ namespace NewChar
 {
     struct Pilot
     {
-        uint nickname;
+        unsigned nickname;
         st6::string body;
         st6::vector<st6::string> bodyAnims;
         st6::string comm;
@@ -15,7 +15,7 @@ namespace NewChar
 
     struct Package
     {
-        uint nickname;
+        unsigned nickname;
         int idsName;
         int idsDescription;
         st6::string ship;
@@ -25,13 +25,13 @@ namespace NewChar
 
     struct Faction
     {
-        uint nickname;
+        unsigned nickname;
         st6::string repGroup;
     };
 
     struct Base
     {
-        uint nickname;
+        unsigned nickname;
         st6::string nicknameStr;
     };
 
@@ -39,19 +39,19 @@ namespace NewChar
     class IDatabase // NOLINT
     {
         public:
-        virtual Faction* FindFaction(uint faction);
-        virtual Package* FindPackage(uint package);
-        virtual Pilot* FindPilot(uint pilot);
-        virtual Base* FindBase(uint base);
-        virtual void UnknownMethod16(DWORD arg1);
-        virtual void UnknownMethod20(DWORD arg1);
-        virtual void UnknownMethod24(DWORD arg1);
-        virtual void UnknownMethod28(DWORD arg1);
-        virtual void UnknownMethod32(DWORD arg1);
-        virtual void UnknownMethod36(DWORD arg1);
-        virtual void UnknownMethod40(DWORD arg1);
-        virtual void UnknownMethod44(DWORD arg1);
-        virtual void UnknownMethod48(DWORD arg1);
+        virtual Faction* FindFaction(unsigned faction);
+        virtual Package* FindPackage(unsigned package);
+        virtual Pilot* FindPilot(unsigned pilot);
+        virtual Base* FindBase(unsigned base);
+        virtual void UnknownMethod16(unsigned long arg1);
+        virtual void UnknownMethod20(unsigned long arg1);
+        virtual void UnknownMethod24(unsigned long arg1);
+        virtual void UnknownMethod28(unsigned long arg1);
+        virtual void UnknownMethod32(unsigned long arg1);
+        virtual void UnknownMethod36(unsigned long arg1);
+        virtual void UnknownMethod40(unsigned long arg1);
+        virtual void UnknownMethod44(unsigned long arg1);
+        virtual void UnknownMethod48(unsigned long arg1);
         virtual void LoadNewCharacterIni(const char* fileBuffer);
     };
 

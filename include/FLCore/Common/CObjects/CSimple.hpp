@@ -4,6 +4,11 @@
 #include "FLCore/Common/Enums.hpp"
 
 class IObjDB;
+class StarSystem;
+namespace Universe
+{
+    struct IZone;
+}
 
 struct CSimple : CObject
 {
@@ -12,11 +17,11 @@ struct CSimple : CObject
                 CreateParms();
                 CreateParms& operator=(const CreateParms&);
 
-                uint id;
-                struct StarSystem* starSystem;
-                uint ownerPlayer;
+                unsigned id;
+                StarSystem* starSystem;
+                unsigned ownerPlayer;
                 float hitpts;
-                uint dunno[20];
+                unsigned dunno[20];
         };
 
         IMPORT virtual ~CSimple();                                           // 56
@@ -46,15 +51,15 @@ struct CSimple : CObject
         IMPORT unsigned int get_type() const;
         IMPORT void update_zones(float, unsigned int);
 
-        uint dunnoCSimple;                  // 39
-        uint dunnoTargetable;               // 40
+        unsigned dunnoCSimple;                  // 39
+        unsigned dunnoTargetable;               // 40
         Universe::IZone* currentDamageZone; // 41
         float zoneDmgMultiplier;            // 42
         StarSystem* starSystem;             // 43
-        uint id;                            // 44
-        uint ownerPlayer;                   // 45
+        unsigned id;                            // 44
+        unsigned ownerPlayer;                   // 45
         float hitPoints;                    // 46
-        uint dunnoCSimple4[0x5];            // 47
+        unsigned dunnoCSimple4[0x5];            // 47
         Vector radiusCenter;                // 52
         float radiusCentered;               // 55
         ObjectType type;                    // 56

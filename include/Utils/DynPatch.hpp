@@ -37,7 +37,7 @@ class DynPatch
                 throw std::logic_error("ERROR: Cannot apply patch multiple times.");
             }
 
-            const auto base = reinterpret_cast<DWORD>(GetModuleHandleA(binary.data()));
+            const auto base = reinterpret_cast<unsigned long>(GetModuleHandleA(binary.data()));
             if (!base)
             {
                 throw std::runtime_error("ERROR: Tried to apply patch to unloaded DLL");
@@ -65,7 +65,7 @@ class DynPatch
 
         void Revert()
         {
-            const auto base = reinterpret_cast<DWORD>(GetModuleHandleA(binary.data()));
+            const auto base = reinterpret_cast<unsigned long>(GetModuleHandleA(binary.data()));
             if (!base || !applied)
             {
                 applied = false;
@@ -74,7 +74,7 @@ class DynPatch
 
             for (const auto& entry : patches)
             {
-                const DWORD address = entry.address + base;
+                const unsigned long address = entry.address + base;
                 MemUtils::WriteProcMem(address, entry.oldValue, 4);
             }
 

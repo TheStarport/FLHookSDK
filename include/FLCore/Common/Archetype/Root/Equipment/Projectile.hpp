@@ -19,6 +19,6 @@ namespace Archetype
         /* 29 */ float ownerSafeTime;
         /* 30 */ bool requiresAmmo;
         bool forceGunOri;
-        /* 31 */ uint lootAppearanceId;
+        /* 31 */ unsigned lootAppearanceId;
     };
 }

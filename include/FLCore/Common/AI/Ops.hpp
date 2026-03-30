@@ -46,15 +46,15 @@ namespace pub
                 IMPORT DirectiveDockOp();
                 IMPORT virtual bool validate();
 
-                uint DockSpaceObj;
-                uint x10;   // 0
-                ushort x12; // 0
-                ushort x14; // 0xbb, 0x83 ??
+                unsigned DockSpaceObj;
+                unsigned x10;   // 0
+                unsigned short x12; // 0
+                unsigned short x14; // 0xbb, 0x83 ??
                 int x18;    // -1
-                uint x1C;   // 0
+                unsigned x1C;   // 0
                 float x20;  // 200
                 float x24;  // 500
-                uint x28;   // 0
+                unsigned x28;   // 0
         };
 
         class DirectiveDrasticEvadeOp : public BaseOp
@@ -75,7 +75,7 @@ namespace pub
                 IMPORT DirectiveEvadeOp();
                 IMPORT virtual bool validate();
 
-                uint EvadeSpaceObj;
+                unsigned EvadeSpaceObj;
                 unsigned char data[OBJECT_DATA_SIZE];
         };
 
@@ -97,7 +97,7 @@ namespace pub
                 IMPORT DirectiveFollowOp();
                 IMPORT virtual bool validate();
 
-                uint followSpaceObj;
+                unsigned followSpaceObj;
                 float maxDistance;
                 Vector offset;
                 float dunno2; // 400
@@ -126,7 +126,7 @@ namespace pub
                 Vector pos;
                 // If GotoType is 0 then move to this spaceobj. Do not set a pos if you
                 // set this.
-                uint targetId;
+                unsigned targetId;
                 // The 4 points to fly to if GotoType is 2
                 Vector spline[4];
                 // This specifies how close the NPC will attempt to get to the position
@@ -174,8 +174,8 @@ namespace pub
                 IMPORT DirectiveInstantTradelaneOp();
                 IMPORT virtual bool validate();
 
-                uint tradelaneRingFrom;
-                uint tradelaneRingTo;
+                unsigned tradelaneRingFrom;
+                unsigned tradelaneRingTo;
                 float dunno; // 3750
         };
 
@@ -186,9 +186,9 @@ namespace pub
                 IMPORT DirectiveLaunchOp();
                 IMPORT virtual bool validate();
 
-                uint launchFromObject;
-                uint x10; // 2, cannot be -1, defaults to -1
-                uint x14; // 1, cannot be 0, defaults to 0
+                unsigned launchFromObject;
+                unsigned x10; // 2, cannot be -1, defaults to -1
+                unsigned x14; // 1, cannot be 0, defaults to 0
         };
 
         class DirectiveRamOp : public BaseOp
@@ -231,10 +231,10 @@ namespace pub
                 IMPORT DirectiveTrailOp();
                 IMPORT virtual bool validate();
 
-                uint x0C;  // 10
+                unsigned x0C;  // 10
                 float x10; // 500
-                uint x14;  // 0
-                uint x18;  // 0
+                unsigned x14;  // 0
+                unsigned x18;  // 0
         };
 
         class DirectiveWaitForPlayerManeuverOp : public BaseOp
@@ -274,7 +274,7 @@ namespace pub
                 IMPORT SetFlagParams();
                 IMPORT virtual bool validate();
 
-                uint x0C;  // 0
+                unsigned x0C;  // 0
                 float x10; // ??
                 float x14; // ??
         };
@@ -301,10 +301,10 @@ namespace pub
                 IMPORT SetZoneBehaviorParams();
                 IMPORT virtual bool validate();
 
-                uint iZoneType;     // 0 = position, 1 = cuboid 2 = spaceobj
-                uint iDunno_0x10;   // 0=?? 1=?? 2=delete user zone
+                unsigned iZoneType;     // 0 = position, 1 = cuboid 2 = spaceobj
+                unsigned iDunno_0x10;   // 0=?? 1=?? 2=delete user zone
                 Vector vPosition;   // only used for iZoneType 0
-                uint iSpaceObj;     // only used for iZoneType 2
+                unsigned iSpaceObj;     // only used for iZoneType 2
                 Vector vBoxCorner1; // only used for iZoneType 1
                 Vector vBoxCorner2; // only used for iZoneType 1
                 float fRadius;      // not used for iZoneType 1

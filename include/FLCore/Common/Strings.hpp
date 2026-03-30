@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../FLCoreDefs.hpp"
+
 struct CacheString
 {
     IMPORT void clear();
@@ -15,5 +17,5 @@ struct ID_String
     IMPORT const char* get_string() const;
 
     public:
-    uint id;
+    unsigned id;
 };

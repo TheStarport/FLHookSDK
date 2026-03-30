@@ -14,9 +14,9 @@ namespace Archetype
         public:
         /* 28 */ char* dunno1;
         /* 29 */ char* dunno2;
-        /* 30 */ uint dunno3;
-        /* 31 */ uint dunno4;
+        /* 30 */ unsigned dunno3;
+        /* 31 */ unsigned dunno4;
         /* 32 */ char* dunno5;
-        /* 33 */ uint dunno6;
+        /* 33 */ unsigned dunno6;
     };
 }

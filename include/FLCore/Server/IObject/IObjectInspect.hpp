@@ -125,23 +125,23 @@ struct IObjAffect
         virtual int set_follow_offset(const Vector&);                                                        // 40
         virtual FORMATION_RTYPE add_follow_follower(IObjRW*);                                                // 44
         virtual FORMATION_RTYPE remove_follow_follower(IObjRW*);                                             // 48
-        virtual int fire_weapons(ushort startIndex, ushort endIndex, void* unk, void* unk2);                 // 52
-        virtual int jettison_cargo(ushort sID, ushort amount, void* unused);                                 // 56
-        virtual int tractor_all(ushort tractorSId, st6::vector<GameObject*> tractorArray, int clientId);     // 60
-        virtual int tractor_single(ushort sId, GameObject* loot, int clientId);                              // 64
-        virtual int set_gun_target(ushort gunSId, uint target, ushort targetSId, int flag);                  // 68
-        virtual int set_target(IObjRW* target, ushort sId, int dunno);                                       // 72
-        virtual int toggle_item(ushort& sId, bool newState, int dunno);                                      // 76
+        virtual int fire_weapons(unsigned short startIndex, unsigned short endIndex, void* unk, void* unk2);                 // 52
+        virtual int jettison_cargo(unsigned short sID, unsigned short amount, void* unused);                                 // 56
+        virtual int tractor_all(unsigned short tractorSId, st6::vector<GameObject*> tractorArray, int clientId);     // 60
+        virtual int tractor_single(unsigned short sId, GameObject* loot, int clientId);                              // 64
+        virtual int set_gun_target(unsigned short gunSId, unsigned target, unsigned short targetSId, int flag);                  // 68
+        virtual int set_target(IObjRW* target, unsigned short sId, int dunno);                                       // 72
+        virtual int toggle_item(unsigned short& sId, bool newState, int dunno);                                      // 76
         virtual int toggle_cruise(bool cruiseActive, bool disruptCruise, int dunno2);                        // 80
         virtual int toggle_thrusters(bool dunno, bool newState);                                             // 84
-        virtual int use_item(ushort sId, uint amount, int unused);                                           // 88 sub_6CE7210
-        virtual int request_event(uint eventType, uint requestTarget, uint param1, uint param2, uint dunno); // 92
-        virtual int request_cancel(uint eventType, uint param1, uint param2);                                // 96
+        virtual int use_item(unsigned short sId, unsigned amount, int unused);                                           // 88 sub_6CE7210
+        virtual int request_event(unsigned eventType, unsigned requestTarget, unsigned param1, unsigned param2, unsigned dunno); // 92
+        virtual int request_cancel(unsigned eventType, unsigned param1, unsigned param2);                                // 96
         virtual int go_tradelane(const IObjInspect* startRing, const IObjInspect* nextRing, IObjRW* jumpingIObj, bool unk1, float unk2); // 100
         virtual int stop_tradelane();             // 104 switch from one pair of tradelane to another midflight?
         virtual int sub_6CEF350();                // 108 null
         virtual int sub_6D02000();                // 112 unknown
-        virtual int sub_6D02070(uint spaceObjId); // 116 sendmessage 0x26
+        virtual int sub_6D02070(unsigned spaceObjId); // 116 sendmessage 0x26
 
         Watchable* watchable;
 };

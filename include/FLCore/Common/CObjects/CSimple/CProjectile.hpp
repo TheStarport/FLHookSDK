@@ -1,6 +1,8 @@
 #pragma once
 #include "../../../FLCoreDefs.hpp"
 
+#include "../CSimple.hpp"
+
 namespace Archetype
 {
     struct Projectile;
@@ -12,7 +14,7 @@ struct CProjectile : CSimple
         // CreateParms();
         CreateParms& operator=(const CreateParms&);
 
-        uint hash;
+        unsigned hash;
         Archetype::Projectile* archetype;
         float dunno2;
         float startHealth; // -1 = max health
@@ -20,7 +22,7 @@ struct CProjectile : CSimple
         Matrix orientation;
         Vector velocity;
         float dunno3[4]; // always 0
-        uint owner;
+        unsigned owner;
     };
 
     IMPORT virtual ~CProjectile();                  // 56
@@ -36,7 +38,7 @@ struct CProjectile : CSimple
     IMPORT bool is_owner_safe() const;
     IMPORT const Archetype::Projectile* projarch() const;
 
-    uint ownerId;                 // 57
+    unsigned ownerId;                 // 57
     float remainingLifetime;      // 58
     float remainingOwnerSafeTime; // 59
 };

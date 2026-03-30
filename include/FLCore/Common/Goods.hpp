@@ -30,33 +30,33 @@ struct GoodDescList
 
 struct GoodInfo
 {
-        uint i1;
-        uint len;
-        uint dunno1[16];
-        /* 72 */ uint goodId;
+        unsigned i1;
+        unsigned len;
+        unsigned dunno1[16];
+        /* 72 */ unsigned goodId;
         /* 76 */ GoodType type; // 0=commodity, 2=hull, 3=ship
-        /* 80 */ uint equipmentId;
-        /* 84 */ uint shipGoodId; // if type = GOODINFO_TYPE_HULL
+        /* 80 */ unsigned equipmentId;
+        /* 84 */ unsigned shipGoodId; // if type = GOODINFO_TYPE_HULL
         /* 88 */ float price;
         /* 92 */ float goodSellPrice;
         /* 96 */ float badBuyPrice;
         /* 100 */ float badSellPrice;
         /* 104 */ float goodBuyPrice;
-        /* 108 */ uint jumpDist;
+        /* 108 */ unsigned jumpDist;
         /* 112 */ bool multiCount;
         /* 116 */ char* shopArchetype;
         /* 120 */ char* itemIcon;
         /* 124 */ char* materialLibrary;
         /* 128 */ char* hardpointChild;
         /* 132 */ char* attachmentArchetype;
-        /* 136 */ uint idsName;
-        /* 140 */ uint idsInfo;
-        /* 144 */ uint hullGoodId; // if type = GOODINFO_TYPE_SHIP
+        /* 136 */ unsigned idsName;
+        /* 140 */ unsigned idsInfo;
+        /* 144 */ unsigned hullGoodId; // if type = GOODINFO_TYPE_SHIP
         /* 148 */ EquipDescList edlLow;
         /* 160 */ EquipDescList edlMid;
         /* 172 */ EquipDescList edlHigh;
-        /* 184 */ uint freeAmmoArchId;
-        /* 188 */ uint freeAmmoCount;
+        /* 184 */ unsigned freeAmmoArchId;
+        /* 188 */ unsigned freeAmmoCount;
 };
 
 class GoodInfoList

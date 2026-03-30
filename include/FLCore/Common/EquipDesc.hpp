@@ -37,16 +37,16 @@ struct EquipDesc
         IMPORT void set_temporary(bool);
 
     public:
-        /* 0 */ ushort dunno;
-        ushort id;
+        /* 0 */ unsigned short dunno;
+        unsigned short id;
         /* 1 */ Id archId;
         /* 2 */ CacheString hardPoint;
         /* 3 */ bool mounted;
         /* 4 */ float health;
-        /* 5 */ ushort count;
-        ushort padding;
+        /* 5 */ unsigned short count;
+        unsigned short padding;
         /* 6 */ bool mission;
-        /* 7 */ uint owner;
+        /* 7 */ unsigned owner;
 };
 
 class EquipDescList

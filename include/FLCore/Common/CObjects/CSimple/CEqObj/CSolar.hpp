@@ -11,7 +11,7 @@ struct CSolar : public CEqObj
                 CreateParms& operator=(const CreateParms&);
 
             public:
-                uint hash;
+                unsigned hash;
                 float dunno[3]; // (~0, 0, -1) in float consistently
                 Vector pos;
                 Matrix orientation;
@@ -19,30 +19,30 @@ struct CSolar : public CEqObj
                 Vector spin;
                 int dunno2;
 
-                uint base;
-                uint hash2; // rep group? (otherwise it's the hash)
+                unsigned base;
+                unsigned hash2; // rep group? (otherwise it's the hash)
                 Costume costume;
                 int voiceId;
                 int dunnoLoadout[4];
                 // class st6::list<struct CollisionGroupDesc> collision;
                 int dunno3[3];
-                uint idString;
-                uint visit;
-                uint parent;
-                uint destructible;
+                unsigned idString;
+                unsigned visit;
+                unsigned parent;
+                unsigned destructible;
                 // 1, 2, 3 = related to loadouts
                 // 4 = class st6::list<struct CollisionGroupDesc> &
                 // 7 = ID_String of solar (same as Hash)
                 // 8 = visit (only last byte used)
                 // 9 = id of parent
                 // 10 = destructible (only last byte used)
-                uint destSystem;
-                uint destGate;
-                uint prevRing;
-                uint nextRing;
-                uint tradelaneSpaceName;
+                unsigned destSystem;
+                unsigned destGate;
+                unsigned prevRing;
+                unsigned nextRing;
+                unsigned tradelaneSpaceName;
                 float atmosphereRange;
-                uint dockWith;
+                unsigned dockWith;
 
                 int dunnoAnim[3];
                 // 1, 2 = something to do with animations
@@ -88,23 +88,23 @@ struct CSolar : public CEqObj
         IMPORT void init_continual_anim(const char*);
         IMPORT void update_system_gate(float);
 
-        uint duplicatedSpaceID; // 105
+        unsigned duplicatedSpaceID; // 105
         bool isDestructible;    // 106
         bool isDynamic;
         float atmosphereRange;            // 107
-        uint solarLoadout_possiblyUnused; // 108
-        uint jumpDestSystem;              // 109
-        uint jumpDestObj;                 // 110
+        unsigned solarLoadout_possiblyUnused; // 108
+        unsigned jumpDestSystem;              // 109
+        unsigned jumpDestObj;                 // 110
         bool animationBool;               // 111
-        uint animationId;                 // 112
-        uint animationStateEnum;          // 113
+        unsigned animationId;                 // 112
+        unsigned animationStateEnum;          // 113
         float animDuration;               // 114
         CObject::Class CSolarClass;       // 115
         void* dunnoListPtr;     // 116 Pointer to two-directional list, individual size 0xC, so only 1 value being kept aside from the prev and next pointers
-        uint dunnoListLength;   // 117 length of 116
-        uint prevTradeLaneRing; // 118
-        uint nextTradeLaneRing; // 119
-        uint tradeLaneSpaceName_unused; // 120
-        uint visitValue;                // 121
-        uint parentNickname;            // 122
+        unsigned dunnoListLength;   // 117 length of 116
+        unsigned prevTradeLaneRing; // 118
+        unsigned nextTradeLaneRing; // 119
+        unsigned tradeLaneSpaceName_unused; // 120
+        unsigned visitValue;                // 121
+        unsigned parentNickname;            // 122
 };

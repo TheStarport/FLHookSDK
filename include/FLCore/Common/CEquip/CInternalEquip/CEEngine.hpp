@@ -42,9 +42,9 @@ class CEEngine : public CInternalEquip, public CPhysControllerEquip
     IMPORT bool IsCruiseEngaged() const;
 
     
-    /* 10 */ uint dunno[4];
+    /* 10 */ unsigned dunno[4];
     /* 14 */ st6::vector<ExhaustNozzleInfo> nozzleInfo;
-    /* 18 */ uint dunno2;
+    /* 18 */ unsigned dunno2;
     /* 19 */ float targetSpeed;
     /* 20 */ float cruiseChargeTimeElapsed;
     /* 21 */ bool isCruiseEngaged;
