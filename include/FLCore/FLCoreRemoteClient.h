@@ -121,7 +121,7 @@ struct FLPACKET_CREATESHIP
         Id voiceId;
         Vector pos;
         Quaternion orientation;
-        uint64 health;
+        uint64_t health;
         EquipDescVector equip;
         st6::list<CollisionGroupDesc> colGrps;
         DamageList dmgList; // only holds shield state, which is ignored by receiving client.
@@ -147,7 +147,7 @@ struct FLPACKET_CREATESOLAR
         uint voiceId;
         Vector pos;
         Quaternion orientation;
-        uint64 health;
+        uint64_t health;
         EquipDescVector equip;
         st6::list<CollisionGroupDesc> colGrps;
         DamageList dmg; // only holds shield state, which is ignored by receiving client.
