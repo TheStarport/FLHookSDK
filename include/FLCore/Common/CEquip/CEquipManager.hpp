@@ -28,14 +28,10 @@ class CEquipTraverser
         };
 
         friend bool operator==(const CEquipTraverser& a, const CEquipTraverser& b)
-        {
-            return a.iteratorState == b.iteratorState && a.equipClass == b.equipClass;
-        }
+        { return a.iteratorState == b.iteratorState && a.equipClass == b.equipClass; }
 
         friend bool operator!=(const CEquipTraverser& a, const CEquipTraverser& b)
-        {
-            return a.iteratorState != b.iteratorState || a.equipClass != b.equipClass;
-        }
+        { return a.iteratorState != b.iteratorState || a.equipClass != b.equipClass; }
 
         EquipmentClass equipClass;
         bool skipDestroyed;
@@ -72,20 +68,6 @@ class CEquipManager
         IMPORT const CEquip* Traverse(CEquipTraverser&) const;
         IMPORT bool VerifyListSync(const class EquipDescList&) const;
 
-        CEquipTraverser StartTraverse(EquipmentClass equipmentClass = EquipmentClass::All, bool skipDestroyed = false)
-        {
-            return CEquipTraverser(this, equipmentClass, skipDestroyed);
-        }
-
-        CEquipTraverser begin()
-        {
-            auto traverser = StartTraverse();
-            traverser.operator++();
-            return traverser;
-        }
-
-        CEquipTraverser end() { return { this, EquipmentClass::All, false }; }
-
         /* 0 */ unsigned iDunno0;
         /* 1 */ bool bDunno4;
         /* 2 */ unsigned unkPtr1;
@@ -95,9 +77,3 @@ class CEquipManager
         /* 6 */ int size2;
         /* 7 */ unsigned decayingCargo;
 };
-
-inline CEquipTraverser& CEquipTraverser::operator++()
-{
-    currentEquip = equipManager->Traverse(*this);
-    return *this;
-}
