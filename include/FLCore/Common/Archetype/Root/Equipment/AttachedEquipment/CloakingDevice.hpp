@@ -9,11 +9,11 @@ namespace Archetype
     {
         IMPORT CloakingDevice(const CloakingDevice&);
         IMPORT CloakingDevice(IClObj*);
-        IMPORT virtual ~CloakingDevice();
+        IMPORT ~CloakingDevice() override;
         IMPORT CloakingDevice& operator=(const CloakingDevice&);
-        IMPORT virtual ClassType get_class_type() const;
-        IMPORT virtual bool read(INI_Reader&);
-        IMPORT virtual void redefine(const Root&);
+        IMPORT ClassType get_class_type() const override;
+        IMPORT bool read(INI_Reader&) override;
+        IMPORT void redefine(const Root&) override;
 
         public:
         /* 34 */ float powerUsage;

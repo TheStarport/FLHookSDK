@@ -8,10 +8,10 @@ namespace Archetype
     {
         IMPORT Light(const Light&);
         IMPORT Light(IClObj*);
-        IMPORT virtual ~Light();
+        IMPORT ~Light() override;
         IMPORT Light& operator=(const Light&);
-        IMPORT virtual ClassType get_class_type() const;
-        IMPORT bool read(INI_Reader&);
+        IMPORT ClassType get_class_type() const override;
+        IMPORT bool read(INI_Reader&) override;
 
         public:
         /* 28 */ bool alwaysOn;

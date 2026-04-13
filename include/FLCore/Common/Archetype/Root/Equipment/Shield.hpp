@@ -7,9 +7,9 @@ namespace Archetype
     {
         IMPORT Shield(const Shield&);
         IMPORT Shield(IClObj*);
-        IMPORT virtual ~Shield();
+        IMPORT ~Shield() override;
         IMPORT Shield& operator=(const Shield&);
-        IMPORT virtual ClassType get_class_type() const;
+        IMPORT ClassType get_class_type() const override;
 
         public:
         /* 28 */ char* dunno1;

@@ -7,9 +7,9 @@ namespace Archetype
     {
         IMPORT LootCrate(const LootCrate&);
         IMPORT LootCrate(IClObj*);
-        IMPORT virtual ~LootCrate();
+        IMPORT ~LootCrate() override;
         IMPORT LootCrate& operator=(const LootCrate&);
-        IMPORT virtual ClassType get_class_type() const;
+        IMPORT ClassType get_class_type() const override;
 
         public:
         // no fields here

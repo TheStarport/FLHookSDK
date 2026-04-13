@@ -8,12 +8,12 @@ namespace Archetype
     {
         IMPORT AttachedEquipment(const AttachedEquipment&);
         IMPORT AttachedEquipment(IClObj*);
-        IMPORT virtual ~AttachedEquipment();
+        IMPORT ~AttachedEquipment() override;
         IMPORT AttachedEquipment& operator=(const AttachedEquipment&);
-        IMPORT virtual ClassType get_class_type() const;
-        IMPORT virtual bool is_attached() const;
-        IMPORT virtual bool read(INI_Reader&);
-        IMPORT virtual void redefine(const Root&);
+        IMPORT ClassType get_class_type() const override;
+        IMPORT bool is_attached() const override;
+        IMPORT bool read(INI_Reader&) override;
+        IMPORT void redefine(const Root&) override;
 
         public:
         /* 28 */ unsigned separationExplosionId;

@@ -8,10 +8,10 @@ namespace Archetype
     {
         IMPORT CargoPod(const CargoPod&);
         IMPORT CargoPod(IClObj*);
-        IMPORT virtual ~CargoPod();
+        IMPORT ~CargoPod() override;
         IMPORT CargoPod& operator=(const CargoPod&);
-        IMPORT virtual ClassType get_class_type() const;
-        IMPORT virtual HpAttachmentType get_hp_type() const;
+        IMPORT ClassType get_class_type() const override;
+        IMPORT HpAttachmentType get_hp_type() const override;
 
         public:
         // no fields here

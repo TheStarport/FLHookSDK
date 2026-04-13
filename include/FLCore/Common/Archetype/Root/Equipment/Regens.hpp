@@ -7,12 +7,12 @@ namespace Archetype
     {
         IMPORT RepairDroid(const RepairDroid&);
         IMPORT RepairDroid(IClObj*);
-        IMPORT virtual ~RepairDroid();
+        IMPORT ~RepairDroid() override;
         IMPORT RepairDroid& operator=(const RepairDroid&);
-        IMPORT virtual ClassType get_class_type() const;
-        IMPORT virtual HpAttachmentType get_hp_type() const;
-        IMPORT virtual bool read(INI_Reader&);
-        IMPORT virtual void redefine(const Root&);
+        IMPORT ClassType get_class_type() const override;
+        IMPORT HpAttachmentType get_hp_type() const override;
+        IMPORT bool read(INI_Reader&) override;
+        IMPORT void redefine(const Root&) override;
 
         public:
         /* 28 */ float repairRate;
@@ -22,12 +22,12 @@ namespace Archetype
     {
         IMPORT ShieldBattery(const ShieldBattery&);
         IMPORT ShieldBattery(IClObj*);
-        IMPORT virtual ~ShieldBattery();
+        IMPORT ~ShieldBattery() override;
         IMPORT ShieldBattery& operator=(const ShieldBattery&);
-        IMPORT virtual ClassType get_class_type() const;
-        IMPORT virtual HpAttachmentType get_hp_type() const;
-        IMPORT virtual Equipment* get_loot_appearance();
-        IMPORT virtual bool read(INI_Reader&);
+        IMPORT ClassType get_class_type() const override;
+        IMPORT HpAttachmentType get_hp_type() const override;
+        IMPORT Equipment* get_loot_appearance() override;
+        IMPORT bool read(INI_Reader&) override;
 
         public:
         /* 28 */ unsigned lootAppearanceId;
@@ -37,12 +37,12 @@ namespace Archetype
     {
         RepairKit(const RepairKit&);
         RepairKit(IClObj*);
-        virtual ~RepairKit();
+        ~RepairKit() override;
         RepairKit& operator=(const RepairKit&);
-        virtual ClassType get_class_type() const;
-        virtual HpAttachmentType get_hp_type() const;
-        virtual Equipment* get_loot_appearance();
-        virtual bool read(INI_Reader&);
+        ClassType get_class_type() const override;
+        HpAttachmentType get_hp_type() const override;
+        Equipment* get_loot_appearance() override;
+        bool read(INI_Reader&) override;
 
         public:
         unsigned char data[OBJECT_DATA_SIZE];

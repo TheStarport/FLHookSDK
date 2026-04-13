@@ -8,11 +8,11 @@ namespace Archetype
     {
         IMPORT Launcher(const Launcher&);
         IMPORT Launcher(IClObj*);
-        IMPORT virtual ~Launcher();
+        IMPORT ~Launcher() override;
         IMPORT Launcher& operator=(const Launcher&);
-        IMPORT virtual ClassType get_class_type() const;
-        IMPORT virtual bool read(INI_Reader&);
-        IMPORT virtual void redefine(const Root&);
+        IMPORT ClassType get_class_type() const override;
+        IMPORT bool read(INI_Reader&) override;
+        IMPORT void redefine(const Root&) override;
 
         public:
         /* 34 */ float damagePerFire;

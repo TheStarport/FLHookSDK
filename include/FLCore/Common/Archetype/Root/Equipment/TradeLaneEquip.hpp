@@ -7,9 +7,9 @@ namespace Archetype
     {
         IMPORT TradeLaneEquip(const TradeLaneEquip&);
         IMPORT TradeLaneEquip(IClObj*);
-        IMPORT virtual ~TradeLaneEquip();
+        IMPORT ~TradeLaneEquip() override;
         IMPORT TradeLaneEquip& operator=(const TradeLaneEquip&);
-        IMPORT virtual ClassType get_class_type() const;
+        IMPORT ClassType get_class_type() const override;
 
         public:
         // no new fields

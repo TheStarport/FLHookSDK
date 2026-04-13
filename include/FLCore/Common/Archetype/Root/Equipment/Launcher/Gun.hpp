@@ -8,15 +8,15 @@ namespace Archetype
     {
         IMPORT Gun(const Gun&);
         IMPORT Gun(IClObj*);
-        IMPORT virtual ~Gun();
+        IMPORT ~Gun() override;
         IMPORT Gun& operator=(const Gun&);
-        IMPORT virtual ClassType get_class_type() const;
-        IMPORT virtual HpAttachmentType get_hp_type() const;
+        IMPORT ClassType get_class_type() const override;
+        IMPORT HpAttachmentType get_hp_type() const override;
         IMPORT HpAttachmentType get_hp_type_by_index(int) const;
         IMPORT float get_munition_range() const;
         IMPORT int get_number_of_hp_types() const;
-        IMPORT virtual bool read(INI_Reader&);
-        IMPORT virtual void redefine(const Root&);
+        IMPORT bool read(INI_Reader&) override;
+        IMPORT void redefine(const Root&) override;
 
         public:
         /* 40 */ float dispersionAngle;

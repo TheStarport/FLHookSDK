@@ -7,20 +7,20 @@ namespace Archetype
     {
             IMPORT Munition(const Munition&);
             IMPORT Munition(IClObj*);
-            IMPORT virtual ~Munition();
+            IMPORT ~Munition() override;
             IMPORT Munition& operator=(const Munition&);
             IMPORT static void FreeBeamArchIdx();
             IMPORT static void LoadBeamArchIdx();
-            IMPORT virtual HpAttachmentType get_hp_type() const;
+            IMPORT HpAttachmentType get_hp_type() const override;
             IMPORT bool is_guided() const;
-            IMPORT virtual bool load();
-            IMPORT virtual bool read(INI_Reader&);
-            IMPORT virtual void redefine(const Root&);
+            IMPORT bool load() override;
+            IMPORT bool read(INI_Reader&) override;
+            IMPORT void redefine(const Root&) override;
             ClassType get_class_type() const override { return ClassType::Munition; }
 
         protected:
             static long beamArchIndex;
-            IMPORT virtual void free_resources();
+            IMPORT void free_resources() override;
 
         public:
             /* 32 */ float hullDamage;

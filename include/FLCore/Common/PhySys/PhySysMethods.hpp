@@ -2,6 +2,8 @@
 #include "../../FLCoreDefs.hpp"
 #include "CollisionEvent.hpp"
 
+#undef GetCurrentTime
+
 namespace PhySys
 {
     struct RayHit;

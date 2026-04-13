@@ -7,12 +7,12 @@ namespace Archetype
     {
             IMPORT CounterMeasure(const CounterMeasure&);
             IMPORT CounterMeasure(IClObj*);
-            IMPORT virtual ~CounterMeasure();
+            IMPORT ~CounterMeasure() override;
             IMPORT CounterMeasure& operator=(const CounterMeasure&);
-            IMPORT virtual ClassType get_class_type() const;
-            IMPORT virtual HpAttachmentType get_hp_type() const;
-            IMPORT virtual bool read(INI_Reader&);
-            IMPORT virtual void redefine(const Root&);
+            IMPORT ClassType get_class_type() const override;
+            IMPORT HpAttachmentType get_hp_type() const override;
+            IMPORT bool read(INI_Reader&) override;
+            IMPORT void redefine(const Root&) override;
 
         public:
             /* 32 */ float linearDrag;

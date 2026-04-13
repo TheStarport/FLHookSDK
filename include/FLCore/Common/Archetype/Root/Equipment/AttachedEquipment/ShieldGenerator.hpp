@@ -20,13 +20,13 @@ namespace Archetype
 
         IMPORT ShieldGenerator(const ShieldGenerator&);
         IMPORT ShieldGenerator(IClObj*);
-        IMPORT virtual ~ShieldGenerator();
+        IMPORT ~ShieldGenerator() override;
         IMPORT ShieldGenerator& operator=(const ShieldGenerator&);
-        IMPORT virtual HpAttachmentType get_hp_type() const;
+        IMPORT HpAttachmentType get_hp_type() const override;
         IMPORT HpAttachmentType get_hp_type_by_index(int) const;
         IMPORT int get_number_of_hp_types() const;
-        IMPORT virtual bool read(INI_Reader&);
-        IMPORT virtual void redefine(const Root&);
+        IMPORT bool read(INI_Reader&) override;
+        IMPORT void redefine(const Root&) override;
         ClassType get_class_type() const override { return ClassType::ShieldGenerator; }
 
         public:

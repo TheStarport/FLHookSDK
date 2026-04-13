@@ -526,7 +526,7 @@ class StringUtils
 
         // clang-format off
         template <typename Str>
-            requires IsStringViewConvertable<Str> && !std::is_pointer_v<Str>
+            requires (IsStringViewConvertable<Str> && !std::is_pointer_v<Str>)
         static bool CompareCaseInsensitive(const Str& str1, const Str& str2)
         // clang-format on
         {

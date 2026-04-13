@@ -7,10 +7,10 @@ namespace Archetype
     {
         IMPORT MineDropper(const MineDropper&);
         IMPORT MineDropper(IClObj*);
-        IMPORT virtual ~MineDropper();
+        IMPORT ~MineDropper() override;
         IMPORT MineDropper& operator=(const MineDropper&);
-        IMPORT virtual ClassType get_class_type() const;
-        IMPORT virtual HpAttachmentType get_hp_type() const;
+        IMPORT ClassType get_class_type() const override;
+        IMPORT HpAttachmentType get_hp_type() const override;
 
         public:
         // no fields here

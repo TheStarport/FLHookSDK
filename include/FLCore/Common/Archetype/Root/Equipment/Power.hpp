@@ -7,12 +7,12 @@ namespace Archetype
     {
         IMPORT Power(const Power&);
         IMPORT Power(IClObj*);
-        IMPORT virtual ~Power();
+        IMPORT ~Power() override;
         IMPORT Power& operator=(const Power&);
-        IMPORT virtual ClassType get_class_type() const;
-        IMPORT virtual HpAttachmentType get_hp_type() const;
-        IMPORT virtual bool read(INI_Reader&);
-        IMPORT virtual void redefine(const Root&);
+        IMPORT ClassType get_class_type() const override;
+        IMPORT HpAttachmentType get_hp_type() const override;
+        IMPORT bool read(INI_Reader&) override;
+        IMPORT void redefine(const Root&) override;
 
         public:
         /* 28 */ float capacity;

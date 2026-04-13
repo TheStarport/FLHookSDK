@@ -8,11 +8,11 @@ namespace Archetype
     {
         IMPORT InternalFXEquip(const InternalFXEquip&);
         IMPORT InternalFXEquip(IClObj*);
-        IMPORT virtual ~InternalFXEquip();
+        IMPORT ~InternalFXEquip() override;
         IMPORT InternalFXEquip& operator=(const InternalFXEquip&);
-        IMPORT virtual ClassType get_class_type() const;
-        IMPORT virtual bool read(INI_Reader&);
-        IMPORT virtual void redefine(const Root&);
+        IMPORT ClassType get_class_type() const override;
+        IMPORT bool read(INI_Reader&) override;
+        IMPORT void redefine(const Root&) override;
 
         public:
         /* 28 */ char* useAnimation;

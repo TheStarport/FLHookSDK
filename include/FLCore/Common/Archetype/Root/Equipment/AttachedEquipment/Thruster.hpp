@@ -8,12 +8,12 @@ namespace Archetype
     {
         IMPORT Thruster(const Thruster&);
         IMPORT Thruster(IClObj*);
-        IMPORT virtual ~Thruster();
+        IMPORT ~Thruster() override;
         IMPORT Thruster& operator=(const Thruster&);
-        IMPORT virtual ClassType get_class_type() const;
-        IMPORT virtual HpAttachmentType get_hp_type() const;
-        IMPORT virtual bool read(INI_Reader&);
-        IMPORT virtual void redefine(const Root&);
+        IMPORT ClassType get_class_type() const override;
+        IMPORT HpAttachmentType get_hp_type() const override;
+        IMPORT bool read(INI_Reader&) override;
+        IMPORT void redefine(const Root&) override;
 
         public:
         /* 34 */ float powerUsage;

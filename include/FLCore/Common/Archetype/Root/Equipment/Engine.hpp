@@ -8,12 +8,12 @@ namespace Archetype
     {
         IMPORT Engine(const Engine&);
         IMPORT Engine(IClObj*);
-        IMPORT virtual ~Engine();
+        IMPORT ~Engine() override;
         IMPORT Engine& operator=(const Engine&);
-        IMPORT virtual ClassType get_class_type() const;
-        IMPORT virtual HpAttachmentType get_hp_type() const;
-        IMPORT virtual bool read(INI_Reader&);
-        IMPORT virtual void redefine(const Root&);
+        IMPORT ClassType get_class_type() const override;
+        IMPORT HpAttachmentType get_hp_type() const override;
+        IMPORT bool read(INI_Reader&) override;
+        IMPORT void redefine(const Root&) override;
 
         public:
         /* 28 */ float maxForce;

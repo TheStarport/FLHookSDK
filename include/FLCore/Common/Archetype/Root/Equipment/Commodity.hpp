@@ -8,15 +8,15 @@ namespace Archetype
     {
         IMPORT Commodity(const Commodity&);
         IMPORT Commodity(IClObj*);
-        IMPORT virtual ~Commodity();
+        IMPORT ~Commodity() override;
         IMPORT Commodity& operator=(const Commodity&);
-        IMPORT virtual ClassType get_class_type() const;
+        IMPORT ClassType get_class_type() const override;
         IMPORT float get_decay_per_second() const;
-        IMPORT virtual HpAttachmentType get_hp_type() const;
-        IMPORT virtual Equipment* get_loot_appearance();
-        IMPORT virtual CargoPod* get_pod_appearance();
-        IMPORT virtual bool read(INI_Reader&);
-        IMPORT virtual void redefine(const Root&);
+        IMPORT HpAttachmentType get_hp_type() const override;
+        IMPORT Equipment* get_loot_appearance() override;
+        IMPORT CargoPod* get_pod_appearance() override;
+        IMPORT bool read(INI_Reader&) override;
+        IMPORT void redefine(const Root&) override;
 
         public:
         /* 28 */ float decayPerSecond;

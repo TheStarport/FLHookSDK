@@ -7,12 +7,12 @@ namespace Archetype
     {
         IMPORT Tractor(const Tractor&);
         IMPORT Tractor(IClObj*);
-        IMPORT virtual ~Tractor();
+        IMPORT ~Tractor() override;
         IMPORT Tractor& operator=(const Tractor&);
-        IMPORT virtual ClassType get_class_type() const;
-        IMPORT virtual HpAttachmentType get_hp_type() const;
-        IMPORT virtual bool read(INI_Reader&);
-        IMPORT virtual void redefine(const Root&);
+        IMPORT ClassType get_class_type() const override;
+        IMPORT HpAttachmentType get_hp_type() const override;
+        IMPORT bool read(INI_Reader&) override;
+        IMPORT void redefine(const Root&) override;
 
         public:
         /* 28 */ float maxLength;
