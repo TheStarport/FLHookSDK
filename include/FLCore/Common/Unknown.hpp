@@ -1022,11 +1022,8 @@ namespace Loadout
             Map& operator=(const Map&);
 
         public:
-            unsigned id;
-            char cdunno; // -1
-            EquipDesc* first;
-            EquipDesc* last;
-            EquipDesc* end;
+            Id id;
+            EquipDescVector eqVector;
     };
 
     IMPORT void Free();
