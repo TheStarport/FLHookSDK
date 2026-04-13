@@ -17,15 +17,7 @@ class CEquipTraverser
         IMPORT CEquipTraverser& operator=(const CEquipTraverser&);
         IMPORT void Restart();
 
-        CEquipTraverser(CEquipManager* manager, EquipmentClass equipClass = EquipmentClass::All, bool skipDestroyed = false)
-            : CEquipTraverser(static_cast<int>(equipClass), skipDestroyed)
-        {
-            equipManager = manager;
-        }
-
         CEquipTraverser& operator++();
-
-        CEquip* operator->() const { return currentEquip; }
 
         enum class IteratorState
         {
@@ -37,21 +29,18 @@ class CEquipTraverser
 
         friend bool operator==(const CEquipTraverser& a, const CEquipTraverser& b)
         {
-            return a.iteratorState == b.iteratorState && a.equipManager == b.equipManager;
+            return a.iteratorState == b.iteratorState && a.equipClass == b.equipClass;
         }
 
         friend bool operator!=(const CEquipTraverser& a, const CEquipTraverser& b)
         {
-            return a.iteratorState != b.iteratorState || a.equipManager != b.equipManager;
+            return a.iteratorState != b.iteratorState || a.equipClass != b.equipClass;
         }
 
         EquipmentClass equipClass;
         bool skipDestroyed;
         IteratorState iteratorState;
         unsigned unk3;
-        // Fields below added by us
-        CEquip* currentEquip = nullptr;
-        CEquipManager* equipManager = nullptr;
 };
 
 class CEquipManager
