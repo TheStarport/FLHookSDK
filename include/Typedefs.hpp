@@ -7,6 +7,15 @@ using ulong = unsigned long;
 using int64 = long long;
 using unsigned64 = unsigned long long;
 using mstime = unsigned64;
+using uint64 = unsigned64;
+using i64 = int64;
+using i32 = int;
+using i16 = short;
+using i8 = char;
+using u64 = uint64;
+using u32 = unsigned int;
+using u16 = unsigned short;
+using u8 = unsigned char;
 
 // Otherwords for common things
 using byte = uchar;
