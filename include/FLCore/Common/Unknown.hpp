@@ -1375,6 +1375,7 @@ struct Camera
         float angularPart2;
         float dunno5[9];
         float angularAcceleration;
+        float cameraAccelerationPerFrame;
 };
 
 class IMPORT RoomData
