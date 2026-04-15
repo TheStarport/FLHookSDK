@@ -203,15 +203,15 @@ struct IAnimation2
         virtual void __stdcall func_0c();
         virtual void __stdcall func_10();
 
-        virtual float __stdcall TotalTime(int);
+        virtual float __stdcall TotalTime(long);
 
         virtual void __stdcall func_18();
         virtual void __stdcall func_1c();
-        virtual void __stdcall func_20();
+        virtual float __stdcall GetFullAnimTime_unk(long id);
 
-        virtual int __stdcall Open(LPVOID, long, LPCSTR, int, int);
-        virtual void __stdcall Close(int);
-        virtual void __stdcall Play(int id,                       // id - Open's return value
+        virtual long __stdcall Open(Vector* parentOrSelfRotationInertia, long parentOrSelfIndex, LPCSTR animationName, int, int);
+        virtual void __stdcall Close(long);
+        virtual void __stdcall Play(long id,                       // id - Open's return value
                                     AnimationDirection direction, // 1 = backwards, 2 = repeat, 4 = cycle
                                     float,                        // start pos (-2 = normal, -1 = end)
                                     float,                        // speed
@@ -223,11 +223,11 @@ struct IAnimation2
         virtual void __stdcall func_30();
         virtual void __stdcall func_34();
 
-        virtual void __stdcall Stop(int); // flush?
+        virtual void __stdcall Stop(long); // flush?
 
         virtual void __stdcall func_3c();
 
-        virtual float __stdcall CurrentTime(int);
+        virtual float __stdcall CurrentTime(long);
 };
 
 struct IChannel;
