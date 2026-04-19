@@ -209,7 +209,7 @@ struct IAnimation2
         virtual void __stdcall func_1c();
         virtual float __stdcall GetFullAnimTime_unk(long id);
 
-        virtual long __stdcall Open(Vector* parentOrSelfRotationInertia, long parentOrSelfIndex, LPCSTR animationName, int, int);
+        virtual long __stdcall Open(AnimObject* animObj, long parentOrSelfIndex, LPCSTR animationName, int, int);
         virtual void __stdcall Close(long);
         virtual void __stdcall Play(long id,                       // id - Open's return value
                                     AnimationDirection direction, // 1 = backwards, 2 = repeat, 4 = cycle

@@ -176,10 +176,6 @@ struct CShip : public CEqObj, public PhySys::Controller
         bool inTradeLane;                         // 175
         bool gunRelatedBool;                      // has active guns?
         float angularDragFactor;                  // 176
-        unsigned gunStatsDirty;                       // 177
-        unsigned activeGunCount1;                     // 178
-        float rectHeight;                         // 179 no clue
-        float maxActiveGunRange1;                 // 180
-        unsigned activeGunCount2;                     // 181
-        float maxActiveGunRange2;                 // 182 1-missiles 2-guns?
+        bool gunStatsDirty;                       // 177
+        ShipGunStats shipGunStats;                // 178
 };
