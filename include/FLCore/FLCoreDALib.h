@@ -195,6 +195,12 @@ enum class AnimationDirection
     Cycle = 4
 };
 
+struct AnimObject
+{
+	void* vtable;
+	st6::map<uint, uint> map;
+};
+
 struct IAnimation2
 {
         virtual void __stdcall func_00();

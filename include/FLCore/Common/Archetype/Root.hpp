@@ -1,5 +1,6 @@
 #pragma once
 #include "../../FLCoreDefs.hpp"
+#include <FLCore/FLCoreDALib.h>
 
 #include "ArchetypeMethods.hpp"
 
@@ -53,7 +54,7 @@ namespace Archetype
         bool phantomPhysics;
         /* 15 */ unsigned dunno1;
         /* 16 */ unsigned dunno2;
-        /* 17 */ void* anim;
+        /* 17 */ AnimObject* anim;
         /* 18 */ unsigned array[5]; // not sure about this.
     };
 }
