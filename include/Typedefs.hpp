@@ -22,11 +22,13 @@ using byte = uchar;
 
 // Common types that can be used to explain what is being used
 
-using ArchId = const unsigned;
-using LocationId = const unsigned;
-
-class StarSystem;
-using RCSendChatMsgT = void(__thiscall*)(void* hook, unsigned id, unsigned to, unsigned size, void* RDL);
-using CRCAntiCheatT = void(__stdcall*)();
-using GetFLNameT = int(__cdecl*)(char* buf, const wchar_t* str);
-using GetShipInspectT = bool(__cdecl*)(const unsigned& ship, class IObjInspectImpl*& inspect, StarSystem*& starSystem);
+using Id = unsigned int;
+using SystemId = unsigned int;
+using BaseId = unsigned int;
+using ShipId = unsigned int;
+using SolarId = unsigned int;
+using ObjectId = unsigned int;
+using EquipmentId = unsigned int;
+using GoodId = unsigned int;
+using ArchId = unsigned int;
+using LocationId = unsigned int;

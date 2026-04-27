@@ -1,12 +1,27 @@
 #pragma once
 
-using Id = unsigned int;
-using SystemId = unsigned int;
-using BaseId = unsigned int;
-using ShipId = unsigned int;
-using ObjectId = unsigned int;
-using EquipmentId = unsigned int;
-using GoodId = unsigned int;
+#ifndef _USE_MATH_DEFINES
+    #define _USE_MATH_DEFINES
+#endif
+
+#include <Windows.h>
+#include <mmsystem.h>
+#include <psapi.h>
+#include <tlhelp32.h>
+#include <winuser.h>
+#undef SendMessage
+#undef PlaySound
+
+// Required includes for FreelancersSDK
+#include <cmath>
+#include <cctype>
+#include <memory>
+#include <vector>
+#include <list>
+#include <map>
+#include <unordered_map>
+#include <type_traits>
+#include <string>
 
 #include "../Typedefs.hpp"
 #include "st6.h"
