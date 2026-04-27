@@ -54,27 +54,3 @@ struct TString
 
         TString() : len(0) { data[0] = 0; }
 };
-
-// We need to specialize the BST insert function for each type and then proxy it to the original function
-
-#define ArchetypeBstInsertError(type, module, insertAddr)                                              \
-    template <>                                                                                        \
-    inline void BinarySearchTree<type>::Insert(unsigned key, type value)                                   \
-    {                                                                                                  \
-        static unsigned long mod = unsigned long(GetModuleHandleA(module));                                            \
-        using InsertFuncType = int(__thiscall*)(BinarySearchTree * ptr, type, unsigned*, char* errorName); \
-        static auto insertFunc = reinterpret_cast<InsertFuncType>(mod + insertAddr);                   \
-                                                                                                       \
-        insertFunc(this, value, &key, nullptr);                                                        \
-    }
-
-#define ArchetypeBstInsert(type, module, insertAddr)                                  \
-    template <>                                                                       \
-    inline void BinarySearchTree<type>::Insert(unsigned key, type value)                  \
-    {                                                                                 \
-        static unsigned long mod = unsigned long(GetModuleHandleA(module));                           \
-        using InsertFuncType = int(__thiscall*)(BinarySearchTree * ptr, type, unsigned*); \
-        static auto insertFunc = reinterpret_cast<InsertFuncType>(mod + insertAddr);  \
-                                                                                      \
-        insertFunc(this, value, &key);                                                \
-    }
