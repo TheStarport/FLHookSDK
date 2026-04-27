@@ -16,7 +16,7 @@ class CPhysAttachment
     IMPORT CPhysAttachment& operator=(const CPhysAttachment&);
 
     public:
-    unsigned char data[OBJECT_DATA_SIZE];
+    u8 data[OBJECT_DATA_SIZE];
 };
 
 class CNonPhysAttachment
@@ -34,5 +34,5 @@ class CNonPhysAttachment
     IMPORT CNonPhysAttachment& operator=(const CNonPhysAttachment&);
 
     public:
-    unsigned char data[OBJECT_DATA_SIZE];
+    u8 data[OBJECT_DATA_SIZE];
 };

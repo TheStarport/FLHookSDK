@@ -55,7 +55,7 @@ struct SSPMunitionCollisionInfo
         Id projectileArchId;
         ObjectId attackerId;
         ObjectId targetObjId;
-        unsigned short subObjId;
+        u16 subObjId;
         Vector impactPosition;
 };
 
@@ -70,20 +70,20 @@ struct SSPObjCollisionInfo
         unsigned colliderSubObjId;
         unsigned damagedObjectId;
         unsigned damagedSubObjId;
-        float damage;
+        f32 damage;
 };
 
 struct SSPUseItem
 {
         Id userShipId;
-        unsigned short itemId;
-        unsigned short amountUsed;
+        u16 itemId;
+        u16 amountUsed;
 };
 
 struct XActivateEquip
 {
         Id spaceId;
-        unsigned short id;
+        u16 id;
         bool activate;
 };
 
@@ -127,13 +127,13 @@ struct XFireWeaponInfo
 {
         Id object;
         Vector target;
-        st6::vector<unsigned short> hpIds;
+        st6::vector<u16> hpIds;
 };
 
 struct XCollision
 {
-        unsigned short componentId;
-        float componentHp;
+        u16 componentId;
+        f32 componentHp;
 };
 
 struct XSetManeuver
@@ -148,7 +148,7 @@ struct XSetTarget
         Id ship;
         unsigned slot;
         Id spaceId;
-        unsigned short subObjId;
+        u16 subObjId;
 };
 
 struct SSPObjUpdateInfoSimple
@@ -156,8 +156,8 @@ struct SSPObjUpdateInfoSimple
         Id objId;
         Quaternion dir;
         Vector pos;
-        float timestamp;
-        float throttle;
+        f32 timestamp;
+        f32 throttle;
         char state;
 };
 
@@ -166,8 +166,8 @@ struct SSPObjUpdateInfo
         Id objId;
         Quaternion dir;
         Vector pos;
-        float timestamp;
-        float throttle;
+        f32 timestamp;
+        f32 throttle;
         unsigned stateValue;
         // Enum of some kind
         char state;
@@ -176,7 +176,7 @@ struct SSPObjUpdateInfo
 struct XJettisonCargo
 {
         Id ship;
-        unsigned short slot;
+        u16 slot;
         unsigned count;
 };
 

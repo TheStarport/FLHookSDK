@@ -1,8 +1,8 @@
 #pragma once
 #include "../../../FLCoreDefs.hpp"
-#include "FLCore/Common/Archetype/ArchetypeMethods.hpp"
-#include "FLCore/Common/Archetype/Root.hpp"
-#include "FLCore/Common/Enums.hpp"
+#include <FLCore/Common/Archetype/ArchetypeMethods.hpp>
+#include <FLCore/Common/Archetype/Root.hpp>
+#include <FLCore/Common/Enums.hpp>
 
 namespace Archetype
 {
@@ -29,7 +29,7 @@ namespace Archetype
             IMPORT virtual struct CargoPod* get_pod_appearance();
             IMPORT virtual bool is_attached() const;
 
-            /* 23 */ float volume;
+            /* 23 */ f32 volume;
             /* 24 */ unsigned useCount;
             /* 25 */ unsigned unitsPerContainer;
             /* 26 */ unsigned tractoredExplosionId;

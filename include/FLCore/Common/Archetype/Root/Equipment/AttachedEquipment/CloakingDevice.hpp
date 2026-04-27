@@ -16,9 +16,9 @@ namespace Archetype
         IMPORT void redefine(const Root&) override;
 
         public:
-        /* 34 */ float powerUsage;
-        /* 35 */ float cloakInTime;
-        /* 36 */ float cloakOutTime;
+        /* 34 */ f32 powerUsage;
+        /* 35 */ f32 cloakInTime;
+        /* 36 */ f32 cloakOutTime;
         /* 37 */ unsigned cloakInFxId;
         /* 38 */ unsigned cloakOutFxId;
     };

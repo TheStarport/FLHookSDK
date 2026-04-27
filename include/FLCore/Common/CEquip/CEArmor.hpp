@@ -11,6 +11,6 @@ class CEArmor : public CInternalEquip
     IMPORT static const CEArmor* cast(const CEquip*);
 
     IMPORT CEArmor(const CEArmor&);
-    IMPORT CEArmor(CEqObj*, unsigned short, const Archetype::Armor*, bool);
+    IMPORT CEArmor(CEqObj*, u16, const Archetype::Armor*, bool);
     IMPORT const Archetype::Armor* ArmorArch() const;
 };

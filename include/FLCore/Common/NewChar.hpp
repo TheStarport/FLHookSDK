@@ -43,15 +43,15 @@ namespace NewChar
         virtual Package* FindPackage(unsigned package);
         virtual Pilot* FindPilot(unsigned pilot);
         virtual Base* FindBase(unsigned base);
-        virtual void UnknownMethod16(unsigned long arg1);
-        virtual void UnknownMethod20(unsigned long arg1);
-        virtual void UnknownMethod24(unsigned long arg1);
-        virtual void UnknownMethod28(unsigned long arg1);
-        virtual void UnknownMethod32(unsigned long arg1);
-        virtual void UnknownMethod36(unsigned long arg1);
-        virtual void UnknownMethod40(unsigned long arg1);
-        virtual void UnknownMethod44(unsigned long arg1);
-        virtual void UnknownMethod48(unsigned long arg1);
+        virtual void UnknownMethod16(ulong arg1);
+        virtual void UnknownMethod20(ulong arg1);
+        virtual void UnknownMethod24(ulong arg1);
+        virtual void UnknownMethod28(ulong arg1);
+        virtual void UnknownMethod32(ulong arg1);
+        virtual void UnknownMethod36(ulong arg1);
+        virtual void UnknownMethod40(ulong arg1);
+        virtual void UnknownMethod44(ulong arg1);
+        virtual void UnknownMethod48(ulong arg1);
         virtual void LoadNewCharacterIni(const char* fileBuffer);
     };
 

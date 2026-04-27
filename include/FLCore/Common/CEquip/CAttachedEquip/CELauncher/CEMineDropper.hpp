@@ -1,5 +1,5 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include <FLCore/FLCoreDefs.hpp>
 
 class CEMineDropper : public CELauncher
 {
@@ -11,7 +11,7 @@ class CEMineDropper : public CELauncher
     IMPORT static const CEMineDropper* cast(const CEquip*);
 
     IMPORT CEMineDropper(const CEMineDropper&);
-    IMPORT CEMineDropper(CEqObj*, unsigned short, const Archetype::MineDropper*, bool);
+    IMPORT CEMineDropper(CEqObj*, u16, const Archetype::MineDropper*, bool);
     IMPORT const Archetype::Mine* MineArch();
     IMPORT const Archetype::MineDropper* MineDropperArch();
 };

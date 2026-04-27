@@ -14,7 +14,7 @@ namespace Archetype
         bool operator>(const DamageObjInfo&) const;
 
         public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
     };
 
     class DamageObjInfoList

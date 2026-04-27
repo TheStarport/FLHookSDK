@@ -8,7 +8,7 @@ class CExternalEquip : public CEquip
     public:
         IMPORT virtual ~CExternalEquip();
         IMPORT virtual bool IsDestroyed() const;
-        IMPORT virtual bool Update(float, unsigned int);
+        IMPORT virtual bool Update(f32, u32);
         IMPORT virtual bool GetEquipDesc(EquipDesc&) const;
         IMPORT virtual void Destroy();
         IMPORT virtual bool GetConnectionPosition(Vector*, Matrix*) const;
@@ -25,7 +25,7 @@ class CExternalEquip : public CEquip
         IMPORT static const CExternalEquip* cast(const CEquip*);
 
         IMPORT CExternalEquip(const CExternalEquip&);
-        IMPORT CExternalEquip(unsigned int, CEqObj*, unsigned short, const Archetype::Equipment*, bool);
+        IMPORT CExternalEquip(u32, CEqObj*, u16, const Archetype::Equipment*, bool);
 
         /* 8 */ char* mountedHardpoint;
         /* 9 */ long parentConnector;

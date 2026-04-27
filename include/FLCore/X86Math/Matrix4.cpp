@@ -2,10 +2,10 @@
 
 Matrix4::Matrix4() : d{} {}
 Matrix4::Matrix4(const bool) { set_identity(); }
-Matrix4::Matrix4(const SINGLE v) { set_diagonal(v); }
+Matrix4::Matrix4(const f32 v) { set_diagonal(v); }
 Matrix4::Matrix4(const Matrix4& m) { *this = m; }
-Matrix4::Matrix4(const SINGLE v1, const SINGLE v2, const SINGLE v3, const SINGLE v4, const SINGLE v5, const SINGLE v6, const SINGLE v7, const SINGLE v8,
-                 const SINGLE v9, const SINGLE v10, const SINGLE v11, const SINGLE v12, const SINGLE v13, const SINGLE v14, const SINGLE v15, const SINGLE v16)
+Matrix4::Matrix4(const f32 v1, const f32 v2, const f32 v3, const f32 v4, const f32 v5, const f32 v6, const f32 v7, const f32 v8,
+                 const f32 v9, const f32 v10, const f32 v11, const f32 v12, const f32 v13, const f32 v14, const f32 v15, const f32 v16)
 {
     d[0][0] = v1;
     d[0][1] = v2;
@@ -64,7 +64,7 @@ Matrix4::Matrix4(const Matrix& src)
     d[3][0] = d[3][1] = d[3][2] = 0.0f;
     d[3][3] = 1.0f;
 }
-const Matrix4& Matrix4::set_diagonal(const SINGLE v)
+const Matrix4& Matrix4::set_diagonal(const f32 v)
 {
     d[0][0] = d[1][1] = d[2][2] = d[3][3] = v;
     d[0][1] = d[0][2] = d[0][3] = d[1][0] = d[1][2] = d[1][3] = d[2][0] = d[2][1] = d[2][3] = d[3][0] = d[3][1] = d[3][2] = 0.0f;
@@ -81,14 +81,14 @@ const Matrix4& Matrix4::zero()
     memset(this, 0, sizeof(*this));
     return *this;
 }
-const Matrix4& Matrix4::set_elements(const SINGLE v)
+const Matrix4& Matrix4::set_elements(const f32 v)
 {
     d[0][0] = d[0][1] = d[0][2] = d[0][3] = d[1][0] = d[1][1] = d[1][2] = d[1][3] = d[2][0] = d[2][1] = d[2][2] = d[2][3] = d[3][0] = d[3][1] = d[3][2] =
         d[3][3] = v;
 
     return *this;
 }
-const Matrix4& Matrix4::quadric(const SINGLE aa, const SINGLE bb, const SINGLE cc, const SINGLE dd)
+const Matrix4& Matrix4::quadric(const f32 aa, const f32 bb, const f32 cc, const f32 dd)
 {
     d[0][0] = aa * aa;
     d[1][1] = bb * bb;
@@ -106,11 +106,11 @@ const Matrix4& Matrix4::quadric(const SINGLE aa, const SINGLE bb, const SINGLE c
 
     return *this;
 }
-const Matrix4& Matrix4::quadric(const Vector v, const SINGLE dd) { return quadric(v.x, v.y, v.z, dd); }
+const Matrix4& Matrix4::quadric(const Vector v, const f32 dd) { return quadric(v.x, v.y, v.z, dd); }
 void Matrix4::transpose()
 {
 
-    SINGLE tmp = d[0][1];
+    f32 tmp = d[0][1];
     d[0][1] = d[1][0];
     d[1][0] = tmp;
 
@@ -182,7 +182,7 @@ const Matrix4& Matrix4::operator-=(const Matrix4& m)
 
     return *this;
 }
-const Matrix4& Matrix4::operator*=(const SINGLE s)
+const Matrix4& Matrix4::operator*=(const f32 s)
 {
     d[0][0] *= s;
     d[0][1] *= s;
@@ -203,8 +203,8 @@ const Matrix4& Matrix4::operator*=(const SINGLE s)
 
     return *this;
 }
-SINGLE* Matrix4::operator[](const int i) { return d[i]; }
-const SINGLE* Matrix4::operator[](const int i) const { return d[i]; }
+f32* Matrix4::operator[](const int i) { return d[i]; }
+const f32* Matrix4::operator[](const int i) const { return d[i]; }
 Transform Matrix4::get_transform() const
 {
     Transform result(false);
@@ -226,13 +226,13 @@ Transform Matrix4::get_transform() const
 
     return result;
 }
-SINGLE Matrix4::get_norm() const
+f32 Matrix4::get_norm() const
 {
     return (d[0][0] * d[0][0] + d[0][1] * d[0][1] + d[0][2] * d[0][2] + d[0][3] * d[0][3] + d[1][0] * d[1][0] + d[1][1] * d[1][1] + d[1][2] * d[1][2] +
             d[1][3] * d[1][3] + d[2][0] * d[2][0] + d[2][1] * d[2][1] + d[2][2] * d[2][2] + d[2][3] * d[2][3] + d[3][0] * d[3][0] + d[3][1] * d[3][1] +
             d[3][2] * d[3][2] + d[3][3] * d[3][3]);
 }
-SINGLE det2x2(const SINGLE a, const SINGLE b, const SINGLE c, const SINGLE d) { return (a * d - b * c); }
+f32 det2x2(const f32 a, const f32 b, const f32 c, const f32 d) { return (a * d - b * c); }
 Matrix4 operator*(const Matrix4& m1, const Matrix4& m2)
 {
     return Matrix4(m1.d[0][0] * m2.d[0][0] + m1.d[0][1] * m2.d[1][0] + m1.d[0][2] * m2.d[2][0] + m1.d[0][3] * m2.d[3][0],
@@ -300,7 +300,7 @@ Vector4 operator*(const Matrix4& m, const Vector4& v)
                    v.x * m.d[2][0] + v.y * m.d[2][1] + v.z * m.d[2][2] + v.w * m.d[2][3],
                    v.x * m.d[3][0] + v.y * m.d[3][1] + v.z * m.d[3][2] + v.w * m.d[3][3]);
 }
-Matrix4 operator*(const SINGLE s, const Matrix4& m)
+Matrix4 operator*(const f32 s, const Matrix4& m)
 {
     return Matrix4(s * m.d[0][0],
                    s * m.d[0][1],
@@ -319,4 +319,4 @@ Matrix4 operator*(const SINGLE s, const Matrix4& m)
                    s * m.d[3][2],
                    s * m.d[3][3]);
 }
-Matrix4 operator*(const Matrix4& m, const SINGLE s) { return (s * m); }
+Matrix4 operator*(const Matrix4& m, const f32 s) { return (s * m); }

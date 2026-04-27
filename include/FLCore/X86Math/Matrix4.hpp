@@ -10,46 +10,46 @@
 class FLSDK_IMPORT Matrix4
 {
     public:
-        SINGLE d[4][4];
+        f32 d[4][4];
 
         Matrix4();
         explicit Matrix4(bool);
-        explicit Matrix4(SINGLE v);
+        explicit Matrix4(f32 v);
         Matrix4(const Matrix4& m);
 
-        Matrix4(SINGLE v1, SINGLE v2, SINGLE v3, SINGLE v4, SINGLE v5, SINGLE v6, SINGLE v7, SINGLE v8, SINGLE v9, SINGLE v10, SINGLE v11, SINGLE v12,
-                SINGLE v13, SINGLE v14, SINGLE v15, SINGLE v16);
+        Matrix4(f32 v1, f32 v2, f32 v3, f32 v4, f32 v5, f32 v6, f32 v7, f32 v8, f32 v9, f32 v10, f32 v11, f32 v12,
+                f32 v13, f32 v14, f32 v15, f32 v16);
 
         explicit Matrix4(const Transform& src);
         explicit Matrix4(const Matrix& src);
 
-        const Matrix4& set_diagonal(SINGLE v);
+        const Matrix4& set_diagonal(f32 v);
         const Matrix4& set_identity();
         const Matrix4& zero();
-        const Matrix4& set_elements(SINGLE v);
+        const Matrix4& set_elements(f32 v);
 
-        const Matrix4& quadric(SINGLE aa, SINGLE bb, SINGLE cc, SINGLE dd);
-        const Matrix4& quadric(Vector v, SINGLE dd);
+        const Matrix4& quadric(f32 aa, f32 bb, f32 cc, f32 dd);
+        const Matrix4& quadric(Vector v, f32 dd);
         void transpose();
         Matrix4 get_transpose() const;
         bool inverse();
         Matrix4 get_adjoint() const;
-        SINGLE det4x4() const;
-        friend SINGLE det3x3(SINGLE a1, SINGLE a2, SINGLE a3, SINGLE b1, SINGLE b2, SINGLE b3, SINGLE c1, SINGLE c2, SINGLE c3);
-        friend SINGLE det2x2(SINGLE a, SINGLE b, SINGLE c, SINGLE d);
+        f32 det4x4() const;
+        friend f32 det3x3(f32 a1, f32 a2, f32 a3, f32 b1, f32 b2, f32 b3, f32 c1, f32 c2, f32 c3);
+        friend f32 det2x2(f32 a, f32 b, f32 c, f32 d);
         const Matrix4& operator+=(const Matrix4& m);
         const Matrix4& operator-=(const Matrix4& m);
         friend Matrix4 operator*(const Matrix4& m1, const Matrix4& m2);
         friend Matrix4 operator+(const Matrix4& m1, const Matrix4& m2);
         friend Matrix4 operator-(const Matrix4& m1, const Matrix4& m2);
         friend Vector4 operator*(const Matrix4& m, const Vector4& v);
-        const Matrix4& operator*=(SINGLE s);
-        friend Matrix4 operator*(SINGLE s, const Matrix4& m);
-        friend Matrix4 operator*(const Matrix4& m, SINGLE s);
-        SINGLE* operator[](int i);
-        const SINGLE* operator[](int i) const;
+        const Matrix4& operator*=(f32 s);
+        friend Matrix4 operator*(f32 s, const Matrix4& m);
+        friend Matrix4 operator*(const Matrix4& m, f32 s);
+        f32* operator[](int i);
+        const f32* operator[](int i) const;
         Transform get_transform() const;
-        SINGLE get_norm() const;
+        f32 get_norm() const;
 };
 
 #endif

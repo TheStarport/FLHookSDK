@@ -1,7 +1,7 @@
 #pragma once
 #include "../../../FLCoreDefs.hpp"
 
-#include "FLCore/Common/CEquip/CInternalEquip.hpp"
+#include <FLCore/Common/CEquip/CInternalEquip.hpp>
 
 class CECargo : public CInternalEquip
 {
@@ -10,24 +10,24 @@ class CECargo : public CInternalEquip
     IMPORT virtual bool IsDestroyed() const;
     IMPORT virtual bool GetEquipDesc(EquipDesc&) const;
     IMPORT virtual void Destroy();
-    IMPORT virtual float GetHitPoints() const;
-    IMPORT virtual void SetHitPoints(float);
-    IMPORT virtual unsigned int GetType() const;                       // 88
-    IMPORT virtual void Init(float, unsigned int, const CacheString&); // 92
+    IMPORT virtual f32 GetHitPoints() const;
+    IMPORT virtual void SetHitPoints(f32);
+    IMPORT virtual u32 GetType() const;                       // 88
+    IMPORT virtual void Init(f32, u32, const CacheString&); // 92
 
     IMPORT static CECargo* cast(CEquip*);
     IMPORT static const CECargo* cast(const CEquip*);
 
     IMPORT CECargo(const CECargo&);
-    IMPORT CECargo(CEqObj*, unsigned short, const Archetype::Equipment*, bool);
-    IMPORT void AddToStack(unsigned int, float);
+    IMPORT CECargo(CEqObj*, u16, const Archetype::Equipment*, bool);
+    IMPORT void AddToStack(u32, f32);
     IMPORT const class CECargoPod* GetContainer() const;
-    IMPORT unsigned int GetCount() const;
-    IMPORT float GetDecayDamagePerSecond() const;
-    IMPORT void RemoveFromStack(unsigned int);
-    IMPORT void SetCount(unsigned int);
+    IMPORT u32 GetCount() const;
+    IMPORT f32 GetDecayDamagePerSecond() const;
+    IMPORT void RemoveFromStack(u32);
+    IMPORT void SetCount(u32);
 
     CECargoPod* cargoPod;
-    float hitPts;
+    f32 hitPts;
     unsigned count;
 };

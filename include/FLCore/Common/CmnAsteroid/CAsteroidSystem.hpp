@@ -16,11 +16,11 @@ namespace CmnAsteroid
         IMPORT CAsteroidField* FindNext();
         IMPORT int Release();
         IMPORT CAsteroidField* create_field();
-        IMPORT unsigned int get_sys_id();
-        IMPORT void set_sys_id(unsigned int);
-        IMPORT void update(struct IObjDB*, float);
+        IMPORT u32 get_sys_id();
+        IMPORT void set_sys_id(u32);
+        IMPORT void update(struct IObjDB*, f32);
 
         public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
     };
 }

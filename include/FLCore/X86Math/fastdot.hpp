@@ -6,41 +6,41 @@
 class FastDot
 {
 private:
-	typedef float (FastDot::* fd_member_type)(const Vector & v) const;
+	typedef f32 (FastDot::* fd_member_type)(const Vector & v) const;
 
-	const float x, y, z;
-	fd_member_type dot_fpt;	// float ( FastDot::* dot_fpt )( const Vector & v ) const;
+	const f32 x, y, z;
+	fd_member_type dot_fpt;	// f32 ( FastDot::* dot_fpt )( const Vector & v ) const;
 	int ops_saved;			// from 0 to 5
 
-	inline float dot000( const Vector & v ) const { return                  0.0f; }
-	inline float dot001( const Vector & v ) const { return                   v.z; }
-	inline float dot00X( const Vector & v ) const { return                 z*v.z; }
-	inline float dot010( const Vector & v ) const { return           v.y        ; }
-	inline float dot011( const Vector & v ) const { return           v.y +   v.z; }
-	inline float dot01X( const Vector & v ) const { return           v.y + z*v.z; }
-	inline float dot0X0( const Vector & v ) const { return         y*v.y        ; }
-	inline float dot0X1( const Vector & v ) const { return         y*v.y +   v.z; }
-	inline float dot0XX( const Vector & v ) const { return         y*v.y + z*v.z; }
+	inline f32 dot000( const Vector & v ) const { return                  0.0f; }
+	inline f32 dot001( const Vector & v ) const { return                   v.z; }
+	inline f32 dot00X( const Vector & v ) const { return                 z*v.z; }
+	inline f32 dot010( const Vector & v ) const { return           v.y        ; }
+	inline f32 dot011( const Vector & v ) const { return           v.y +   v.z; }
+	inline f32 dot01X( const Vector & v ) const { return           v.y + z*v.z; }
+	inline f32 dot0X0( const Vector & v ) const { return         y*v.y        ; }
+	inline f32 dot0X1( const Vector & v ) const { return         y*v.y +   v.z; }
+	inline f32 dot0XX( const Vector & v ) const { return         y*v.y + z*v.z; }
 
-	inline float dot100( const Vector & v ) const { return   v.x                ; }
-	inline float dot101( const Vector & v ) const { return   v.x +           v.z; }
-	inline float dot10X( const Vector & v ) const { return   v.x +         z*v.z; }
-	inline float dot110( const Vector & v ) const { return   v.x +   v.y        ; }
-	inline float dot111( const Vector & v ) const { return   v.x +   v.y +   v.z; }
-	inline float dot11X( const Vector & v ) const { return   v.x +   v.y + z*v.z; }
-	inline float dot1X0( const Vector & v ) const { return   v.x + y*v.y        ; }
-	inline float dot1X1( const Vector & v ) const { return   v.x + y*v.y +   v.z; }
-	inline float dot1XX( const Vector & v ) const { return   v.x + y*v.y + z*v.z; }
+	inline f32 dot100( const Vector & v ) const { return   v.x                ; }
+	inline f32 dot101( const Vector & v ) const { return   v.x +           v.z; }
+	inline f32 dot10X( const Vector & v ) const { return   v.x +         z*v.z; }
+	inline f32 dot110( const Vector & v ) const { return   v.x +   v.y        ; }
+	inline f32 dot111( const Vector & v ) const { return   v.x +   v.y +   v.z; }
+	inline f32 dot11X( const Vector & v ) const { return   v.x +   v.y + z*v.z; }
+	inline f32 dot1X0( const Vector & v ) const { return   v.x + y*v.y        ; }
+	inline f32 dot1X1( const Vector & v ) const { return   v.x + y*v.y +   v.z; }
+	inline f32 dot1XX( const Vector & v ) const { return   v.x + y*v.y + z*v.z; }
 
-	inline float dotX00( const Vector & v ) const { return x*v.x                ; }
-	inline float dotX01( const Vector & v ) const { return x*v.x +           v.z; }
-	inline float dotX0X( const Vector & v ) const { return x*v.x +         z*v.z; }
-	inline float dotX10( const Vector & v ) const { return x*v.x +   v.y        ; }
-	inline float dotX11( const Vector & v ) const { return x*v.x +   v.y +   v.z; }
-	inline float dotX1X( const Vector & v ) const { return x*v.x +   v.y + z*v.z; }
-	inline float dotXX0( const Vector & v ) const { return x*v.x + y*v.y        ; }
-	inline float dotXX1( const Vector & v ) const { return x*v.x + y*v.y +   v.z; }
-	inline float dotXXX( const Vector & v ) const { return x*v.x + y*v.y + z*v.z; }
+	inline f32 dotX00( const Vector & v ) const { return x*v.x                ; }
+	inline f32 dotX01( const Vector & v ) const { return x*v.x +           v.z; }
+	inline f32 dotX0X( const Vector & v ) const { return x*v.x +         z*v.z; }
+	inline f32 dotX10( const Vector & v ) const { return x*v.x +   v.y        ; }
+	inline f32 dotX11( const Vector & v ) const { return x*v.x +   v.y +   v.z; }
+	inline f32 dotX1X( const Vector & v ) const { return x*v.x +   v.y + z*v.z; }
+	inline f32 dotXX0( const Vector & v ) const { return x*v.x + y*v.y        ; }
+	inline f32 dotXX1( const Vector & v ) const { return x*v.x + y*v.y +   v.z; }
+	inline f32 dotXXX( const Vector & v ) const { return x*v.x + y*v.y + z*v.z; }
 
 	void InitDot( void )
 	{
@@ -222,11 +222,11 @@ private:
 
 public:
 
-	inline float dot( const Vector & v ) const { return (this->*dot_fpt)( v ); }
+	inline f32 dot( const Vector & v ) const { return (this->*dot_fpt)( v ); }
 
 	inline int GetSavedOps( void ) const { return ops_saved; } 
 
-	FastDot(const float _x, const float _y, const float _z) : x(_x), y(_y), z(_z)
+	FastDot(const f32 _x, const f32 _y, const f32 _z) : x(_x), y(_y), z(_z)
 	{
 		InitDot();
 	}

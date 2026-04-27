@@ -6,24 +6,24 @@ class INI_Reader;
 class Fuse
 {
     public:
-        IMPORT Fuse(const ID_String&, float);
+        IMPORT Fuse(const ID_String&, f32);
         IMPORT Fuse(const Fuse&);
         IMPORT virtual ~Fuse();
         IMPORT Fuse& operator=(const Fuse&);
         IMPORT int ActionCount() const;
-        IMPORT void Burn(float);
+        IMPORT void Burn(f32);
         IMPORT virtual void FreeActions();
-        IMPORT bool IgniteAt(unsigned int, unsigned short, float);
+        IMPORT bool IgniteAt(u32, u16, f32);
         IMPORT bool IsBurning() const;
         IMPORT bool IsDeathFuse() const;
         IMPORT bool IsSpent() const;
-        IMPORT bool IsSpentAt(float) const;
-        IMPORT float Lifetime() const;
+        IMPORT bool IsSpentAt(f32) const;
+        IMPORT f32 Lifetime() const;
         IMPORT void Load() const;
         IMPORT const ID_String& Name() const;
-        IMPORT bool OverrideLifetime(float);
+        IMPORT bool OverrideLifetime(f32);
         IMPORT void RandomizeActions();
-        IMPORT bool UnBurn(unsigned short, float);
+        IMPORT bool UnBurn(u16, f32);
         IMPORT void UnLoad() const;
 
     protected:
@@ -31,7 +31,7 @@ class Fuse
 
     public:
         /* 1  */ unsigned archId;
-        /* 2  */ float defaultLifetime;
+        /* 2  */ f32 defaultLifetime;
         /* 3  */ bool deathFuse;
         bool align[3];
         /* 4  */ bool dunno2;
@@ -53,26 +53,26 @@ class FuseAction
         IMPORT FuseAction(const FuseAction&);
         IMPORT FuseAction();
         IMPORT FuseAction& operator=(const FuseAction&);
-        IMPORT float GetTriggerTime() const;
+        IMPORT f32 GetTriggerTime() const;
         IMPORT bool ReadFuseActionValue(INI_Reader&);
 
         virtual ~FuseAction();
         virtual FuseAction ResetAndCopyArch();
         virtual int Load();
         virtual int UnLoad();
-        virtual bool IsTriggered(unsigned short) const;
+        virtual bool IsTriggered(u16) const;
         virtual bool IsTriggered() const;
-        virtual void Trigger(unsigned int, unsigned short);
-        virtual void UnTrigger(unsigned short);
+        virtual void Trigger(u32, u16);
+        virtual void UnTrigger(u16);
         virtual bool ShouldRandomize() const;
-        virtual float Randomize();
+        virtual f32 Randomize();
         virtual void CopyArchProperties(const FuseAction&);
 
-        /* 1 */ float triggerTime;
-        /* 2 */ float triggerUntil;
+        /* 1 */ f32 triggerTime;
+        /* 2 */ f32 triggerUntil;
         /* 3 */ Archetype::FuseIgnitionList* arch;
         /* 4 */ bool isTriggered;
-        st6::vector<unsigned short> sIdVector;
+        st6::vector<u16> sIdVector;
 };
 struct FuseHardpointPositionOffset
 {
@@ -102,7 +102,7 @@ class FuseDB
         IMPORT static st6::list<TString260> m_FuseINIFiles;
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct AleEffect
@@ -132,7 +132,7 @@ struct AleEffect
             virtual void* __stdcall dunno50();
             virtual void* __stdcall dunno54();
             virtual void* __stdcall dunno58();
-            virtual void* __stdcall SetKeyframe(float);
+            virtual void* __stdcall SetKeyframe(f32);
     };
 
     struct AlchemyEffect
@@ -143,7 +143,7 @@ struct AleEffect
             virtual void* __stdcall dunnoC();
             virtual void* __stdcall dunno10();
             virtual void* __stdcall dunno14();
-            virtual int __stdcall   SetKeyframe(float);
+            virtual int __stdcall   SetKeyframe(f32);
 
             int dunno;
             st6::vector<AlchemyEmitter> emitters;
@@ -153,17 +153,17 @@ struct AleEffect
         virtual void Initialize(void* effectData);
         virtual void Cleanup();
         virtual void fdunno2();
-        virtual void SetKeyframe(float);
+        virtual void SetKeyframe(f32);
         virtual bool nulloptTrue();
         virtual void fdunno5();
-        virtual void LoadAlchemy(float, void*);
+        virtual void LoadAlchemy(f32, void*);
         virtual void fdunno7();
         virtual void* Deallocate();
-        virtual int SetIntensity2(float);
+        virtual int SetIntensity2(f32);
 
         void* ptrdunno;
         unsigned dunno;
-        float fDunno1;
+        f32 fDunno1;
         Transform offset;
         long index;
         unsigned dunno2[8];
@@ -171,8 +171,8 @@ struct AleEffect
         void* effectInfo;
         AlchemyEffect* alchemy;
         void* alchemy2dunno;
-        float fDunno2;
-        float lifetime;
+        f32 fDunno2;
+        f32 lifetime;
         unsigned dunno3;
-        float fDunno3;
+        f32 fDunno3;
 };

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../FLCoreDefs.hpp"
-#include "FLCore/Common/Strings.hpp"
+#include <FLCore/Common/Strings.hpp>
 
 class INI_Reader;
 namespace Archetype
@@ -62,30 +62,30 @@ namespace Archetype
     IMPORT void EnumSolars(ArchEnumerator*);
     IMPORT void Free();
     IMPORT void FreeExplosions();
-    IMPORT int GetArchMaxHitPts(unsigned int);
-    IMPORT Asteroid* GetAsteroid(unsigned int);
+    IMPORT int GetArchMaxHitPts(u32);
+    IMPORT Asteroid* GetAsteroid(u32);
     IMPORT Asteroid* GetAsteroidByName(const ID_String&);
-    IMPORT unsigned int GetAsteroidID(const ID_String&);
-    IMPORT DynamicAsteroid* GetDynamicAsteroid(unsigned int);
+    IMPORT u32 GetAsteroidID(const ID_String&);
+    IMPORT DynamicAsteroid* GetDynamicAsteroid(u32);
     IMPORT DynamicAsteroid* GetDynamicAsteroidByName(const ID_String&);
-    IMPORT unsigned int GetDynamicAsteroidID(const ID_String&);
-    IMPORT Equipment* GetEquipment(unsigned int);
+    IMPORT u32 GetDynamicAsteroidID(const ID_String&);
+    IMPORT Equipment* GetEquipment(u32);
     IMPORT Equipment* GetEquipmentByName(const ID_String&);
-    IMPORT unsigned int GetEquipmentID(const ID_String&);
+    IMPORT u32 GetEquipmentID(const ID_String&);
     IMPORT Explosion* GetExplosion(const ID_String&);
-    IMPORT unsigned int GetId(ClassType, unsigned int);
-    IMPORT unsigned int GetIdCount(ClassType);
-    IMPORT const MotorData* GetMotor(unsigned int);
-    IMPORT Ship* GetShip(unsigned int);
+    IMPORT u32 GetId(ClassType, u32);
+    IMPORT u32 GetIdCount(ClassType);
+    IMPORT const MotorData* GetMotor(u32);
+    IMPORT Ship* GetShip(u32);
     IMPORT Ship* GetShipByName(const ID_String&);
-    IMPORT unsigned int GetShipID(const ID_String&);
-    IMPORT Root* GetSimple(unsigned int);
+    IMPORT u32 GetShipID(const ID_String&);
+    IMPORT Root* GetSimple(u32);
     IMPORT Root* GetSimpleByName(const ID_String&);
-    IMPORT unsigned int GetSimpleID(const ID_String&);
-    IMPORT Solar* GetSolar(unsigned int);
+    IMPORT u32 GetSimpleID(const ID_String&);
+    IMPORT Solar* GetSolar(u32);
     IMPORT Solar* GetSolarByName(const ID_String&);
-    IMPORT unsigned int GetSolarID(const ID_String&);
-    IMPORT unsigned short LargeIDToSmallID(unsigned int);
+    IMPORT u32 GetSolarID(const ID_String&);
+    IMPORT u16 LargeIDToSmallID(u32);
     IMPORT bool Load(struct IFileSystem*, long*, int*);
     IMPORT bool Load(const char*, long*, int*);
     IMPORT int LoadAsteroids(const char*, struct IClObjFactory*);
@@ -94,5 +94,5 @@ namespace Archetype
     IMPORT int LoadShips(const char*, bool, IClObjFactory*);
     IMPORT int LoadSimples(const char*, bool, IClObjFactory*);
     IMPORT int LoadSolar(const char*, bool, IClObjFactory*);
-    IMPORT unsigned int SmallIdToLargeID(unsigned short);
+    IMPORT u32 SmallIdToLargeID(u16);
 } // namespace Archetype

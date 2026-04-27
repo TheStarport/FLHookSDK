@@ -29,8 +29,8 @@ struct DamageEntry
         IMPORT static const char* FateToString(SubObjFate);
 
     public:
-        unsigned short subObj;
-        float health;
+        u16 subObj;
+        f32 health;
         SubObjFate fate;
 };
 
@@ -38,7 +38,7 @@ struct MunitionImpactData
 {
         unsigned attackerId;
         Archetype::Munition* munitionArch;
-        unsigned short subObjId;
+        u16 subObjId;
         Vector impactPosition;
 };
 
@@ -59,17 +59,17 @@ struct DamageList
         IMPORT ~DamageList();
         IMPORT DamageList& operator=(const DamageList&);
         IMPORT static const char* DmgCauseToString(DamageCause);
-        IMPORT void add_damage_entry(unsigned short, float, DamageEntry::SubObjFate);
+        IMPORT void add_damage_entry(u16, f32, DamageEntry::SubObjFate);
         IMPORT DamageCause get_cause() const;
-        IMPORT float get_hit_pts_left(unsigned short) const;
-        IMPORT unsigned int get_inflictor_id() const;
-        IMPORT unsigned int get_inflictor_owner_player() const;
+        IMPORT f32 get_hit_pts_left(u16) const;
+        IMPORT u32 get_inflictor_id() const;
+        IMPORT u32 get_inflictor_owner_player() const;
         IMPORT bool is_destroyed() const;
         IMPORT bool is_inflictor_a_player() const;
         IMPORT void set_cause(DamageCause);
         IMPORT void set_destroyed(bool);
-        IMPORT void set_inflictor_id(unsigned int);
-        IMPORT void set_inflictor_owner_player(unsigned int);
+        IMPORT void set_inflictor_id(u32);
+        IMPORT void set_inflictor_owner_player(u32);
 
     public:
         st6::list<DamageEntry> damageEntries;

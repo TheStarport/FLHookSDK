@@ -19,22 +19,22 @@ namespace Archetype
 
         public:
         /*  0 */ Id id;
-        /*  1 */ float radius;
-        /*  2 */ float impulse;
-        /*  3 */ float hullDamage;
-        /*  4 */ float energyDamage;
+        /*  1 */ f32 radius;
+        /*  2 */ f32 impulse;
+        /*  3 */ f32 hullDamage;
+        /*  4 */ f32 energyDamage;
 
         /*  5 */ unsigned processType;
-        /*  6 */ float lifetime;
-        /*  7 */ float lifetime2;
+        /*  6 */ f32 lifetime;
+        /*  7 */ f32 lifetime2;
         /*  8 */ bool hasValidId;
         /*  9 */ Effect* effectPtr;
         /*  10 */ unsigned* dunno2;
-        /*  11 */ float childNumPieces;
-        /*  12 */ float debrisImpulse;
-        /*  13 */ float innardsDebrisStartTime;
-        /*  14 */ float innardsDebrisNum;
-        /*  15 */ float innardsDebrisRadius;
+        /*  11 */ f32 childNumPieces;
+        /*  12 */ f32 debrisImpulse;
+        /*  13 */ f32 innardsDebrisStartTime;
+        /*  14 */ f32 innardsDebrisNum;
+        /*  15 */ f32 innardsDebrisRadius;
         /*  16 */ bool hasValidId2;
         /*  17 */ unsigned* dunno4;
         /*  18 */ IObjInspect* innardsDebrisObject;

@@ -16,12 +16,12 @@ namespace Archetype
         IMPORT void redefine(const Root&) override;
 
         public:
-        /* 28 */ float maxForce;
-        /* 29 */ float linearDrag;
-        /* 30 */ float powerUsage;
-        /* 31 */ float cruisePowerUsage;
-        /* 32 */ float cruiseChargeTime;
+        /* 28 */ f32 maxForce;
+        /* 29 */ f32 linearDrag;
+        /* 30 */ f32 powerUsage;
+        /* 31 */ f32 cruisePowerUsage;
+        /* 32 */ f32 cruiseChargeTime;
         /* 33 */ bool indestructible;
-        /* 34 */ float reverseFraction;
+        /* 34 */ f32 reverseFraction;
     };
 }

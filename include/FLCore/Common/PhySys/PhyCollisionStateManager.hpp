@@ -17,7 +17,7 @@ namespace PhySys
             IMPORT virtual void mindist_entered_volume(class IVP_Controller_Phantom*, class IVP_Mindist_Base*);
             IMPORT virtual void mindist_left_volume(IVP_Controller_Phantom*, IVP_Mindist_Base*);
             IMPORT virtual void phantom_is_going_to_be_deleted_event(IVP_Controller_Phantom*);
-            IMPORT void update(float);
+            IMPORT void update(f32);
 
         protected:
             IMPORT class IVP_Real_Object* get_other_object(IVP_Mindist_Base*);
@@ -25,6 +25,6 @@ namespace PhySys
 
         public:
             CObject* cobject;
-            unsigned char data[OBJECT_DATA_SIZE];
+            u8 data[OBJECT_DATA_SIZE];
     };
 } // namespace PhySys

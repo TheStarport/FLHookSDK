@@ -1,5 +1,5 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include <FLCore/FLCoreDefs.hpp>
 
 namespace Archetype
 {
@@ -15,8 +15,8 @@ namespace Archetype
         IMPORT void redefine(const Root&) override;
 
         public:
-        /* 28 */ float powerUsage;
-        /* 29 */ float range;
-        /* 30 */ float cargoScanRange;
+        /* 28 */ f32 powerUsage;
+        /* 29 */ f32 range;
+        /* 30 */ f32 cargoScanRange;
     };
 }

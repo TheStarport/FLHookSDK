@@ -13,22 +13,22 @@ namespace pub
                     IMPORT EvadeDodgeUseStruct();
                     IMPORT EvadeDodgeUseStruct& operator=(const EvadeDodgeUseStruct&);
 
-                    float evade_activate_range;                       // 500
-                    float evade_dodge_style_weight[4];                // WAGGLE, WAGGLE_RANDOM, SLIDE, CORKSCREW, all 0
-                    float evade_dodge_cone_angle;                     // 45
-                    float evade_dodge_cone_angle_variance_percent;    // 0
-                    float evade_dodge_waggle_axis_cone_angle;         // 0
-                    float evade_dodge_roll_angle;                     // 0
-                    float evade_dodge_interval_time;                  // 1
-                    float evade_dodge_interval_time_variance_percent; // 0
-                    float evade_dodge_distance;                       // 100
-                    float evade_dodge_time;                           // 10
-                    float evade_dodge_slide_throttle;                 // 0.6
-                    float evade_dodge_turn_throttle;                  // 0.6
-                    float evade_dodge_corkscrew_turn_throttle;        // 0.15
-                    float evade_dodge_corkscrew_roll_throttle;        // 1
+                    f32 evade_activate_range;                       // 500
+                    f32 evade_dodge_style_weight[4];                // WAGGLE, WAGGLE_RANDOM, SLIDE, CORKSCREW, all 0
+                    f32 evade_dodge_cone_angle;                     // 45
+                    f32 evade_dodge_cone_angle_variance_percent;    // 0
+                    f32 evade_dodge_waggle_axis_cone_angle;         // 0
+                    f32 evade_dodge_roll_angle;                     // 0
+                    f32 evade_dodge_interval_time;                  // 1
+                    f32 evade_dodge_interval_time_variance_percent; // 0
+                    f32 evade_dodge_distance;                       // 100
+                    f32 evade_dodge_time;                           // 10
+                    f32 evade_dodge_slide_throttle;                 // 0.6
+                    f32 evade_dodge_turn_throttle;                  // 0.6
+                    f32 evade_dodge_corkscrew_turn_throttle;        // 0.15
+                    f32 evade_dodge_corkscrew_roll_throttle;        // 1
                     bool evade_dodge_corkscrew_roll_flip_direction;   // false
-                    float evade_dodge_direction_weight[4];            // LEFT, RIGHT, UP, DOWN, all 0
+                    f32 evade_dodge_direction_weight[4];            // LEFT, RIGHT, UP, DOWN, all 0
             };
 
             struct EvadeBreakUseStruct
@@ -36,16 +36,16 @@ namespace pub
                     IMPORT EvadeBreakUseStruct();
                     IMPORT EvadeBreakUseStruct& operator=(const EvadeBreakUseStruct&);
 
-                    float evade_break_time;                               // 3
-                    float evade_break_interval_time;                      // 100000
-                    float evade_break_afterburner_delay;                  // 0
-                    float evade_break_afterburner_delay_variance_percent; // 0
-                    float evade_break_direction_weight[4];                // LEFT, RIGHT, UP, DOWN, all 0
-                    float evade_break_roll_throttle;                      // 0
-                    float evade_break_turn_throttle;                      // 1
-                    float evade_break_style_weight[3];                    // SIDEWAYS, OUTRUN, REVERSE, all 0
-                    float evade_break_attempt_reverse_time;               // 4
-                    float evade_break_reverse_distance;                   // 150
+                    f32 evade_break_time;                               // 3
+                    f32 evade_break_interval_time;                      // 100000
+                    f32 evade_break_afterburner_delay;                  // 0
+                    f32 evade_break_afterburner_delay_variance_percent; // 0
+                    f32 evade_break_direction_weight[4];                // LEFT, RIGHT, UP, DOWN, all 0
+                    f32 evade_break_roll_throttle;                      // 0
+                    f32 evade_break_turn_throttle;                      // 1
+                    f32 evade_break_style_weight[3];                    // SIDEWAYS, OUTRUN, REVERSE, all 0
+                    f32 evade_break_attempt_reverse_time;               // 4
+                    f32 evade_break_reverse_distance;                   // 150
             };
 
             struct BuzzHeadTowardUseStruct
@@ -53,25 +53,25 @@ namespace pub
                     IMPORT BuzzHeadTowardUseStruct();
                     IMPORT BuzzHeadTowardUseStruct& operator=(const BuzzHeadTowardUseStruct&);
 
-                    float buzz_max_time_to_head_away;                        // 4
-                    float buzz_head_toward_style_weight[3];                  // STRAIGHT_TO, SLIDE, WAGGLE, all 0
-                    float buzz_min_distance_to_head_toward;                  // 400
-                    float buzz_min_distance_to_head_toward_variance_percent; // 1
-                    float buzz_head_toward_engine_throttle;                  // 1
-                    float buzz_head_toward_turn_throttle;                    // 1
-                    float buzz_head_toward_roll_throttle;                    // 0
+                    f32 buzz_max_time_to_head_away;                        // 4
+                    f32 buzz_head_toward_style_weight[3];                  // STRAIGHT_TO, SLIDE, WAGGLE, all 0
+                    f32 buzz_min_distance_to_head_toward;                  // 400
+                    f32 buzz_min_distance_to_head_toward_variance_percent; // 1
+                    f32 buzz_head_toward_engine_throttle;                  // 1
+                    f32 buzz_head_toward_turn_throttle;                    // 1
+                    f32 buzz_head_toward_roll_throttle;                    // 0
                     bool buzz_head_toward_roll_flip_direction;               // false
-                    float buzz_dodge_direction_weight[4];                    // LEFT, RIGHT, UP, DOWN, all 0
-                    float buzz_dodge_turn_throttle;                          // 1
-                    float buzz_dodge_cone_angle;                             // 45
-                    float buzz_dodge_cone_angle_variance_percent;            // 0
-                    float buzz_dodge_waggle_axis_cone_angle;                 // 0
-                    float buzz_dodge_roll_angle;                             // 0
-                    float buzz_dodge_interval_time;                          // 2
-                    float buzz_dodge_interval_time_variance_percent;         // 0
-                    float buzz_slide_throttle;                               // 1
-                    float buzz_slide_interval_time;                          // 2
-                    float buzz_slide_interval_time_variance_percent;         // 0.4
+                    f32 buzz_dodge_direction_weight[4];                    // LEFT, RIGHT, UP, DOWN, all 0
+                    f32 buzz_dodge_turn_throttle;                          // 1
+                    f32 buzz_dodge_cone_angle;                             // 45
+                    f32 buzz_dodge_cone_angle_variance_percent;            // 0
+                    f32 buzz_dodge_waggle_axis_cone_angle;                 // 0
+                    f32 buzz_dodge_roll_angle;                             // 0
+                    f32 buzz_dodge_interval_time;                          // 2
+                    f32 buzz_dodge_interval_time_variance_percent;         // 0
+                    f32 buzz_slide_throttle;                               // 1
+                    f32 buzz_slide_interval_time;                          // 2
+                    f32 buzz_slide_interval_time_variance_percent;         // 0.4
             };
 
             struct BuzzPassByUseStruct
@@ -79,14 +79,14 @@ namespace pub
                     IMPORT BuzzPassByUseStruct();
                     IMPORT BuzzPassByUseStruct& operator=(const BuzzPassByUseStruct&);
 
-                    float buzz_pass_by_style_weight[3];    // STRAIGHT_BY, BREAK_AWAY, ENGINE_KILL, all 0
-                    float buzz_distance_to_pass_by;        // 100
-                    float buzz_pass_by_time;               // 3
+                    f32 buzz_pass_by_style_weight[3];    // STRAIGHT_BY, BREAK_AWAY, ENGINE_KILL, all 0
+                    f32 buzz_distance_to_pass_by;        // 100
+                    f32 buzz_pass_by_time;               // 3
                     bool buzz_drop_bomb_on_pass_by;        // false
-                    float buzz_break_direction_weight[4];  // LEFT, RIGHT, UP, DOWN, all 0
-                    float buzz_break_direction_cone_angle; // 0
-                    float buzz_break_turn_throttle;        // 1
-                    float buzz_pass_by_roll_throttle;      // 0
+                    f32 buzz_break_direction_weight[4];  // LEFT, RIGHT, UP, DOWN, all 0
+                    f32 buzz_break_direction_cone_angle; // 0
+                    f32 buzz_break_turn_throttle;        // 1
+                    f32 buzz_pass_by_roll_throttle;      // 0
             };
 
             struct TrailUseStruct
@@ -94,13 +94,13 @@ namespace pub
                     IMPORT TrailUseStruct();
                     IMPORT TrailUseStruct& operator=(const TrailUseStruct&);
 
-                    float trail_lock_cone_angle;     // 30
-                    float trail_break_time;          // 2.5
-                    float trail_min_no_lock_time;    // 4
-                    float trail_break_roll_throttle; // 0
+                    f32 trail_lock_cone_angle;     // 30
+                    f32 trail_break_time;          // 2.5
+                    f32 trail_min_no_lock_time;    // 4
+                    f32 trail_break_roll_throttle; // 0
                     bool trail_break_afterburner;    // false
-                    float trail_max_turn_throttle;   // 1
-                    float trail_distance;            // 150
+                    f32 trail_max_turn_throttle;   // 1
+                    f32 trail_distance;            // 150
             };
 
             struct StrafeUseStruct
@@ -108,9 +108,9 @@ namespace pub
                     IMPORT StrafeUseStruct();
                     IMPORT StrafeUseStruct& operator=(const StrafeUseStruct&);
 
-                    float strafe_run_away_distance; // 300
-                    float strafe_attack_throttle;   // 1
-                    float strafe_turn_throttle;     // 1
+                    f32 strafe_run_away_distance; // 300
+                    f32 strafe_attack_throttle;   // 1
+                    f32 strafe_turn_throttle;     // 1
             };
 
             struct EngineKillUseStruct
@@ -118,11 +118,11 @@ namespace pub
                     IMPORT EngineKillUseStruct();
                     IMPORT EngineKillUseStruct& operator=(const EngineKillUseStruct&);
 
-                    float engine_kill_search_time;         // 6
-                    float engine_kill_face_time;           // 3
-                    float engine_kill_use_afterburner;     // 0
-                    float engine_kill_afterburner_time;    // 0.5
-                    float engine_kill_max_target_distance; // 700
+                    f32 engine_kill_search_time;         // 6
+                    f32 engine_kill_face_time;           // 3
+                    f32 engine_kill_use_afterburner;     // 0
+                    f32 engine_kill_afterburner_time;    // 0.5
+                    f32 engine_kill_max_target_distance; // 700
             };
 
             struct RepairUseStruct
@@ -130,12 +130,12 @@ namespace pub
                     IMPORT RepairUseStruct();
                     IMPORT RepairUseStruct& operator=(const RepairUseStruct&);
 
-                    float use_shield_repair_pre_delay;         // 2
-                    float use_shield_repair_at_damage_percent; // 0.5
-                    float use_shield_repair_post_delay;        // 3
-                    float use_hull_repair_pre_delay;           // 1
-                    float use_hull_repair_at_damage_percent;   // 0.5
-                    float use_hull_repair_post_delay;          // 1
+                    f32 use_shield_repair_pre_delay;         // 2
+                    f32 use_shield_repair_at_damage_percent; // 0.5
+                    f32 use_shield_repair_post_delay;        // 3
+                    f32 use_hull_repair_pre_delay;           // 1
+                    f32 use_hull_repair_at_damage_percent;   // 0.5
+                    f32 use_hull_repair_post_delay;          // 1
             };
 
             struct GunUseStruct
@@ -144,21 +144,21 @@ namespace pub
                     IMPORT GunUseStruct& operator=(const GunUseStruct&);
 
                     int fire_style;                                    // MULTIPLE = 0 (default), SINGLE = 1
-                    float gun_fire_interval_time;                      // 0
-                    float gun_fire_interval_variance_percent;          // 0.5
-                    float gun_fire_burst_interval_time;                // 1.5
-                    float gun_fire_burst_interval_variance_percent;    // 0.1
-                    float gun_fire_no_burst_interval_time;             // 0.1
-                    float gun_fire_accuracy_cone_angle;                // 0
-                    float gun_fire_accuracy_power;                     // 1
-                    float gun_fire_accuracy_power_npc;                 // 6
-                    float gun_range_threshold;                         // 1
-                    float gun_range_threshold_variance_percent;        // 0.2
-                    float gun_target_point_switch_time;                // 1.5
-                    float auto_turret_interval_time;                   // 0
-                    float auto_turret_burst_interval_time;             // 1
-                    float auto_turret_no_burst_interval_time;          // 0
-                    float auto_turret_burst_interval_variance_percent; // 0.1
+                    f32 gun_fire_interval_time;                      // 0
+                    f32 gun_fire_interval_variance_percent;          // 0.5
+                    f32 gun_fire_burst_interval_time;                // 1.5
+                    f32 gun_fire_burst_interval_variance_percent;    // 0.1
+                    f32 gun_fire_no_burst_interval_time;             // 0.1
+                    f32 gun_fire_accuracy_cone_angle;                // 0
+                    f32 gun_fire_accuracy_power;                     // 1
+                    f32 gun_fire_accuracy_power_npc;                 // 6
+                    f32 gun_range_threshold;                         // 1
+                    f32 gun_range_threshold_variance_percent;        // 0.2
+                    f32 gun_target_point_switch_time;                // 1.5
+                    f32 auto_turret_interval_time;                   // 0
+                    f32 auto_turret_burst_interval_time;             // 1
+                    f32 auto_turret_no_burst_interval_time;          // 0
+                    f32 auto_turret_burst_interval_variance_percent; // 0.1
             };
 
             struct MineUseStruct
@@ -166,9 +166,9 @@ namespace pub
                     IMPORT MineUseStruct();
                     IMPORT MineUseStruct& operator=(const MineUseStruct&);
 
-                    float mine_launch_interval;   // 0
-                    float mine_launch_cone_angle; // 22.5
-                    float mine_launch_range;      // 400
+                    f32 mine_launch_interval;   // 0
+                    f32 mine_launch_cone_angle; // 22.5
+                    f32 mine_launch_range;      // 400
             };
 
             struct MissileUseStruct
@@ -176,15 +176,15 @@ namespace pub
                     IMPORT MissileUseStruct();
                     IMPORT MissileUseStruct& operator=(const MissileUseStruct&);
 
-                    float missile_launch_range;                     // -1
+                    f32 missile_launch_range;                     // -1
                     bool missile_launch_allow_out_of_range;         // false
-                    float missile_launch_interval_time;             // 5
-                    float missile_launch_interval_variance_percent; // 0.4
-                    float missile_launch_cone_angle;                // 22.5
-                    float anti_cruise_missile_min_distance;         // 300
-                    float anti_cruise_missile_max_distance;         // 2500
-                    float anti_cruise_missile_pre_fire_delay;       // 2
-                    float anti_cruise_missile_interval_time;        // 5
+                    f32 missile_launch_interval_time;             // 5
+                    f32 missile_launch_interval_variance_percent; // 0.4
+                    f32 missile_launch_cone_angle;                // 22.5
+                    f32 anti_cruise_missile_min_distance;         // 300
+                    f32 anti_cruise_missile_max_distance;         // 2500
+                    f32 anti_cruise_missile_pre_fire_delay;       // 2
+                    f32 anti_cruise_missile_interval_time;        // 5
             };
 
             struct DamageReactionStruct
@@ -192,21 +192,21 @@ namespace pub
                     IMPORT DamageReactionStruct();
                     IMPORT DamageReactionStruct& operator=(const DamageReactionStruct&);
 
-                    float evade_break_damage_trigger_percent;      // 1
-                    float evade_dodge_more_damage_trigger_percent; // 0.2
-                    float drop_mines_damage_trigger_percent;       // 1
-                    float drop_mines_damage_trigger_time;          // 1
-                    float engine_kill_face_damage_trigger_percent; // 1
-                    float engine_kill_face_damage_trigger_time;    // 2
-                    float roll_damage_trigger_percent;             // 1
-                    float roll_damage_trigger_time;                // 1
-                    float afterburner_damage_trigger_percent;      // 1
-                    float afterburner_damage_trigger_time;         // 1.5
-                    float brake_reverse_damage_trigger_percent;    // 1
-                    float fire_missiles_damage_trigger_percent;    // 1
-                    float fire_missiles_damage_trigger_time;       // 0.5
-                    float fire_guns_damage_trigger_percent;        // 1
-                    float fire_guns_damage_trigger_time;           // 1
+                    f32 evade_break_damage_trigger_percent;      // 1
+                    f32 evade_dodge_more_damage_trigger_percent; // 0.2
+                    f32 drop_mines_damage_trigger_percent;       // 1
+                    f32 drop_mines_damage_trigger_time;          // 1
+                    f32 engine_kill_face_damage_trigger_percent; // 1
+                    f32 engine_kill_face_damage_trigger_time;    // 2
+                    f32 roll_damage_trigger_percent;             // 1
+                    f32 roll_damage_trigger_time;                // 1
+                    f32 afterburner_damage_trigger_percent;      // 1
+                    f32 afterburner_damage_trigger_time;         // 1.5
+                    f32 brake_reverse_damage_trigger_percent;    // 1
+                    f32 fire_missiles_damage_trigger_percent;    // 1
+                    f32 fire_missiles_damage_trigger_time;       // 0.5
+                    f32 fire_guns_damage_trigger_percent;        // 1
+                    f32 fire_guns_damage_trigger_time;           // 1
                     int _03C;                                      // not initialised
                     int _040;                                      // not initialised
             };
@@ -216,10 +216,10 @@ namespace pub
                     IMPORT MissileReactionStruct();
                     IMPORT MissileReactionStruct& operator=(const MissileReactionStruct&);
 
-                    float evade_break_missile_reaction_time;     // 0
-                    float evade_slide_missile_reaction_time;     // 0
-                    float evade_afterburn_missile_reaction_time; // 0
-                    float evade_missile_distance;                // 250
+                    f32 evade_break_missile_reaction_time;     // 0
+                    f32 evade_slide_missile_reaction_time;     // 0
+                    f32 evade_afterburn_missile_reaction_time; // 0
+                    f32 evade_missile_distance;                // 250
             };
 
             struct CountermeasureUseStruct
@@ -227,8 +227,8 @@ namespace pub
                     IMPORT CountermeasureUseStruct();
                     IMPORT CountermeasureUseStruct& operator=(const CountermeasureUseStruct&);
 
-                    float countermeasure_active_time;   // 1
-                    float countermeasure_unactive_time; // 0
+                    f32 countermeasure_active_time;   // 1
+                    f32 countermeasure_unactive_time; // 0
             };
 
             struct FormationUseStruct
@@ -236,25 +236,25 @@ namespace pub
                     IMPORT FormationUseStruct();
                     IMPORT FormationUseStruct& operator=(const FormationUseStruct&);
 
-                    float force_attack_formation_active_time;           // 1
-                    float force_attack_formation_unactive_time;         // 0
-                    float break_formation_damage_trigger_percent;       // 1
-                    float break_formation_damage_trigger_time;          // 4
-                    float break_apart_formation_damage_trigger_percent; // 1
-                    float break_apart_formation_damage_trigger_time;    // 4
-                    float break_formation_missile_reaction_time;        // 0
-                    float break_apart_formation_missile_reaction_time;  // 4
+                    f32 force_attack_formation_active_time;           // 1
+                    f32 force_attack_formation_unactive_time;         // 0
+                    f32 break_formation_damage_trigger_percent;       // 1
+                    f32 break_formation_damage_trigger_time;          // 4
+                    f32 break_apart_formation_damage_trigger_percent; // 1
+                    f32 break_apart_formation_damage_trigger_time;    // 4
+                    f32 break_formation_missile_reaction_time;        // 0
+                    f32 break_apart_formation_missile_reaction_time;  // 4
                     bool break_apart_formation_on_buzz_head_toward;     // false
-                    float break_formation_on_buzz_head_toward_time;     // 4
+                    f32 break_formation_on_buzz_head_toward_time;     // 4
                     bool regroup_formation_on_buzz_head_toward;         // false
                     bool break_apart_formation_on_buzz_pass_by;         // false
-                    float break_formation_on_buzz_pass_by_time;         // 4
+                    f32 break_formation_on_buzz_pass_by_time;         // 4
                     bool regroup_formation_on_buzz_pass_by;             // false
                     bool break_apart_formation_on_evade_dodge;          // false
-                    float break_formation_on_evade_dodge_time;          // 4
+                    f32 break_formation_on_evade_dodge_time;          // 4
                     bool regroup_formation_on_evade_dodge;              // false
                     bool break_apart_formation_on_evade_break;          // false
-                    float break_formation_on_evade_break_time;          // 4
+                    f32 break_formation_on_evade_break_time;          // 4
                     bool regroup_formation_on_evade_break;              // false
                     int formation_exit_mode;
                     // 0 = BREAK_AWAY_FROM_CENTER
@@ -262,9 +262,9 @@ namespace pub
                     // 2 = BRAKE_REVERSE
                     // 3 = OUTRUN
                     // 5 = NOTHING (default)
-                    float formation_exit_top_turn_break_away_throttle; // 1
-                    float formation_exit_roll_outrun_throttle;         // 0
-                    float formation_exit_max_time;                     // 0
+                    f32 formation_exit_top_turn_break_away_throttle; // 1
+                    f32 formation_exit_roll_outrun_throttle;         // 0
+                    f32 formation_exit_max_time;                     // 0
                     bool leader_makes_me_tougher;                      // false
             };
 
@@ -286,11 +286,11 @@ namespace pub
                                                      // 2 = EQUAL
                                                      // 3 = HARD
                                                      // 4 = HARDEST
-                    float combat_drift_distance;     // ? 10000 (ignored)
+                    f32 combat_drift_distance;     // ? 10000 (ignored)
                     struct Tattack_order
                     {
                             int type;                     // 11
-                            float distance;               // 5000
+                            f32 distance;               // 5000
                             int flag;                     // 15
                     } attack_order[13];                   // attack_preference
                                                           // index 0 = FIGHTER
@@ -320,7 +320,7 @@ namespace pub
                                                           // 6 = ANYTHING
                                                           // 7 = end of list
                     bool wait_for_leader_target;          // not initialised
-                    float maximum_leader_target_distance; // 5000
+                    f32 maximum_leader_target_distance; // 5000
                     int field_targeting;                  // 3
                                                           // 0 = NEVER
                                                           // 1 = LOW_DENSITY
@@ -346,11 +346,11 @@ namespace pub
                                                           // 2 = EQUAL
                                                           // 3 = HARD
                                                           // 4 = HARDEST
-                    float flee_when_hull_damaged_percent; // 0
+                    f32 flee_when_hull_damaged_percent; // 0
                     bool flee_when_leader_flees_style;    // true
                     bool flee_no_weapons_style;           // true
                     bool allow_player_targeting;          // true
-                    float _130;                           // -1
+                    f32 _130;                           // -1
                     bool force_attack_formation;          // false
                     bool force_attack_formation_used;     // false (true when above is set)
             };
@@ -359,9 +359,9 @@ namespace pub
 
             IMPORT Personality();
             IMPORT Personality& operator=(const Personality&);
-            IMPORT static const float SCAN_CHANCE_DEFAULT;
-            IMPORT float get_range_threshold_value();
-            IMPORT float get_toughness_ratio(TOUGHNESS_TYPE);
+            IMPORT static const f32 SCAN_CHANCE_DEFAULT;
+            IMPORT f32 get_range_threshold_value();
+            IMPORT f32 get_toughness_ratio(TOUGHNESS_TYPE);
 
             public:
             EvadeDodgeUseStruct EvadeDodgeUse;

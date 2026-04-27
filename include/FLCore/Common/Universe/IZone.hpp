@@ -14,7 +14,7 @@ namespace Universe
         struct FactionSpawn
         {
             unsigned faction; // Faction Id, obtainable with e.g. pub::Reputation::GetReputationGroup()
-            float chance; // Spawn chance
+            f32 chance; // Spawn chance
         };
 
         enum ShapeType
@@ -36,12 +36,12 @@ namespace Universe
         unsigned propertyFlags;
         Vector size;
         long mesh;
-        float edgeFraction;
+        f32 edgeFraction;
         long unused1; // -1
-        float dragModifier;
-        float damage;
-        float interference;
-        float unused2;         // -1
+        f32 dragModifier;
+        f32 damage;
+        f32 interference;
+        f32 unused2;         // -1
         ID_String music;       // ID_String
         CacheString spaceDust; // CacheString
         int spaceDustMaxParticles;

@@ -7,8 +7,8 @@ namespace Archetype
     {
         /*  0 */ unsigned vtable;
         /*  1 */ unsigned archId;
-        /*  2 */ float delay;
-        /*  3 */ float acceleration;
-        /*  4 */ float lifetime;
+        /*  2 */ f32 delay;
+        /*  3 */ f32 acceleration;
+        /*  4 */ f32 lifetime;
     };
 }

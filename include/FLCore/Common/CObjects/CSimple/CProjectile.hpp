@@ -16,29 +16,29 @@ struct CProjectile : CSimple
 
         unsigned hash;
         Archetype::Projectile* archetype;
-        float dunno2;
-        float startHealth; // -1 = max health
+        f32 dunno2;
+        f32 startHealth; // -1 = max health
         Vector position;
         Matrix orientation;
         Vector velocity;
-        float dunno3[4]; // always 0
+        f32 dunno3[4]; // always 0
         unsigned owner;
     };
 
     IMPORT virtual ~CProjectile();                  // 56
-    IMPORT virtual int update(float, unsigned int); // 80
+    IMPORT virtual int update(f32, u32); // 80
     IMPORT virtual void init(const CreateParms&);   // 160
     IMPORT virtual void set_dead();                 // 164
     IMPORT virtual void expire_safe_time();         // 168
 
     IMPORT CProjectile(const CProjectile&);
     IMPORT CProjectile(Class);
-    IMPORT const unsigned int& get_owner() const;
+    IMPORT const u32& get_owner() const;
     IMPORT bool is_alive() const;
     IMPORT bool is_owner_safe() const;
     IMPORT const Archetype::Projectile* projarch() const;
 
     unsigned ownerId;                 // 57
-    float remainingLifetime;      // 58
-    float remainingOwnerSafeTime; // 59
+    f32 remainingLifetime;      // 58
+    f32 remainingOwnerSafeTime; // 59
 };

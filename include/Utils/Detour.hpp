@@ -4,6 +4,8 @@
 #include <array>
 #include <memory>
 
+#include <assert.h>
+
 class MemProtect
 {
         void* addr;

@@ -7,7 +7,7 @@
 
 namespace QuaternionNS
 {
-    constexpr SINGLE epsilon = 1e-03f;
+    constexpr f32 epsilon = 1e-03f;
 }
 
 Quaternion::Quaternion() : d() {}
@@ -16,7 +16,7 @@ Quaternion::Quaternion(const Matrix& m)
 {
     static constexpr int nxt[3] = { 1, 2, 0 };
 
-    if (const float trace = m.d[0][0] + m.d[1][1] + m.d[2][2]; trace > 0.0f)
+    if (const f32 trace = m.d[0][0] + m.d[1][1] + m.d[2][2]; trace > 0.0f)
     {
         auto st = sqrtf(trace + 1.0f);
         w = st * 0.5f;
@@ -51,20 +51,20 @@ Quaternion::Quaternion(const Matrix& m)
     }
 }
 
-Quaternion::Quaternion(const Vector& axis, const SINGLE angle)
+Quaternion::Quaternion(const Vector& axis, const f32 angle)
 {
-    const SINGLE half_angle = angle / 2.0f;
+    const f32 half_angle = angle / 2.0f;
 
 #if !defined(ANONYMOUS_ILLEGAL)
-    s = (SINGLE)cos(half_angle);
+    s = (f32)cos(half_angle);
     v = axis;
     v.normalize();
-    v *= (SINGLE)sin(half_angle);
+    v *= (f32)sin(half_angle);
 #else
-    w = (SINGLE)cos(half_angle);
+    w = (f32)cos(half_angle);
     Vector V = axis;
     V.normalize();
-    V *= (SINGLE)sin(half_angle);
+    V *= (f32)sin(half_angle);
     x = V.x;
     y = V.y;
     z = V.z;
@@ -87,7 +87,7 @@ Quaternion::Quaternion(const Vector& vec)
 #endif
 }
 
-Quaternion::Quaternion(const SINGLE _w, const SINGLE _x, const SINGLE _y, const SINGLE _z)
+Quaternion::Quaternion(const f32 _w, const f32 _x, const f32 _y, const f32 _z)
 {
     w = _w;
     x = _x;
@@ -133,16 +133,16 @@ Quaternion Quaternion::get_inverse() const { return get_conjugate() * (1.0f / no
 
 // For debugging purposes only. Quaternions representing rotations should
 // always have magnitude 1.
-SINGLE Quaternion::get_magnitude() const
+f32 Quaternion::get_magnitude() const
 {
 #if !defined(ANONYMOUS_ILLEGAL)
-    return (SINGLE)sqrt(s * s + v.magnitude_squared());
+    return (f32)sqrt(s * s + v.magnitude_squared());
 #else
-    return (SINGLE)sqrt(w * w + Vector(x, y, z).magnitude_squared());
+    return (f32)sqrt(w * w + Vector(x, y, z).magnitude_squared());
 #endif
 }
 
-SINGLE Quaternion::norm() const
+f32 Quaternion::norm() const
 {
 #if !defined(ANONYMOUS_ILLEGAL)
     return s * s + v.magnitude_squared();
@@ -156,8 +156,8 @@ Quaternion Quaternion::get_log() const
 #if !defined(ANONYMOUS_ILLEGAL)
     if (fabs(s) < 1.0f)
     {
-        const SINGLE angle = SINGLE(acos(s));
-        const SINGLE sine = SINGLE(sin(angle));
+        const f32 angle = f32(acos(s));
+        const f32 sine = f32(sin(angle));
 
         if (sine >= QuaternionNS::epsilon)
         {
@@ -169,8 +169,8 @@ Quaternion Quaternion::get_log() const
 #else
     if (fabs(w) < 1.0f)
     {
-        const SINGLE angle = acos(w);
-        const SINGLE sine = sin(angle);
+        const f32 angle = acos(w);
+        const f32 sine = sin(angle);
 
         if (sine >= QuaternionNS::epsilon)
         {
@@ -186,23 +186,23 @@ Quaternion Quaternion::get_log() const
 Quaternion Quaternion::get_exp() const
 {
 #if !defined(ANONYMOUS_ILLEGAL)
-    const SINGLE angle = v.magnitude();
-    const SINGLE sine = SINGLE(sin(angle));
+    const f32 angle = v.magnitude();
+    const f32 sine = f32(sin(angle));
 
     if (sine >= QuaternionNS::epsilon)
     {
         const Vector exp_v = v * (sine / angle);
 
-        return Quaternion(SINGLE(cos(angle)), exp_v.x, exp_v.y, exp_v.z);
+        return Quaternion(f32(cos(angle)), exp_v.x, exp_v.y, exp_v.z);
     }
     else
     {
-        return Quaternion(SINGLE(cos(angle)), v.x, v.y, v.z);
+        return Quaternion(f32(cos(angle)), v.x, v.y, v.z);
     }
 #else
     const Vector _v(x, y, z);
-    const SINGLE angle = _v.magnitude();
-    const SINGLE sine = sin(angle);
+    const f32 angle = _v.magnitude();
+    const f32 sine = sin(angle);
 
     if (sine >= QuaternionNS::epsilon)
     {
@@ -219,7 +219,7 @@ Quaternion Quaternion::get_exp() const
 
 void Quaternion::normalize(void)
 {
-    SINGLE m = 1.0f / get_magnitude();
+    f32 m = 1.0f / get_magnitude();
 #if !defined(ANONYMOUS_ILLEGAL)
     s *= m;
     v *= m;
@@ -231,7 +231,7 @@ void Quaternion::normalize(void)
 #endif
 }
 
-Quaternion Quaternion::scale(const SINGLE scalar)
+Quaternion Quaternion::scale(const f32 scalar)
 {
 #if !defined(ANONYMOUS_ILLEGAL)
     s *= scalar;
@@ -245,7 +245,7 @@ Quaternion Quaternion::scale(const SINGLE scalar)
     return *this;
 }
 
-Quaternion Quaternion::scale_by_reciprocal(SINGLE scalar)
+Quaternion Quaternion::scale_by_reciprocal(f32 scalar)
 {
     scalar = 1.0f / scalar;
 #if !defined(ANONYMOUS_ILLEGAL)
@@ -260,9 +260,9 @@ Quaternion Quaternion::scale_by_reciprocal(SINGLE scalar)
     return *this;
 }
 
-Quaternion Quaternion::operator*=(const SINGLE scalar) { return scale(scalar); }
+Quaternion Quaternion::operator*=(const f32 scalar) { return scale(scalar); }
 
-Quaternion Quaternion::operator/=(const SINGLE scalar) { return scale_by_reciprocal(scalar); }
+Quaternion Quaternion::operator/=(const f32 scalar) { return scale_by_reciprocal(scalar); }
 
 Vector Quaternion::transform(const Vector& vec) const
 {
@@ -275,21 +275,21 @@ Vector Quaternion::transform(const Vector& vec) const
 //
 // Compute axis & angle representation of quaternion.
 //
-void Quaternion::compute_axis_angle(Vector& axis, float& angle)
+void Quaternion::compute_axis_angle(Vector& axis, f32& angle)
 {
-    angle = (float)(2.0f * acos(w));
-    axis.x = (float)(2.0f * asin(x));
-    axis.y = (float)(2.0f * asin(y));
-    axis.z = (float)(2.0f * asin(z));
+    angle = (f32)(2.0f * acos(w));
+    axis.x = (f32)(2.0f * asin(x));
+    axis.y = (f32)(2.0f * asin(y));
+    axis.z = (f32)(2.0f * asin(z));
 
-    const float mag = axis.magnitude();
+    const f32 mag = axis.magnitude();
     if (mag > 1e-5f)
     {
         axis /= mag;
     }
 }
 
-Quaternion slerp(const Quaternion& q1, const Quaternion& q2, const SINGLE t)
+Quaternion slerp(const Quaternion& q1, const Quaternion& q2, const f32 t)
 {
     Quaternion dst;
 
@@ -305,8 +305,8 @@ Quaternion slerp(const Quaternion& q1, const Quaternion& q2, const SINGLE t)
     dif.y = q1.y - q2.y;
     dif.z = q1.z - q2.z;
 
-    float s1 = dif.w * dif.w + dif.x * dif.x + dif.y * dif.y + dif.z * dif.z;
-    float s2 = sum.w * sum.w + sum.x * sum.x + sum.y * sum.y + sum.z * sum.z;
+    f32 s1 = dif.w * dif.w + dif.x * dif.x + dif.y * dif.y + dif.z * dif.z;
+    f32 s2 = sum.w * sum.w + sum.x * sum.x + sum.y * sum.y + sum.z * sum.z;
 
     if (s1 > s2)
     {
@@ -320,7 +320,7 @@ Quaternion slerp(const Quaternion& q1, const Quaternion& q2, const SINGLE t)
         qs = q2;
     }
 
-    float cos_omega = q1.w * qs.w + q1.x * qs.x + q1.y * qs.y + q1.z * qs.z;
+    f32 cos_omega = q1.w * qs.w + q1.x * qs.x + q1.y * qs.y + q1.z * qs.z;
 
     // Check for cases where rotations are nearly opposite, which causes numerical weirdness.
     if ((1.0f + cos_omega) > Q_EPSILON)
@@ -328,8 +328,8 @@ Quaternion slerp(const Quaternion& q1, const Quaternion& q2, const SINGLE t)
         // Check for case where rotations are very close, which also causes weirdness.
         if ((1.0f - cos_omega) > Q_EPSILON)
         {
-            float omega = acos(cos_omega);
-            float sin_omega = sin(omega);
+            f32 omega = acos(cos_omega);
+            f32 sin_omega = sin(omega);
 
             s1 = sin((1.0f - t) * omega) / sin_omega;
             s2 = sin(t * omega) / sin_omega;
@@ -353,7 +353,7 @@ Quaternion slerp(const Quaternion& q1, const Quaternion& q2, const SINGLE t)
         dst.y = q1.x;
         dst.z = -q1.w;
 
-        float half_pi = PI / 2.0f;
+        f32 half_pi = PI / 2.0f;
 
         s1 = sin((1.0f - t) * half_pi);
         s2 = sin(t * half_pi);
@@ -366,12 +366,12 @@ Quaternion slerp(const Quaternion& q1, const Quaternion& q2, const SINGLE t)
     return dst;
 }
 
-Quaternion squad(const Quaternion& q0, const Quaternion& q1, const Quaternion& q2, const Quaternion& q3, const SINGLE t)
+Quaternion squad(const Quaternion& q0, const Quaternion& q1, const Quaternion& q2, const Quaternion& q3, const f32 t)
 {
     return slerp(slerp(q0, q3, t), slerp(q1, q2, t), 2.0f * t * (1.0f - t));
 }
 
-Quaternion spline_squad(const Quaternion& q0, const Quaternion& q1, const Quaternion& q2, const Quaternion& q3, const SINGLE t)
+Quaternion spline_squad(const Quaternion& q0, const Quaternion& q1, const Quaternion& q2, const Quaternion& q3, const f32 t)
 {
     const Quaternion q1_inv(q1.get_inverse());
     const Quaternion q2_inv(q2.get_inverse());
@@ -398,7 +398,7 @@ Quaternion operator-(const Quaternion& q1, const Quaternion& q2) { return Quater
 
 Quaternion operator*(const Quaternion& q1, const Quaternion& q2) { return mul(q1, q2); }
 
-Quaternion scale(const Quaternion& q, const SINGLE scalar)
+Quaternion scale(const Quaternion& q, const f32 scalar)
 {
     Quaternion result;
 #if !defined(ANONYMOUS_ILLEGAL)
@@ -413,7 +413,7 @@ Quaternion scale(const Quaternion& q, const SINGLE scalar)
     return result;
 }
 
-Quaternion scale_by_reciprocal(const Quaternion& q, SINGLE scalar)
+Quaternion scale_by_reciprocal(const Quaternion& q, f32 scalar)
 {
     Quaternion result;
     scalar = 1.0f / scalar;
@@ -429,6 +429,6 @@ Quaternion scale_by_reciprocal(const Quaternion& q, SINGLE scalar)
     return result;
 }
 
-Quaternion operator*(const Quaternion& q, const SINGLE scalar) { return scale(q, scalar); }
+Quaternion operator*(const Quaternion& q, const f32 scalar) { return scale(q, scalar); }
 
-Quaternion operator/(const Quaternion& q, const SINGLE scalar) { return scale_by_reciprocal(q, scalar); }
+Quaternion operator/(const Quaternion& q, const f32 scalar) { return scale_by_reciprocal(q, scalar); }

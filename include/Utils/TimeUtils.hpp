@@ -1,5 +1,10 @@
 #pragma once
-#include <Concepts.hpp>
+
+#include <chrono>
+#include <type_traits>
+
+#include "../Concepts.hpp"
+#include "../FLCore/FLCoreDefs.hpp"
 
 class TimeUtils
 {
@@ -31,15 +36,15 @@ class TimeUtils
         //                 [civil_from_days(numeric_limits<Int>::min()),
         //                  civil_from_days(numeric_limits<Int>::max()-719468)]
         template <class Int>
-        static constexpr Int DaysFromCivil(Int y, unsigned m, unsigned d) noexcept
+        static constexpr Int DaysFromCivil(Int y, u32 m, u32 d) noexcept
         {
-            static_assert(std::numeric_limits<unsigned>::digits >= 18, "This algorithm has not been ported to a 16 bit unsigned integer");
+            static_assert(std::numeric_limits<u32>::digits >= 18, "This algorithm has not been ported to a 16 bit u32 integer");
             static_assert(std::numeric_limits<Int>::digits >= 20, "This algorithm has not been ported to a 16 bit signed integer");
             y -= m <= 2;
             const Int era = (y >= 0 ? y : y - 399) / 400;
-            const unsigned yoe = static_cast<unsigned>(y - era * 400);           // [0, 399]
-            const unsigned doy = (153 * (m + (m > 2 ? -3 : 9)) + 2) / 5 + d - 1; // [0, 365]
-            const unsigned doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;          // [0, 146096]
+            const u32 yoe = static_cast<u32>(y - era * 400);           // [0, 399]
+            const u32 doy = (153 * (m + (m > 2 ? -3 : 9)) + 2) / 5 + d - 1; // [0, 365]
+            const u32 doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;          // [0, 146096]
             return era * 146097 + static_cast<Int>(doe) - 719468;
         }
 
@@ -47,25 +52,25 @@ class TimeUtils
         // Preconditions:  z is number of days since 1970-01-01 and is in the range:
         //                   [numeric_limits<Int>::min(), numeric_limits<Int>::max()-719468].
         template <class Int>
-        static constexpr std::tuple<Int, unsigned, unsigned> CivilFromDays(Int z) noexcept
+        static constexpr std::tuple<Int, u32, u32> CivilFromDays(Int z) noexcept
         {
-            static_assert(std::numeric_limits<unsigned>::digits >= 18, "This algorithm has not been ported to a 16 bit unsigned integer");
+            static_assert(std::numeric_limits<u32>::digits >= 18, "This algorithm has not been ported to a 16 bit u32 integer");
             static_assert(std::numeric_limits<Int>::digits >= 20, "This algorithm has not been ported to a 16 bit signed integer");
             z += 719468;
             const Int era = (z >= 0 ? z : z - 146096) / 146097;
-            const unsigned doe = static_cast<unsigned>(z - era * 146097);               // [0, 146096]
-            const unsigned yoe = (doe - doe / 1460 + doe / 36524 - doe / 146096) / 365; // [0, 399]
+            const u32 doe = static_cast<u32>(z - era * 146097);               // [0, 146096]
+            const u32 yoe = (doe - doe / 1460 + doe / 36524 - doe / 146096) / 365; // [0, 399]
             const Int y = static_cast<Int>(yoe) + era * 400;
-            const unsigned doy = doe - (365 * yoe + yoe / 4 - yoe / 100); // [0, 365]
-            const unsigned mp = (5 * doy + 2) / 153;                      // [0, 11]
-            const unsigned d = doy - (153 * mp + 2) / 5 + 1;              // [1, 31]
-            const unsigned m = mp + (mp < 10 ? 3 : -9);                   // [1, 12]
-            return std::tuple<Int, unsigned, unsigned>(y + (m <= 2), m, d);
+            const u32 doy = doe - (365 * yoe + yoe / 4 - yoe / 100); // [0, 365]
+            const u32 mp = (5 * doy + 2) / 153;                      // [0, 11]
+            const u32 d = doy - (153 * mp + 2) / 5 + 1;              // [1, 31]
+            const u32 m = mp + (mp < 10 ? 3 : -9);                   // [1, 12]
+            return std::tuple<Int, u32, u32>(y + (m <= 2), m, d);
         }
 
         template <class Int>
-        static constexpr unsigned WeekdayFromDays(Int z) noexcept
-        { return static_cast<unsigned>(z >= -4 ? (z + 4) % 7 : (z + 5) % 7 + 6); }
+        static constexpr u32 WeekdayFromDays(Int z) noexcept
+        { return static_cast<u32>(z >= -4 ? (z + 4) % 7 : (z + 5) % 7 + 6); }
 
         template <class To, class Rep, class Period>
         static To round_down(const std::chrono::duration<Rep, Period>& d)

@@ -1,5 +1,5 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include <FLCore/FLCoreDefs.hpp>
 
 namespace Archetype
 {
@@ -15,7 +15,7 @@ namespace Archetype
         IMPORT void redefine(const Root&) override;
 
         public:
-        /* 28 */ float maxLength;
-        /* 29 */ float reachSpeed;
+        /* 28 */ f32 maxLength;
+        /* 29 */ f32 reachSpeed;
     };
 }

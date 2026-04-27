@@ -16,9 +16,11 @@ using u64 = uint64;
 using u32 = unsigned int;
 using u16 = unsigned short;
 using u8 = unsigned char;
+using f32 = float;
+using f64 = double;
 
 // Otherwords for common things
-using byte = uchar;
+using byte = u8;
 
 // Common types that can be used to explain what is being used
 

@@ -20,7 +20,7 @@ namespace Universe
         Vector navMapPos;
         st6::list<struct IZone*> zones; // st6::list
         ISpatialPartition* spatial;
-        float navMapScale;
+        f32 navMapScale;
         Id spaceMusicHash;
     };
 }

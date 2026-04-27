@@ -14,24 +14,24 @@ namespace Archetype
         IMPORT CollisionGroup& operator=(const CollisionGroup&);
 
         CollisionGroup* next;
-        unsigned short id;
+        u16 id;
         CacheString name;
         unsigned type;
         unsigned hitPts;
         bool separable;
         bool destroyParent;
         bool rootHealthProxy;
-        float parentImpulse;
-        float mass;
+        f32 parentImpulse;
+        f32 mass;
         bool hasRotationInertia;
         Vector rotationInertia;
         unsigned separationExplosionArch;
         unsigned debrisTypeArch;
-        float explosionResistance;
+        f32 explosionResistance;
         DamageObjInfoList parentDmgObjInfoList;
         DamageObjInfoList groupDmgObjsInfoList;
         FuseIgnitionList FuseIgnitionList;
         EquipmentClass linkedEquipType;
-        float linkedEquipDamage;
+        f32 linkedEquipDamage;
     };
 }

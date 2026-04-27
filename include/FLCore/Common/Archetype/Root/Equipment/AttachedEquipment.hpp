@@ -18,8 +18,8 @@ namespace Archetype
         public:
         /* 28 */ unsigned separationExplosionId;
         /* 29 */ unsigned debrisTypeId;
-        /* 30 */ float childImpulse;
-        /* 31 */ float parentImpulse;
+        /* 30 */ f32 childImpulse;
+        /* 31 */ f32 parentImpulse;
         /* 32 */ char* hpChild;
         /* 33 */ int toughness;
     };

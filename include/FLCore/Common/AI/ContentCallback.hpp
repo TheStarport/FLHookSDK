@@ -33,18 +33,18 @@ namespace pub
                 };
 
                 IMPORT virtual void combat_drift_event();
-                IMPORT virtual void combat_state_notification(CSNType, unsigned int, unsigned int);
-                IMPORT virtual void follow_event(unsigned int, unsigned int, FollowStatusType, float);
+                IMPORT virtual void combat_state_notification(CSNType, u32, u32);
+                IMPORT virtual void follow_event(u32, u32, FollowStatusType, f32);
                 IMPORT virtual CreationType get_creation_type();
                 IMPORT virtual bool information_request(InformationType, int, char*);
-                IMPORT virtual void lead_object_event(unsigned int, unsigned int, LeadProgressType, float, const Vector&);
-                IMPORT virtual bool request_flee_destination(unsigned int, FleeReason, FleeDestinationType&, Vector&, unsigned int&, float&);
+                IMPORT virtual void lead_object_event(u32, u32, LeadProgressType, f32, const Vector&);
+                IMPORT virtual bool request_flee_destination(u32, FleeReason, FleeDestinationType&, Vector&, u32&, f32&);
                 IMPORT virtual void scan_state_change(bool);
-                IMPORT virtual void ship_in_sights_event(unsigned int);
-                IMPORT virtual void tether_object_event(unsigned int, unsigned int, TetherStatusType, const Vector&);
+                IMPORT virtual void ship_in_sights_event(u32);
+                IMPORT virtual void tether_object_event(u32, u32, TetherStatusType, const Vector&);
 
             public:
-                unsigned char data[OBJECT_DATA_SIZE];
+                u8 data[OBJECT_DATA_SIZE];
         };
     } // namespace AI
 } // namespace pub

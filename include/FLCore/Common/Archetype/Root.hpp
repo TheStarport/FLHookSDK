@@ -23,8 +23,8 @@ namespace Archetype
         IMPORT int Release();
         IMPORT long create_instance(IEngineInstance*) const;
         IMPORT long get_engine_index() const;
-        IMPORT unsigned int get_id() const;
-        IMPORT const PhyArch::Part* get_phy_part(unsigned int) const;
+        IMPORT u32 get_id() const;
+        IMPORT const PhyArch::Part* get_phy_part(u32) const;
         IMPORT int get_script_index() const;
         IMPORT bool is_loaded() const;
 
@@ -45,10 +45,10 @@ namespace Archetype
         /*  4 */ unsigned archType;
         /*  5 */ unsigned idsName;
         /*  6 */ unsigned idsInfo;
-        /*  7 */ float hitPoints;
-        /*  8 */ float mass;
+        /*  7 */ f32 hitPoints;
+        /*  8 */ f32 mass;
         /*  9 */ unsigned explosionArchId;
-        /* 10 */ float explosionResistance;
+        /* 10 */ f32 explosionResistance;
         /* 11x4 */ Vector rotationInertia;
         /* 14 */ bool hasRotationInertia;
         bool phantomPhysics;

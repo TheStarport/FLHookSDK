@@ -10,7 +10,7 @@ class CETradeLaneEquip : public CInternalEquip
     IMPORT static const CETradeLaneEquip* cast(const CEquip*);
 
     IMPORT CETradeLaneEquip(const CETradeLaneEquip&);
-    IMPORT CETradeLaneEquip(CEqObj*, unsigned short, const Archetype::TradeLaneEquip*, bool);
+    IMPORT CETradeLaneEquip(CEqObj*, u16, const Archetype::TradeLaneEquip*, bool);
     IMPORT const Archetype::TradeLaneEquip* TradeLaneArch() const;
 
     Archetype::TradeLaneEquip* archType;

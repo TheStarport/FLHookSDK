@@ -13,7 +13,7 @@ class IMPORT CECargoPod : public CAttachedEquip
         static const CECargoPod* cast(const CEquip*);
 
         CECargoPod(const CECargoPod&);
-        CECargoPod(CEqObj*, unsigned short, const Archetype::CargoPod*, bool);
+        CECargoPod(CEqObj*, u16, const Archetype::CargoPod*, bool);
         void EmptyPod();
         void FillPod(CECargo*);
         const CECargo* GetContents() const;

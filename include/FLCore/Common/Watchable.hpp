@@ -26,7 +26,7 @@ struct IMPORT Watchable
     Watchable();
     ~Watchable();
     Watchable& operator=(const Watchable&);
-    unsigned int unwatch();
+    u32 unwatch();
 
     public:
     BaseWatcher* newestBaseWatcher; // The last basewatcher set to watch this

@@ -13,7 +13,7 @@ namespace Archetype
         IMPORT virtual ~EqObj();
         IMPORT const EqObj& operator=(const EqObj&);
         IMPORT bool dock_terminal_valid(int) const;
-        IMPORT const CollisionGroup* get_group_by_id(unsigned short) const;
+        IMPORT const CollisionGroup* get_group_by_id(u16) const;
         IMPORT const CollisionGroup* get_group_by_name(const CacheString&) const;
         IMPORT bool get_undamaged_collision_group_list(st6::list<CollisionGroupDesc>&) const;
         IMPORT bool traverse_groups(const CollisionGroup*&) const;
@@ -24,7 +24,7 @@ namespace Archetype
 
         public:
         /* 23 */ CollisionGroup* collisionGroup;
-        /* 24 */ unsigned short equipmentIdCounter;
+        /* 24 */ u16 equipmentIdCounter;
         /* 25 */ unsigned dunno2;
         /* 26 */ unsigned dunno3;
         /* 27 */ unsigned dunno4; // something to do with shield link

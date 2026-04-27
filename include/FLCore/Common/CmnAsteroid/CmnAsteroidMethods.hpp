@@ -4,12 +4,12 @@
 
 namespace CmnAsteroid
 {
-    IMPORT CAsteroidField* CreateAsteroidField(unsigned int);
-    IMPORT CAsteroidSystem* Find(unsigned int);
-    IMPORT int Load(unsigned int);
-    IMPORT int Unload(unsigned int);
-    IMPORT void Update(struct IObjDB*, float);
+    IMPORT CAsteroidField* CreateAsteroidField(u32);
+    IMPORT CAsteroidSystem* Find(u32);
+    IMPORT int Load(u32);
+    IMPORT int Unload(u32);
+    IMPORT void Update(struct IObjDB*, f32);
     IMPORT int closest_cube_coord(int, int, int);
-    IMPORT unsigned long compute_cube_id(const Vector&);
-    IMPORT bool compute_cube_orientation(unsigned long, Matrix*, const struct AxisRotations&, float);
+    IMPORT ulong compute_cube_id(const Vector&);
+    IMPORT bool compute_cube_orientation(ulong, Matrix*, const struct AxisRotations&, f32);
 }

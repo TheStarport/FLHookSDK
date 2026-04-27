@@ -86,7 +86,7 @@ class IMPORT TextRenderContext
         void set_state(const State&);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT RenderDisplayList
@@ -97,11 +97,11 @@ class IMPORT RenderDisplayList
         ~RenderDisplayList();
         RenderDisplayList& operator=(const RenderDisplayList&);
         void execute(TextRenderContext&, bool);
-        void get_dimensions(TextRenderContext&, float&, float&, float&);
+        void get_dimensions(TextRenderContext&, f32&, f32&, f32&);
         int get_element_count() const;
-        bool get_element_pos(TextRenderContext&, int, float&, float&, float&);
+        bool get_element_pos(TextRenderContext&, int, f32&, f32&, f32&);
         void optimize();
-        void update(float);
+        void update(f32);
 
         st6::list<RDLNode*> nodes;
 };
@@ -128,8 +128,8 @@ class IMPORT ClipNode : public RDLNode
         virtual void GetElementPos(int, TextRenderContext&, int&) const;
         virtual void GetElementSize(int&) const;
         virtual void GetVisualSize(const TextRenderContext&, VisualSize&) const;
-        virtual bool SplitAtSize(const TextRenderContext&, int, unsigned int, RDLNode*&, RDLNode*&) const;
-        virtual void Update(float);
+        virtual bool SplitAtSize(const TextRenderContext&, int, u32, RDLNode*&, RDLNode*&) const;
+        virtual void Update(f32);
         const tagRECT& get_rect();
         void set_rect(const tagRECT&);
 
@@ -154,8 +154,8 @@ class IMPORT NullNode : public RDLNode
         virtual void GetElementPos(int, TextRenderContext&, int&) const;
         virtual void GetElementSize(int&) const;
         virtual void GetVisualSize(const TextRenderContext&, VisualSize&) const;
-        virtual bool SplitAtSize(const TextRenderContext&, int, unsigned int, RDLNode*&, RDLNode*&) const;
-        virtual void Update(float);
+        virtual bool SplitAtSize(const TextRenderContext&, int, u32, RDLNode*&, RDLNode*&) const;
+        virtual void Update(f32);
 
         virtual operator NullNode*();
         virtual operator const NullNode*() const;
@@ -165,7 +165,7 @@ class IMPORT StyleNode : public RDLNode
 {
     public:
         StyleNode(const StyleNode&);
-        StyleNode(unsigned short);
+        StyleNode(u16);
         StyleNode();
         virtual ~StyleNode();
         class StyleNode& operator=(class StyleNode const&);
@@ -174,15 +174,15 @@ class IMPORT StyleNode : public RDLNode
         virtual void GetElementPos(int, class TextRenderContext&, int&) const;
         virtual void GetElementSize(int&) const;
         virtual void GetVisualSize(class TextRenderContext const&, struct VisualSize&) const;
-        virtual bool SplitAtSize(class TextRenderContext const&, int, unsigned int, class RDLNode*&, class RDLNode*&) const;
-        virtual void Update(float);
-        unsigned short get_style_id();
-        void set_style_id(unsigned short);
+        virtual bool SplitAtSize(class TextRenderContext const&, int, u32, class RDLNode*&, class RDLNode*&) const;
+        virtual void Update(f32);
+        u16 get_style_id();
+        void set_style_id(u16);
 
         virtual operator class StyleNode *();
         virtual operator class StyleNode const*() const;
 
-        unsigned short styleFlag;
+        u16 styleFlag;
 };
 
 class IMPORT ParagraphNode : public RDLNode
@@ -197,8 +197,8 @@ class IMPORT ParagraphNode : public RDLNode
         virtual void GetElementPos(int, class TextRenderContext&, int&) const;
         virtual void GetElementSize(int&) const;
         virtual void GetVisualSize(class TextRenderContext const&, struct VisualSize&) const;
-        virtual bool SplitAtSize(class TextRenderContext const&, int, unsigned int, class RDLNode*&, class RDLNode*&) const;
-        virtual void Update(float);
+        virtual bool SplitAtSize(class TextRenderContext const&, int, u32, class RDLNode*&, class RDLNode*&) const;
+        virtual void Update(f32);
 
         virtual operator class ParagraphNode *();
         virtual operator class ParagraphNode const*() const;
@@ -209,7 +209,7 @@ class IMPORT TextNode : public RDLNode
     public:
         TextNode(const TextNode&);
         TextNode(const st6::wstring&, int);
-        TextNode(const unsigned short*, int);
+        TextNode(const u16*, int);
         TextNode();
         virtual ~TextNode();
 
@@ -219,13 +219,13 @@ class IMPORT TextNode : public RDLNode
         virtual void GetElementPos(int, class TextRenderContext&, int&) const;
         virtual void GetElementSize(int&) const;
         virtual void GetVisualSize(class TextRenderContext const&, struct VisualSize&) const;
-        virtual bool SplitAtSize(class TextRenderContext const&, int, unsigned int, class RDLNode*&, class RDLNode*&) const;
-        virtual void Update(float);
+        virtual bool SplitAtSize(class TextRenderContext const&, int, u32, class RDLNode*&, class RDLNode*&) const;
+        virtual void Update(f32);
         void append_text(const st6::wstring&, int);
-        void append_text(const unsigned short*, int);
+        void append_text(const u16*, int);
         const st6::wstring& get_text() const;
         void set_text(const st6::wstring&, int);
-        void set_text(const unsigned short*, int);
+        void set_text(const u16*, int);
 
         operator TextNode*() override;
         operator const TextNode*() const override;
@@ -237,7 +237,7 @@ class IMPORT TextPtrNode : public RDLNode
 {
     public:
         TextPtrNode(const TextPtrNode&);
-        TextPtrNode(const unsigned short*, int);
+        TextPtrNode(const u16*, int);
         TextPtrNode();
         virtual ~TextPtrNode();
         TextPtrNode& operator=(const TextPtrNode&);
@@ -246,11 +246,11 @@ class IMPORT TextPtrNode : public RDLNode
         virtual void GetElementPos(int, TextRenderContext&, int&) const;
         virtual void GetElementSize(int&) const;
         virtual void GetVisualSize(const TextRenderContext&, VisualSize&) const;
-        virtual bool SplitAtSize(const TextRenderContext&, int, unsigned int, RDLNode*&, RDLNode*&) const;
-        virtual void Update(float);
-        const unsigned short* get_text() const;
+        virtual bool SplitAtSize(const TextRenderContext&, int, u32, RDLNode*&, RDLNode*&) const;
+        virtual void Update(f32);
+        const u16* get_text() const;
         int get_text_length() const;
-        void set_text(const unsigned short*, int);
+        void set_text(const u16*, int);
 
         virtual operator TextPtrNode*();
         virtual operator const TextPtrNode*() const;
@@ -278,8 +278,8 @@ class IMPORT JustifyNode : public RDLNode
         virtual void GetElementPos(int, TextRenderContext&, int&) const;
         virtual void GetElementSize(int&) const;
         virtual void GetVisualSize(const TextRenderContext&, VisualSize&) const;
-        virtual bool SplitAtSize(const TextRenderContext&, int, unsigned int, RDLNode*&, RDLNode*&) const;
-        virtual void Update(float);
+        virtual bool SplitAtSize(const TextRenderContext&, int, u32, RDLNode*&, RDLNode*&) const;
+        virtual void Update(f32);
         TextJustify get_justify();
         void set_justify(TextJustify);
 
@@ -302,24 +302,24 @@ class IMPORT PositionNode : public RDLNode
         virtual void GetElementPos(int, TextRenderContext&, int&) const;
         virtual void GetElementSize(int&) const;
         virtual void GetVisualSize(const TextRenderContext&, VisualSize&) const;
-        virtual bool SplitAtSize(const TextRenderContext&, int, unsigned int, RDLNode*&, RDLNode*&) const;
-        virtual void Update(float);
+        virtual bool SplitAtSize(const TextRenderContext&, int, u32, RDLNode*&, RDLNode*&) const;
+        virtual void Update(f32);
 
-        float get_pos_h();
-        float get_pos_v();
+        f32 get_pos_h();
+        f32 get_pos_v();
         bool is_rel_h();
         bool is_rel_v();
-        void set_pos(float, float);
-        void set_pos_h(float);
-        void set_pos_v(float);
+        void set_pos(f32, f32);
+        void set_pos_h(f32);
+        void set_pos_v(f32);
         void set_rel_h(bool);
         void set_rel_v(bool);
 
         virtual operator PositionNode*();
         virtual operator const PositionNode*() const;
 
-        float x;
-        float y;
+        f32 x;
+        f32 y;
         bool isRelX;
         bool isRelY;
 };
@@ -342,8 +342,8 @@ class IMPORT AttribStackNode : public RDLNode
         virtual void GetElementPos(int, TextRenderContext&, int&) const;
         virtual void GetElementSize(int&) const;
         virtual void GetVisualSize(const TextRenderContext&, struct VisualSize&) const;
-        virtual bool SplitAtSize(const TextRenderContext&, int, unsigned int, RDLNode*&, RDLNode*&) const;
-        virtual void Update(float);
+        virtual bool SplitAtSize(const TextRenderContext&, int, u32, RDLNode*&, RDLNode*&) const;
+        virtual void Update(f32);
         Op get_operation();
         void set_operation(Op);
 
@@ -364,8 +364,8 @@ class IMPORT RDLReNode : public RDLNode
         virtual void GetElementPos(int, TextRenderContext&, int&) const;
         virtual void GetElementSize(int&) const;
         virtual void GetVisualSize(const TextRenderContext&, VisualSize&) const;
-        virtual bool SplitAtSize(const TextRenderContext&, int, unsigned int, RDLNode*&, RDLNode*&) const;
-        virtual void Update(float);
+        virtual bool SplitAtSize(const TextRenderContext&, int, u32, RDLNode*&, RDLNode*&) const;
+        virtual void Update(f32);
         const RenderDisplayList& get_list();
 
         virtual operator RDLReNode*();
@@ -375,7 +375,7 @@ class IMPORT RDLReNode : public RDLNode
 class IMPORT TRANode
 {
     public:
-        TRANode(const TextRenderAttributes&, unsigned int, unsigned int);
+        TRANode(const TextRenderAttributes&, u32, u32);
         TRANode(const TRANode&);
         TRANode();
         virtual ~TRANode();
@@ -385,14 +385,14 @@ class IMPORT TRANode
         virtual void GetElementPos(int, TextRenderContext&, int&) const;
         virtual void GetElementSize(int&) const;
         virtual void GetVisualSize(const TextRenderContext&, VisualSize&) const;
-        virtual bool SplitAtSize(const TextRenderContext&, int, unsigned int, RDLNode*&, RDLNode*&) const;
-        virtual void Update(float);
+        virtual bool SplitAtSize(const TextRenderContext&, int, u32, RDLNode*&, RDLNode*&) const;
+        virtual void Update(f32);
         const TextRenderAttributes& get_attributes();
-        unsigned int get_default_mask();
-        unsigned int get_mask();
-        void set_attributes(const TextRenderAttributes&, unsigned int);
-        void set_default_mask(unsigned int);
-        void set_mask(unsigned int);
+        u32 get_default_mask();
+        u32 get_mask();
+        void set_attributes(const TextRenderAttributes&, u32);
+        void set_default_mask(u32);
+        void set_mask(u32);
 
         virtual operator TRANode*();
         virtual operator const TRANode*() const;
@@ -415,8 +415,8 @@ class IMPORT ImageNode
         virtual void GetElementPos(int, TextRenderContext&, int&) const;
         virtual void GetElementSize(int&) const;
         virtual void GetVisualSize(const TextRenderContext&, VisualSize&) const;
-        virtual bool SplitAtSize(const TextRenderContext&, int, unsigned int, RDLNode*&, RDLNode*&) const;
-        virtual void Update(float);
+        virtual bool SplitAtSize(const TextRenderContext&, int, u32, RDLNode*&, RDLNode*&) const;
+        virtual void Update(f32);
         const TextRenderContext::Image* get_image();
         void set_image(const TextRenderContext::Image*);
 
@@ -432,12 +432,12 @@ class IMPORT XMLReader
         XMLReader(const XMLReader&);
         XMLReader();
         XMLReader& operator=(const XMLReader&);
-        virtual bool extract_text_from_buffer(unsigned short*, unsigned int, unsigned int&, const char*, unsigned int);
-        virtual bool read_buffer(RenderDisplayList&, const char*, unsigned int);
+        virtual bool extract_text_from_buffer(u16*, u32, u32&, const char*, u32);
+        virtual bool read_buffer(RenderDisplayList&, const char*, u32);
         virtual bool read_file(RenderDisplayList&, const char*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT XMLWriter
@@ -446,9 +446,9 @@ class IMPORT XMLWriter
         XMLWriter(const XMLWriter&);
         XMLWriter();
         XMLWriter& operator=(const XMLWriter&);
-        virtual bool write_buffer(const RenderDisplayList&, char*, unsigned int, unsigned int&);
+        virtual bool write_buffer(const RenderDisplayList&, char*, u32, u32&);
         virtual bool write_file(const RenderDisplayList&, const char*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };

@@ -1,5 +1,5 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include <FLCore/FLCoreDefs.hpp>
 #include "../Projectile.hpp"
 namespace Archetype
 {
@@ -15,8 +15,8 @@ namespace Archetype
             IMPORT void redefine(const Root&) override;
 
         public:
-            /* 32 */ float linearDrag;
-            /* 33 */ float range;
+            /* 32 */ f32 linearDrag;
+            /* 33 */ f32 range;
             /* 34 */ unsigned diversionPercentage;
     };
 } // namespace Archetype

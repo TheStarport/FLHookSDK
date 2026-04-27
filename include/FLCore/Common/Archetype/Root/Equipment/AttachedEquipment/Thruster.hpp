@@ -1,5 +1,5 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include <FLCore/FLCoreDefs.hpp>
 #include "../AttachedEquipment.hpp"
 
 namespace Archetype
@@ -16,7 +16,7 @@ namespace Archetype
         IMPORT void redefine(const Root&) override;
 
         public:
-        /* 34 */ float powerUsage;
-        /* 35 */ float maxForce;
+        /* 34 */ f32 powerUsage;
+        /* 35 */ f32 maxForce;
     };
 }

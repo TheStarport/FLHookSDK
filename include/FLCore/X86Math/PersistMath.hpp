@@ -2,22 +2,19 @@
 #define PERSISTMATH_H__
 
 #include "../ImportSdk.hpp"
+#include "../../Typedefs.hpp"
 
 #include <memory.h>
 #include <cmath>
 
-#ifndef SINGLE
-typedef float SINGLE;
-#endif
-
 struct PersistVector
 {
-        SINGLE x;
-        SINGLE y;
-        SINGLE z;
+        f32 x;
+        f32 y;
+        f32 z;
 
         PersistVector(void) {}
-        PersistVector(SINGLE a, SINGLE b, SINGLE c)
+        PersistVector(f32 a, f32 b, f32 c)
         {
             x = a;
             y = b;
@@ -37,18 +34,18 @@ struct PersistVector
 
 struct PersistMatrix
 {
-        SINGLE e00;
-        SINGLE e01;
-        SINGLE e02;
-        SINGLE e10;
-        SINGLE e11;
-        SINGLE e12;
-        SINGLE e20;
-        SINGLE e21;
-        SINGLE e22;
+        f32 e00;
+        f32 e01;
+        f32 e02;
+        f32 e10;
+        f32 e11;
+        f32 e12;
+        f32 e20;
+        f32 e21;
+        f32 e22;
 
         PersistMatrix(void) {}
-        PersistMatrix(SINGLE a1, SINGLE a2, SINGLE a3, SINGLE a4, SINGLE a5, SINGLE a6, SINGLE a7, SINGLE a8, SINGLE a9)
+        PersistMatrix(f32 a1, f32 a2, f32 a3, f32 a4, f32 a5, f32 a6, f32 a7, f32 a8, f32 a9)
         {
             e00 = a1;
             e01 = a2;
@@ -97,24 +94,24 @@ struct PersistMatrix
                                  m2.e20 * m1.e02 + m2.e21 * m1.e12 + m2.e22 * m1.e22);
         }
 
-        static inline PersistMatrix rotate_x(SINGLE angle)
+        static inline PersistMatrix rotate_x(f32 angle)
         {
-            SINGLE cos_a = (SINGLE)cos(angle);
-            SINGLE sin_a = (SINGLE)sin(angle);
+            f32 cos_a = (f32)cos(angle);
+            f32 sin_a = (f32)sin(angle);
             return PersistMatrix(1.0, 0.0, 0.0, 0.0, cos_a, -sin_a, 0.0, sin_a, cos_a);
         }
 
-        static inline PersistMatrix rotate_y(SINGLE angle)
+        static inline PersistMatrix rotate_y(f32 angle)
         {
-            SINGLE cos_a = (SINGLE)cos(angle);
-            SINGLE sin_a = (SINGLE)sin(angle);
+            f32 cos_a = (f32)cos(angle);
+            f32 sin_a = (f32)sin(angle);
             return PersistMatrix(cos_a, 0.0, sin_a, 0.0, 1.0, 0.0, -sin_a, 0.0, cos_a);
         }
 
-        static inline PersistMatrix rotate_z(SINGLE angle)
+        static inline PersistMatrix rotate_z(f32 angle)
         {
-            SINGLE cos_a = (SINGLE)cos(angle);
-            SINGLE sin_a = (SINGLE)sin(angle);
+            f32 cos_a = (f32)cos(angle);
+            f32 sin_a = (f32)sin(angle);
             return PersistMatrix(cos_a, -sin_a, 0.0, sin_a, cos_a, 0.0, 0.0, 0.0, 1.0);
         }
 };
@@ -154,10 +151,10 @@ struct PersistTransform
 
 struct PersistQuaternion
 {
-        SINGLE w;
-        SINGLE x;
-        SINGLE y;
-        SINGLE z;
+        f32 w;
+        f32 x;
+        f32 y;
+        f32 z;
 
         inline const PersistQuaternion& zero(void)
         {

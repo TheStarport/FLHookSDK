@@ -15,7 +15,7 @@
 namespace GameData
 {
     inline static auto& repGroups = Ref(Reputation::RepGroup, 0x64018EC);
-    inline static auto& shieldResistMap = Ref(st6::map<unsigned MACRO_COMMA float>, 0x658A9C0);
+    inline static auto& shieldResistMap = Ref(st6::map<unsigned MACRO_COMMA f32>, 0x658A9C0);
     inline static auto& equipment = Ref(Archetype::Equipment*, 0x63FCAD4);
     inline static auto& explosions = Ref(Archetype::Explosion, 0x63FCF3C);
     inline static auto& motorData = Ref(Archetype::MotorData, 0x63FCA70);

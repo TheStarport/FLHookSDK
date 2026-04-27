@@ -1,9 +1,25 @@
 #pragma once
 
-#include <FLCore/Common/PhySys/Controller/CPhysControllerEquip.hpp>
-#include <FLCore/Common/CEquip/CInternalEquip.hpp>
-
 #include "../../../FLCoreDefs.hpp"
+#include "../CInternalEquip.hpp"
+#include "../../PhySys/Controller/CPhysControllerEquip.hpp"
+#include "../../../X86Math/Transform.hpp"
+#include "../../Strings.hpp"
+
+namespace Archetype
+{
+    struct Engine;
+}
+
+struct IMPORT ExhaustNozzleInfo
+{
+        ExhaustNozzleInfo();
+        ExhaustNozzleInfo& operator=(const ExhaustNozzleInfo&);
+        bool GetHardpointOffset_NS(Transform&) const;
+
+    public:
+        u8 data[OBJECT_DATA_SIZE];
+};
 
 struct CShip;
 class CEEngine : public CInternalEquip, public CPhysControllerEquip
@@ -18,8 +34,8 @@ class CEEngine : public CInternalEquip, public CPhysControllerEquip
     IMPORT virtual bool IsControllerEnabled() const;
 
     IMPORT virtual bool IsFunctioning() const;
-    IMPORT virtual void NotifyArchGroupDestroyed(unsigned short);
-    IMPORT virtual bool Update(float, unsigned int);
+    IMPORT virtual void NotifyArchGroupDestroyed(u16);
+    IMPORT virtual bool Update(f32, u32);
     IMPORT virtual bool Activate(bool);
 
     IMPORT static void BuildNozzleHPName(int, CacheString&);
@@ -27,25 +43,25 @@ class CEEngine : public CInternalEquip, public CPhysControllerEquip
     IMPORT static const CEEngine* cast(const CEquip*);
 
     IMPORT CEEngine(const CEEngine&);
-    IMPORT CEEngine(CShip*, unsigned short, const Archetype::Engine*, bool);
+    IMPORT CEEngine(CShip*, u16, const Archetype::Engine*, bool);
     IMPORT bool EngageCruise(bool, bool);
     IMPORT const Archetype::Engine* EngineArch() const;
-    IMPORT const st6::vector<struct ExhaustNozzleInfo>& NozzleInfos() const;
-    IMPORT float GetCruiseChargeTime() const;
-    IMPORT float GetCruiseChargeTimeElapsed() const;
-    IMPORT float GetCruiseDrag() const;
-    IMPORT float GetCruisePowerDraw() const;
-    IMPORT float GetCruiseThrust(float) const;
-    IMPORT float GetLinearDrag() const;
-    IMPORT float GetPowerDraw(float) const;
-    IMPORT float GetThrust(float) const;
+    IMPORT const st6::vector<ExhaustNozzleInfo>& NozzleInfos() const;
+    IMPORT f32 GetCruiseChargeTime() const;
+    IMPORT f32 GetCruiseChargeTimeElapsed() const;
+    IMPORT f32 GetCruiseDrag() const;
+    IMPORT f32 GetCruisePowerDraw() const;
+    IMPORT f32 GetCruiseThrust(f32) const;
+    IMPORT f32 GetLinearDrag() const;
+    IMPORT f32 GetPowerDraw(f32) const;
+    IMPORT f32 GetThrust(f32) const;
     IMPORT bool IsCruiseEngaged() const;
 
     
-    /* 10 */ unsigned dunno[4];
+    /* 10 */ u32 dunno[4];
     /* 14 */ st6::vector<ExhaustNozzleInfo> nozzleInfo;
-    /* 18 */ unsigned dunno2;
-    /* 19 */ float targetSpeed;
-    /* 20 */ float cruiseChargeTimeElapsed;
+    /* 18 */ u32 dunno2;
+    /* 19 */ f32 targetSpeed;
+    /* 20 */ f32 cruiseChargeTimeElapsed;
     /* 21 */ bool isCruiseEngaged;
 };

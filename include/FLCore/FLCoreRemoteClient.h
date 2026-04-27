@@ -1,17 +1,4 @@
-//////////////////////////////////////////////////////////////////////
-//	Project FLCoreSDK v1.1, modified for use in FLHook Plugin version
-//--------------------------
-//
-//	File:			FLCoreRemoteClient.h
-//	Module:			FLCoreRemoteClient.lib
-//	Description:	Interface to RemoteClient.dll
-//
-//	Web: www.skif.be/flcoresdk.php
-//
-//
-//////////////////////////////////////////////////////////////////////
-#ifndef _FLCOREREMOTECLIENT_H_
-#define _FLCOREREMOTECLIENT_H_
+#pragma once
 
 #include "Common.hpp"
 #include "FLCoreDefs.hpp"
@@ -47,66 +34,66 @@ class CDPServer;
 
 struct FLPACKET_UNKNOWN
 {
-        uint dunno[20];
+        u32 dunno[20];
 };
 
 struct FLPACKET_SYSTEM_SWITCH_OUT
 {
-        uint shipId;
-        uint jumpObjectId;
+        u32 shipId;
+        u32 jumpObjectId;
 };
 
 struct FLPACKET_SYSTEM_SWITCH_IN
 {
-        uint shipId;
-        uint objType;
+        u32 shipId;
+        u32 objType;
         Vector pos;
         Quaternion quat;
 };
 
 struct FLPACKET_CREATEGUIDED
 {
-        uint projectileObjId;
+        u32 projectileObjId;
         Vector pos;
         Quaternion ori;
-        uint targetId;
-        uint iDunno;
-        uint munitionArchId;
-        uint iDunno2; // zero (initial speed?)
-        uint ownerId;
+        u32 targetId;
+        u32 iDunno;
+        u32 munitionArchId;
+        u32 iDunno2; // zero (initial speed?)
+        u32 ownerId;
 };
 
 struct FLPACKET_SETREPUTATION
 {
-        uint spaceId;
-        float rep;
-        uint repGroup; // not sure
+        u32 spaceId;
+        f32 rep;
+        u32 repGroup; // not sure
                        // there is more (FMTStr? - object name?)
 };
 
 struct FLPACKET_LAUNCH
 {
-        uint ship;
-        uint base;
-        uint state;
+        u32 ship;
+        u32 base;
+        u32 state;
         Quaternion rotate;
         Vector pos;
 };
 
 struct FLPACKET_BURNFUSE
 {
-        uint shipAttacker;
-        uint ship;
-        uint fuseId;
-        uint dunno1;
-        uint dunno2;
-        float dunno3;
+        u32 shipAttacker;
+        u32 ship;
+        u32 fuseId;
+        u32 dunno1;
+        u32 dunno2;
+        f32 dunno3;
         bool active;
 };
 
 struct FLPACKET_DESTROYOBJECT
 {
-        uint spaceId;
+        u32 spaceId;
         DestroyType destroyType;
 };
 
@@ -116,38 +103,38 @@ struct FLPACKET_CREATESHIP
         Id spaceId;
         Id solarArch;
         Id dockBaseId;
-        uint rep;
+        u32 rep;
         Costume costume;
         Id voiceId;
         Vector pos;
         Quaternion orientation;
-        uint64_t health;
+        u64 health;
         EquipDescVector equip;
         st6::list<CollisionGroupDesc> colGrps;
         DamageList dmgList; // only holds shield state, which is ignored by receiving client.
-        ClientId clientId;
-        uint groupId;
-        uint rank;
+        u32 clientId;
+        u32 groupId;
+        u32 rank;
         Vector linearVelocity;  // ignored by receiving client.
         Vector angularVelocity; // ignored by receiving client.
-        float throttle;
-        uint dunno;
-        uint playerGroup; // pointer to CPlayerGroup? Possibly ignored.
+        f32 throttle;
+        u32 dunno;
+        u32 playerGroup; // pointer to CPlayerGroup? Possibly ignored.
         bool inTradeLane;
 };
 
 struct FLPACKET_CREATESOLAR
 {
         char* address; // pointer to CSolarCreate vtable
-        uint spaceId;
-        uint shipArch;
-        uint baseDockId;
-        uint rep;
+        u32 spaceId;
+        u32 shipArch;
+        u32 baseDockId;
+        u32 rep;
         Costume costume;
-        uint voiceId;
+        u32 voiceId;
         Vector pos;
         Quaternion orientation;
-        uint64_t health;
+        u64 health;
         EquipDescVector equip;
         st6::list<CollisionGroupDesc> colGrps;
         DamageList dmg; // only holds shield state, which is ignored by receiving client.
@@ -157,16 +144,16 @@ struct FLPACKET_CREATESOLAR
 
 struct FLPACKET_LAND
 {
-        uint ship;
-        uint landSpaceID;
-        uint targetBase;
+        u32 ship;
+        u32 landSpaceID;
+        u32 targetBase;
 };
 
 struct SObjectCargoUpdate
 {
-        uint client;
+        u32 client;
         Vector position;
-        uint dunno[24];
+        u32 dunno[24];
 };
 
 struct IClientImpl
@@ -176,219 +163,219 @@ struct IClientImpl
         CDPServer* cdpServer;
 
         // N.B. Do not modify order, vtable ordering is fixed by RemoteClient.dll
-        virtual bool Send_FLPACKET_COMMON_FIREWEAPON(uint client, XFireWeaponInfo& fwi);
-        virtual bool Send_FLPACKET_COMMON_ACTIVATEEQUIP(uint client, XActivateEquip& aq);
-        virtual bool Send_FLPACKET_COMMON_ACTIVATECRUISE(uint client, XActivateCruise& aq);
-        virtual bool Send_FLPACKET_COMMON_ACTIVATETHRUSTERS(uint client, XActivateThrusters& aq);
+        virtual bool Send_FLPACKET_COMMON_FIREWEAPON(u32 client, XFireWeaponInfo& fwi);
+        virtual bool Send_FLPACKET_COMMON_ACTIVATEEQUIP(u32 client, XActivateEquip& aq);
+        virtual bool Send_FLPACKET_COMMON_ACTIVATECRUISE(u32 client, XActivateCruise& aq);
+        virtual bool Send_FLPACKET_COMMON_ACTIVATETHRUSTERS(u32 client, XActivateThrusters& aq);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_COMMON_SETTARGET(uint client, XSetTarget& st);
+        virtual bool Send_FLPACKET_COMMON_SETTARGET(u32 client, XSetTarget& st);
         [[NoPlugins]]
-        virtual void unknown_6(uint client, FLPACKET_UNKNOWN*);
+        virtual void unknown_6(u32 client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_COMMON_GOTRADELANE(uint client, XGoTradelane& tl);
+        virtual bool Send_FLPACKET_COMMON_GOTRADELANE(u32 client, XGoTradelane& tl);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_COMMON_STOPTRADELANE(uint client, uint shipID, uint archTradelane1, uint archTradelane2);
+        virtual bool Send_FLPACKET_COMMON_STOPTRADELANE(u32 client, u32 shipID, u32 archTradelane1, u32 archTradelane2);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_COMMON_JETTISONCARGO(uint client, XJettisonCargo& jc);
+        virtual bool Send_FLPACKET_COMMON_JETTISONCARGO(u32 client, XJettisonCargo& jc);
         [[NoPlugins, NoLog]]
-        virtual bool SendPacket(uint client, void*);
-        [[CallInner, NoLog, NoPlugins]] virtual bool Startup(uint, uint);
-        [[NoPlugins]] virtual void nullsub(uint);
+        virtual bool SendPacket(u32 client, void*);
+        [[CallInner, NoLog, NoPlugins]] virtual bool Startup(u32, u32);
+        [[NoPlugins]] virtual void nullsub(u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_LOGINRESPONSE(uint client, FLPACKET_UNKNOWN*);
+        virtual bool Send_FLPACKET_SERVER_LOGINRESPONSE(u32 client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_CHARACTERINFO(uint client, FLPACKET_UNKNOWN*);
+        virtual bool Send_FLPACKET_SERVER_CHARACTERINFO(u32 client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_CHARSELECTVERIFIED(uint client, FLPACKET_UNKNOWN*);
+        virtual bool Send_FLPACKET_SERVER_CHARSELECTVERIFIED(u32 client, FLPACKET_UNKNOWN*);
         [[NoPlugins, NoLog]]
         virtual void Shutdown();
         [[NoHook]]
         virtual bool DispatchMsgs();
         [[NoPlugins]]
-        virtual bool CDPClientProxyDisconnect(uint client);
+        virtual bool CDPClientProxyDisconnect(u32 client);
         [[NoPlugins]]
-        virtual uint CDPClientProxyGetSendQSize(uint client);
+        virtual u32 CDPClientProxyGetSendQSize(u32 client);
         [[NoPlugins]]
-        virtual uint CDPClientProxyGetSendQBytes(uint client);
-        virtual double CDPClientProxyGetLinkSaturation(uint client);
-        virtual bool Send_FLPACKET_SERVER_SETSHIPARCH(uint client, uint shipArch);
-        virtual bool Send_FLPACKET_SERVER_SETHULLSTATUS(uint client, float status);
-        virtual bool Send_FLPACKET_SERVER_SETCOLLISIONGROUPS(uint client, st6::list<CollisionGroupDesc>&);
-        virtual bool Send_FLPACKET_SERVER_SETEQUIPMENT(uint client, st6::vector<EquipDesc>&);
+        virtual u32 CDPClientProxyGetSendQBytes(u32 client);
+        virtual double CDPClientProxyGetLinkSaturation(u32 client);
+        virtual bool Send_FLPACKET_SERVER_SETSHIPARCH(u32 client, u32 shipArch);
+        virtual bool Send_FLPACKET_SERVER_SETHULLSTATUS(u32 client, f32 status);
+        virtual bool Send_FLPACKET_SERVER_SETCOLLISIONGROUPS(u32 client, st6::list<CollisionGroupDesc>&);
+        virtual bool Send_FLPACKET_SERVER_SETEQUIPMENT(u32 client, st6::vector<EquipDesc>&);
         [[NoPlugins]]
-        virtual void unknown_26(uint client, uint);
-        virtual bool Send_FLPACKET_SERVER_SETADDITEM(uint client, FLPACKET_UNKNOWN*, FLPACKET_UNKNOWN*);
+        virtual void unknown_26(u32 client, u32);
+        virtual bool Send_FLPACKET_SERVER_SETADDITEM(u32 client, FLPACKET_UNKNOWN*, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
-        virtual void unknown_28(uint client, uint, uint, uint);
-        virtual bool Send_FLPACKET_SERVER_SETSTARTROOM(uint client, uint, uint);
+        virtual void unknown_28(u32 client, u32, u32, u32);
+        virtual bool Send_FLPACKET_SERVER_SETSTARTROOM(u32 client, u32, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_GFDESTROYCHARACTER(uint client, uint, uint);
+        virtual bool Send_FLPACKET_SERVER_GFDESTROYCHARACTER(u32 client, u32, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_GFUPDATECHAR(uint client, uint, uint);
+        virtual bool Send_FLPACKET_SERVER_GFUPDATECHAR(u32 client, u32, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_GFCOMPLETECHARLIST(uint client, uint);
+        virtual bool Send_FLPACKET_SERVER_GFCOMPLETECHARLIST(u32 client, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_GFSCRIPTBEHAVIOR(uint client, uint, uint);
+        virtual bool Send_FLPACKET_SERVER_GFSCRIPTBEHAVIOR(u32 client, u32, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_GFDESTROYSCRIPTBEHAVIOR(uint client, uint, uint);
+        virtual bool Send_FLPACKET_SERVER_GFDESTROYSCRIPTBEHAVIOR(u32 client, u32, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_GFCOMPLETESCRIPTBEHAVIORLIST(uint client, uint);
+        virtual bool Send_FLPACKET_SERVER_GFCOMPLETESCRIPTBEHAVIORLIST(u32 client, u32);
         [[NoPlugins]]
-        virtual void unknown_36(uint client, uint, uint);
+        virtual void unknown_36(u32 client, u32, u32);
         [[NoPlugins]]
-        virtual void unknown_37(uint client, uint, uint);
+        virtual void unknown_37(u32 client, u32, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_GFCOMPLETEAMBIENTSCRIPTLIST(uint client, uint);
+        virtual bool Send_FLPACKET_SERVER_GFCOMPLETEAMBIENTSCRIPTLIST(u32 client, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_GFDESTROYMISSIONCOMPUTER(uint client, uint, uint);
+        virtual bool Send_FLPACKET_SERVER_GFDESTROYMISSIONCOMPUTER(u32 client, u32, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_GFUPDATEMISSIONCOMPUTER(uint client, uint, uint);
+        virtual bool Send_FLPACKET_SERVER_GFUPDATEMISSIONCOMPUTER(u32 client, u32, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_GFCOMPLETEMISSIONCOMPUTERLIST(uint client, uint);
+        virtual bool Send_FLPACKET_SERVER_GFCOMPLETEMISSIONCOMPUTERLIST(u32 client, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_GFMISSIONVENDORACCEPTANCE(uint client, uint, uint);
+        virtual bool Send_FLPACKET_SERVER_GFMISSIONVENDORACCEPTANCE(u32 client, u32, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_GFMISSIONVENDORWHYEMPTY(uint client, uint reason);
+        virtual bool Send_FLPACKET_SERVER_GFMISSIONVENDORWHYEMPTY(u32 client, u32 reason);
         [[NoPlugins]]
-        virtual void unknown_44(uint client, uint, uint);
+        virtual void unknown_44(u32 client, u32, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_GFUPDATENEWSBROADCAST(uint client, uint, uint);
+        virtual bool Send_FLPACKET_SERVER_GFUPDATENEWSBROADCAST(u32 client, u32, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_GFCOMPLETENEWSBROADCASTLIST(uint client, uint);
-        virtual bool Send_FLPACKET_SERVER_CREATESOLAR(uint client, FLPACKET_CREATESOLAR& solar);
-        virtual bool Send_FLPACKET_SERVER_CREATESHIP(uint client, FLPACKET_CREATESHIP& ship);
-        virtual bool Send_FLPACKET_SERVER_CREATELOOT(uint client, FLPACKET_UNKNOWN*);
-        virtual bool Send_FLPACKET_SERVER_CREATEMINE(uint client, FLPACKET_UNKNOWN*);
-        virtual bool Send_FLPACKET_SERVER_CREATEGUIDED(uint& client, FLPACKET_CREATEGUIDED&);
-        virtual bool Send_FLPACKET_SERVER_CREATECOUNTER(uint client, FLPACKET_UNKNOWN*);
+        virtual bool Send_FLPACKET_SERVER_GFCOMPLETENEWSBROADCASTLIST(u32 client, u32);
+        virtual bool Send_FLPACKET_SERVER_CREATESOLAR(u32 client, FLPACKET_CREATESOLAR& solar);
+        virtual bool Send_FLPACKET_SERVER_CREATESHIP(u32 client, FLPACKET_CREATESHIP& ship);
+        virtual bool Send_FLPACKET_SERVER_CREATELOOT(u32 client, FLPACKET_UNKNOWN*);
+        virtual bool Send_FLPACKET_SERVER_CREATEMINE(u32 client, FLPACKET_UNKNOWN*);
+        virtual bool Send_FLPACKET_SERVER_CREATEGUIDED(u32& client, FLPACKET_CREATEGUIDED&);
+        virtual bool Send_FLPACKET_SERVER_CREATECOUNTER(u32 client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
-        virtual void unknown_53(uint client, FLPACKET_UNKNOWN*);
+        virtual void unknown_53(u32 client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
-        virtual void unknown_54(uint client, uint, uint, uint);
+        virtual void unknown_54(u32 client, u32, u32, u32);
         [[NoLog]]
-        virtual bool Send_FLPACKET_COMMON_UPDATEOBJECT(uint client, SSPObjUpdateInfo& update);
-        virtual bool Send_FLPACKET_SERVER_DESTROYOBJECT(uint client, FLPACKET_DESTROYOBJECT& destroy);
-        virtual bool Send_FLPACKET_SERVER_ACTIVATEOBJECT(uint client, XActivateEquip& aq);
+        virtual bool Send_FLPACKET_COMMON_UPDATEOBJECT(u32 client, SSPObjUpdateInfo& update);
+        virtual bool Send_FLPACKET_SERVER_DESTROYOBJECT(u32 client, FLPACKET_DESTROYOBJECT& destroy);
+        virtual bool Send_FLPACKET_SERVER_ACTIVATEOBJECT(u32 client, XActivateEquip& aq);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_SYSTEM_SWITCH_OUT(uint client, FLPACKET_SYSTEM_SWITCH_OUT&);
+        virtual bool Send_FLPACKET_SERVER_SYSTEM_SWITCH_OUT(u32 client, FLPACKET_SYSTEM_SWITCH_OUT&);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_SYSTEM_SWITCH_IN(uint client, FLPACKET_SYSTEM_SWITCH_IN&);
+        virtual bool Send_FLPACKET_SERVER_SYSTEM_SWITCH_IN(u32 client, FLPACKET_SYSTEM_SWITCH_IN&);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_LAND(uint client, FLPACKET_LAND& land);
-        virtual bool Send_FLPACKET_SERVER_LAUNCH(uint client, FLPACKET_LAUNCH& launch);
-        virtual bool Send_FLPACKET_SERVER_REQUESTCREATESHIPRESP(uint client, bool response, uint shipID);
+        virtual bool Send_FLPACKET_SERVER_LAND(u32 client, FLPACKET_LAND& land);
+        virtual bool Send_FLPACKET_SERVER_LAUNCH(u32 client, FLPACKET_LAUNCH& launch);
+        virtual bool Send_FLPACKET_SERVER_REQUESTCREATESHIPRESP(u32 client, bool response, u32 shipID);
         [[NoPlugins]]
-        virtual void unknown_63(uint client, FLPACKET_UNKNOWN*);
+        virtual void unknown_63(u32 client, FLPACKET_UNKNOWN*);
         [[NoLog, NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_DAMAGEOBJECT(uint client, uint objID, DamageList& dmgList);
+        virtual bool Send_FLPACKET_SERVER_DAMAGEOBJECT(u32 client, u32 objID, DamageList& dmgList);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_ITEMTRACTORED(uint client, uint);
-        virtual bool Send_FLPACKET_SERVER_USE_ITEM(uint client, uint);
-        virtual bool Send_FLPACKET_SERVER_SETREPUTATION(uint client, FLPACKET_SETREPUTATION& rep);
+        virtual bool Send_FLPACKET_SERVER_ITEMTRACTORED(u32 client, u32);
+        virtual bool Send_FLPACKET_SERVER_USE_ITEM(u32 client, u32);
+        virtual bool Send_FLPACKET_SERVER_SETREPUTATION(u32 client, FLPACKET_SETREPUTATION& rep);
         [[NoPlugins]]
-        virtual void unknown_68(uint client, FLPACKET_UNKNOWN*);
-        virtual bool Send_FLPACKET_SERVER_SENDCOMM(uint client, uint senderObjId, uint receiverObjId, uint voice, uint head, uint body, uint leftHand,
-                                                   uint rightHand, uint accessory1, uint accessory2, uint accessory3, uint accessory4, uint accessory5,
-                                                   uint accessory6, uint accessory7, uint accessory8, uint accessories, uint name, uint* lines, uint lineCount,
-                                                   uint commType, float radioSilenceAfter, bool global);
+        virtual void unknown_68(u32 client, FLPACKET_UNKNOWN*);
+        virtual bool Send_FLPACKET_SERVER_SENDCOMM(u32 client, u32 senderObjId, u32 receiverObjId, u32 voice, u32 head, u32 body, u32 leftHand,
+                                                   u32 rightHand, u32 accessory1, u32 accessory2, u32 accessory3, u32 accessory4, u32 accessory5,
+                                                   u32 accessory6, u32 accessory7, u32 accessory8, u32 accessories, u32 name, u32* lines, u32 lineCount,
+                                                   u32 commType, f32 radioSilenceAfter, bool global);
         [[NoPlugins]]
-        virtual void unknown_70(uint client, uint);
-        virtual bool Send_FLPACKET_SERVER_SET_MISSION_MESSAGE(uint client, FLPACKET_UNKNOWN*);
+        virtual void unknown_70(u32 client, u32);
+        virtual bool Send_FLPACKET_SERVER_SET_MISSION_MESSAGE(u32 client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
-        virtual void unknown_72(uint client, FLPACKET_UNKNOWN*);
-        virtual bool Send_FLPACKET_SERVER_SETMISSIONOBJECTIVES(uint client, uint);
+        virtual void unknown_72(u32 client, FLPACKET_UNKNOWN*);
+        virtual bool Send_FLPACKET_SERVER_SETMISSIONOBJECTIVES(u32 client, u32);
         [[NoPlugins]]
-        virtual void unknown_74(uint client, FLPACKET_UNKNOWN*);
+        virtual void unknown_74(u32 client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
-        virtual void unknown_75(uint client, uint);
+        virtual void unknown_75(u32 client, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_MARKOBJ(uint client, uint, uint);
+        virtual bool Send_FLPACKET_SERVER_MARKOBJ(u32 client, u32, u32);
         [[NoPlugins]]
-        virtual void unknown_77(uint client, uint);
-        virtual bool Send_FLPACKET_SERVER_SETCASH(uint client, uint cash);
+        virtual void unknown_77(u32 client, u32);
+        virtual bool Send_FLPACKET_SERVER_SETCASH(u32 client, u32 cash);
         [[NoPlugins]]
-        virtual void unknown_79(uint client, uint);
+        virtual void unknown_79(u32 client, u32);
         [[NoPlugins]]
-        virtual void unknown_80(uint client, uint);
+        virtual void unknown_80(u32 client, u32);
         [[NoPlugins]]
-        virtual void unknown_81(uint client, uint);
+        virtual void unknown_81(u32 client, u32);
         [[NoPlugins]]
-        virtual void unknown_82(uint client, uint);
+        virtual void unknown_82(u32 client, u32);
         [[NoPlugins]]
-        virtual void unknown_83(uint client, char*);
+        virtual void unknown_83(u32 client, char*);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_REQUEST_RETURNED(uint& client, uint shipID, uint flag, uint, uint);
+        virtual bool Send_FLPACKET_SERVER_REQUEST_RETURNED(u32& client, u32 shipID, u32 flag, u32, u32);
         [[NoPlugins]]
-        virtual void unknown_85(uint client, FLPACKET_UNKNOWN*);
+        virtual void unknown_85(u32 client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
-        virtual void unknown_86(uint client, uint, uint, uint);
+        virtual void unknown_86(u32 client, u32, u32, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_OBJECTCARGOUPDATE(SObjectCargoUpdate& cargoUpdate, uint dunno1, uint dunno2);
-        virtual bool Send_FLPACKET_SERVER_BURNFUSE(uint client, FLPACKET_BURNFUSE& burnFuse);
+        virtual bool Send_FLPACKET_SERVER_OBJECTCARGOUPDATE(SObjectCargoUpdate& cargoUpdate, u32 dunno1, u32 dunno2);
+        virtual bool Send_FLPACKET_SERVER_BURNFUSE(u32 client, FLPACKET_BURNFUSE& burnFuse);
         [[NoPlugins]]
-        virtual void unknown_89(uint client, FLPACKET_UNKNOWN*);
+        virtual void unknown_89(u32 client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
-        virtual void unknown_90(uint client);
+        virtual void unknown_90(u32 client);
         [[NoPlugins]]
-        virtual void unknown_91(uint client, uint);
+        virtual void unknown_91(u32 client, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_COMMON_SET_WEAPON_GROUP(uint client, uint, int);
+        virtual bool Send_FLPACKET_COMMON_SET_WEAPON_GROUP(u32 client, u32, int);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_COMMON_SET_VISITED_STATE(uint client, uint objHash, int state);
+        virtual bool Send_FLPACKET_COMMON_SET_VISITED_STATE(u32 client, u32 objHash, int state);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_COMMON_REQUEST_BEST_PATH(uint client, uint objHash, int);
+        virtual bool Send_FLPACKET_COMMON_REQUEST_BEST_PATH(u32 client, u32 objHash, int);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_COMMON_REQUEST_PLAYER_STATS(uint client, uint, int);
+        virtual bool Send_FLPACKET_COMMON_REQUEST_PLAYER_STATS(u32 client, u32, int);
         [[NoPlugins]]
-        virtual void unknown_96(uint client, uint, uint, uint);
+        virtual void unknown_96(u32 client, u32, u32, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_COMMON_REQUEST_GROUP_POSITIONS(uint client, uint, int);
+        virtual bool Send_FLPACKET_COMMON_REQUEST_GROUP_POSITIONS(u32 client, u32, int);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_COMMON_SET_MISSION_LOG(uint client, uint, int);
+        virtual bool Send_FLPACKET_COMMON_SET_MISSION_LOG(u32 client, u32, int);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_COMMON_SET_INTERFACE_STATE(uint client, uint, int);
+        virtual bool Send_FLPACKET_COMMON_SET_INTERFACE_STATE(u32 client, u32, int);
         [[NoPlugins]]
-        virtual void unknown_100(uint client, uint, uint);
+        virtual void unknown_100(u32 client, u32, u32);
         [[NoPlugins]]
-        virtual void unknown_101(uint& client, FLPACKET_UNKNOWN*);
+        virtual void unknown_101(u32& client, FLPACKET_UNKNOWN*);
         [[NoPlugins]]
-        virtual void PlayerInitiateTrade(uint client, uint targetShip);
+        virtual void PlayerInitiateTrade(u32 client, u32 targetShip);
         [[NoPlugins]]
-        virtual void PlayerTradeTarget(uint client, uint targetShip);
+        virtual void PlayerTradeTarget(u32 client, u32 targetShip);
         [[NoPlugins]]
-        virtual void PlayerAcceptTrade(uint client, uint targetShip, uint doAccept);
+        virtual void PlayerAcceptTrade(u32 client, u32 targetShip, u32 doAccept);
         [[NoPlugins]]
-        virtual void PlayerSetTradeMoney(uint client, uint targetShipId, uint totalMoney);
+        virtual void PlayerSetTradeMoney(u32 client, u32 targetShipId, u32 totalMoney);
         [[NoPlugins]]
-        virtual void PlayerAddTradeEquip(uint client, uint targetShip, EquipDesc* item);
+        virtual void PlayerAddTradeEquip(u32 client, u32 targetShip, EquipDesc* item);
         [[NoPlugins]]
-        virtual void PlayerRemoveTradeEquip(uint client, uint targetShip, EquipDesc* item);
+        virtual void PlayerRemoveTradeEquip(u32 client, u32 targetShip, EquipDesc* item);
         [[NoPlugins]]
-        virtual bool PlayerRequestTrade(uint client, uint targetShip);
+        virtual bool PlayerRequestTrade(u32 client, u32 targetShip);
         [[NoPlugins]]
-        virtual void PlayerStopTradeRequest(uint client, uint targetShip);
-        virtual bool Send_FLPACKET_SERVER_SCANNOTIFY(uint client, uint, uint);
-        virtual bool Send_FLPACKET_SERVER_PLAYERLIST(uint client, wchar_t*, uint, char);
+        virtual void PlayerStopTradeRequest(u32 client, u32 targetShip);
+        virtual bool Send_FLPACKET_SERVER_SCANNOTIFY(u32 client, u32, u32);
+        virtual bool Send_FLPACKET_SERVER_PLAYERLIST(u32 client, wchar_t*, u32, char);
         [[NoPlugins]]
-        virtual void PlayerIsLeavingServer(uint onlineClient, uint leavingClient);
-        virtual bool Send_FLPACKET_SERVER_PLAYERLIST_2(uint client);
-        virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_6(uint client, uint, uint);
-        virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_7(uint client, uint, uint);
-        virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE(uint client, FLPACKET_UNKNOWN*);
-        virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_2(uint client, uint, uint);
-        virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_3(uint client, uint targetID, uint rank);
-        virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_4(uint client, uint, uint);
-        virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_5(uint client, uint, uint);
+        virtual void PlayerIsLeavingServer(u32 onlineClient, u32 leavingClient);
+        virtual bool Send_FLPACKET_SERVER_PLAYERLIST_2(u32 client);
+        virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_6(u32 client, u32, u32);
+        virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_7(u32 client, u32, u32);
+        virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE(u32 client, FLPACKET_UNKNOWN*);
+        virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_2(u32 client, u32, u32);
+        virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_3(u32 client, u32 targetID, u32 rank);
+        virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_4(u32 client, u32, u32);
+        virtual bool Send_FLPACKET_SERVER_MISCOBJUPDATE_5(u32 client, u32, u32);
         [[NoPlugins]]
-        virtual void unknown_121(uint client, uint);
+        virtual void unknown_121(u32 client, u32);
         [[NoPlugins]]
-        virtual bool Send_FLPACKET_SERVER_FORMATION_UPDATE(uint client, uint shipID, Vector& formationOffset);
+        virtual bool Send_FLPACKET_SERVER_FORMATION_UPDATE(u32 client, u32 shipID, Vector& formationOffset);
         [[NoPlugins]]
-        virtual void unknown_123(uint client, uint, uint, uint, uint, uint, uint);
+        virtual void unknown_123(u32 client, u32, u32, u32, u32, u32, u32);
         [[NoPlugins]]
-        virtual void unknown_124(uint client);
+        virtual void unknown_124(u32 client);
         [[NoPlugins]]
-        virtual void unknown_125(uint client, uint);
+        virtual void unknown_125(u32 client, u32);
         [[NoPlugins]]
         virtual int unknown_126(char*);
 };
@@ -405,5 +392,3 @@ IMPORT void SetServerLogFunction(int (*)(struct ErrorCode, const char*, ...));
 // TODO: Explain that this is just an packet-sending interface, not an actual Client
 extern "C" IMPORT IClientImpl Client;
 extern "C" IMPORT IClientImpl* GetClientInterface();
-
-#endif // _FLCOREREMOTECLIENT_H_

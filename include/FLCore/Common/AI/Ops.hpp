@@ -36,7 +36,7 @@ namespace pub
                 IMPORT DirectiveDelayOp();
                 IMPORT virtual bool validate();
 
-                float DelayTime;
+                f32 DelayTime;
         };
 
         class DirectiveDockOp : public BaseOp
@@ -48,12 +48,12 @@ namespace pub
 
                 unsigned DockSpaceObj;
                 unsigned x10;   // 0
-                unsigned short x12; // 0
-                unsigned short x14; // 0xbb, 0x83 ??
+                u16 x12; // 0
+                u16 x14; // 0xbb, 0x83 ??
                 int x18;    // -1
                 unsigned x1C;   // 0
-                float x20;  // 200
-                float x24;  // 500
+                f32 x20;  // 200
+                f32 x24;  // 500
                 unsigned x28;   // 0
         };
 
@@ -65,7 +65,7 @@ namespace pub
                 IMPORT virtual bool validate();
 
             public:
-                unsigned char data[OBJECT_DATA_SIZE];
+                u8 data[OBJECT_DATA_SIZE];
         };
 
         class DirectiveEvadeOp : public BaseOp
@@ -76,7 +76,7 @@ namespace pub
                 IMPORT virtual bool validate();
 
                 unsigned EvadeSpaceObj;
-                unsigned char data[OBJECT_DATA_SIZE];
+                u8 data[OBJECT_DATA_SIZE];
         };
 
         class DirectiveFaceOp : public BaseOp
@@ -87,7 +87,7 @@ namespace pub
                 IMPORT virtual bool validate();
 
             public:
-                unsigned char data[OBJECT_DATA_SIZE];
+                u8 data[OBJECT_DATA_SIZE];
         };
 
         class DirectiveFollowOp : public BaseOp
@@ -98,9 +98,9 @@ namespace pub
                 IMPORT virtual bool validate();
 
                 unsigned followSpaceObj;
-                float maxDistance;
+                f32 maxDistance;
                 Vector offset;
-                float dunno2; // 400
+                f32 dunno2; // 400
         };
 
         class DirectiveFormationOp : public BaseOp
@@ -111,7 +111,7 @@ namespace pub
                 IMPORT virtual bool validate();
 
             public:
-                unsigned char data[OBJECT_DATA_SIZE];
+                u8 data[OBJECT_DATA_SIZE];
         };
 
         class DirectiveGotoOp : public BaseOp
@@ -130,9 +130,9 @@ namespace pub
                 // The 4 points to fly to if GotoType is 2
                 Vector spline[4];
                 // This specifies how close the NPC will attempt to get to the position
-                float range;
+                f32 range;
                 // This specifies the thrust in the range from 0-100. Use -1 for maximum.
-                float thrust;
+                f32 thrust;
                 // This specifies if the ship should move (*not* always set to true)
                 bool shipMoves;
                 // This specifies if the ship should move (always set to true)
@@ -142,10 +142,10 @@ namespace pub
                 bool goToCruise;
                 bool goToNoCruise;
                 int x5C;
-                float x60; // 200
-                float x64; // 500
+                f32 x60; // 200
+                f32 x64; // 500
                 int x68;
-                float x6C;
+                f32 x6C;
         };
 
         class DirectiveGuideOp : public BaseOp
@@ -156,7 +156,7 @@ namespace pub
                 IMPORT virtual bool validate();
 
             public:
-                unsigned char data[OBJECT_DATA_SIZE];
+                u8 data[OBJECT_DATA_SIZE];
         };
 
         class DirectiveIdleOp : public BaseOp
@@ -176,7 +176,7 @@ namespace pub
 
                 unsigned tradelaneRingFrom;
                 unsigned tradelaneRingTo;
-                float dunno; // 3750
+                f32 dunno; // 3750
         };
 
         class DirectiveLaunchOp : public BaseOp
@@ -199,7 +199,7 @@ namespace pub
                 IMPORT virtual bool validate();
 
             public:
-                unsigned char data[OBJECT_DATA_SIZE];
+                u8 data[OBJECT_DATA_SIZE];
         };
 
         class DirectiveStrafeOp : public BaseOp
@@ -210,7 +210,7 @@ namespace pub
                 IMPORT virtual bool validate();
 
             public:
-                unsigned char data[OBJECT_DATA_SIZE];
+                u8 data[OBJECT_DATA_SIZE];
         };
 
         class DirectiveTractorBeamOp : public BaseOp
@@ -221,7 +221,7 @@ namespace pub
                 IMPORT virtual bool validate();
 
             public:
-                unsigned char data[OBJECT_DATA_SIZE];
+                u8 data[OBJECT_DATA_SIZE];
         };
 
         class DirectiveTrailOp : public BaseOp
@@ -232,7 +232,7 @@ namespace pub
                 IMPORT virtual bool validate();
 
                 unsigned x0C;  // 10
-                float x10; // 500
+                f32 x10; // 500
                 unsigned x14;  // 0
                 unsigned x18;  // 0
         };
@@ -245,7 +245,7 @@ namespace pub
                 IMPORT virtual bool validate();
 
             public:
-                unsigned char data[OBJECT_DATA_SIZE];
+                u8 data[OBJECT_DATA_SIZE];
         };
 
         class  DirectiveWaitForShip
@@ -256,7 +256,7 @@ namespace pub
                 IMPORT virtual bool validate();
 
             public:
-                unsigned char data[OBJECT_DATA_SIZE];
+                u8 data[OBJECT_DATA_SIZE];
         };
 
         struct GSplinePath
@@ -265,7 +265,7 @@ namespace pub
                 IMPORT GSplinePath& operator=(const GSplinePath&);
 
             public:
-                unsigned char data[OBJECT_DATA_SIZE];
+                u8 data[OBJECT_DATA_SIZE];
         };
 
         struct SetFlagParams
@@ -275,8 +275,8 @@ namespace pub
                 IMPORT virtual bool validate();
 
                 unsigned x0C;  // 0
-                float x10; // ??
-                float x14; // ??
+                f32 x10; // ??
+                f32 x14; // ??
         };
 
         struct SetPersonalityParams : public BaseOp
@@ -307,7 +307,7 @@ namespace pub
                 unsigned iSpaceObj;     // only used for iZoneType 2
                 Vector vBoxCorner1; // only used for iZoneType 1
                 Vector vBoxCorner2; // only used for iZoneType 1
-                float fRadius;      // not used for iZoneType 1
+                f32 fRadius;      // not used for iZoneType 1
         };
     }
 }

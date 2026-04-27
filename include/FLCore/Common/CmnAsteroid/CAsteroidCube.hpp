@@ -15,19 +15,19 @@ namespace CmnAsteroid
         IMPORT ~CAsteroidCube();
         IMPORT CAsteroidCube& operator=(const CAsteroidCube&);
         IMPORT struct asteroid_marker* get_changes();
-        IMPORT unsigned long get_id();
+        IMPORT ulong get_id();
         IMPORT Matrix get_orient();
         IMPORT Vector get_pos();
         IMPORT CubeState get_state();
-        IMPORT void init(const Vector&, unsigned long, struct AsteroidCubeArch*, const struct AxisRotations&, float);
+        IMPORT void init(const Vector&, ulong, struct AsteroidCubeArch*, const struct AxisRotations&, f32);
         IMPORT void set_size(int);
         IMPORT void set_state(CubeState);
-        IMPORT void set_system(unsigned int);
+        IMPORT void set_system(u32);
 
         private:
-        IMPORT bool compute_asteroid_id(const Vector&, unsigned long&);
+        IMPORT bool compute_asteroid_id(const Vector&, ulong&);
 
         public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
     };
 }

@@ -19,11 +19,11 @@ class CNudgeEngine : public CPhysControllerEquip
     IMPORT void SetOwner(struct CShip*);
 
     protected:
-    IMPORT static const float NUDGE_CHANGE_THRESHOLD;
+    IMPORT static const f32 NUDGE_CHANGE_THRESHOLD;
     //@@@
 
     public:
-    unsigned long dunno10[3];   // 151
+    ulong dunno10[3];   // 151
     struct CShip* owner;
     bool isActive;
     Vector nudgeVector; // 157

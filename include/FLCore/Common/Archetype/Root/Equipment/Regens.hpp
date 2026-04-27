@@ -1,5 +1,5 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include <FLCore/FLCoreDefs.hpp>
 
 namespace Archetype
 {
@@ -15,7 +15,7 @@ namespace Archetype
         IMPORT void redefine(const Root&) override;
 
         public:
-        /* 28 */ float repairRate;
+        /* 28 */ f32 repairRate;
     };
 
     struct ShieldBattery : Equipment
@@ -45,6 +45,6 @@ namespace Archetype
         bool read(INI_Reader&) override;
 
         public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
     };
 }

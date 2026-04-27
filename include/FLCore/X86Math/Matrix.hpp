@@ -19,7 +19,7 @@ class Quaternion; // Forward reference.
 class FLSDK_IMPORT Matrix
 {
     protected:
-        Matrix mul(float s) const;
+        Matrix mul(f32 s) const;
         Vector mul(const Vector& v) const;
         Matrix mul(const Matrix& m2) const;
         Vector transpose_mul(const Vector& v) const;
@@ -28,17 +28,17 @@ class FLSDK_IMPORT Matrix
         Matrix dual(const Vector& v) const; // Returns 2nd order skew-symmetric dual tensor of vector.
 
     public:
-        static float pow2(float f); // avoids calling fabs below
+        static f32 pow2(f32 f); // avoids calling fabs below
 
         union {
-                float d[3][3];
+                f32 d[3][3];
                 Vector v[3];
         };
 
         Matrix();
         Matrix(const Vector& i, const Vector& j, const Vector& k);
         explicit Matrix(const Quaternion& q);
-        Matrix(float e00, float e01, float e02, float e10, float e11, float e12, float e20, float e21, float e22);
+        Matrix(f32 e00, f32 e01, f32 e02, f32 e10, f32 e11, f32 e12, f32 e20, f32 e21, f32 e22);
         explicit Matrix(const PersistMatrix& src);
         Matrix get_transpose() const; // For a rotation matrix, inverse == transpose, but not for general matrices.
         Matrix get_inverse() const;
@@ -48,34 +48,34 @@ class FLSDK_IMPORT Matrix
         void set_i(const Vector& i);
         void set_j(const Vector& j);
         void set_k(const Vector& k);
-        void set_orientation(float pitch_degrees, float roll_degrees,
-                             float yaw_degrees); // Apply yaw, pitch, roll in order ( angles in degrees )
-        void set_x_rotation(float angle);        // pitch
-        void set_y_rotation(float angle);        // yaw
-        void set_z_rotation(float angle);        // roll
+        void set_orientation(f32 pitch_degrees, f32 roll_degrees,
+                             f32 yaw_degrees); // Apply yaw, pitch, roll in order ( angles in degrees )
+        void set_x_rotation(f32 angle);        // pitch
+        void set_y_rotation(f32 angle);        // yaw
+        void set_z_rotation(f32 angle);        // roll
 
         /* ---------- member functions */
 
-        void rotate_around_i(float angle); // pitch
-        void rotate_around_j(float angle); // yaw
-        void rotate_around_k(float angle); // roll
-        void x_rotate_left(float angle);   // pitch
-        void y_rotate_left(float angle);   // yaw
-        void z_rotate_left(float angle);   // roll
-        void x_rotate_right(float angle);  // pitch
-        void y_rotate_right(float angle);  // yaw
-        void z_rotate_right(float angle);  // roll
+        void rotate_around_i(f32 angle); // pitch
+        void rotate_around_j(f32 angle); // yaw
+        void rotate_around_k(f32 angle); // roll
+        void x_rotate_left(f32 angle);   // pitch
+        void y_rotate_left(f32 angle);   // yaw
+        void z_rotate_left(f32 angle);   // roll
+        void x_rotate_right(f32 angle);  // pitch
+        void y_rotate_right(f32 angle);  // yaw
+        void z_rotate_right(f32 angle);  // roll
 
-        float det() const; // Returns determinant of matrix.
+        f32 det() const; // Returns determinant of matrix.
         const Matrix& set_identity(void);
         void make_orthogonal();
         const Matrix& zero(void);
 
-        const Matrix& scale(float s);
-        const Matrix& scale_by_reciprocal(float s);
+        const Matrix& scale(f32 s);
+        const Matrix& scale_by_reciprocal(f32 s);
         const Matrix& mul(const Matrix& m);
-        void compose_rotation(unsigned axis, float angle); // expects degrees
-        bool equal(const Matrix& m, float tolerance) const;
+        void compose_rotation(unsigned axis, f32 angle); // expects degrees
+        bool equal(const Matrix& m, f32 tolerance) const;
 
         [[nodiscard]]
         Vector euler(const bool inDegrees) const;
@@ -84,8 +84,8 @@ class FLSDK_IMPORT Matrix
 
         const Matrix& operator+=(const Matrix& m);
         const Matrix& operator-=(const Matrix& m);
-        const Matrix& operator*=(float s);
-        const Matrix& operator/=(float s);
+        const Matrix& operator*=(f32 s);
+        const Matrix& operator/=(f32 s);
         const Matrix& operator*=(const Matrix& m);
 
 #ifdef _INC_MEMORY // #TODO: Why is this here?
@@ -108,9 +108,9 @@ class FLSDK_IMPORT Matrix
         FLSDK_IMPORT friend Matrix operator*(const Matrix& m1, const Matrix& m2);
         FLSDK_IMPORT friend Matrix operator+(const Matrix& m1, const Matrix& m2);
         FLSDK_IMPORT friend Matrix operator-(const Matrix& m1, const Matrix& m2);
-        FLSDK_IMPORT friend Matrix operator*(const Matrix& m, float s);
-        FLSDK_IMPORT friend Matrix operator*(float s, const Matrix& m);
-        FLSDK_IMPORT friend Matrix operator/(const Matrix& m, float s);
+        FLSDK_IMPORT friend Matrix operator*(const Matrix& m, f32 s);
+        FLSDK_IMPORT friend Matrix operator*(f32 s, const Matrix& m);
+        FLSDK_IMPORT friend Matrix operator/(const Matrix& m, f32 s);
 };
 
 #endif // __MATRIX_H__

@@ -19,9 +19,9 @@ class CEThruster : public CAttachedEquip, public CPhysControllerEquip
     IMPORT static const CEThruster* cast(const CEquip*);
 
     IMPORT CEThruster(const CEThruster&);
-    IMPORT CEThruster(CEqObj*, unsigned short, const Archetype::Thruster*, bool);
+    IMPORT CEThruster(CEqObj*, u16, const Archetype::Thruster*, bool);
     IMPORT const Archetype::Thruster* ThrusterArch() const;
     IMPORT bool CouldThrust() const;
-    IMPORT float GetPowerDraw() const;
-    IMPORT float GetThrust() const;
+    IMPORT f32 GetPowerDraw() const;
+    IMPORT f32 GetThrust() const;
 };

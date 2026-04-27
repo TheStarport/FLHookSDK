@@ -19,7 +19,7 @@ struct LoadedCharacterData
         int numOfKills;                                       // 564
         int numOfSuccessMissions;                             // 568
         int numOfFailedMissions;                              // 572
-        float hullStatus;                                     // 576
+        f32 hullStatus;                                     // 576
         st6::list<EquipDesc> currentEquipAndCargo;            // 580
         st6::list<CollisionGroupDesc> currentCollisionGroups; // 592
         unsigned system;                                          // 644

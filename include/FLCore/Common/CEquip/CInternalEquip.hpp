@@ -13,5 +13,5 @@ class CInternalEquip : public CEquip
     IMPORT static const CInternalEquip* cast(const CEquip*);
 
     IMPORT CInternalEquip(const CInternalEquip&);
-    IMPORT CInternalEquip(unsigned int, CEqObj*, unsigned short, const Archetype::Equipment*, bool);
+    IMPORT CInternalEquip(u32, CEqObj*, u16, const Archetype::Equipment*, bool);
 };

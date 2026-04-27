@@ -6,16 +6,16 @@ struct FmtStr
         struct IMPORT Val
         {
                 Val(const Val&);
-                Val(unsigned short, void*, unsigned char);
+                Val(u16, void*, u8);
                 Val(const void*);
                 Val(const void*, int&);
                 ~Val();
                 const Val& operator=(const Val&);
                 bool operator==(const Val&) const;
-                unsigned flatten(void*, unsigned int) const;
+                unsigned flatten(void*, u32) const;
                 unsigned get_flattened_size() const;
 
-                static void* operator new(unsigned int);
+                static void* operator new(u32);
                 static void operator delete(void*);
 
             private:
@@ -30,30 +30,30 @@ struct FmtStr
 
         FmtStr() : FmtStr(0, nullptr) {}
         IMPORT FmtStr(const FmtStr&);
-        IMPORT FmtStr(unsigned int, const Val*);
+        IMPORT FmtStr(u32, const Val*);
         IMPORT ~FmtStr();
         IMPORT const FmtStr& operator=(const FmtStr&);
         IMPORT bool operator==(const FmtStr&) const;
         IMPORT void append(Val*);
-        IMPORT void append_base(const unsigned int&);
+        IMPORT void append_base(const u32&);
         IMPORT void append_fmt_str(const FmtStr&);
-        IMPORT void append_good(const unsigned int&);
+        IMPORT void append_good(const u32&);
         IMPORT void append_installation(int);
-        IMPORT void append_int(unsigned int);
+        IMPORT void append_int(u32);
         IMPORT void append_loot(int);
         IMPORT void append_nav_marker(const struct NavMarker&);
-        IMPORT void append_rep_group(const unsigned int&);
+        IMPORT void append_rep_group(const u32&);
         IMPORT void append_rep_instance(const int&);
-        IMPORT void append_spaceobj_id(const unsigned int&);
-        IMPORT void append_string(unsigned int);
-        IMPORT void append_system(const unsigned int&);
+        IMPORT void append_spaceobj_id(const u32&);
+        IMPORT void append_string(u32);
+        IMPORT void append_system(const u32&);
         IMPORT int append_void(void*);
-        IMPORT void append_zone_id(const unsigned int&);
-        IMPORT void begin_mad_lib(unsigned int);
+        IMPORT void append_zone_id(const u32&);
+        IMPORT void begin_mad_lib(u32);
         IMPORT void destroy();
         IMPORT void end_mad_lib();
-        IMPORT int flatten(void*, unsigned int) const;
-        IMPORT int unflatten(void*, unsigned int);
+        IMPORT int flatten(void*, u32) const;
+        IMPORT int unflatten(void*, u32);
 
         unsigned something;
         unsigned strid;        // resource containing text

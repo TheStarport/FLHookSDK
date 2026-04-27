@@ -2,9 +2,9 @@
 
 #include "Transform.hpp"
 
-static constexpr float MIN_DET = 1e-8f;
+static constexpr f32 MIN_DET = 1e-8f;
 
-typedef SINGLE OASIS[3][3];
+typedef f32 OASIS[3][3];
 
 Transform::Transform() { set_identity(); }
 
@@ -75,7 +75,7 @@ Transform Transform::multiply(const Transform& t) const
     return result;
 }
 
-void Transform::compose_rotation(const unsigned axis, const SINGLE angle)
+void Transform::compose_rotation(const unsigned axis, const f32 angle)
 {
     translation.zero();
     Matrix::compose_rotation(axis, angle);
@@ -85,14 +85,14 @@ Transform Transform::get_transpose() const { return Transform(Matrix::get_transp
 
 Transform Transform::get_inverse() const { return Transform(Matrix::get_transpose(), -(translation * *static_cast<const Matrix*>(this))); }
 
-Transform Transform::get_general_inverse(SINGLE& w) const
+Transform Transform::get_general_inverse(f32& w) const
 {
     Transform result(false);
 
-    const float determinant = d[0][0] * (d[1][1] * d[2][2] - d[2][1] * d[1][2]) - d[0][1] * (d[1][0] * d[2][2] - d[2][0] * d[1][2]) +
+    const f32 determinant = d[0][0] * (d[1][1] * d[2][2] - d[2][1] * d[1][2]) - d[0][1] * (d[1][0] * d[2][2] - d[2][0] * d[1][2]) +
                               d[0][2] * (d[1][0] * d[2][1] - d[2][0] * d[1][1]);
 
-    float dt;
+    f32 dt;
     if (fabs(determinant) > MIN_DET)
     {
         dt = 1.0f / determinant;
@@ -135,7 +135,7 @@ Transform Transform::get_general_inverse(SINGLE& w) const
 
 const Vector& Transform::get_position() const { return translation; }
 
-void Transform::set_position(const SINGLE x, const SINGLE y, const SINGLE z)
+void Transform::set_position(const f32 x, const f32 y, const f32 z)
 {
     translation.x = x;
     translation.y = y;
@@ -144,7 +144,7 @@ void Transform::set_position(const SINGLE x, const SINGLE y, const SINGLE z)
 
 void Transform::set_position(const Vector& pos) { translation = pos; }
 
-void Transform::move_position(const SINGLE dx, const SINGLE dy, const SINGLE dz)
+void Transform::move_position(const f32 dx, const f32 dy, const f32 dz)
 {
     const Vector in(dx, dy, dz);
 
@@ -161,7 +161,7 @@ void Transform::move_position(const Vector& delta) { move_position(delta.x, delt
 
 const Matrix& Transform::get_orientation() const { return *this; }
 
-void Transform::set_orientation(const SINGLE pitch_degrees, const SINGLE roll_degrees, const SINGLE yaw_degrees)
+void Transform::set_orientation(const f32 pitch_degrees, const f32 roll_degrees, const f32 yaw_degrees)
 {
     // sets orientation element of transform, leaving position
     // vector untouched
@@ -216,7 +216,7 @@ bool Transform::operator==(const Transform& t) const { return (0 == memcmp(this,
 bool Transform::operator!=(const Transform& t) const { return !(*this == t); }
 #endif
 
-bool Transform::equal(const Transform& t, const SINGLE tolerance) const { return translation.equal(t.translation, tolerance) && Matrix::equal(t, tolerance); }
+bool Transform::equal(const Transform& t, const f32 tolerance) const { return translation.equal(t.translation, tolerance) && Matrix::equal(t, tolerance); }
 
 const Transform& Transform::operator*=(const Transform& t)
 {
@@ -224,10 +224,10 @@ const Transform& Transform::operator*=(const Transform& t)
     return *this;
 }
 
-void Transform::rotate_about_i(SINGLE angle)
+void Transform::rotate_about_i(f32 angle)
 {
     OASIS temp;
-    SINGLE cosine, sine;
+    f32 cosine, sine;
 
     //	angle *= -PI_RADIANS;		// convert to radians
     angle = -angle;
@@ -244,10 +244,10 @@ void Transform::rotate_about_i(SINGLE angle)
     d[2][2] = (cosine * temp[2][2]) + (sine * temp[2][1]);
 }
 
-void Transform::rotate_about_j(SINGLE angle)
+void Transform::rotate_about_j(f32 angle)
 {
     OASIS temp;
-    SINGLE cosine, sine;
+    f32 cosine, sine;
 
     //	angle *= PI_RADIANS;		// convert to radians
     cosine = cos(angle);
@@ -263,14 +263,14 @@ void Transform::rotate_about_j(SINGLE angle)
     d[2][2] = (cosine * temp[2][2]) - (sine * temp[2][0]);
 }
 
-void Transform::rotate_about_k(SINGLE angle)
+void Transform::rotate_about_k(f32 angle)
 {
     OASIS temp;
 
     //	angle *= -PI_RADIANS;		// convert to radians
     angle = -angle;
-    const SINGLE cosine = cos(angle);
-    const SINGLE sine = sin(angle);
+    const f32 cosine = cos(angle);
+    const f32 sine = sin(angle);
 
     memcpy(temp, d, sizeof(d));
 

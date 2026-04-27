@@ -8,6 +8,6 @@ namespace Archetype
         Effect* prevEffect;
         Effect* nextEffect;
         unsigned archId;
-        float lifetime; // -1.0 if skipped in config
+        f32 lifetime; // -1.0 if skipped in config
     };
 }

@@ -10,11 +10,11 @@ struct GoodDesc
         IMPORT GoodDesc();
         IMPORT GoodDesc& operator=(const GoodDesc&);
 
-        IMPORT static void* operator new(unsigned int);
+        IMPORT static void* operator new(u32);
         IMPORT static void operator delete(void*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct GoodDescList
@@ -25,7 +25,7 @@ struct GoodDescList
         IMPORT const GoodDescList& operator=(const GoodDescList&);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct GoodInfo
@@ -37,11 +37,11 @@ struct GoodInfo
         /* 76 */ GoodType type; // 0=commodity, 2=hull, 3=ship
         /* 80 */ unsigned equipmentId;
         /* 84 */ unsigned shipGoodId; // if type = GOODINFO_TYPE_HULL
-        /* 88 */ float price;
-        /* 92 */ float goodSellPrice;
-        /* 96 */ float badBuyPrice;
-        /* 100 */ float badSellPrice;
-        /* 104 */ float goodBuyPrice;
+        /* 88 */ f32 price;
+        /* 92 */ f32 goodSellPrice;
+        /* 96 */ f32 badBuyPrice;
+        /* 100 */ f32 badSellPrice;
+        /* 104 */ f32 goodBuyPrice;
         /* 108 */ unsigned jumpDist;
         /* 112 */ bool multiCount;
         /* 116 */ char* shopArchetype;
@@ -67,10 +67,10 @@ class GoodInfoList
         IMPORT ~GoodInfoList();
         IMPORT GoodInfoList& operator=(const GoodInfoList&);
         IMPORT void destroy();
-        IMPORT const GoodInfo* find_by_archetype(unsigned int) const;
-        IMPORT const GoodInfo* find_by_id(unsigned int) const;
+        IMPORT const GoodInfo* find_by_archetype(u32) const;
+        IMPORT const GoodInfo* find_by_id(u32) const;
         IMPORT const GoodInfo* find_by_name(const char*) const;
-        IMPORT const GoodInfo* find_by_ship_arch(unsigned int) const;
+        IMPORT const GoodInfo* find_by_ship_arch(u32) const;
         IMPORT const st6::list<GoodInfo*, st6::allocator<GoodInfo*>>* get_list() const;
         IMPORT void load(const char*);
 
@@ -78,12 +78,12 @@ class GoodInfoList
         IMPORT void read_Good_block(INI_Reader*, GoodInfo*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 namespace GoodList
 {
-    IMPORT const GoodInfo* find_by_archetype(unsigned int);
-    IMPORT const GoodInfo* find_by_id(unsigned int);
+    IMPORT const GoodInfo* find_by_archetype(u32);
+    IMPORT const GoodInfo* find_by_id(u32);
     IMPORT const GoodInfo* find_by_nickname(const char*);
 }; // namespace GoodList

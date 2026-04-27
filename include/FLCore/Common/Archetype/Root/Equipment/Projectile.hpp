@@ -1,5 +1,5 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include <FLCore/FLCoreDefs.hpp>
 
 namespace Archetype
 {
@@ -15,8 +15,8 @@ namespace Archetype
         IMPORT void redefine(const Root&) override;
 
         public:
-        /* 28 */ float lifeTime;
-        /* 29 */ float ownerSafeTime;
+        /* 28 */ f32 lifeTime;
+        /* 29 */ f32 ownerSafeTime;
         /* 30 */ bool requiresAmmo;
         bool forceGunOri;
         /* 31 */ unsigned lootAppearanceId;

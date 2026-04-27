@@ -14,28 +14,28 @@ namespace CmnAsteroid
         IMPORT int AddRef();
         IMPORT int Release();
         IMPORT Vector closest_cube_pos(const Vector&);
-        IMPORT unsigned long create_cube_id(const Vector&);
-        IMPORT CAsteroidCube* find_cube(unsigned long);
+        IMPORT ulong create_cube_id(const Vector&);
+        IMPORT CAsteroidCube* find_cube(ulong);
         IMPORT void flush_changes();
         IMPORT AxisRotations& get_axis_rotations();
         IMPORT asteroid_marker* get_changes();
         IMPORT int get_cube_size();
         IMPORT Exclusion::AsteroidExclusionZoneMgr* get_exclusion_mgr();
-        IMPORT float get_immersion(const Vector&);
+        IMPORT f32 get_immersion(const Vector&);
         IMPORT const Universe::IZone* get_lootable_zone(const Vector&) const;
         IMPORT void load(INI_Reader&, int);
         IMPORT bool near_field(const Vector&);
-        IMPORT float near_field_fraction(const Vector&, float);
+        IMPORT f32 near_field_fraction(const Vector&, f32);
         IMPORT void populate_asteroids(const Vector&, const Vector&);
         IMPORT void set_cube_size(int);
-        IMPORT void set_empty_freq(float);
+        IMPORT void set_empty_freq(f32);
         IMPORT void set_fill_dist(int);
-        IMPORT void set_system(unsigned int);
+        IMPORT void set_system(u32);
         IMPORT void set_zone(const Universe::IZone*);
 
         private:
-        IMPORT void populate_asteroids_internal(const Vector&, const Vector&, float);
-        IMPORT void update(float);
+        IMPORT void populate_asteroids_internal(const Vector&, const Vector&, f32);
+        IMPORT void update(f32);
 
         public:
         unsigned dunno[10];
@@ -48,10 +48,10 @@ namespace CmnAsteroid
         /* 16 */ unsigned systemId;
         /* 17 */ int cubeSize;
         /* 18 */ int fillDist;
-        /* 19 */ float emptyFreq;
+        /* 19 */ f32 emptyFreq;
         // This is probably a Matrix? // TODO: Test the type @Nen
-        /* 20 */ float rotX[4];
-        /* 24 */ float rotY[4];
-        /* 28 */ float rotZ[4];
+        /* 20 */ f32 rotX[4];
+        /* 24 */ f32 rotY[4];
+        /* 28 */ f32 rotZ[4];
     };
 }

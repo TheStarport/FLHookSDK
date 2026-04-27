@@ -62,10 +62,10 @@ struct IMPORT ActionDB
         void free();
         int get_action_count() const;
         bool remove(IAction*);
-        void update(float);
+        void update(f32);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT AmbientScriptInfo
@@ -76,7 +76,7 @@ struct IMPORT AmbientScriptInfo
         void destroy();
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT AmbientScriptProperties
@@ -87,24 +87,24 @@ class IMPORT AmbientScriptProperties
         AmbientScriptProperties& operator=(const AmbientScriptProperties&);
         void clear();
         void destroy();
-        unsigned long get_key() const;
+        ulong get_key() const;
         void init(const struct AmbientScriptDescription&);
         void marshal(class MarshalBuffer*) const;
         void unmarshal(MarshalBuffer*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 namespace AnimDB
 {
     IMPORT void Add(int);
     IMPORT void Add(struct VChannel*);
-    IMPORT unsigned int Count();
+    IMPORT u32 Count();
     IMPORT void Rem(int);
     IMPORT void Rem(const VChannel*);
     IMPORT void Shutdown();
-    IMPORT void Update(float);
+    IMPORT void Update(f32);
 }; // namespace AnimDB
 
 namespace PhyArch
@@ -118,18 +118,18 @@ namespace PhyArch
             void clear();
 
         public:
-            unsigned char data[OBJECT_DATA_SIZE];
+            u8 data[OBJECT_DATA_SIZE];
     };
 
     IMPORT const Part* GetDefaultPart();
-    IMPORT bool LoadSurfaces(const char*, st6::map<unsigned int, Part, st6::less<unsigned int>, st6::allocator<Part>>&);
+    IMPORT bool LoadSurfaces(const char*, st6::map<u32, Part, st6::less<u32>, st6::allocator<Part>>&);
 }; // namespace PhyArch
 
 struct IEngineInstance;
 
 struct DockHardpointInfo
 {
-        float radius;
+        f32 radius;
         const char* hardpoint;
         const char* dockAnimation;
         DockType dockType;
@@ -157,11 +157,11 @@ namespace Async
             Action(bool);
             virtual ~Action();
 
-            static void* operator new(unsigned int);
+            static void* operator new(u32);
             static void operator delete(void*);
 
         public:
-            unsigned char data[OBJECT_DATA_SIZE];
+            u8 data[OBJECT_DATA_SIZE];
     };
 
     IMPORT bool AddWork(Action*);
@@ -179,7 +179,7 @@ struct IMPORT BaseHint
         BaseHint& operator=(const BaseHint&);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 namespace BehaviorTypes
@@ -196,8 +196,8 @@ class IMPORT BinaryRDLReader
         BinaryRDLReader(const BinaryRDLReader&);
         BinaryRDLReader();
         BinaryRDLReader& operator=(const BinaryRDLReader&);
-        virtual bool extract_text_from_buffer(unsigned short*, unsigned int, unsigned int&, const char*, unsigned int);
-        virtual bool read_buffer(class RenderDisplayList&, const char*, unsigned int);
+        virtual bool extract_text_from_buffer(u16*, u32, u32&, const char*, u32);
+        virtual bool read_buffer(class RenderDisplayList&, const char*, u32);
         virtual bool read_file(RenderDisplayList&, const char*);
 };
 
@@ -209,7 +209,7 @@ class IMPORT BinaryRDLWriter
         BinaryRDLWriter(const BinaryRDLWriter&);
         BinaryRDLWriter();
         BinaryRDLWriter& operator=(const BinaryRDLWriter&);
-        virtual bool write_buffer(const RenderDisplayList&, char*, unsigned int, unsigned int&);
+        virtual bool write_buffer(const RenderDisplayList&, char*, u32, u32&);
         virtual bool write_file(const RenderDisplayList&, const char*);
 };
 
@@ -232,7 +232,7 @@ namespace Exclusion
             void update_dist(const Vector&);
 
         public:
-            unsigned char data[OBJECT_DATA_SIZE];
+            u8 data[OBJECT_DATA_SIZE];
     };
 
     class IMPORT AsteroidExclusionZoneMgr
@@ -247,18 +247,18 @@ namespace Exclusion
             virtual bool is_excluded(const Vector&, ExcludeObjectType, void*);
             void normalize_billboard_density(int);
             virtual void push_back(const Universe::IZone*, const Universe::IZone*);
-            void set_max_cliasteroid_exclusion_distance(float);
-            void set_max_dynamicasteroid_exclusion_distance(float);
+            void set_max_cliasteroid_exclusion_distance(f32);
+            void set_max_dynamicasteroid_exclusion_distance(f32);
             virtual void sort(void*);
 
         private:
-            bool is_billboard_excluded(const Vector&, float*);
-            bool is_cliasteroid_excluded(const Vector&, float*);
-            bool is_cmnasteroid_excluded(const Vector&, float*);
+            bool is_billboard_excluded(const Vector&, f32*);
+            bool is_cliasteroid_excluded(const Vector&, f32*);
+            bool is_cmnasteroid_excluded(const Vector&, f32*);
             bool is_dynamic_asteroid_excluded(const Vector&);
 
         public:
-            unsigned char data[OBJECT_DATA_SIZE];
+            u8 data[OBJECT_DATA_SIZE];
     };
 
     struct IMPORT NebulaExclusionZone
@@ -266,16 +266,16 @@ namespace Exclusion
             NebulaExclusionZone();
             ~NebulaExclusionZone();
             NebulaExclusionZone& operator=(const NebulaExclusionZone&);
-            float get_fog_far();
+            f32 get_fog_far();
             const Universe::IZone* get_zone();
             ID_String get_zone_shell_name();
-            void set_fog_far(float);
+            void set_fog_far(f32);
             bool set_zone(const Universe::IZone*, const Universe::IZone*);
             void set_zone_shell_name(const char*);
             void update_dist(const Vector&);
 
         public:
-            unsigned char data[OBJECT_DATA_SIZE];
+            u8 data[OBJECT_DATA_SIZE];
     };
 
     class IMPORT NebulaExclusionZoneMgr
@@ -287,13 +287,13 @@ namespace Exclusion
             NebulaExclusionZoneMgr& operator=(const NebulaExclusionZoneMgr&);
             NebulaExclusionZone* back();
             virtual bool is_excluded(const Vector&, ExcludeObjectType, void*);
-            bool is_in_exclusion_zone(const Vector&, NebulaExclusionZone**, float*, bool);
+            bool is_in_exclusion_zone(const Vector&, NebulaExclusionZone**, f32*, bool);
             virtual void push_back(const Universe::IZone*, const Universe::IZone*);
-            void set_max_distance(float);
+            void set_max_distance(f32);
             virtual void sort(void*);
 
         public:
-            unsigned char data[OBJECT_DATA_SIZE];
+            u8 data[OBJECT_DATA_SIZE];
     };
 
 }; // namespace Exclusion
@@ -327,7 +327,7 @@ class IMPORT CAttachmentObj
         CAttachmentObj& operator=(const CAttachmentObj&);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT CBase
@@ -354,28 +354,28 @@ class IMPORT CDeadReckonedVector
         CDeadReckonedVector();
         virtual ~CDeadReckonedVector();
         CDeadReckonedVector& operator=(const CDeadReckonedVector&);
-        void AddSample(const Vector&, double);
-        double CalcError(const Vector&);
-        double ConvergeTime();
-        void Doit(double);
+        void AddSample(const Vector&, f64);
+        f64 CalcError(const Vector&);
+        f64 ConvergeTime();
+        void Doit(f64);
         const Vector& GetProjectedPosition();
         const Vector& GetSample(int);
         void NormalizeProjectedPosition();
         void NormalizeTrackedPosition();
-        Vector ProjectVelocity(double);
+        Vector ProjectVelocity(f64);
         void Reset();
-        void SetMaxCorrectiveConvergeTime(double);
+        void SetMaxCorrectiveConvergeTime(f64);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT CFLIDMaker
 {
     public:
         CFLIDMaker& operator=(const CFLIDMaker&);
-        unsigned int AllocateObjectID();
-        unsigned int CreateStaticID(const char*);
+        u32 AllocateObjectID();
+        u32 CreateStaticID(const char*);
         static CFLIDMaker* GetInstance();
         int Initialize();
         static void Shutdown();
@@ -386,7 +386,7 @@ class IMPORT CFLIDMaker
         ~CFLIDMaker();
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT CPlayerAccount
@@ -406,16 +406,16 @@ class IMPORT CPlayerAccount
         static bool GetTextKey(char*);
         bool LoadAccount();
         bool LoadAccountFromStrings(const char*, const char*);
-        static void SetAcctIndex(unsigned long);
+        static void SetAcctIndex(ulong);
         static bool SetTextKey(char*);
         bool VerifyAccount();
 
     protected:
         void TossHashes();
-        static unsigned long AccountIndex;
+        static ulong AccountIndex;
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT CPlayerTradeOffer
@@ -427,15 +427,15 @@ class IMPORT CPlayerTradeOffer
         CPlayerTradeOffer& operator=(const CPlayerTradeOffer&);
         bool GetAccepted();
         EquipDescList& GetList();
-        unsigned long GetMoneyOffered();
-        unsigned int GetSourcePlayerID();
+        ulong GetMoneyOffered();
+        u32 GetSourcePlayerID();
         CPlayerTradeOffer* GetTargetOffer();
-        unsigned int GetTargetPlayerID();
+        u32 GetTargetPlayerID();
         void SetAccepted(bool);
-        void SetMoneyOffered(unsigned long);
-        void SetSourcePlayerID(unsigned int);
+        void SetMoneyOffered(ulong);
+        void SetSourcePlayerID(u32);
         void SetTargetOffer(CPlayerTradeOffer*);
-        void SetTargetPlayerID(unsigned int);
+        void SetTargetPlayerID(u32);
 
     public:
         unsigned sourceClient;
@@ -453,20 +453,20 @@ class IMPORT CRemotePhysicsSimulation
         CRemotePhysicsSimulation();
         virtual ~CRemotePhysicsSimulation();
         CRemotePhysicsSimulation& operator=(const CRemotePhysicsSimulation&);
-        double CalcPositionError(const Vector&);
+        f64 CalcPositionError(const Vector&);
         bool CheckForSync(const Vector&, const Vector&, const Quaternion&);
-        void Doit(double);
+        void Doit(f64);
         Vector GetLatestUpdate();
         Vector GetSample(int);
-        unsigned long GetSampleCount();
-        double GetSimulationTime();
-        virtual void RemoteUpdate(const Vector&, const Quaternion&, double);
+        ulong GetSampleCount();
+        f64 GetSimulationTime();
+        virtual void RemoteUpdate(const Vector&, const Quaternion&, f64);
         void Reset();
         void SetLogging(bool);
         void tracef(const char*, ...);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT CharPlaceInfo
@@ -478,7 +478,7 @@ struct IMPORT CharPlaceInfo
         bool is_named(const char*) const;
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT CharacterProperties
@@ -488,21 +488,21 @@ class IMPORT CharacterProperties
         ~CharacterProperties();
         CharacterProperties& operator=(const CharacterProperties&);
         void destroy();
-        unsigned long get_key() const;
+        ulong get_key() const;
         void init(const struct CharacterDescription&);
         void marshal(MarshalBuffer*) const;
         void unmarshal(MarshalBuffer*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 namespace Collision
 {
-    IMPORT float CalcCollisionDamage(unsigned int, const Vector&, const Vector&);
-    IMPORT float CalcCollisionDamage(float, float, float);
+    IMPORT f32 CalcCollisionDamage(u32, const Vector&, const Vector&);
+    IMPORT f32 CalcCollisionDamage(f32, f32, f32);
     IMPORT void Free();
-    IMPORT float GetImpactDamageFromType(unsigned int);
+    IMPORT f32 GetImpactDamageFromType(u32);
     IMPORT bool Load(INI_Reader&);
 }; // namespace Collision
 
@@ -516,7 +516,7 @@ struct IMPORT CommReferrable
         virtual bool read_comm_ini_data(INI_Reader&);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT CostumeDescriptions
@@ -526,21 +526,21 @@ class IMPORT CostumeDescriptions
         CostumeDescriptions();
         ~CostumeDescriptions();
         CostumeDescriptions& operator=(const CostumeDescriptions&);
-        const struct accessory* find_accessory(unsigned long) const;
+        const struct accessory* find_accessory(ulong) const;
         const accessory* find_accessory(const char*) const;
-        unsigned long find_accessory_id(const char*) const;
-        const struct bodypart* find_bodypart(int, unsigned long) const;
+        ulong find_accessory_id(const char*) const;
+        const struct bodypart* find_bodypart(int, ulong) const;
         const bodypart* find_bodypart(int, const char*) const;
-        const struct costume* find_costume(unsigned long) const;
+        const struct costume* find_costume(ulong) const;
         const costume* find_costume(const char*) const;
-        unsigned long find_costume_id(const char*) const;
-        unsigned long find_part_id(int, const char*) const;
+        ulong find_costume_id(const char*) const;
+        ulong find_part_id(int, const char*) const;
         void get_costume(int, struct Costume&) const;
         void get_costume(const char*, Costume&) const;
         int get_costume_gender(const Costume&) const;
-        int get_costume_gender(unsigned long) const;
-        const char* get_part_mesh(int, unsigned long) const;
-        const char* get_part_name(int, unsigned long) const;
+        int get_costume_gender(ulong) const;
+        const char* get_part_mesh(int, ulong) const;
+        const char* get_part_name(int, ulong) const;
         void load_bodyparts(const char*);
         void load_costumes(const char*);
 
@@ -550,7 +550,7 @@ class IMPORT CostumeDescriptions
         void warn(INI_Reader*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT CostumeHint
@@ -559,12 +559,12 @@ struct IMPORT CostumeHint
         CostumeHint();
         virtual ~CostumeHint();
         CostumeHint& operator=(const CostumeHint&);
-        virtual void CleanUp(unsigned char*);
-        // virtual unsigned int Serialize(unsigned char**);
-        virtual void UnSerialize(unsigned char*, unsigned int);
+        virtual void CleanUp(u8*);
+        // virtual u32 Serialize(u8**);
+        virtual void UnSerialize(u8*, u32);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT Csys
@@ -585,7 +585,7 @@ class IMPORT Csys
         Vector trans_to_frame(const Vector&) const;
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 Csys operator*(const Csys&, const Csys&);
@@ -603,15 +603,15 @@ class IMPORT DetailSwitchTable
         DetailSwitchTable();
         ~DetailSwitchTable();
         DetailSwitchTable& operator=(const DetailSwitchTable&);
-        float adjust_distance(float, float, float) const;
-        float get_switch_distance(float) const;
+        f32 adjust_distance(f32, f32, f32) const;
+        f32 get_switch_distance(f32) const;
         void read_from_ini(INI_Reader*);
 
     private:
-        void add_table_entry(float, float);
+        void add_table_entry(f32, f32);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT DeviceTRC
@@ -626,18 +626,18 @@ class IMPORT DeviceTRC
         virtual TextRenderContext::Image* create_image(const char* const);
         virtual void destroy_image(TextRenderContext::Image*);
         virtual void execute_image(const TextRenderContext::Image*, bool);
-        virtual void execute_text(const unsigned short*, bool, int);
+        virtual void execute_text(const u16*, bool, int);
         virtual int get_cell_height() const;
         virtual int get_cell_width() const;
         virtual void get_clip_rect(tagRECT&);
         virtual void get_font_metrics(int&, int&) const;
-        virtual void get_text_fit(const unsigned short*, int, int&, int*, VisualSize&, int) const;
-        virtual void get_text_visual_size(const unsigned short*, VisualSize&, int) const;
+        virtual void get_text_fit(const u16*, int, int&, int*, VisualSize&, int) const;
+        virtual void get_text_visual_size(const u16*, VisualSize&, int) const;
         static void release_font(int);
         virtual void set_clip_rect(const tagRECT&);
         static void set_drop_shadow_offset(int, int);
         static void set_image_root(const char*);
-        static void static_set_font(int, const TextRenderContext::FontDesc&, float);
+        static void static_set_font(int, const TextRenderContext::FontDesc&, f32);
 
     private:
         static int dropShadowX;
@@ -645,42 +645,42 @@ class IMPORT DeviceTRC
         static class WinFont* font;
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 namespace EngineEquipConsts
 {
-    IMPORT float CRUISE_ACCEL_TIME;
-    IMPORT float CRUISE_ATTEN_MOD_RANGE;
-    IMPORT float CRUISE_DISRUPT_TIME;
-    IMPORT float CRUISE_DRAG;
-    IMPORT float CRUISE_STEADY_TIME;
-    IMPORT float CRUISING_SPEED;
-    IMPORT float DELTA_CRUISE_ATTEN_MOD_STEADY;
-    IMPORT float DELTA_THROTTLE_ATTEN_MOD_CHANGING;
-    IMPORT float DELTA_THROTTLE_ATTEN_MOD_STEADY;
-    IMPORT float MAX_DELTA_FX_THROTTLE;
-    IMPORT float MAX_ENGINE_FX_THROTTLE;
-    IMPORT float THROTTLE_ATTEN_MOD_RANGE;
-    IMPORT float THROTTLE_STEADY_TIME;
+    IMPORT f32 CRUISE_ACCEL_TIME;
+    IMPORT f32 CRUISE_ATTEN_MOD_RANGE;
+    IMPORT f32 CRUISE_DISRUPT_TIME;
+    IMPORT f32 CRUISE_DRAG;
+    IMPORT f32 CRUISE_STEADY_TIME;
+    IMPORT f32 CRUISING_SPEED;
+    IMPORT f32 DELTA_CRUISE_ATTEN_MOD_STEADY;
+    IMPORT f32 DELTA_THROTTLE_ATTEN_MOD_CHANGING;
+    IMPORT f32 DELTA_THROTTLE_ATTEN_MOD_STEADY;
+    IMPORT f32 MAX_DELTA_FX_THROTTLE;
+    IMPORT f32 MAX_ENGINE_FX_THROTTLE;
+    IMPORT f32 THROTTLE_ATTEN_MOD_RANGE;
+    IMPORT f32 THROTTLE_STEADY_TIME;
 }; // namespace EngineEquipConsts
 
 #pragma pack(push, 1)
 struct SetEquipmentItem
 {
-        unsigned short count;
-        float health;
+        u16 count;
+        f32 health;
         Id archId;
-        unsigned short id;
+        u16 id;
         byte mounted;
         byte mission;
-        unsigned short hardPointLen;
+        u16 hardPointLen;
 };
 #pragma pack(pop)
 
 struct FlPacketSetEquipment
 {
-        unsigned short count;
+        u16 count;
         byte items[1];
 };
 
@@ -695,19 +695,9 @@ namespace ErrorHandler
     IMPORT void log_comment(int, const char*, ...);
     IMPORT void log_disable(int);
     IMPORT void log_enable(int);
-    IMPORT void log_last_error(const char*, int, SeverityLevel, char*, unsigned long);
+    IMPORT void log_last_error(const char*, int, SeverityLevel, char*, ulong);
     IMPORT void* new_log(const char*, int, int, bool, bool);
 }; // namespace ErrorHandler
-
-struct IMPORT ExhaustNozzleInfo
-{
-        ExhaustNozzleInfo();
-        ExhaustNozzleInfo& operator=(const ExhaustNozzleInfo&);
-        bool GetHardpointOffset_NS(Transform&) const;
-
-    public:
-        unsigned char data[OBJECT_DATA_SIZE];
-};
 
 class IMPORT File
 {
@@ -731,7 +721,7 @@ class IMPORT File
         int tell() const;
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT FileMap
@@ -742,21 +732,21 @@ struct IMPORT FileMap
         FileMap& operator=(const FileMap&);
         void close();
         bool eof() const;
-        unsigned int get_file_length() const;
+        u32 get_file_length() const;
         const char* get_file_name() const;
         void handoff_to(FileMap&);
         bool open(const char*);
-        bool open_memory(const void*, unsigned int);
-        unsigned int read(void*, unsigned int);
+        bool open_memory(const void*, u32);
+        u32 read(void*, u32);
         bool read_ptr(struct BINI_Block*&);
         bool read_ptr(struct BINI_Header*&);
         bool read_ptr(struct BINI_Value*&);
-        void* request_pointer(unsigned int&);
-        void seek(unsigned int);
-        unsigned int tell() const;
+        void* request_pointer(u32&);
+        void seek(u32);
+        u32 tell() const;
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT HardpointSummary
@@ -787,18 +777,18 @@ class IMPORT HardpointSummary
         static void hardpoint_callback2(const char*, void*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT Heap
 {
-        Heap(unsigned int, int);
+        Heap(u32, int);
         void Free(void*);
         void* Malloc();
         void Shrink();
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 namespace Hierarchy
@@ -814,10 +804,10 @@ struct IMPORT IAction
         IAction& operator=(const IAction&);
         virtual const char* get_id() const;
 
-        static void* operator new(unsigned int);
+        static void* operator new(u32);
         static void operator delete(void*);
 
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT IDirectiveInfo
@@ -864,7 +854,7 @@ class IMPORT IBehaviorManager
                 virtual bool SetOp(int op);
                 virtual void dunno2C();
                 virtual void dunno30();
-                virtual void SetThrottle(float throttle);
+                virtual void SetThrottle(f32 throttle);
                 virtual void SetCruise(bool cruiseState);
                 virtual void SetEngine(bool engineState);
                 virtual void SetThruster(bool thrusterState);
@@ -884,13 +874,13 @@ class IMPORT IBehaviorManager
         bool enable_maneuver(int, bool);
         EvaluateResult external_player_evaluate(int);
         bool get_camera_level_status();
-        float get_closest_trailing_ship() const;
+        f32 get_closest_trailing_ship() const;
         const IDirectiveInfo* get_current_directive();
         const IObjRW* get_debugger_target() const;
         bool get_docking_port(const IObjRW*&, int&);
-        unsigned int get_parent_id();
+        u32 get_parent_id();
         void get_personality(pub::AI::Personality&);
-        pub::AI::ScanResponse get_scan_response(unsigned int);
+        pub::AI::ScanResponse get_scan_response(u32);
         const Vector get_ship_up_direction();
         const IStateGraph* get_state_graph();
         class SystemManager* get_sys();
@@ -906,7 +896,7 @@ class IMPORT IBehaviorManager
         void set_personality(const pub::AI::Personality&);
         void set_ship_up_direction(const Vector&);
         void set_state_graph(int, bool);
-        void set_turn_sensitivity(float);
+        void set_turn_sensitivity(f32);
         void set_user_turning_input_state(bool);
         void submit_camera_up(const Vector&);
         void update_current_behavior_afterburner(bool);
@@ -917,12 +907,12 @@ class IMPORT IBehaviorManager
         void update_current_behavior_direction(const Vector&);
         void update_current_behavior_engage_engine(bool);
         void update_current_behavior_slide_strafe_burst(StrafeDir);
-        void update_current_behavior_throttle(float);
+        void update_current_behavior_throttle(f32);
         void update_level_camera(bool);
 
         struct BehaviorSwitchRatios
         {
-                float percentage;
+                f32 percentage;
                 pub::AI::OpType type;
         };
 
@@ -938,12 +928,12 @@ class IMPORT IBehaviorManager
         IDirectiveInfo* directiveInfo; // 0xC4
         int iDirectivePriority;        // 0xC8
         int iDirectiveOp;              // 0xCC
-        float timeSinceLastDirectiveChange; //0xD0
-        float timeSinceLastDirectiveChangeAttempt; //0xD4
+        f32 timeSinceLastDirectiveChange; //0xD0
+        f32 timeSinceLastDirectiveChangeAttempt; //0xD4
         byte forceDirectiveRefresh; //0xD8
-        float timeAlive; //0xDC
-        float fDunno56_0xE0;
-        float fDunno57_0xE4;
+        f32 timeAlive; //0xDC
+        f32 fDunno56_0xE0;
+        f32 fDunno57_0xE4;
         int iDunnos58_0xE8[2];
         BaseWatcher baseWatcher; // 0xF0
         byte bDunno62_0xF8;
@@ -962,7 +952,7 @@ class IMPORT IBehaviorManager
         byte bDunno_0x158;
         void* pDunno_0x15C;
         int iDunnos_0x160;
-        float fTurnSensitivity; // 0x164
+        f32 fTurnSensitivity; // 0x164
         byte bDunno_0x168;
         byte bDunno_0x169;
         int iDunno_0x16C;
@@ -976,19 +966,19 @@ struct IMPORT ICRSplineSegment
         ICRSplineSegment();
         ICRSplineSegment& operator=(const ICRSplineSegment&);
         void calculate_arclength();
-        Vector calculate_spline_tangent(float);
-        Vector calculate_spline_vector(float);
-        float get_spline_length();
-        float get_t_from_point(const Vector&, float, float);
+        Vector calculate_spline_tangent(f32);
+        Vector calculate_spline_vector(f32);
+        f32 get_spline_length();
+        f32 get_t_from_point(const Vector&, f32, f32);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 namespace LaunchActionVars
 {
-    //@@@TODO	IMPORT  float const  launch_coast_time;
-    //@@@TODO	IMPORT  float const  launch_decel_time;
+    //@@@TODO	IMPORT  f32 const  launch_coast_time;
+    //@@@TODO	IMPORT  f32 const  launch_decel_time;
 };
 
 struct IMPORT LineParser32
@@ -996,20 +986,20 @@ struct IMPORT LineParser32
         LineParser32();
         LineParser32& operator=(const LineParser32&);
         void clear();
-        unsigned int fetch_string(char*, unsigned int);
+        u32 fetch_string(char*, u32);
         int find_char(char) const;
         char get_char() const;
-        unsigned int read_string(char*, const char*);
-        unsigned int read_terminator2(char*, char, char);
-        unsigned int read_terminator(char*, char);
-        void set(const char*, unsigned int);
+        u32 read_string(char*, const char*);
+        u32 read_terminator2(char*, char, char);
+        u32 read_terminator(char*, char);
+        void set(const char*, u32);
         bool skip_char(char);
         void skip_white();
         bool terminate_line(char);
         bool whitespace(char) const;
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 namespace Loadout
@@ -1027,8 +1017,8 @@ namespace Loadout
     };
 
     IMPORT void Free();
-    IMPORT const Map* Get(unsigned int);
-    IMPORT unsigned int GetID(const char*);
+    IMPORT const Map* Get(u32);
+    IMPORT u32 GetID(const char*);
     IMPORT int Load(const char*, bool);
     IMPORT bool ReadCargoLine(INI_Reader&, EquipDesc&);
     IMPORT bool ReadEquipLine(INI_Reader&, EquipDesc&);
@@ -1042,10 +1032,10 @@ namespace Loadout
 // public:
 //	MD5Hash(class MD5Hash const &);
 //	class MD5Hash & operator=(class MD5Hash const &);
-//	unsigned char * GetStatePtr();
+//	u8 * GetStatePtr();
 
 // public:
-//	unsigned char data[OBJECT_DATA_SIZE];
+//	u8 data[OBJECT_DATA_SIZE];
 // };
 
 struct IMPORT MPCritSec
@@ -1057,7 +1047,7 @@ struct IMPORT MPCritSec
         void unlock();
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT MarketGoodInfo
@@ -1067,14 +1057,14 @@ struct IMPORT MarketGoodInfo
 
     public:
         unsigned goodId;
-        float price;
+        f32 price;
         int min;
         int stock;
         TransactionType transType;
-        float rank;
-        float rep;
+        f32 rank;
+        f32 rep;
         //int quantity; Those two fields are not actually there? Where'd we get those from?
-        //float scale;
+        //f32 scale;
 };
 
 class IMPORT MarshalBuffer
@@ -1085,69 +1075,69 @@ class IMPORT MarshalBuffer
         void clear();
         Costume get_Costume();
         EquipDescList get_EquipDescList();
-        unsigned int get_FL_ID();
+        u32 get_FL_ID();
         FmtStr get_FmtStr();
         GoodDescList get_GoodDescList();
-        unsigned short get_U16();
-        unsigned long get_U32();
-        unsigned char get_U8();
+        u16 get_U16();
+        ulong get_U32();
+        u8 get_U8();
         bool get_bool();
-        const unsigned char* get_buffer() const;
+        const u8* get_buffer() const;
         int get_buffer_size() const;
-        float get_float();
-        void get_image(unsigned char*);
-        void get_image(unsigned short*);
+        f32 get_float();
+        void get_image(u8*);
+        void get_image(u16*);
         void get_image(int*);
-        void get_image(unsigned long*);
-        void get_image(float*);
+        void get_image(ulong*);
+        void get_image(f32*);
         int get_int();
         int get_num_written() const;
         char* get_string();
         void get_string_to_buffer(char*, int);
         void get_void(void*, int);
-        unsigned short* get_wstring();
+        u16* get_wstring();
         bool is_empty() const;
         void put_Costume(const Costume&);
         void put_EquipDescList(const EquipDescList&);
-        void put_FL_ID(unsigned int);
+        void put_FL_ID(u32);
         void put_FmtStr(const FmtStr&);
         void put_GoodDescList(const GoodDescList&);
-        void put_U16(unsigned short);
-        void put_U32(unsigned long);
-        void put_U8(unsigned char);
+        void put_U16(u16);
+        void put_U32(ulong);
+        void put_U8(u8);
         void put_bool(bool);
-        void put_float(float);
-        void put_image(const unsigned char&);
-        void put_image(const unsigned short&);
+        void put_float(f32);
+        void put_image(const u8&);
+        void put_image(const u16&);
         void put_image(const int&);
-        void put_image(const unsigned long&);
-        void put_image(const float&);
+        void put_image(const ulong&);
+        void put_image(const f32&);
         void put_int(int);
         void put_string(const char*);
         void put_void(const void*, int);
-        void put_wstring(const unsigned short*);
+        void put_wstring(const u16*);
         void skip_over(int);
         void use_default();
-        void use_read_buffer(const unsigned char*, int);
-        void use_write_buffer(unsigned char*, int);
+        void use_read_buffer(const u8*, int);
+        void use_write_buffer(u8*, int);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 /* struct IMPORT MessageHandler
 {
     MessageHandler(class IMessageRouter *);
     virtual ~MessageHandler();
-    unsigned int get_id()const ;
+    u32 get_id()const ;
 
 protected:
-    virtual void send_delayed_message(class StateMachineMessage *,float,unsigned int);
-    virtual void send_delayed_message_to_me(class StateMachineMessage *,float,int);
-    virtual void send_immediate_message(class StateMachineMessage *,unsigned int);
+    virtual void send_delayed_message(class StateMachineMessage *,f32,u32);
+    virtual void send_delayed_message_to_me(class StateMachineMessage *,f32,int);
+    virtual void send_immediate_message(class StateMachineMessage *,u32);
 
 public:
-    unsigned char data[OBJECT_DATA_SIZE];
+    u8 data[OBJECT_DATA_SIZE];
 };*/
 
 class IMPORT MissionVendorAcceptance
@@ -1159,12 +1149,12 @@ class IMPORT MissionVendorAcceptance
         MissionVendorAcceptance& operator=(const MissionVendorAcceptance&);
         void clear();
         void destroy();
-        unsigned long get_key() const;
+        ulong get_key() const;
         void marshal(MarshalBuffer*) const;
         void unmarshal(MarshalBuffer*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT MissionVendorProperties
@@ -1177,13 +1167,13 @@ class IMPORT MissionVendorProperties
         void clear();
         void destroy();
         const char* get_icon_texture() const;
-        unsigned long get_key() const;
+        ulong get_key() const;
         void init(const struct MissionVendorOfferDescription&);
         void marshal(MarshalBuffer*) const;
         void unmarshal(MarshalBuffer*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT NewsBroadcastProperties
@@ -1195,14 +1185,14 @@ class IMPORT NewsBroadcastProperties
         NewsBroadcastProperties& operator=(const NewsBroadcastProperties&);
         void clear();
         void destroy();
-        unsigned long get_key() const;
+        ulong get_key() const;
         const char* get_logo_texture() const;
         void init(const struct NewsBroadcastDescription&);
         void marshal(MarshalBuffer*) const;
         void unmarshal(MarshalBuffer*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 // Size: 1408 bytes
@@ -1221,7 +1211,7 @@ struct IMPORT PathfindManager
                 int iZoneType;                // 0 = position, 1 = cuboid 2 = spaceobj
                 int iDunno_0x04;              // same as iDunno_0x10 from SetZoneBehaviorParams if iDunno_0x10 was 0 or 1
                 Vector vPosition;             // only used for iZoneType 0
-                float fRadius;                // not used for iZoneType 1
+                f32 fRadius;                // not used for iZoneType 1
                 Matrix mDunno_0x18;           // pub::AI::SubmitState sets this to identiy when SetZoneBehaviorParams is used and iZoneType is 1
                 Vector vCuboidCenter;         // only used for iZoneType 1
                 Vector vCuboidHalfEdgeLength; // only used for iZoneType 1
@@ -1237,7 +1227,7 @@ struct IMPORT PathfindManager
         int iDunnos_0x90[62];
         File* fileDunno_0x188;
         int iDunnos_0x188[7];
-        float fDunno_0x1A8;
+        f32 fDunno_0x1A8;
         int iDunno_0x1AC;
         byte bDunno_0x1B0;
         int iDunnos_0x1B4[3];
@@ -1245,22 +1235,22 @@ struct IMPORT PathfindManager
         int iDunno_0x1C4;
         BaseWatcher baseWatcher_0x1C8;
         int iDunnos_0x1D0[4];
-        float fDunno_0x1E0;
-        float fDunno_0x1E4;
-        float fDunno_0x1E8;
-        float fdunno_0x1EC;
+        f32 fDunno_0x1E0;
+        f32 fDunno_0x1E4;
+        f32 fDunno_0x1E8;
+        f32 fdunno_0x1EC;
         int iDunno_0x1F0;
-        float fDunno_0x1F4;
-        float fDunno_0x1F8;
-        float fDunno_0x1FC;
+        f32 fDunno_0x1F4;
+        f32 fDunno_0x1F8;
+        f32 fDunno_0x1FC;
         int iDunnos_0x1F8[3];
-        float fDunno_0x20C;
-        float fDunno_0x210;
+        f32 fDunno_0x20C;
+        f32 fDunno_0x210;
         int iDunno_0x214;
         BaseWatcher baseWatcher_0x218;
         int iDunnos_0x220[6];
         byte bDunno_0x238;
-        float fDunno_0x23C;
+        f32 fDunno_0x23C;
         int iDunno_0x240;
         byte bDunno_0x244;
         byte bDunno_0x245;
@@ -1281,7 +1271,7 @@ class IMPORT PetalInterfaceDatabase
         ~PetalInterfaceDatabase();
         PetalInterfaceDatabase& operator=(const PetalInterfaceDatabase&);
         void destroy();
-        const struct petal_record* find_record(int, unsigned long) const;
+        const struct petal_record* find_record(int, ulong) const;
         static int get_category(const char*);
         void load_from_ini(const char*);
 
@@ -1289,7 +1279,7 @@ class IMPORT PetalInterfaceDatabase
         void add_record(int, const char*, const char*, char**, int);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT Rect
@@ -1313,7 +1303,7 @@ struct IMPORT Rect
         int width() const;
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 ; // namespace Reputation
@@ -1326,7 +1316,7 @@ struct IMPORT RoomButtonInfo
         void destroy();
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT RoomCameraInfo
@@ -1338,7 +1328,7 @@ struct IMPORT RoomCameraInfo
         void destroy();
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct Camera
@@ -1349,21 +1339,21 @@ struct Camera
         bool bRenderNewCam; // 14
         Matrix rotation2;
         Vector pos2;
-        float halfRes[2];
-        float halfRes2[2];
-        float fovXHud;
-        float fovYHud;
-        float cosFovX;
-        float alwaysZeroFovX;
-        float sinFovX;
-        float alwaysZeroFovY;
-        float cosFovY;
-        float sinFovY;
-        float fovX;
-        float fovY;
-        float aspect;
-        float zNear;
-        float zFar;
+        f32 halfRes[2];
+        f32 halfRes2[2];
+        f32 fovXHud;
+        f32 fovYHud;
+        f32 cosFovX;
+        f32 alwaysZeroFovX;
+        f32 sinFovX;
+        f32 alwaysZeroFovY;
+        f32 cosFovY;
+        f32 sinFovY;
+        f32 fovX;
+        f32 fovY;
+        f32 aspect;
+        f32 zNear;
+        f32 zFar;
         unsigned screenExtents[4];
         unsigned dunno;
         Watchable* watchable; // 49
@@ -1372,10 +1362,10 @@ struct Camera
         unsigned dunno3[6];
         Vector cameraOffset;
         unsigned dunno4[40];
-        float angularPart2;
-        float dunno5[9];
-        float angularAcceleration;
-        float cameraAccelerationPerFrame;
+        f32 angularPart2;
+        f32 dunno5[9];
+        f32 angularAcceleration;
+        f32 cameraAccelerationPerFrame;
 };
 
 class IMPORT RoomData
@@ -1394,17 +1384,17 @@ class IMPORT RoomData
         const SetpointInfo* find_setpoint_generic(const char*, const char*) const;
         void fixup(long);
         const RoomCameraInfo* get_camera_info() const;
-        void init(unsigned int, unsigned int, const char*, const char*);
+        void init(u32, u32, const char*, const char*);
         void load();
         void unfixup();
         void unload();
 
     private:
-        void add_set_script_Camera(unsigned long, const Csys&, const char*, const struct ThornCameraProperties*);
-        void add_set_script_Prop(const char*, const char*, int, const Csys&, bool, bool, bool, bool, unsigned char, signed char, unsigned long, const char*,
-                                 unsigned long, bool);
-        void add_set_script_Setpoint(unsigned long, const Csys&, const char*, const struct ThornEntity*);
-        void add_set_script_light(unsigned long, const Csys&, const struct ThornLightProperties*, unsigned char);
+        void add_set_script_Camera(ulong, const Csys&, const char*, const struct ThornCameraProperties*);
+        void add_set_script_Prop(const char*, const char*, int, const Csys&, bool, bool, bool, bool, u8, signed char, ulong, const char*,
+                                 ulong, bool);
+        void add_set_script_Setpoint(ulong, const Csys&, const char*, const struct ThornEntity*);
+        void add_set_script_light(ulong, const Csys&, const struct ThornLightProperties*, u8);
         const SetpointInfo* apply_setpoint(const char*, char**, Csys*, const char*);
         CharPlaceInfo* find_CharacterPlacement(const char*);
         void fixup_FlashLight_list(long, const HardpointSummary*);
@@ -1427,7 +1417,7 @@ class IMPORT RoomData
         void warn(INI_Reader*, bool);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT RoomLightInfo
@@ -1439,7 +1429,7 @@ struct IMPORT RoomLightInfo
         void destroy();
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT RoomPropInfo
@@ -1451,18 +1441,18 @@ struct IMPORT RoomPropInfo
         void destroy();
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 namespace RtcSlider
 {
-    IMPORT float get_default_fps_cap();
-    IMPORT float get_fps_cap();
-    IMPORT float get_slider();
-    IMPORT bool is_enabled(unsigned long);
+    IMPORT f32 get_default_fps_cap();
+    IMPORT f32 get_fps_cap();
+    IMPORT f32 get_slider();
+    IMPORT bool is_enabled(ulong);
     IMPORT bool is_enabled(const char*);
     IMPORT void load(const char*);
-    IMPORT void set_slider(float);
+    IMPORT void set_slider(f32);
     IMPORT bool validate_setting(const char*, const char*);
 }; // namespace RtcSlider
 
@@ -1471,7 +1461,7 @@ struct IMPORT SMControllerEvent
         SMControllerEvent(int, const void*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT SMEventData
@@ -1486,7 +1476,7 @@ struct IMPORT SMEventData
         bool is_user_event() const;
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT SMMChangeState
@@ -1495,7 +1485,7 @@ struct IMPORT SMMChangeState
         virtual class StateMachineMessage* clone() const;
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT SMMessage
@@ -1503,7 +1493,7 @@ struct IMPORT SMMessage
         SMMessage(StateMachineMessage*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT ScanList
@@ -1514,7 +1504,7 @@ struct IMPORT ScanList
         ~ScanList();
         ScanList& operator=(const ScanList&);
         bool add(IObjRW*);
-        int add_in_range(const Vector&, float, struct IObjDB*, unsigned int, struct Filter*);
+        int add_in_range(const Vector&, f32, struct IObjDB*, u32, struct Filter*);
         void remove(IObjRW*);
         void reset();
 
@@ -1534,13 +1524,13 @@ class IMPORT ScriptBehavior
         ScriptBehavior& operator=(const ScriptBehavior&);
         void clear();
         void destroy();
-        unsigned long get_key() const;
+        ulong get_key() const;
         void init(const struct CharacterBehaviorDescription&);
         void marshal(MarshalBuffer*) const;
         void unmarshal(MarshalBuffer*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT SetpointInfo
@@ -1552,7 +1542,7 @@ struct IMPORT SetpointInfo
         void destroy();
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT SetpointProperties
@@ -1568,12 +1558,12 @@ struct IMPORT SetpointProperties
         void set_segment(const char*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 namespace ShieldEquipConsts
 {
-    IMPORT float HULL_DAMAGE_FACTOR;
+    IMPORT f32 HULL_DAMAGE_FACTOR;
 };
 
 struct IMPORT ShipGunStats
@@ -1584,8 +1574,8 @@ struct IMPORT ShipGunStats
 
     public:
         unsigned activeGunCount;
-        float avgGunSpeed;
-        float maxGunRange;
+        f32 avgGunSpeed;
+        f32 maxGunRange;
         unsigned dunno1;
         unsigned dunno2;
 };
@@ -1598,7 +1588,7 @@ struct IMPORT ShipPlaceInfo
         void destroy();
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 namespace SolarReps
@@ -1613,14 +1603,14 @@ class IMPORT SphereIntruderChecker
         SphereIntruderChecker();
         ~SphereIntruderChecker();
         SphereIntruderChecker& operator=(const SphereIntruderChecker&);
-        void check_sphere(unsigned int, const Vector&, float, st6::list<CObject*, st6::allocator<CObject*>>&);
+        void check_sphere(u32, const Vector&, f32, st6::list<CObject*, st6::allocator<CObject*>>&);
 
     protected:
         virtual void added(CObject*);
         virtual void deleted(CObject*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT StateMachine
@@ -1637,7 +1627,7 @@ struct IMPORT StateMachine
         void set_state(int);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT StateMachineGroup
@@ -1646,7 +1636,7 @@ class IMPORT StateMachineGroup
         StateMachineGroup(class IMessageRouter*);
         virtual ~StateMachineGroup();
         virtual void add_state_machine(class StateMachineMessageHandler*);
-        virtual void remove_state_machine(unsigned int);
+        virtual void remove_state_machine(u32);
         virtual void remove_state_machine(const StateMachineMessageHandler*);
 
     protected:
@@ -1654,41 +1644,41 @@ class IMPORT StateMachineGroup
         void remove_dying_machines();
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT StateMachineMessage
 {
     public:
         StateMachineMessage(const StateMachineMessage&);
-        StateMachineMessage(unsigned int);
-        StateMachineMessage(float, unsigned int, unsigned int, unsigned int, int);
+        StateMachineMessage(u32);
+        StateMachineMessage(f32, u32, u32, u32, int);
         StateMachineMessage();
         virtual ~StateMachineMessage();
-        static unsigned int GenerateUniqueMessageType();
+        static u32 GenerateUniqueMessageType();
         virtual StateMachineMessage* clone() const;
         int get_delivery_state() const;
-        float get_delivery_time() const;
-        unsigned int get_message_type() const;
-        unsigned int get_receiver() const;
-        unsigned int get_sender() const;
+        f32 get_delivery_time() const;
+        u32 get_message_type() const;
+        u32 get_receiver() const;
+        u32 get_sender() const;
         bool is_delivered() const;
         void set_delivered(bool);
-        void set_delivery_options(float, unsigned int, unsigned int, int);
+        void set_delivery_options(f32, u32, u32, int);
         void set_delivery_state(int);
-        void set_delivery_time(float);
-        void set_message_type(unsigned int);
-        void set_receiver(unsigned int);
-        void set_sender(unsigned int);
+        void set_delivery_time(f32);
+        void set_message_type(u32);
+        void set_receiver(u32);
+        void set_sender(u32);
 
-        static void* operator new(unsigned int);
+        static void* operator new(u32);
         static void operator delete(void*);
 
     private:
-        static unsigned int s_unique_message_type_generator;
+        static u32 s_unique_message_type_generator;
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT StateMachineMessageHandler
@@ -1702,10 +1692,10 @@ class IMPORT StateMachineMessageHandler
         virtual void receive_message(StateMachineMessage*);
 
     protected:
-        void send_delayed_message_to_me(StateMachineMessage*, float, SM_MESSAGE_SCOPE, int);
+        void send_delayed_message_to_me(StateMachineMessage*, f32, SM_MESSAGE_SCOPE, int);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT StyleCollection
@@ -1713,32 +1703,32 @@ class IMPORT StyleCollection
         class Style
         {
             public:
-                unsigned char data[OBJECT_DATA_SIZE];
+                u8 data[OBJECT_DATA_SIZE];
         };
 
     public:
         StyleCollection& operator=(const StyleCollection&);
-        static RenderDisplayList& get_style(unsigned short);
-        static void remove_style(unsigned short);
-        static void set_style(unsigned short, const TextRenderAttributes&);
-        static void set_style(unsigned short, const RenderDisplayList&);
+        static RenderDisplayList& get_style(u16);
+        static void remove_style(u16);
+        static void set_style(u16, const TextRenderAttributes&);
+        static void set_style(u16, const RenderDisplayList&);
 
     protected:
-        static st6::map<unsigned short, Style, st6::less<unsigned short>, st6::allocator<Style>> mStyles;
+        static st6::map<u16, Style, st6::less<u16>, st6::allocator<Style>> mStyles;
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 ; // namespace SubObjectID
 
 struct IMPORT TargetManager
 {
-        int remove_forced_target(unsigned int);
+        int remove_forced_target(u32);
         void set_player_enemy_clamp(int, int);
-        int submit_forced_target(unsigned int);
+        int submit_forced_target(u32);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT TextFile32
@@ -1747,11 +1737,11 @@ struct IMPORT TextFile32
         TextFile32();
         ~TextFile32();
         TextFile32& operator=(const TextFile32&);
-        unsigned int get_line_num() const;
+        u32 get_line_num() const;
         bool read_line(LineParser32&);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT ThrustManager
@@ -1759,18 +1749,18 @@ struct IMPORT ThrustManager
         void engage_cruise(bool);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 namespace ThrusterEquipConsts
 {
     IMPORT ID_String EXTERIOR_SOUND_NAME;
-    IMPORT float INSIDE_CONE_ANGLE;
+    IMPORT f32 INSIDE_CONE_ANGLE;
     IMPORT ID_String INTERIOR_SOUND_NAME;
-    IMPORT float MAX_VOLUME_FORCE;
-    IMPORT float MIN_VOLUME_FORCE;
-    IMPORT float OUTSIDE_CONE_ANGLE;
-    IMPORT float OUTSIDE_CONE_ATTENUATION;
+    IMPORT f32 MAX_VOLUME_FORCE;
+    IMPORT f32 MIN_VOLUME_FORCE;
+    IMPORT f32 OUTSIDE_CONE_ANGLE;
+    IMPORT f32 OUTSIDE_CONE_ATTENUATION;
 }; // namespace ThrusterEquipConsts
 
 namespace Timing
@@ -1779,24 +1769,24 @@ namespace Timing
     {
             Delta();
             Delta& operator=(const Delta&);
-            double calc_dt();
+            f64 calc_dt();
             void init();
-            double read_dt();
+            f64 read_dt();
             void start();
             void stop();
             void swap();
 
         public:
-            unsigned char data[OBJECT_DATA_SIZE];
+            u8 data[OBJECT_DATA_SIZE];
     };
 
-    IMPORT double GetGlobalTime();
+    IMPORT f64 GetGlobalTime();
     IMPORT int GetMachineSpeed();
-    IMPORT void UpdateGlobalTime(double);
+    IMPORT void UpdateGlobalTime(f64);
     IMPORT void init();
-    IMPORT double read();
+    IMPORT f64 read();
     IMPORT int64 read_ticks();
-    IMPORT double seconds(const int64&);
+    IMPORT f64 seconds(const int64&);
 }; // namespace Timing
 
 enum class TractorFailureCode
@@ -1825,14 +1815,14 @@ class IMPORT TractorArm
         bool IsOn() const;
         void SetTarget(CLoot*);
         void TurnOff();
-        void Update(float);
+        void Update(f32);
 
     protected:
-        static const float AcquireDelay;
-        static const float GrabToleranceSquared;
+        static const f32 AcquireDelay;
+        static const f32 GrabToleranceSquared;
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT TradeResponseInfo
@@ -1848,12 +1838,12 @@ class IMPORT TradeResponseInfo
         void unmarshal(MarshalBuffer*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 namespace TurnHelper
 {
-    IMPORT Vector get_angular_throttle(const Matrix&, const Matrix&, float*);
+    IMPORT Vector get_angular_throttle(const Matrix&, const Matrix&, f32*);
 };
 
 struct IMPORT accessory
@@ -1867,11 +1857,11 @@ struct IMPORT accessory
         const st6::list<st6::string>& get_materials() const;
         const char* get_mesh() const;
         const char* get_name() const;
-        unsigned long get_name_crc() const;
+        ulong get_name_crc() const;
         void init(const char*, const char*, const char*, const char*, const st6::list<st6::string>&);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT bodypart
@@ -1883,13 +1873,13 @@ struct IMPORT bodypart
         int get_gender() const;
         const char* get_mesh() const;
         const char* get_name() const;
-        unsigned long get_name_crc() const;
+        ulong get_name_crc() const;
         st6::list<st6::string>* get_petal_anims() const;
         DetailSwitchTable* get_switch_table() const;
         void init(const char*, const char*, int, st6::list<st6::string>*, DetailSwitchTable*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct IMPORT option_spec
@@ -1897,7 +1887,7 @@ struct IMPORT option_spec
         option_spec& operator=(const option_spec&);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 namespace Geometry
@@ -1920,7 +1910,7 @@ struct IMPORT FlashLightSetInfo
         void add_light_csys(const Csys&);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 class IMPORT BaseData
@@ -1930,16 +1920,16 @@ class IMPORT BaseData
         BaseData();
         ~BaseData();
         BaseData& operator=(const BaseData&);
-        unsigned int get_base_id() const;
+        u32 get_base_id() const;
         // const st6::list<class RoomData*>* get_const_room_data_list() const;
-        // const st6::map<unsigned int, struct MarketGoodInfo, st6::less<unsigned int>, st6::allocator<MarketGoodInfo>>* get_market() const;
+        // const st6::map<u32, struct MarketGoodInfo, st6::less<u32>, st6::allocator<MarketGoodInfo>>* get_market() const;
         // st6::list<RoomData*>* get_room_data_list();
         //  commented out since they'd fail on the account of them being defined as 'std' in the game binaries. Use the fields below directly instead.
-        float get_price_variance() const;
-        float get_ship_repair_cost() const;
-        unsigned int get_start_location() const;
-        void read_from_ini(const char*, unsigned int);
-        void set_market_good(unsigned int, int, int, TransactionType, float, float, float);
+        f32 get_price_variance() const;
+        f32 get_ship_repair_cost() const;
+        u32 get_start_location() const;
+        void read_from_ini(const char*, u32);
+        void set_market_good(u32, int, int, TransactionType, f32, f32, f32);
 
     private:
         void read_Base_block(class INI_Reader*);
@@ -1947,9 +1937,9 @@ class IMPORT BaseData
 
     public:
         unsigned dunno;
-        float startRoom;
-        float priceVariance;
-        float shipRepairCost;
+        f32 startRoom;
+        f32 priceVariance;
+        f32 shipRepairCost;
         st6::map<Id, MarketGoodInfo> marketMap;
         st6::list<RoomData*> roomData;
 };
@@ -1961,16 +1951,16 @@ class IMPORT BaseDataList
         BaseDataList();
         ~BaseDataList();
         BaseDataList& operator=(const BaseDataList&);
-        BaseData* get_base_data(unsigned int) const;
+        BaseData* get_base_data(u32) const;
         st6::list<BaseData*>* get_base_data_list();
         const st6::list<BaseData*>* get_const_base_data_list() const;
-        RoomData* get_room_data(unsigned int) const;
-        RoomData* get_unloaded_room_data(unsigned int) const;
+        RoomData* get_room_data(u32) const;
+        RoomData* get_unloaded_room_data(u32) const;
         void load();
         void load_market_data(const char*);
 
     public:
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
 };
 
 struct Pilot

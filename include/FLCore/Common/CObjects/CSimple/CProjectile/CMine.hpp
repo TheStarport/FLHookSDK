@@ -1,5 +1,5 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include <FLCore/FLCoreDefs.hpp>
 
 namespace Archetype
 {
@@ -12,12 +12,12 @@ struct CMine : CProjectile
         CreateParms();
         CreateParms& operator=(const CreateParms&);
 
-        unsigned char data[OBJECT_DATA_SIZE];
+        u8 data[OBJECT_DATA_SIZE];
     };
 
     IMPORT virtual ~CMine();
-    IMPORT virtual int update(float, unsigned int);
-    IMPORT virtual unsigned int get_name() const;
+    IMPORT virtual int update(f32, u32);
+    IMPORT virtual u32 get_name() const;
     IMPORT virtual void init_physics(const Vector&, const Vector&);
     IMPORT virtual void init(const CreateParms&);
     IMPORT virtual void expire_safe_time();

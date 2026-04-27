@@ -7,7 +7,7 @@ namespace SubObjectID
         public:
         CollGroupIdMaker();
         CollGroupIdMaker& operator=(const CollGroupIdMaker&);
-        unsigned short CreateGroupID();
+        u16 CreateGroupID();
         void Reset();
 
         short currSID;
@@ -18,7 +18,7 @@ namespace SubObjectID
         public:
         EquipIdMaker();
         EquipIdMaker& operator=(const EquipIdMaker&);
-        unsigned short CreateEquipID();
+        u16 CreateEquipID();
         void Reset();
 
         public:
@@ -30,14 +30,14 @@ namespace SubObjectID
         public:
         ShieldIdMaker();
         ShieldIdMaker& operator=(const ShieldIdMaker&);
-        unsigned short CreateShieldID();
+        u16 CreateShieldID();
         void Reset();
 
         public:
         short currSID;
     };
 
-    IMPORT bool IsArchGroupID(unsigned short);
-    IMPORT bool IsEquipID(unsigned short);
-    IMPORT bool IsShieldEquipID(unsigned short);
+    IMPORT bool IsArchGroupID(u16);
+    IMPORT bool IsEquipID(u16);
+    IMPORT bool IsShieldEquipID(u16);
 }

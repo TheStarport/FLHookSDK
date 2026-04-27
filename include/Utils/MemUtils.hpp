@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Windows.h>
+#include <FLCore/FLCoreDefs.hpp>
 
 class MemUtils
 {
@@ -10,7 +10,7 @@ class MemUtils
         static HWND GetFlServerHwnd()
         {
             auto* unkThis = reinterpret_cast<void*>(0x00426C58);
-            return *reinterpret_cast<HWND*>(*(static_cast<PDWORD>(unkThis) + 8) + 32);
+            return *reinterpret_cast<HWND*>(*(static_cast<u32*>(unkThis) + 8) + 32);
         }
 
         static unsigned long Protect(const unsigned long addr, const size_t length, const bool execute = true)

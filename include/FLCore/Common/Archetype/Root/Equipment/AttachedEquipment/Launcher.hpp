@@ -15,10 +15,10 @@ namespace Archetype
         IMPORT void redefine(const Root&) override;
 
         public:
-        /* 34 */ float damagePerFire;
-        /* 35 */ float powerUsage;
-        /* 36 */ float refireDelay;
-        /* 37 */ float muzzleVelocity;
+        /* 34 */ f32 damagePerFire;
+        /* 35 */ f32 powerUsage;
+        /* 36 */ f32 refireDelay;
+        /* 37 */ f32 muzzleVelocity;
         /* 38 */ Id projectileArchId;
         /* 39 */ char* useAnimation;
     };

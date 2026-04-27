@@ -54,13 +54,13 @@ class CEquipManager
         IMPORT void Clear();
         IMPORT CExternalEquip* FindByHardpoint(const CacheString&);
         IMPORT const CExternalEquip* FindByHardpoint(const CacheString&) const;
-        IMPORT CEquip* FindByID(unsigned short);
-        IMPORT const CEquip* FindByID(unsigned short) const;
-        IMPORT CEquip* FindFirst(unsigned int);
-        IMPORT const CEquip* FindFirst(unsigned int) const;
+        IMPORT CEquip* FindByID(u16);
+        IMPORT const CEquip* FindByID(u16) const;
+        IMPORT CEquip* FindFirst(u32);
+        IMPORT const CEquip* FindFirst(u32) const;
         IMPORT bool HasDecayingCargo() const;
         IMPORT bool Init(CEqObj*);
-        IMPORT unsigned short InstToSubObjID(long) const;
+        IMPORT u16 InstToSubObjID(long) const;
         IMPORT CEquip* ReverseTraverse(CEquipTraverser&);
         IMPORT const CEquip* ReverseTraverse(CEquipTraverser&) const;
         IMPORT int Size() const;

@@ -1,5 +1,5 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include <FLCore/FLCoreDefs.hpp>
 
 namespace Archetype
 {
@@ -15,7 +15,7 @@ namespace Archetype
 
         public:
         /* 37 */ bool destrutible;
-        /* 38 */ float solarRadius;
+        /* 38 */ f32 solarRadius;
         /* 39 */ unsigned toughness;
         /* 40 */ char* openAnim;
         /* 41 */ char* jumpOutHp;

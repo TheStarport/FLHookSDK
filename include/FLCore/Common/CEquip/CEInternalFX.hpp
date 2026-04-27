@@ -11,6 +11,6 @@ class CEInternalFX : public CEquip
     IMPORT static const CEInternalFX* cast(const CEquip*);
 
     IMPORT CEInternalFX(const CEInternalFX&);
-    IMPORT CEInternalFX(CEqObj*, unsigned short, const Archetype::InternalFXEquip*, bool);
+    IMPORT CEInternalFX(CEqObj*, u16, const Archetype::InternalFXEquip*, bool);
     IMPORT const Archetype::InternalFXEquip* InternalFXArch() const;
 };

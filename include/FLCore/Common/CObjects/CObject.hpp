@@ -18,17 +18,17 @@ struct CObject : public EngineObject
         IMPORT virtual void __stdcall destroy_instance(long);                   // 8
         IMPORT virtual ~CObject();                                              // 56
         IMPORT virtual void open(Archetype::Root*);                             // 76
-        IMPORT virtual int update(float, unsigned int);                         // 80
+        IMPORT virtual int update(f32, u32);                         // 80
         IMPORT virtual Vector get_velocity() const;                             // 84
         IMPORT virtual Vector get_angular_velocity() const;                     // 88
         IMPORT virtual void disable_controllers();                              // 92
         IMPORT virtual void enable_controllers();                               // 96
-        IMPORT virtual float get_physical_radius_r(Vector&) const;              // 100
+        IMPORT virtual f32 get_physical_radius_r(Vector&) const;              // 100
         IMPORT virtual Vector get_center_of_mass() const;                       // 104
-        IMPORT virtual float get_mass() const;                                  // 108
+        IMPORT virtual f32 get_mass() const;                                  // 108
         IMPORT virtual bool get_surface_extents(Vector&, Vector&) const;        // 112
         IMPORT virtual void unmake_physical();                                  // 116
-        IMPORT virtual void remake_physical(const PhySys::CreateParms&, float); // 120
+        IMPORT virtual void remake_physical(const PhySys::CreateParms&, f32); // 120
         IMPORT virtual void beam_object(const Vector&, const Matrix&, bool);    // 124
 
         enum Class
@@ -58,39 +58,39 @@ struct CObject : public EngineObject
         };
 
         IMPORT static CObject* Alloc(Class);
-        IMPORT static CObject* Find(const unsigned int&, Class);
+        IMPORT static CObject* Find(const u32&, Class);
         IMPORT static CObject* Find(long, Class);
         IMPORT static CObject* FindFirst(Class);
         IMPORT static CObject* FindNext();
         IMPORT static int Count(Class);
         IMPORT static void ReleaseAll();
-        IMPORT static const unsigned int NoActions;
-        IMPORT static const unsigned int NoBehavior;
-        IMPORT static const unsigned int NoCountermeasureAi;
-        IMPORT static const unsigned int NoDynamics;
-        IMPORT static const unsigned int NoScanner;
-        IMPORT static const unsigned int UpdateDefault;
-        IMPORT static const unsigned int UpdateDumb;
+        IMPORT static const u32 NoActions;
+        IMPORT static const u32 NoBehavior;
+        IMPORT static const u32 NoCountermeasureAi;
+        IMPORT static const u32 NoDynamics;
+        IMPORT static const u32 NoScanner;
+        IMPORT static const u32 UpdateDefault;
+        IMPORT static const u32 UpdateDumb;
 
-        IMPORT static void* operator new(unsigned int);
+        IMPORT static void* operator new(u32);
         IMPORT static void operator delete(void*);
 
         IMPORT CObject(const CObject&);
         IMPORT CObject(Class);
-        IMPORT unsigned int AddRef();
-        IMPORT unsigned int Release();
+        IMPORT u32 AddRef();
+        IMPORT u32 Release();
         IMPORT void add_impulse(const Vector&, const Vector&);
         IMPORT void add_impulse(const Vector&);
         IMPORT void advise(CBase*, bool);
         IMPORT void enable_collisions_r(bool);
-        IMPORT bool flag_part_as_shield(unsigned int);
+        IMPORT bool flag_part_as_shield(u32);
         IMPORT Archetype::Root* get_archetype() const;
         IMPORT Vector get_moment_of_inertia() const;
-        IMPORT float hierarchy_radius(Vector&) const;
-        IMPORT float hierarchy_radius() const;
-        IMPORT unsigned int inst_to_part(long) const;
-        IMPORT bool is_shield_part(unsigned int) const;
-        IMPORT long part_to_inst(unsigned int) const;
+        IMPORT f32 hierarchy_radius(Vector&) const;
+        IMPORT f32 hierarchy_radius() const;
+        IMPORT u32 inst_to_part(long) const;
+        IMPORT bool is_shield_part(u32) const;
+        IMPORT long part_to_inst(u32) const;
 
         Class objectClass; // 19
         SystemId system;   // 20

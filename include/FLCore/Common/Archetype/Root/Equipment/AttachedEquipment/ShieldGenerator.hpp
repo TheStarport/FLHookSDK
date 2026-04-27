@@ -1,7 +1,7 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include <FLCore/FLCoreDefs.hpp>
 
-#include "FLCore/Common/Archetype/Root/Equipment/AttachedEquipment.hpp"
+#include <FLCore/Common/Archetype/Root/Equipment/AttachedEquipment.hpp>
 
 namespace Archetype
 {
@@ -15,7 +15,7 @@ namespace Archetype
             ShieldLink& operator=(const ShieldLink&);
 
             public:
-            unsigned char data[0x18];
+            u8 data[0x18];
         };
 
         IMPORT ShieldGenerator(const ShieldGenerator&);
@@ -32,12 +32,12 @@ namespace Archetype
         public:
         /* 34 */ unsigned hpType;
         /* 35 */ unsigned shieldTypeId;
-        /* 36 */ float regenerationRate;
-        /* 37 */ float maxCapacity;
-        /* 38 */ float constantPowerDraw;
-        /* 39 */ float rebuildPowerDraw;
-        /* 40 */ float offlineThreshold;
-        float offlineRebuildTime;
+        /* 36 */ f32 regenerationRate;
+        /* 37 */ f32 maxCapacity;
+        /* 38 */ f32 constantPowerDraw;
+        /* 39 */ f32 rebuildPowerDraw;
+        /* 40 */ f32 offlineThreshold;
+        f32 offlineRebuildTime;
         /* 41 */ unsigned hpShieldType[4]; // std6::vector?
     };
 }

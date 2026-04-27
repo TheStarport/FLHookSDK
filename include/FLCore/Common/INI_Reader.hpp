@@ -13,41 +13,41 @@ class INI_Reader
         IMPORT INI_Reader& operator=(const INI_Reader&);
         IMPORT void close();
         IMPORT bool find_header(const char*);
-        IMPORT bool get_bool(unsigned int);
+        IMPORT bool get_bool(u32);
         IMPORT const char* get_file_name() const;
         IMPORT const char* get_header_ptr();
-        IMPORT const char* get_indexed_value(unsigned int);
+        IMPORT const char* get_indexed_value(u32);
         IMPORT int get_line_num() const;
         IMPORT const char* get_line_ptr();
         IMPORT const char* get_name() const;
         IMPORT const char* get_name_ptr();
-        IMPORT unsigned int get_num_parameters() const;
+        IMPORT u32 get_num_parameters() const;
         IMPORT void get_state(struct State&) const;
-        IMPORT bool get_value_bool(unsigned int);
-        IMPORT float get_value_float(unsigned int);
-        IMPORT int get_value_int(unsigned int);
+        IMPORT bool get_value_bool(u32);
+        IMPORT f32 get_value_float(u32);
+        IMPORT int get_value_int(u32);
         IMPORT const char* get_value_ptr();
-        IMPORT const char* get_value_string(unsigned int);
+        IMPORT const char* get_value_string(u32);
         IMPORT const char* get_value_string();
-        IMPORT const unsigned short* get_value_wstring();
+        IMPORT const u16* get_value_wstring();
         IMPORT Vector get_vector();
         IMPORT bool is_end() const;
         IMPORT bool is_header(const char*);
         IMPORT bool is_number(const char*) const;
         IMPORT bool is_value(const char*);
-        IMPORT bool is_value_empty(unsigned int);
+        IMPORT bool is_value_empty(u32);
         IMPORT void log_link(const char*) const;
         IMPORT bool open(const char*, bool);
-        IMPORT bool open_memory(const char*, unsigned int);
+        IMPORT bool open_memory(const char*, u32);
         IMPORT bool read_header();
         IMPORT bool read_value();
         IMPORT void reset();
-        IMPORT void seek(unsigned int);
+        IMPORT void seek(u32);
         IMPORT void set_state(const State&);
-        IMPORT unsigned int tell() const;
-        IMPORT double value_num(unsigned int);
+        IMPORT u32 tell() const;
+        IMPORT f64 value_num(u32);
 
-        bool GetFloat(const std::string_view key, float& value, bool& found, const int param = 0)
+        bool GetFloat(const std::string_view key, f32& value, bool& found, const int param = 0)
         {
             if (!is_value(key.data()))
             {
@@ -59,7 +59,7 @@ class INI_Reader
             return true;
         }
 
-        bool GetFloat(const std::string_view key, float& value, const int param = 0)
+        bool GetFloat(const std::string_view key, f32& value, const int param = 0)
         {
             bool dummy;
             return GetFloat(key, value, dummy, param);
@@ -137,7 +137,7 @@ class INI_Reader
         }
 
         st6::string fileName;
-        unsigned long dunno[5];
+        ulong dunno[5];
         int lineNumber;
-        unsigned char data[5480];
+        u8 data[5480];
 };

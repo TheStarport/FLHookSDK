@@ -6,6 +6,7 @@
 #include <string_view>
 #include <ranges>
 #include <cwctype>
+#include <type_traits>
 
 using namespace std::string_view_literals;
 

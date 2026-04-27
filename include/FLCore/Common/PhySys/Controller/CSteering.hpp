@@ -10,16 +10,16 @@ class CSteering : public PhySys::Controller
     IMPORT CSteering& operator=(const CSteering&);
     IMPORT bool Activate(bool);
     IMPORT virtual bool EnableController();
-    IMPORT float GetAxisSteeringTorque(unsigned int, float) const;
+    IMPORT f32 GetAxisSteeringTorque(u32, f32) const;
     IMPORT const Vector& GetAxisThrottle() const;
     IMPORT bool IsActive() const;
     IMPORT void SetAxisThrottle(const Vector&);
     IMPORT void SetOwner(struct CShip*);
 
     protected:
-    IMPORT static const float AXIS_CHANGE_THRESHOLD;
+    IMPORT static const f32 AXIS_CHANGE_THRESHOLD;
     IMPORT virtual void do_simulation_controller(IVP_Event_Sim*, IVP_U_Vector<IVP_Core>*);
 
     public:
-    unsigned char data[OBJECT_DATA_SIZE];
+    u8 data[OBJECT_DATA_SIZE];
 };

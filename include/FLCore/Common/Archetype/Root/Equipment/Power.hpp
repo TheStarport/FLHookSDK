@@ -1,5 +1,5 @@
 #pragma once
-#include "FLCore/FLCoreDefs.hpp"
+#include <FLCore/FLCoreDefs.hpp>
 
 namespace Archetype
 {
@@ -15,9 +15,9 @@ namespace Archetype
         IMPORT void redefine(const Root&) override;
 
         public:
-        /* 28 */ float capacity;
-        /* 29 */ float chargeRate;
-        /* 30 */ float thrustCapacity;
-        /* 31 */ float thrustChargeRate;
+        /* 28 */ f32 capacity;
+        /* 29 */ f32 chargeRate;
+        /* 30 */ f32 thrustCapacity;
+        /* 31 */ f32 thrustChargeRate;
     };
 }

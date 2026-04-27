@@ -1,8 +1,7 @@
 #include "Matrix.hpp"
-#include "Matrix.hpp"
 #include "Quaternion.hpp"
 
-static constexpr float MIN_DET = 1e-8f;
+static constexpr f32 MIN_DET = 1e-8f;
 
 #ifndef PI
     #define PI 3.14159265358979323846f
@@ -31,22 +30,22 @@ Matrix::Matrix(const Vector& i, const Vector& j, const Vector& k)
 
 Matrix::Matrix(const Quaternion& q)
 {
-    const float s = 2.0f / (q.w * q.w + q.x * q.x + q.y * q.y + q.z * q.z);
+    const f32 s = 2.0f / (q.w * q.w + q.x * q.x + q.y * q.y + q.z * q.z);
 
-    const float xs = q.x * s;
-    const float ys = q.y * s;
-    const float zs = q.z * s;
+    const f32 xs = q.x * s;
+    const f32 ys = q.y * s;
+    const f32 zs = q.z * s;
 
-    const float wx = q.w * xs;
-    const float wy = q.w * ys;
-    const float wz = q.w * zs;
+    const f32 wx = q.w * xs;
+    const f32 wy = q.w * ys;
+    const f32 wz = q.w * zs;
 
-    const float xx = q.x * xs;
-    const float xy = q.x * ys;
-    const float xz = q.x * zs;
-    const float yy = q.y * ys;
-    const float yz = q.y * zs;
-    const float zz = q.z * zs;
+    const f32 xx = q.x * xs;
+    const f32 xy = q.x * ys;
+    const f32 xz = q.x * zs;
+    const f32 yy = q.y * ys;
+    const f32 yz = q.y * zs;
+    const f32 zz = q.z * zs;
 
     d[0][0] = 1.0f - (yy + zz);
     d[0][1] = xy - wz;
@@ -61,8 +60,8 @@ Matrix::Matrix(const Quaternion& q)
     d[2][2] = 1.0f - (xx + yy);
 }
 
-Matrix::Matrix(const SINGLE e00, const SINGLE e01, const SINGLE e02, const SINGLE e10, const SINGLE e11, const SINGLE e12, const SINGLE e20,
-               const SINGLE e21, const SINGLE e22)
+Matrix::Matrix(const f32 e00, const f32 e01, const f32 e02, const f32 e10, const f32 e11, const f32 e12, const f32 e20,
+               const f32 e21, const f32 e22)
 {
     d[0][0] = e00;
     d[0][1] = e01;
@@ -90,7 +89,7 @@ Matrix::Matrix(const PersistMatrix& src)
     d[2][2] = src.e22;
 }
 
-SINGLE Matrix::det() const
+f32 Matrix::det() const
 {
     return (d[0][0] * d[1][1] * d[2][2] + d[0][1] * d[1][2] * d[2][0] + d[0][2] * d[1][0] * d[2][1] - d[0][0] * d[1][2] * d[2][1] -
             d[0][1] * d[1][0] * d[2][2] - d[0][2] * d[1][1] * d[2][0]);
@@ -119,10 +118,10 @@ void Matrix::make_orthogonal()
     set_k(k);
 }
 
-void Matrix::rotate_around_i(SINGLE angle)
+void Matrix::rotate_around_i(f32 angle)
 {
-    SINGLE temp[3][3];
-    SINGLE cosine, sine;
+    f32 temp[3][3];
+    f32 cosine, sine;
 
     angle = -angle;
     cosine = cos(angle);
@@ -138,10 +137,10 @@ void Matrix::rotate_around_i(SINGLE angle)
     d[2][2] = (cosine * temp[2][2]) + (sine * temp[2][1]);
 }
 
-void Matrix::rotate_around_j(SINGLE angle)
+void Matrix::rotate_around_j(f32 angle)
 {
-    SINGLE temp[3][3];
-    SINGLE cosine, sine;
+    f32 temp[3][3];
+    f32 cosine, sine;
 
     // angle *= PI_RADIANS; // convert to radians
     cosine = cos(angle);
@@ -157,10 +156,10 @@ void Matrix::rotate_around_j(SINGLE angle)
     d[2][2] = (cosine * temp[2][2]) - (sine * temp[2][0]);
 }
 
-void Matrix::rotate_around_k(SINGLE angle)
+void Matrix::rotate_around_k(f32 angle)
 {
-    SINGLE temp[3][3];
-    SINGLE cosine, sine;
+    f32 temp[3][3];
+    f32 cosine, sine;
 
     // angle *= -PI_RADIANS; // convert to radians
     angle = -angle;
@@ -180,7 +179,7 @@ void Matrix::rotate_around_k(SINGLE angle)
 
 const Matrix& Matrix::zero()
 {
-    memset(d, 0, sizeof(SINGLE) * 9);
+    memset(d, 0, sizeof(f32) * 9);
     return *this;
 }
 
@@ -190,11 +189,11 @@ Matrix Matrix::get_inverse() const
 {
     Matrix result;
 
-    const float determinant = det();
+    const f32 determinant = det();
 
     if (fabs(determinant) > MIN_DET)
     {
-        const float dt = 1.0f / determinant; //compiler should use fld1 instruction (but doesn't)
+        const f32 dt = 1.0f / determinant; //compiler should use fld1 instruction (but doesn't)
 
         result.d[0][0] = (d[1][1] * d[2][2] - d[1][2] * d[2][1]) * dt;
         result.d[1][0] = -(d[1][0] * d[2][2] - d[1][2] * d[2][0]) * dt;
@@ -223,7 +222,7 @@ Matrix Matrix::get_inverse() const
     return result;
 }
 
-const Matrix& Matrix::scale(const SINGLE s)
+const Matrix& Matrix::scale(const f32 s)
 {
     d[0][0] = d[0][0] * s;
     d[0][1] = d[0][1] * s;
@@ -238,7 +237,7 @@ const Matrix& Matrix::scale(const SINGLE s)
     return *this;
 }
 
-const Matrix& Matrix::scale_by_reciprocal(const SINGLE s) { return scale(1.0f / s); }
+const Matrix& Matrix::scale_by_reciprocal(const f32 s) { return scale(1.0f / s); }
 
 const Matrix& Matrix::mul(const Matrix& m)
 {
@@ -289,9 +288,9 @@ const Matrix& Matrix::operator-=(const Matrix& m)
     return *this;
 }
 
-const Matrix& Matrix::operator*=(const SINGLE s) { return scale(s); }
+const Matrix& Matrix::operator*=(const f32 s) { return scale(s); }
 
-const Matrix& Matrix::operator/=(const SINGLE s) { return scale_by_reciprocal(s); }
+const Matrix& Matrix::operator/=(const f32 s) { return scale_by_reciprocal(s); }
 
 const Matrix& Matrix::operator*=(const Matrix& m) { return mul(m); }
 
@@ -301,15 +300,15 @@ bool Matrix::operator==(const Matrix& m) const { return (0 == memcmp(this, &m, s
 bool Matrix::operator!=(const Matrix& m) const { return !(*this == m); }
 #endif
 
-SINGLE Matrix::pow2(const SINGLE f)
+f32 Matrix::pow2(const f32 f)
 {
     // avoids calling fabs below
     return f * f;
 }
 
-bool Matrix::equal(const Matrix& m, const SINGLE tolerance) const
+bool Matrix::equal(const Matrix& m, const f32 tolerance) const
 {
-    const SINGLE tolerance_sq = tolerance * tolerance;
+    const f32 tolerance_sq = tolerance * tolerance;
     return ((pow2(d[0][0] - d[0][0]) <= tolerance_sq) && (pow2(d[0][1] - d[0][1]) <= tolerance_sq) &&
             (pow2(d[0][2] - d[0][2]) <= tolerance_sq) && (pow2(d[1][0] - d[1][0]) <= tolerance_sq) &&
             (pow2(d[1][1] - d[1][1]) <= tolerance_sq) && (pow2(d[1][2] - d[1][2]) <= tolerance_sq) &&
@@ -320,7 +319,7 @@ bool Matrix::equal(const Matrix& m, const SINGLE tolerance) const
 Vector Matrix::euler(const bool inDegrees) const
 {
     Vector vec;
-    float h = (float)_hypot(d[0][0], d[1][0]);
+    f32 h = (f32)_hypot(d[0][0], d[1][0]);
     if (h > 1 / 524288.0f)
     {
         vec.x = atan2f(d[2][1], d[2][2]);
@@ -336,7 +335,7 @@ Vector Matrix::euler(const bool inDegrees) const
 
     if (inDegrees)
     {
-        constexpr float mod = 180.f / PI;
+        constexpr f32 mod = 180.f / PI;
         vec *= mod;
     }
     return vec;
@@ -390,7 +389,7 @@ void Matrix::set_k(const Vector& k)
     d[2][2] = k.z;
 }
 
-void Matrix::compose_rotation(const unsigned axis, const SINGLE angle)
+void Matrix::compose_rotation(const unsigned axis, const f32 angle)
 {
     switch (axis)
     {
@@ -402,7 +401,7 @@ void Matrix::compose_rotation(const unsigned axis, const SINGLE angle)
     }
 }
 
-void Matrix::set_orientation(const SINGLE pitch_degrees, const SINGLE roll_degrees, const SINGLE yaw_degrees)
+void Matrix::set_orientation(const f32 pitch_degrees, const f32 roll_degrees, const f32 yaw_degrees)
 {
     // Apply yaw, pitch, roll in order ( angles in degrees )
     set_y_rotation(yaw_degrees * MUL_DEG_TO_RAD);
@@ -410,10 +409,10 @@ void Matrix::set_orientation(const SINGLE pitch_degrees, const SINGLE roll_degre
     z_rotate_left(roll_degrees * MUL_DEG_TO_RAD);
 }
 
-void Matrix::set_x_rotation(const SINGLE angle) // pitch
+void Matrix::set_x_rotation(const f32 angle) // pitch
 {
-    const SINGLE _cos = cos(angle);
-    const SINGLE _sin = sin(angle);
+    const f32 _cos = cos(angle);
+    const f32 _sin = sin(angle);
 
     d[0][0] = 1.0f;
     d[0][1] = 0.0f;
@@ -426,10 +425,10 @@ void Matrix::set_x_rotation(const SINGLE angle) // pitch
     d[2][2] = _cos;
 }
 
-void Matrix::set_y_rotation(const SINGLE angle) // yaw
+void Matrix::set_y_rotation(const f32 angle) // yaw
 {
-    const SINGLE _cos = cos(angle);
-    const SINGLE _sin = sin(angle);
+    const f32 _cos = cos(angle);
+    const f32 _sin = sin(angle);
 
     d[0][0] = _cos;
     d[0][1] = 0.0f;
@@ -442,10 +441,10 @@ void Matrix::set_y_rotation(const SINGLE angle) // yaw
     d[2][2] = _cos;
 }
 
-void Matrix::set_z_rotation(const SINGLE angle) // roll
+void Matrix::set_z_rotation(const f32 angle) // roll
 {
-    const SINGLE _cos = cos(angle);
-    const SINGLE _sin = sin(angle);
+    const f32 _cos = cos(angle);
+    const f32 _sin = sin(angle);
 
     d[0][0] = _cos;
     d[0][1] = -_sin;
@@ -458,79 +457,79 @@ void Matrix::set_z_rotation(const SINGLE angle) // roll
     d[2][2] = 1.0f;
 }
 
-void Matrix::x_rotate_left(const SINGLE angle) // pitch
+void Matrix::x_rotate_left(const f32 angle) // pitch
 {
-    const SINGLE _cos = cos(angle);
-    const SINGLE _sin = sin(angle);
+    const f32 _cos = cos(angle);
+    const f32 _sin = sin(angle);
 
     for (int i = 0; i < 3; i++)
     {
-        const SINGLE tmp = d[1][i];
+        const f32 tmp = d[1][i];
         d[1][i] = tmp * _cos - d[2][i] * _sin;
         d[2][i] = tmp * _sin + d[2][i] * _cos;
     }
 }
 
-void Matrix::y_rotate_left(const SINGLE angle) // yaw
+void Matrix::y_rotate_left(const f32 angle) // yaw
 {
-    const SINGLE _cos = cos(angle);
-    const SINGLE _sin = sin(angle);
+    const f32 _cos = cos(angle);
+    const f32 _sin = sin(angle);
 
     for (int i = 0; i < 3; i++)
     {
-        const SINGLE tmp = d[0][i];
+        const f32 tmp = d[0][i];
         d[0][i] = tmp * _cos + d[2][i] * _sin;
         d[2][i] = d[2][i] * _cos - tmp * _sin;
     }
 }
 
-void Matrix::z_rotate_left(const SINGLE angle) // roll
+void Matrix::z_rotate_left(const f32 angle) // roll
 {
-    const SINGLE _cos = cos(angle);
-    const SINGLE _sin = sin(angle);
+    const f32 _cos = cos(angle);
+    const f32 _sin = sin(angle);
 
     for (int i = 0; i < 3; i++)
     {
-        const SINGLE tmp = d[0][i];
+        const f32 tmp = d[0][i];
         d[0][i] = tmp * _cos - d[1][i] * _sin;
         d[1][i] = tmp * _sin + d[1][i] * _cos;
     }
 }
 
-void Matrix::x_rotate_right(const SINGLE angle) // pitch
+void Matrix::x_rotate_right(const f32 angle) // pitch
 {
-    const SINGLE _cos = cos(angle);
-    const SINGLE _sin = sin(angle);
+    const f32 _cos = cos(angle);
+    const f32 _sin = sin(angle);
 
     for (auto& i : d)
     {
-        const SINGLE tmp = i[1];
+        const f32 tmp = i[1];
         i[1] = i[2] * _sin + tmp * _cos;
         i[2] = i[2] * _cos - tmp * _sin;
     }
 }
 
-void Matrix::y_rotate_right(const SINGLE angle) // yaw
+void Matrix::y_rotate_right(const f32 angle) // yaw
 {
     const auto _cos = cos(angle);
     const auto _sin = sin(angle);
 
     for (auto& i : d)
     {
-        const SINGLE tmp = i[0];
+        const f32 tmp = i[0];
         i[0] = tmp * _cos - i[2] * _sin;
         i[2] = tmp * _sin + i[2] * _cos;
     }
 }
 
-void Matrix::z_rotate_right(const SINGLE angle) // roll
+void Matrix::z_rotate_right(const f32 angle) // roll
 {
     const auto _cos = cos(angle);
     const auto _sin = sin(angle);
 
     for (auto& i : d)
     {
-        const SINGLE tmp = i[0];
+        const f32 tmp = i[0];
         i[0] = i[1] * _sin + tmp * _cos;
         i[1] = i[1] * _cos - tmp * _sin;
     }
@@ -538,14 +537,14 @@ void Matrix::z_rotate_right(const SINGLE angle) // roll
 
 Matrix operator+(const Matrix& m1, const Matrix& m2) { return m1.add(m2); }
 Matrix operator-(const Matrix& m1, const Matrix& m2) { return m1.subtract(m2); }
-Matrix operator*(const Matrix& m, const SINGLE s) { return m.mul(s); }
-Matrix operator*(const SINGLE s, const Matrix& m) { return m.mul(s); }
-Matrix operator/(const Matrix& m, const SINGLE s) { return m.mul(1.0f / s); }
+Matrix operator*(const Matrix& m, const f32 s) { return m.mul(s); }
+Matrix operator*(const f32 s, const Matrix& m) { return m.mul(s); }
+Matrix operator/(const Matrix& m, const f32 s) { return m.mul(1.0f / s); }
 Vector operator*(const Matrix& m, const Vector& v) { return m.mul(v); }
 Vector operator*(const Vector& v, const Matrix& m) { return m.transpose_mul(v); }
 Matrix operator*(const Matrix& m1, const Matrix& m2) { return m1.mul(m2); }
 
-Matrix Matrix::mul(const SINGLE s) const
+Matrix Matrix::mul(const f32 s) const
 {
     Matrix result = *this;
     result.scale(s);
