@@ -174,7 +174,7 @@ struct CShip : public CEqObj, public PhySys::Controller
         unsigned dunnoCShip1;                         // 173
         f32 tradeLaneSpeed;                     // 174
         bool inTradeLane;                         // 175
-        bool gunRelatedBool;                      // has active guns?
+        bool isPlayer;
         f32 angularDragFactor;                  // 176
         bool gunStatsDirty;                       // 177
         ShipGunStats shipGunStats;                // 178
