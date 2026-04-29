@@ -9,6 +9,8 @@ namespace Archetype
     struct AttachedEquipment;
 } // namespace Archetype
 
+struct CObject;
+
 class CAttachedEquip : public CExternalEquip
 {
     public:

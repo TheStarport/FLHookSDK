@@ -1,10 +1,14 @@
 #pragma once
 #include "../../FLCoreDefs.hpp"
 
+#include "CEquip.hpp"
+
 namespace Archetype
 {
     struct Power;
 }
+
+struct CEqObj;
 
 class CEPower : public CEquip
 {

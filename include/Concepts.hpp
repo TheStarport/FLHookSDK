@@ -2,6 +2,8 @@
 #include <chrono>
 #include <string>
 
+#include "Utils/TemplateHelpers.hpp"
+
 template <typename T>
 concept StringRestriction = std::is_convertible_v<T, std::string> || std::is_convertible_v<T, std::wstring>;
 
@@ -54,3 +56,6 @@ struct IsChronoDuration<std::chrono::duration<_Rep, _Period>> : std::true_type
 
 template <typename _Tp>
 concept IsChronoDurationV = IsChronoDuration<_Tp>::value;
+
+template <typename Tuple, typename... Pack>
+concept PackMatchesTuple = std::is_same_v<tuple_map_t<std::remove_cvref_t, Tuple>, std::tuple<std::remove_cvref_t<Pack>...>>;

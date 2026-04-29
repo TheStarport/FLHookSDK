@@ -142,11 +142,11 @@ struct CShip : public CEqObj, public PhySys::Controller
         IMPORT void recalculate_formation_speed();
 
         ulong dunno5[2];                          // 106
-        unsigned physicsPtr;                          // 108
+        unsigned physicsPtr;                      // 108
         CPlayerGroup* playerGroup;                // 109
         ulong dunno6;                             // 110
         IObjRW* followLeader2;                    // 111
-        unsigned dunno16;                             // 112
+        unsigned dunno16;                         // 112
         Vector followOffset2;                     // 113
         st6::vector<IObjRW*> followerVector;      // 116
         IObjRW* followLeader;                     // 120
@@ -155,27 +155,27 @@ struct CShip : public CEqObj, public PhySys::Controller
         ulong dunno8[3];                          // 125
         st6::vector<IObjRW*> targetedEnemyVector; // 128
         ulong dunno11[3];                         // 132
-        unsigned groupId;                             // 135
+        unsigned groupId;                         // 135
         IObjRW* target;                           // 136
         ulong targetId_unk;                       // 137
-        u16 subTargetId;                       // 138
+        u16 subTargetId;                          // 138
         ulong BayAnim;                            // 139
         CSteering* cSteering;                     // 140
         ulong dunno13[6];                         // 141
         Vector axisThrottle;                      // 147
-        CNudgeEngine nudgeEngine;                // 150
+        CNudgeEngine nudgeEngine;                 // 150
         CStrafeEngine strafeEngine;               // 160
-        f32 throttle;                           // 167
-        f32 thrustPower;                        // 168
-        f32 maxThrustPower;                     // 169
-        unsigned dunno14;                             // 170
+        f32 throttle;                             // 167
+        f32 thrustPower;                          // 168
+        f32 maxThrustPower;                       // 169
+        unsigned dunno14;                         // 170
         BayState bayState;                        // 171
         ActionDB* ActionDB;                       // 172
-        unsigned dunnoCShip1;                         // 173
-        f32 tradeLaneSpeed;                     // 174
-        bool inTradeLane;                         // 175
-        bool isPlayer;
-        f32 angularDragFactor;                  // 176
+        unsigned dunnoCShip1;                     // 173
+        f32 tradeLaneSpeed;                       // 174
+        bool inTradeLane;                         // 175 (700)
+        bool isPlayer;                            // 175.25 (701)
+        f32 angularDragFactor;                    // 176 (704)
         bool gunStatsDirty;                       // 177
         ShipGunStats shipGunStats;                // 178
 };

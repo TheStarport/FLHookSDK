@@ -3,6 +3,9 @@
 
 #include "CEquip.hpp"
 
+struct HardpointInfo;
+struct CacheString;
+
 class CExternalEquip : public CEquip
 {
     public:
@@ -12,14 +15,14 @@ class CExternalEquip : public CEquip
         IMPORT virtual bool GetEquipDesc(EquipDesc&) const;
         IMPORT virtual void Destroy();
         IMPORT virtual bool GetConnectionPosition(Vector*, Matrix*) const;
-        IMPORT virtual bool IsConnected() const;                           // 88
-        IMPORT virtual bool Connect(const char*);                          // 92
-        IMPORT virtual CacheString GetParentHPName() const;                // 96
-        IMPORT virtual long GetParentConnector(bool) const;                // 100
-        IMPORT virtual bool GetHardPointInfo(struct HardpointInfo&) const; // 104
-        IMPORT virtual bool GetVelocity(Vector&) const;                    // 108
-        IMPORT virtual bool GetCenterOfMass(Vector&) const;                // 112
-        IMPORT virtual void Disconnect();                                  // 116
+        IMPORT virtual bool IsConnected() const;                    // 88
+        IMPORT virtual bool Connect(const char*);                   // 92
+        IMPORT virtual CacheString GetParentHPName() const;         // 96
+        IMPORT virtual long GetParentConnector(bool) const;         // 100
+        IMPORT virtual bool GetHardPointInfo(HardpointInfo&) const; // 104
+        IMPORT virtual bool GetVelocity(Vector&) const;             // 108
+        IMPORT virtual bool GetCenterOfMass(Vector&) const;         // 112
+        IMPORT virtual void Disconnect();                           // 116
 
         IMPORT static CExternalEquip* cast(CEquip*);
         IMPORT static const CExternalEquip* cast(const CEquip*);

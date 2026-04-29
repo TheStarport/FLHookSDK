@@ -35,6 +35,18 @@ template <typename T, typename... Ts>
 struct TupleHasType<T, std::tuple<T, Ts...>> : std::true_type
 {};
 
+template <template <typename> class Meta, typename Tuple>
+struct tuple_map;
+
+template <template <typename> class Meta, typename... Ts>
+struct tuple_map<Meta, std::tuple<Ts...>>
+{
+        using type = std::tuple<Meta<Ts>...>;
+};
+
+template <template <typename> class Meta, typename Tuple>
+using tuple_map_t = typename tuple_map<Meta, Tuple>::type;
+
 template <typename Tuple, typename T>
 constexpr bool TupleHasTypeV = TupleHasType<T, Tuple>::value;
 
@@ -46,22 +58,22 @@ template <typename T>
 constexpr bool IsOptionalV = IsOptional<std::remove_cvref_t<T>>;
 
 template <typename T>
-struct MemberFunctionClassType;
+struct member_fn_traits;
 
-template <typename M, typename T>
-struct MemberFunctionClassType<M T::*>
+template <typename R, typename C, typename... Params>
+struct member_fn_traits<R (C::*)(Params...)>
 {
-        using type = T;
+        using return_type = R;
+        using class_type = std::remove_const_t<C>;
+        using params = std::tuple<Params...>;
 };
 
-template <typename R, typename... Args>
-struct [[maybe_unused]] MemberFunctionReturnType;
+template <typename R, typename C, typename... Ps>
+struct member_fn_traits<R (C::*)(Ps...) const> : member_fn_traits<R (C::*)(Ps...)>
+{};
 
-template <class Class, typename R, typename... Args>
-struct [[maybe_unused]] MemberFunctionReturnType<R (Class::*)(Args...)>
-{
-        using type = R;
-};
+template <typename... Ts>
+using remove_cvref_pack_t = std::tuple<std::remove_cvref_t<Ts>...>;
 
 template <typename T, typename... Ts>
 struct IsAnyOf : std::bool_constant<(std::is_same<T, Ts>{} || ...)>
