@@ -143,7 +143,7 @@ template <auto FuncPtr, typename CurIObjType, typename FuncPtrT = decltype(FuncP
           typename Ret = member_fn_rt<FuncPtrT>, typename... Args>
     requires std::is_base_of_v<ClsType, CurIObjType> && (std::is_same_v<IObjInspectImpl, ClsType> || std::is_same_v<IObjRW, ClsType>) &&
              PackMatchesTuple<member_fn_pt<FuncPtrT>, Args...>
-Ret CallSpecificVTable(const u32 serverDllAddr, CurIObjType* obj, Args&&... args)
+Ret CallSpecificVTable(const u32 serverDllAddr, CurIObjType* obj, Args... args)
 {
     // Convert to a free function to get around forbidden ptr casts
     using FreeFuncType = Ret(__thiscall*)(ClsType*, Args...);
@@ -153,12 +153,12 @@ Ret CallSpecificVTable(const u32 serverDllAddr, CurIObjType* obj, Args&&... args
 
     if constexpr (std::is_same_v<Ret, void>)
     {
-        target(obj, std::forward<Args>(args)...);
+        target(obj, args...);
         return void();
     }
     else
     {
-        return target(obj, std::forward<Args>(args)...);
+        return target(obj, args...);
     }
 }
 
