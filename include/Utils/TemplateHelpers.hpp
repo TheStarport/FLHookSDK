@@ -72,8 +72,27 @@ template <typename R, typename C, typename... Ps>
 struct member_fn_traits<R (C::*)(Ps...) const> : member_fn_traits<R (C::*)(Ps...)>
 {};
 
+template <typename T>
+using member_fn_ct = member_fn_traits<T>::class_type;
+template <typename T>
+using member_fn_rt = member_fn_traits<T>::return_type;
+template <typename T>
+using member_fn_pt = member_fn_traits<T>::params;
+
 template <typename... Ts>
 using remove_cvref_pack_t = std::tuple<std::remove_cvref_t<Ts>...>;
+
+template <typename Tuple>
+struct tuple_tail_impl;
+
+template <typename First, typename... Rest>
+struct tuple_tail_impl<std::tuple<First, Rest...>>
+{
+        using type = std::tuple<Rest...>;
+};
+
+template <typename Tuple>
+using tuple_tail_t = tuple_tail_impl<std::remove_cvref_t<Tuple>>::type;
 
 template <typename T, typename... Ts>
 struct IsAnyOf : std::bool_constant<(std::is_same<T, Ts>{} || ...)>

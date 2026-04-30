@@ -5,7 +5,6 @@
 
 struct EqObj : public GameObject
 {
-
         virtual void sub_6CE7D00(); // collision groups, sets off fuses?                                                //444
         virtual void sub_6CE8C50(); // damage dealing method, sets off death animation?                                 //448
         virtual void sub_6CE8D40(); // same as above, but for collision groups                                          //452

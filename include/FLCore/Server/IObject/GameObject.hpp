@@ -4,34 +4,8 @@
 #include "IObjectInspect.hpp"
 #include <FLCore/Common/CObjects/CSimple/CEqObj/CSolar.hpp>
 
-struct GameObject : public IObjInspectImpl, public IObjAffect, public IObjDestructor
+struct GameObject : public IObjRW, public IObjAffect, public IObjDestructor
 {
-        virtual ObjectType get_object_type() const;                                 // 340
-        virtual bool ObjectDestroyed(DestroyType destroyType, unsigned killerId);       // NakedShipDestroyed                                      //344 sub_6CE8080
-        virtual int Disconnect();                                                   // 348 sub_6CE7C80
-        virtual bool get_dunno_0x40();                                              // 352 sub_6CEE6D0
-        virtual int InstantiateCobject(Archetype::Root* archPtr);                   // 356 sub_6D01040
-        virtual bool SetCObjectById(unsigned cobjId);                                   // 360 sub_6D010A0
-        virtual void Update(f32 timeDelta);                                       // 364 sub_6D01450
-        virtual void sub_6D01A60();                                                 // 368 sub_6D01A60
-        virtual int sub_6CEE810(void* PhySys_unk);                                  // 372 physics collsion handling?
-        virtual void sub_6CEE980(int dunno);                                        // 376 Behavior interface update
-        virtual void sub_6CE9250(void* unk, DamageList*);                           // 380
-        virtual void process_munition_impact(MunitionImpactData* unk, DamageList*); // 384 sub_6CE9350
-        virtual void process_all_explosion_damage(ExplosionDamageEvent*, DamageList*); // calls methods 508-520         //388
-        virtual void apply_damage_list(DamageList*);                                   // 392 sub_6D01A10
-        virtual bool get_dunno_0x41();                                                 // 396
-        virtual void sub_6CEEFA0();                                                    // 400 sub_6CEEFA0
-        virtual void sub_6CEF0F0();                                                    // 404 sub_6CEF0F0
-        virtual bool is_player_vulnerable();                                           // 408 sub_6CE61A0
-        virtual bool is_invulnerable();                                                // 412 sub_6CE61B0
-        virtual f32 get_max_hp_loss();                                               // 416 sub_6CE61C0
-        virtual bool process_collision_unk(void*);         // unknown data type, an object containing a IObjRW as 2nd element?? //420 sub_6CEE9F0
-        virtual CArchGroup* sethp_unk(DamageList*, f32); // set relative hp to all eq and colgrps to provided f32?  //424 sub_6CEB210
-        virtual int set_relative_health(f32 newHp);      // 428
-        virtual bool damage_hull(f32, DamageList*);      // NakedDamageHit                                                 //432 sub_6CEA3A0
-        virtual void apply_damage_entry(DamageEntry*);     // 436 sub_6CEEF70
-        virtual bool can_deal_damage(DamageList*);         // invokes get_dunno_0x39 and 0x38                                   //440 sub_6CEF0B0
         CSimple* csimple() { return reinterpret_cast<CSimple*>(cobject()); };
         static GameObject* Cast(IObjInspectImpl* iobj)
         {
@@ -41,8 +15,9 @@ struct GameObject : public IObjInspectImpl, public IObjAffect, public IObjDestru
             }
             return nullptr;
         }
+
         bool IsStaticSolar()
-        { 
+        {
             if (!cobj)
             {
                 return false;
@@ -55,7 +30,7 @@ struct GameObject : public IObjInspectImpl, public IObjAffect, public IObjDestru
         }
 
         CObject* cobj;
-        GameObject* next; // warning: might only apply to client variant of the object
+        GameObject* next;  // warning: might only apply to client variant of the object
         void* pDunno_0x18; // struct size: 12 bytes
         int iDunnos_0x1C;  // length of 0x1C
         f64 timer;
@@ -65,7 +40,7 @@ struct GameObject : public IObjInspectImpl, public IObjAffect, public IObjDestru
         int iDunno_0x34;     // length of 0x30
         byte isInvulnerable; // not entirely sure on those two
         byte isPlayerVulnerable;
-        f32 maxHpLoss;  // when invulnerable, allow HP to drop down to this percentage
+        f32 maxHpLoss;    // when invulnerable, allow HP to drop down to this percentage
         byte bDunno_0x40; // is alive? Used when fetching IObjRW via sub_6D00670
         byte bDunno_0x41;
         byte bAlign_0x42; // probably not used

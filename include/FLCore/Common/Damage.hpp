@@ -54,24 +54,33 @@ struct ExplosionDamageEvent
 
 struct DamageList
 {
-        IMPORT DamageList(const DamageList&);
+        enum DamageEntryId : u16
+        {
+            Hull = 1,
+            Power = 2,
+            ColGroupStart = 4,
+            ColGroupEnd = 32,
+            EquipmentStart = 33,
+            ShieldStart = 0xFFF1,
+        };
+
+        IMPORT DamageList(const DamageList& b);
         IMPORT DamageList();
         IMPORT ~DamageList();
-        IMPORT DamageList& operator=(const DamageList&);
-        IMPORT static const char* DmgCauseToString(DamageCause);
-        IMPORT void add_damage_entry(u16, f32, DamageEntry::SubObjFate);
+        IMPORT DamageList& operator=(const DamageList& b);
+        IMPORT static const char* DmgCauseToString(DamageCause cause);
+        IMPORT void add_damage_entry(u16 entryId, f32 newHealth, DamageEntry::SubObjFate fate);
         IMPORT DamageCause get_cause() const;
-        IMPORT f32 get_hit_pts_left(u16) const;
+        IMPORT f32 get_hit_pts_left(u16 entryId) const;
         IMPORT u32 get_inflictor_id() const;
         IMPORT u32 get_inflictor_owner_player() const;
         IMPORT bool is_destroyed() const;
         IMPORT bool is_inflictor_a_player() const;
-        IMPORT void set_cause(DamageCause);
-        IMPORT void set_destroyed(bool);
-        IMPORT void set_inflictor_id(u32);
-        IMPORT void set_inflictor_owner_player(u32);
+        IMPORT void set_cause(DamageCause cause);
+        IMPORT void set_destroyed(bool destroyed);
+        IMPORT void set_inflictor_id(u32 shipId);
+        IMPORT void set_inflictor_owner_player(u32 clientId);
 
-    public:
         st6::list<DamageEntry> damageEntries;
         bool isDestroyed;
         DamageCause damageCause;
