@@ -11,10 +11,10 @@ struct IMPORT BaseWatcher
     BaseWatcher& operator=(const BaseWatcher&);
     void set(const struct Watchable*);
 
-    protected:
+  protected:
     void set_pointer(const Watchable*);
 
-    public:
+  public:
     Watchable* watchable;
     BaseWatcher* nextBaseWatcher;
 };
@@ -28,6 +28,6 @@ struct IMPORT Watchable
     Watchable& operator=(const Watchable&);
     u32 unwatch();
 
-    public:
+  public:
     BaseWatcher* newestBaseWatcher; // The last basewatcher set to watch this
 };

@@ -15,7 +15,7 @@ namespace Archetype
         IMPORT bool read(INI_Reader&) override;
         IMPORT void redefine(const Root&) override;
 
-        public:
+      public:
         /* 28 */ unsigned separationExplosionId;
         /* 29 */ unsigned debrisTypeId;
         /* 30 */ f32 childImpulse;
@@ -24,4 +24,4 @@ namespace Archetype
         /* 33 */ int toughness;
     };
 
-}
+} // namespace Archetype

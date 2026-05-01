@@ -3,10 +3,10 @@
 
 class CERepairDroid : public CEquip
 {
-    public:
-    IMPORT virtual ~CERepairDroid();
-    IMPORT virtual f32 GetHitPoints() const;
-    IMPORT virtual void SetHitPoints(f32);
+  public:
+    IMPORT ~CERepairDroid() override;
+    IMPORT f32 GetHitPoints() const override;
+    IMPORT void SetHitPoints(f32) override;
 
     IMPORT static CERepairDroid* cast(CEquip*);
     IMPORT static const CERepairDroid* cast(const CEquip*);
@@ -15,6 +15,6 @@ class CERepairDroid : public CEquip
     IMPORT CERepairDroid(CEqObj*, u16, const Archetype::RepairDroid*, bool);
     IMPORT const Archetype::RepairDroid* RepairDroidArch() const;
 
-    public:
+  public:
     Archetype::RepairDroid* archetype;
 };

@@ -10,7 +10,7 @@ namespace Universe
         size_t msgIdPrefixLength; // TString<64>
         char msgIdPrefixStr[64];
 
-        SystemId id;              // Id_String
+        SystemId id;          // Id_String
         const char* nickname; // CacheString
         st6::vector<ISystem*> connections;
         uchar visit;
@@ -23,4 +23,4 @@ namespace Universe
         f32 navMapScale;
         Id spaceMusicHash;
     };
-}
+} // namespace Universe

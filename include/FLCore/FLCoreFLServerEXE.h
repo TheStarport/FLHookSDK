@@ -7,7 +7,7 @@
 //	Description:	Interface to FLServer.exe
 //
 //	Web: www.skif.be/flcoresdk.php
-//  
+//
 //
 //////////////////////////////////////////////////////////////////////
 #ifndef _FLCOREFLSERVEREXE_H_
@@ -16,8 +16,8 @@
 #include "FLCoreDefs.hpp"
 #include <string>
 
-#pragma comment( lib, "FLCoreFLServerEXE.lib" )
+#pragma comment(lib, "FLCoreFLServerEXE.lib")
 
-IMPORT  int ServerLogf(struct ErrorCode,char const *,...);
+IMPORT int ServerLogf(struct ErrorCode, const char*, ...);
 
 #endif // _FLCOREFLSERVEREXE_H_

@@ -3,8 +3,8 @@
 
 class CETradeLaneEquip : public CInternalEquip
 {
-    public:
-    IMPORT virtual ~CETradeLaneEquip();
+  public:
+    IMPORT ~CETradeLaneEquip() override;
 
     IMPORT static CETradeLaneEquip* cast(CEquip*);
     IMPORT static const CETradeLaneEquip* cast(const CEquip*);

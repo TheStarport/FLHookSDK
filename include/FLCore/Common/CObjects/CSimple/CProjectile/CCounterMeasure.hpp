@@ -7,10 +7,10 @@ namespace Archetype
 }
 struct CCounterMeasure : CProjectile
 {
-    IMPORT virtual ~CCounterMeasure();
-    IMPORT virtual int update(f32, u32);
-    IMPORT virtual void init_physics(const Vector&, const Vector&);
-    IMPORT virtual void expire_safe_time();
+    IMPORT ~CCounterMeasure() override;
+    IMPORT int update(f32, u32) override;
+    IMPORT void init_physics(const Vector&, const Vector&) override;
+    IMPORT void expire_safe_time() override;
 
     IMPORT CCounterMeasure(const CCounterMeasure&);
     IMPORT CCounterMeasure(Class);

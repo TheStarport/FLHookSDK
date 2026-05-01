@@ -6,16 +6,13 @@ namespace pub
     {
         enum ScanResponse
         {
-
         };
         enum OP_RTYPE
         {
-
         };
 
         enum DirectivePriority
         {
-
         };
 
         struct DirectiveCallback;
@@ -45,5 +42,5 @@ namespace pub
             FreeFlight = 19,
             Delay = 20,
         };
-    }
-}
+    } // namespace AI
+} // namespace pub

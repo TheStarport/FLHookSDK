@@ -11,7 +11,7 @@ struct first_template_type;
 template <template <typename T, typename...> class t, typename T, typename... Args>
 struct first_template_type<t<T, Args...>>
 {
-        typedef T type;
+    typedef T type;
 };
 
 template <typename T>
@@ -41,7 +41,7 @@ struct tuple_map;
 template <template <typename> class Meta, typename... Ts>
 struct tuple_map<Meta, std::tuple<Ts...>>
 {
-        using type = std::tuple<Meta<Ts>...>;
+    using type = std::tuple<Meta<Ts>...>;
 };
 
 template <template <typename> class Meta, typename Tuple>
@@ -63,9 +63,9 @@ struct member_fn_traits;
 template <typename R, typename C, typename... Params>
 struct member_fn_traits<R (C::*)(Params...)>
 {
-        using return_type = R;
-        using class_type = std::remove_const_t<C>;
-        using params = std::tuple<Params...>;
+    using return_type = R;
+    using class_type = std::remove_const_t<C>;
+    using params = std::tuple<Params...>;
 };
 
 template <typename R, typename C, typename... Ps>
@@ -88,7 +88,7 @@ struct tuple_tail_impl;
 template <typename First, typename... Rest>
 struct tuple_tail_impl<std::tuple<First, Rest...>>
 {
-        using type = std::tuple<Rest...>;
+    using type = std::tuple<Rest...>;
 };
 
 template <typename Tuple>

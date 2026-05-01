@@ -18,9 +18,9 @@ namespace Archetype
         IMPORT bool read(INI_Reader&) override;
         IMPORT void redefine(const Root&) override;
 
-        public:
+      public:
         /* 28 */ f32 decayPerSecond;
         /* 29 */ unsigned lootAppearanceId;
         /* 30 */ unsigned podAppearanceId;
     };
-}
+} // namespace Archetype

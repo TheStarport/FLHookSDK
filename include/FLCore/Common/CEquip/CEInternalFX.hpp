@@ -3,9 +3,9 @@
 
 class CEInternalFX : public CEquip
 {
-    public:
-    IMPORT virtual ~CEInternalFX();
-    IMPORT virtual void Destroy();
+  public:
+    IMPORT ~CEInternalFX() override;
+    IMPORT void Destroy() override;
 
     IMPORT static CEInternalFX* cast(CEquip*);
     IMPORT static const CEInternalFX* cast(const CEquip*);

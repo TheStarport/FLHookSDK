@@ -15,5 +15,5 @@ namespace pub
         IMPORT int get_state_graph(const char*, Type);
         IMPORT const IStateGraph* get_state_graph_internal(int);
         IMPORT void refresh_state_graph();
-    };
-}
+    }; // namespace StateGraph
+} // namespace pub

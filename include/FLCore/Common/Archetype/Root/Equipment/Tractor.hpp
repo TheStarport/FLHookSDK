@@ -14,8 +14,8 @@ namespace Archetype
         IMPORT bool read(INI_Reader&) override;
         IMPORT void redefine(const Root&) override;
 
-        public:
+      public:
         /* 28 */ f32 maxLength;
         /* 29 */ f32 reachSpeed;
     };
-}
+} // namespace Archetype

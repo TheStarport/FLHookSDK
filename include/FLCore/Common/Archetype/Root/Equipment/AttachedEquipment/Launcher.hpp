@@ -14,7 +14,7 @@ namespace Archetype
         IMPORT bool read(INI_Reader&) override;
         IMPORT void redefine(const Root&) override;
 
-        public:
+      public:
         /* 34 */ f32 damagePerFire;
         /* 35 */ f32 powerUsage;
         /* 36 */ f32 refireDelay;
@@ -22,4 +22,4 @@ namespace Archetype
         /* 38 */ Id projectileArchId;
         /* 39 */ char* useAnimation;
     };
-}
+} // namespace Archetype

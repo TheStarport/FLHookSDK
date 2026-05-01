@@ -6,7 +6,7 @@ namespace CmnAsteroid
 {
     class CAsteroidCube
     {
-        public:
+      public:
         enum CubeState
         {
         };
@@ -24,10 +24,10 @@ namespace CmnAsteroid
         IMPORT void set_state(CubeState);
         IMPORT void set_system(u32);
 
-        private:
+      private:
         IMPORT bool compute_asteroid_id(const Vector&, ulong&);
 
-        public:
+      public:
         u8 data[OBJECT_DATA_SIZE];
     };
-}
+} // namespace CmnAsteroid

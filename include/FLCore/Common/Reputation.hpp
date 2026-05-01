@@ -5,29 +5,29 @@ namespace Reputation
 {
     struct Relation
     {
-            unsigned hash;
-            f32 reputation;
+        unsigned hash;
+        f32 reputation;
     };
 
     struct ReputationEntry
     {
-            unsigned affliation;
-            unsigned dunno;
-            unsigned clientId;
-            unsigned dunno2[14];
-            wchar_t name[24];
-            unsigned rank;
-            st6::vector<Reputation::Relation> reputations;
+        unsigned affliation;
+        unsigned dunno;
+        unsigned clientId;
+        unsigned dunno2[14];
+        wchar_t name[24];
+        unsigned rank;
+        st6::vector<Reputation::Relation> reputations;
     };
 
     struct RepGroup
     {
-            unsigned nameLength;
-            char name[16];
-            unsigned nameIds;
-            unsigned infocardIds;
-            unsigned shortNameIds;
-            st6::map<unsigned, f32> feelingsTowardsMap;
+        unsigned nameLength;
+        char name[16];
+        unsigned nameIds;
+        unsigned infocardIds;
+        unsigned shortNameIds;
+        st6::map<unsigned, f32> feelingsTowardsMap;
     };
 
     using RepGroupCB = bool (***)(RepGroup*);
@@ -42,7 +42,8 @@ namespace Reputation
         IMPORT int Free(const int&);
         IMPORT void FreeDynamic();
         // ReSharper disable once CppConstParameterInDeclaration
-        IMPORT int Get(const int& repId, u32& affiliation, u32& rank, u8& relationCount, Relation* const relations, FmtStr&, FmtStr&, // NOLINT(*-avoid-const-params-in-decls)
+        IMPORT int Get(const int& repId, u32& affiliation, u32& rank, u8& relationCount, Relation* const relations, FmtStr&,
+                       FmtStr&, // NOLINT(*-avoid-const-params-in-decls)
                        const u16*& name);
         IMPORT int GetAffiliation(const int&, u32&, bool);
         IMPORT u32 GetClientID(int);
@@ -78,4 +79,4 @@ namespace Reputation
     IMPORT u32 get_short_name(u32);
     IMPORT u32 group_count();
     IMPORT void set(const TString<16>&, Relation* const, u32);
-}
+} // namespace Reputation

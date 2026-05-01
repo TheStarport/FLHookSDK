@@ -3,9 +3,9 @@
 
 class CEMineDropper : public CELauncher
 {
-    public:
-    IMPORT virtual ~CEMineDropper();
-    IMPORT virtual FireResult CanFire(const Vector&) const;
+  public:
+    IMPORT ~CEMineDropper() override;
+    IMPORT FireResult CanFire(const Vector&) const override;
 
     IMPORT static CEMineDropper* cast(CEquip*);
     IMPORT static const CEMineDropper* cast(const CEquip*);

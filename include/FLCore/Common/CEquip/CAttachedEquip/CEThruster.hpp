@@ -4,16 +4,16 @@
 
 class CEThruster : public CAttachedEquip, public CPhysControllerEquip
 {
-    public:
-    IMPORT virtual void do_simulation_controller(IVP_Event_Sim*, IVP_U_Vector<IVP_Core>*);
+  public:
+    IMPORT void do_simulation_controller(IVP_Event_Sim*, IVP_U_Vector<IVP_Core>*) override;
 
-    IMPORT virtual ~CEThruster();
+    IMPORT ~CEThruster() override;
 
-    IMPORT virtual bool EnableController();
-    IMPORT virtual bool DisableController();
-    IMPORT virtual bool IsControllerEnabled() const;
+    IMPORT bool EnableController() override;
+    IMPORT bool DisableController() override;
+    IMPORT bool IsControllerEnabled() const override;
 
-    IMPORT virtual bool Activate(bool);
+    IMPORT bool Activate(bool) override;
 
     IMPORT static CEThruster* cast(CEquip*);
     IMPORT static const CEThruster* cast(const CEquip*);

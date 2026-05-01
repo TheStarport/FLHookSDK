@@ -11,7 +11,7 @@ namespace Archetype
         IMPORT Shield& operator=(const Shield&);
         IMPORT ClassType get_class_type() const override;
 
-        public:
+      public:
         /* 28 */ char* dunno1;
         /* 29 */ char* dunno2;
         /* 30 */ unsigned dunno3;
@@ -19,4 +19,4 @@ namespace Archetype
         /* 32 */ char* dunno5;
         /* 33 */ unsigned dunno6;
     };
-}
+} // namespace Archetype

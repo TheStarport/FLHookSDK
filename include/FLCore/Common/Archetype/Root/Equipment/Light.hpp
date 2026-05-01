@@ -13,8 +13,8 @@ namespace Archetype
         IMPORT ClassType get_class_type() const override;
         IMPORT bool read(INI_Reader&) override;
 
-        public:
+      public:
         /* 28 */ bool alwaysOn;
         bool dockingLight;
     };
-}
+} // namespace Archetype

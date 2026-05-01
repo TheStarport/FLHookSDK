@@ -20,9 +20,9 @@ struct CAsteroid : CSimple
         u8 data[OBJECT_DATA_SIZE];
     };
 
-    IMPORT virtual ~CAsteroid();
-    IMPORT virtual Vector get_velocity() const;
-    IMPORT virtual int update(f32, u32);
+    IMPORT ~CAsteroid() override;
+    IMPORT Vector get_velocity() const override;
+    IMPORT int update(f32, u32) override;
 
     IMPORT const Archetype::Asteroid* asteroidarch() const;
     IMPORT ulong get_asteroid_id();
@@ -34,9 +34,9 @@ struct CAsteroid : CSimple
     IMPORT CAsteroid(const CAsteroid&);
     IMPORT CAsteroid();
 
-    protected:
-    IMPORT virtual void init_physics(const Vector&, const Vector&);
+  protected:
+    IMPORT void init_physics(const Vector&, const Vector&) override;
 
-    public:
+  public:
     u8 data[OBJECT_DATA_SIZE];
 };

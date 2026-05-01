@@ -10,7 +10,7 @@ namespace Archetype
     {
         IMPORT EqObj(const EqObj&);
         IMPORT EqObj(IClObj*);
-        IMPORT virtual ~EqObj();
+        IMPORT ~EqObj() override;
         IMPORT const EqObj& operator=(const EqObj&);
         IMPORT bool dock_terminal_valid(int) const;
         IMPORT const CollisionGroup* get_group_by_id(u16) const;
@@ -18,11 +18,11 @@ namespace Archetype
         IMPORT bool get_undamaged_collision_group_list(st6::list<CollisionGroupDesc>&) const;
         IMPORT bool traverse_groups(const CollisionGroup*&) const;
 
-        IMPORT virtual ClassType get_class_type() const;
-        IMPORT virtual bool read(INI_Reader&);
-        IMPORT virtual void redefine(const Root&);
+        IMPORT ClassType get_class_type() const override;
+        IMPORT bool read(INI_Reader&) override;
+        IMPORT void redefine(const Root&) override;
 
-        public:
+      public:
         /* 23 */ CollisionGroup* collisionGroup;
         /* 24 */ u16 equipmentIdCounter;
         /* 25 */ unsigned dunno2;
@@ -36,4 +36,4 @@ namespace Archetype
         bool dockingCamera;
         /* 33-36 */ st6::vector<DockHardpointInfo> dockInfo;
     };
-}
+} // namespace Archetype

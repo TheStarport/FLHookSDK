@@ -60,8 +60,8 @@ Matrix::Matrix(const Quaternion& q)
     d[2][2] = 1.0f - (xx + yy);
 }
 
-Matrix::Matrix(const f32 e00, const f32 e01, const f32 e02, const f32 e10, const f32 e11, const f32 e12, const f32 e20,
-               const f32 e21, const f32 e22)
+Matrix::Matrix(const f32 e00, const f32 e01, const f32 e02, const f32 e10, const f32 e11, const f32 e12, const f32 e20, const f32 e21,
+               const f32 e22)
 {
     d[0][0] = e00;
     d[0][1] = e01;
@@ -193,7 +193,7 @@ Matrix Matrix::get_inverse() const
 
     if (fabs(determinant) > MIN_DET)
     {
-        const f32 dt = 1.0f / determinant; //compiler should use fld1 instruction (but doesn't)
+        const f32 dt = 1.0f / determinant; // compiler should use fld1 instruction (but doesn't)
 
         result.d[0][0] = (d[1][1] * d[2][2] - d[1][2] * d[2][1]) * dt;
         result.d[1][0] = -(d[1][0] * d[2][2] - d[1][2] * d[2][0]) * dt;

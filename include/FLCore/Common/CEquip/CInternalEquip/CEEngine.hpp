@@ -13,30 +13,30 @@ namespace Archetype
 
 struct IMPORT ExhaustNozzleInfo
 {
-        ExhaustNozzleInfo();
-        ExhaustNozzleInfo& operator=(const ExhaustNozzleInfo&);
-        bool GetHardpointOffset_NS(Transform&) const;
+    ExhaustNozzleInfo();
+    ExhaustNozzleInfo& operator=(const ExhaustNozzleInfo&);
+    bool GetHardpointOffset_NS(Transform&) const;
 
-    public:
-        u8 data[OBJECT_DATA_SIZE];
+  public:
+    u8 data[OBJECT_DATA_SIZE];
 };
 
 struct CShip;
 class CEEngine : public CInternalEquip, public CPhysControllerEquip
 {
-    public:
-    IMPORT virtual void do_simulation_controller(IVP_Event_Sim*, IVP_U_Vector<IVP_Core>*);
+  public:
+    IMPORT void do_simulation_controller(IVP_Event_Sim*, IVP_U_Vector<IVP_Core>*) override;
 
-    IMPORT virtual ~CEEngine();
+    IMPORT ~CEEngine() override;
 
-    IMPORT virtual bool EnableController();
-    IMPORT virtual bool DisableController();
-    IMPORT virtual bool IsControllerEnabled() const;
+    IMPORT bool EnableController() override;
+    IMPORT bool DisableController() override;
+    IMPORT bool IsControllerEnabled() const override;
 
-    IMPORT virtual bool IsFunctioning() const;
-    IMPORT virtual void NotifyArchGroupDestroyed(u16);
-    IMPORT virtual bool Update(f32, u32);
-    IMPORT virtual bool Activate(bool);
+    IMPORT bool IsFunctioning() const override;
+    IMPORT void NotifyArchGroupDestroyed(u16) override;
+    IMPORT bool Update(f32, u32) override;
+    IMPORT bool Activate(bool) override;
 
     IMPORT static void BuildNozzleHPName(int, CacheString&);
     IMPORT static CEEngine* cast(CEquip*);
@@ -57,7 +57,6 @@ class CEEngine : public CInternalEquip, public CPhysControllerEquip
     IMPORT f32 GetThrust(f32) const;
     IMPORT bool IsCruiseEngaged() const;
 
-    
     /* 10 */ u32 dunno[4];
     /* 14 */ st6::vector<ExhaustNozzleInfo> nozzleInfo;
     /* 18 */ u32 dunno2;

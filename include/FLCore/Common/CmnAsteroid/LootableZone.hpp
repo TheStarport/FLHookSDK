@@ -17,4 +17,4 @@ namespace CmnAsteroid
         Id asteroidLootDifficulty; // not used
         Id dynamicLootDifficulty;  // default 1, maximum 100
     };
-}
+} // namespace CmnAsteroid

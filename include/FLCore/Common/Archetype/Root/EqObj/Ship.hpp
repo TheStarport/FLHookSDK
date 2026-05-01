@@ -8,13 +8,13 @@ namespace Archetype
     {
         IMPORT Ship(const Ship&);
         IMPORT Ship(IClObj*);
-        IMPORT virtual ~Ship();
+        IMPORT ~Ship() override;
         IMPORT Ship& operator=(const Ship&);
         IMPORT static const int MAX_EXHAUST_NOZZLES;
-        IMPORT virtual ClassType get_class_type() const;
+        IMPORT ClassType get_class_type() const override;
         IMPORT const st6::vector<CacheString>* get_legal_hps(HpAttachmentType) const;
-        IMPORT virtual bool read(INI_Reader&);
-        IMPORT virtual void redefine(const Root&);
+        IMPORT bool read(INI_Reader&) override;
+        IMPORT void redefine(const Root&) override;
 
         struct HpType
         {
@@ -46,4 +46,4 @@ namespace Archetype
         /* 80 */ unsigned maxNanobots;
         /* 81 */ unsigned maxShieldBats;
     };
-}
+} // namespace Archetype

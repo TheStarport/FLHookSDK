@@ -11,7 +11,7 @@ namespace Archetype
         IMPORT LootCrate& operator=(const LootCrate&);
         IMPORT ClassType get_class_type() const override;
 
-        public:
+      public:
         // no fields here
     };
-}
+} // namespace Archetype

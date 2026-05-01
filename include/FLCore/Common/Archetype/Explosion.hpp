@@ -17,7 +17,7 @@ namespace Archetype
         IMPORT bool read(INI_Reader&);
         IMPORT void reset();
 
-        public:
+      public:
         /*  0 */ Id id;
         /*  1 */ f32 radius;
         /*  2 */ f32 impulse;
@@ -44,4 +44,4 @@ namespace Archetype
         /*  22 */ unsigned* dunno7;
         /*  23 */ unsigned* dunno8;
     };
-}
+} // namespace Archetype

@@ -7,11 +7,11 @@ namespace Archetype
     {
         IMPORT AttachedFXEquip(const AttachedFXEquip&);
         IMPORT AttachedFXEquip(IClObj*);
-        IMPORT virtual ~AttachedFXEquip();
+        IMPORT ~AttachedFXEquip() override;
         IMPORT AttachedFXEquip& operator=(const AttachedFXEquip&);
-        IMPORT virtual ClassType get_class_type() const;
+        IMPORT ClassType get_class_type() const override;
 
-        public:
+      public:
         // no fields here
     };
-}
+} // namespace Archetype

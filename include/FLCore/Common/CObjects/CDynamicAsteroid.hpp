@@ -9,20 +9,20 @@ namespace Archetype
 
 struct CDynamicAsteroid : CObject
 {
-        IMPORT virtual ~CDynamicAsteroid();
-        IMPORT virtual int update(f32, u32);
-        IMPORT virtual void init_physics(const Vector&, const Vector&, u32);
+    IMPORT ~CDynamicAsteroid() override;
+    IMPORT int update(f32, u32) override;
+    IMPORT virtual void init_physics(const Vector&, const Vector&, u32);
 
-        struct IMPORT CreateParms
-        {
-                CreateParms();
-                CreateParms& operator=(const CreateParms&);
+    struct IMPORT CreateParms
+    {
+        CreateParms();
+        CreateParms& operator=(const CreateParms&);
 
-                u8 data[OBJECT_DATA_SIZE];
-        };
+        u8 data[OBJECT_DATA_SIZE];
+    };
 
-        IMPORT CDynamicAsteroid(const CDynamicAsteroid&);
-        IMPORT CDynamicAsteroid();
-        IMPORT const Archetype::DynamicAsteroid* dynamicAsteroidArch() const;
-        IMPORT void init(const CreateParms&);
+    IMPORT CDynamicAsteroid(const CDynamicAsteroid&);
+    IMPORT CDynamicAsteroid();
+    IMPORT const Archetype::DynamicAsteroid* dynamicAsteroidArch() const;
+    IMPORT void init(const CreateParms&);
 };

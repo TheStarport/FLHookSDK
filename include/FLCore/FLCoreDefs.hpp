@@ -49,8 +49,8 @@ Matrix EulerMatrix(const Vector&);
 template <int size>
 struct TString
 {
-        int len;
-        char data[size + 1];
+    int len;
+    char data[size + 1];
 
-        TString() : len(0) { data[0] = 0; }
+    TString() : len(0) { data[0] = 0; }
 };

@@ -7,25 +7,25 @@ namespace Archetype
 {
     struct Munition;
     struct MotorData;
-}
+} // namespace Archetype
 
 struct IObjRW;
 struct CGuided : public CProjectile
 {
-    public:
+  public:
     struct IMPORT CreateParms
     {
         CreateParms();
         CreateParms& operator=(const CreateParms&);
 
-        public:
+      public:
         u8 data[OBJECT_DATA_SIZE];
     };
 
-    IMPORT virtual ~CGuided();
-    IMPORT virtual int update(f32, u32);
-    IMPORT virtual void init_physics(const Vector&, const Vector&);
-    IMPORT virtual void expire_safe_time();
+    IMPORT ~CGuided() override;
+    IMPORT int update(f32, u32) override;
+    IMPORT void init_physics(const Vector&, const Vector&) override;
+    IMPORT void expire_safe_time() override;
 
     IMPORT static bool seeker_can_see(const Vector&, const Vector&, const Vector&, const Archetype::Munition*);
 
@@ -41,7 +41,7 @@ struct CGuided : public CProjectile
     IMPORT void set_target(IObjRW*);
 
     BaseWatcher targetBaseWatcher;   // 60
-    u16 targetSId;                // 62
+    u16 targetSId;                   // 62
     Archetype::MotorData* motorData; // 63
-    f32 lifetime;                  // 64
+    f32 lifetime;                    // 64
 };

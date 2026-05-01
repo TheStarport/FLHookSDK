@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "../AttachedEquipment.hpp"
 
 namespace Archetype
@@ -15,11 +14,11 @@ namespace Archetype
         IMPORT bool read(INI_Reader&) override;
         IMPORT void redefine(const Root&) override;
 
-        public:
+      public:
         /* 34 */ f32 powerUsage;
         /* 35 */ f32 cloakInTime;
         /* 36 */ f32 cloakOutTime;
         /* 37 */ unsigned cloakInFxId;
         /* 38 */ unsigned cloakOutFxId;
     };
-}
+} // namespace Archetype

@@ -19,7 +19,7 @@ enum class PopupDialog
 
 struct CHAT_ID
 {
-        unsigned id;
+    unsigned id;
 };
 
 enum class DOCK_HOST_RESPONSE
@@ -47,153 +47,153 @@ enum class ResponseCode
 
 struct SGFGoodVaporizedInfo
 {
-        unsigned dunno[128];
+    unsigned dunno[128];
 };
 
 struct SSPMunitionCollisionInfo
 {
-        Id projectileArchId;
-        ObjectId attackerId;
-        ObjectId targetObjId;
-        u16 subObjId;
-        Vector impactPosition;
+    Id projectileArchId;
+    ObjectId attackerId;
+    ObjectId targetObjId;
+    u16 subObjId;
+    Vector impactPosition;
 };
 
 struct SSPBadLandsObjCollisionInfo
 {
-        unsigned dunno[128];
+    unsigned dunno[128];
 };
 
 struct SSPObjCollisionInfo
 {
-        unsigned colliderObjectId;
-        unsigned colliderSubObjId;
-        unsigned damagedObjectId;
-        unsigned damagedSubObjId;
-        f32 damage;
+    unsigned colliderObjectId;
+    unsigned colliderSubObjId;
+    unsigned damagedObjectId;
+    unsigned damagedSubObjId;
+    f32 damage;
 };
 
 struct SSPUseItem
 {
-        Id userShipId;
-        u16 itemId;
-        u16 amountUsed;
+    Id userShipId;
+    u16 itemId;
+    u16 amountUsed;
 };
 
 struct XActivateEquip
 {
-        Id spaceId;
-        u16 id;
-        bool activate;
+    Id spaceId;
+    u16 id;
+    bool activate;
 };
 
 struct XActivateCruise
 {
-        Id ship;
-        bool activate;
+    Id ship;
+    bool activate;
 };
 
 struct XActivateThrusters
 {
-        Id ship;
-        bool activate;
+    Id ship;
+    bool activate;
 };
 
 struct XTractorObjects
 {
-        int dunno[3];
-        // This points to the start of the array of space Ids
-        int* arraySpaceId;
-        // This points to the end of the array of space Ids
-        int* arraySpaceIdEnd;
+    int dunno[3];
+    // This points to the start of the array of space Ids
+    int* arraySpaceId;
+    // This points to the end of the array of space Ids
+    int* arraySpaceIdEnd;
 };
 
 struct SGFGoodSellInfo
 {
-        long dunno1;
-        Id archId;
-        int count;
+    long dunno1;
+    Id archId;
+    int count;
 };
 
 struct SGFGoodBuyInfo
 {
-        BaseId baseId;
-        ulong null;
-        Id goodId;
-        int count;
+    BaseId baseId;
+    ulong null;
+    Id goodId;
+    int count;
 };
 
 struct XFireWeaponInfo
 {
-        Id object;
-        Vector target;
-        st6::vector<u16> hpIds;
+    Id object;
+    Vector target;
+    st6::vector<u16> hpIds;
 };
 
 struct XCollision
 {
-        u16 componentId;
-        f32 componentHp;
+    u16 componentId;
+    f32 componentHp;
 };
 
 struct XSetManeuver
 {
-        Id shipFrom;
-        Id shipTo;
-        unsigned flag;
+    Id shipFrom;
+    Id shipTo;
+    unsigned flag;
 };
 
 struct XSetTarget
 {
-        Id ship;
-        unsigned slot;
-        Id spaceId;
-        u16 subObjId;
+    Id ship;
+    unsigned slot;
+    Id spaceId;
+    u16 subObjId;
 };
 
 struct SSPObjUpdateInfoSimple
 {
-        Id objId;
-        Quaternion dir;
-        Vector pos;
-        f32 timestamp;
-        f32 throttle;
-        char state;
+    Id objId;
+    Quaternion dir;
+    Vector pos;
+    f32 timestamp;
+    f32 throttle;
+    char state;
 };
 
 struct SSPObjUpdateInfo
 {
-        Id objId;
-        Quaternion dir;
-        Vector pos;
-        f32 timestamp;
-        f32 throttle;
-        unsigned stateValue;
-        // Enum of some kind
-        char state;
+    Id objId;
+    Quaternion dir;
+    Vector pos;
+    f32 timestamp;
+    f32 throttle;
+    unsigned stateValue;
+    // Enum of some kind
+    char state;
 };
 
 struct XJettisonCargo
 {
-        Id ship;
-        u16 slot;
-        unsigned count;
+    Id ship;
+    u16 slot;
+    unsigned count;
 };
 
 struct XGoTradelane
 {
-        Id ship;
-        Id tradelaneSpaceObj1;
-        Id tradelaneSpaceObj2;
+    Id ship;
+    Id tradelaneSpaceObj1;
+    Id tradelaneSpaceObj2;
 };
 
 struct CAccountListNode
 {
-        CAccountListNode* next;
-        CAccountListNode* prev;
-        unsigned dunno1;
-        wchar_t* charname;
-        unsigned dunno2[32];
+    CAccountListNode* next;
+    CAccountListNode* prev;
+    unsigned dunno1;
+    wchar_t* charname;
+    unsigned dunno2[32];
 };
 
 enum class ConnectionType
@@ -214,64 +214,64 @@ enum class InvincibilityReason
 
 struct CollisionGroupDescList
 {
-        st6::list<CollisionGroupDesc> data;
+    st6::list<CollisionGroupDesc> data;
 };
 
 struct SCreateCharacterInfo
 {
-        wchar_t charname[24];
-        unsigned nickName; // From [Faction] section of newcharacter.ini
-        unsigned base;     // From [Faction] section of newcharacter.ini
-        unsigned package;  // From [Faction] section of newcharacter.ini
-        unsigned pilot;    // From [Faction] section of newcharacter.ini
-        unsigned dunno[96];
+    wchar_t charname[24];
+    unsigned nickName; // From [Faction] section of newcharacter.ini
+    unsigned base;     // From [Faction] section of newcharacter.ini
+    unsigned package;  // From [Faction] section of newcharacter.ini
+    unsigned pilot;    // From [Faction] section of newcharacter.ini
+    unsigned dunno[96];
 };
 
 struct SStartupInfo
 {
-        unsigned dunno[130];
-        int maxPlayers;
+    unsigned dunno[130];
+    int maxPlayers;
 };
 
 struct SLoginInfo
 {
-        wchar_t account[36];
+    wchar_t account[36];
 };
 
 struct RequestBestPathStruct
 {
-        unsigned clientId;
-        unsigned dunno0;
-        unsigned dunno1;
-        Vector startPos;
-        unsigned dunno2;
-        unsigned startSystem;
-        Vector endPos;
-        unsigned dunno3;
-        unsigned endSystem;
+    unsigned clientId;
+    unsigned dunno0;
+    unsigned dunno1;
+    Vector startPos;
+    unsigned dunno2;
+    unsigned startSystem;
+    Vector endPos;
+    unsigned dunno3;
+    unsigned endSystem;
 };
 
 class IMPORT CAccount
 {
-    public:
-        CAccount(const CAccount&);
-        CAccount();
-        virtual ~CAccount();
-        CAccount& operator=(const CAccount&);
-        void AppendCharacterNames(st6::list<st6::wstring&>&);
-        void DeleteCharacterFromID(st6::string&);
-        void ForceLogout();
-        void InitFromFolder(const char*);
+  public:
+    CAccount(const CAccount&);
+    CAccount();
+    virtual ~CAccount();
+    CAccount& operator=(const CAccount&);
+    void AppendCharacterNames(st6::list<st6::wstring&>&);
+    void DeleteCharacterFromID(st6::string&);
+    void ForceLogout();
+    void InitFromFolder(const char*);
 
-    public:
-        unsigned dunno1;
-        wchar_t* accId;
-        unsigned dunno2[7];
-        CAccountListNode* firstListNode;
-        unsigned numberOfCharacters;
-        unsigned dunno4;
-        unsigned clientId;
-        unsigned dunno5[30];
+  public:
+    unsigned dunno1;
+    wchar_t* accId;
+    unsigned dunno2[7];
+    CAccountListNode* firstListNode;
+    unsigned numberOfCharacters;
+    unsigned dunno4;
+    unsigned clientId;
+    unsigned dunno5[30];
 };
 
 enum CommResult

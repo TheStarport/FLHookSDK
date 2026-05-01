@@ -6,30 +6,30 @@
 
 struct Ship : public EqObj
 {
-        CShip* cship() { return reinterpret_cast<CShip*>(cobject()); };
+    CShip* cship() { return reinterpret_cast<CShip*>(cobject()); };
 
-        static Ship* Cast(IObjInspectImpl* iobj)
+    static Ship* Cast(IObjInspectImpl* iobj)
+    {
+        if (iobj->cobject()->objectClass == CObject::CSHIP_OBJECT)
         {
-            if (iobj->cobject()->objectClass == CObject::CSHIP_OBJECT)
-            {
-                return reinterpret_cast<Ship*>(iobj);
-            }
-            return nullptr;
+            return reinterpret_cast<Ship*>(iobj);
         }
+        return nullptr;
+    }
 
-        // f32 iDunno_0x8C; 0x8C hidden when debugging for unknown reasons, a f32 of -26.18375
-        int iDunno_0x90;
-        int iDunno_0x94;
-        bool bDunno_0x98;
-        int iDunno_0x9C;
-        f32 Dunno_0xA0;
-        int* iDunno_0xA4; // struct size 0x28
-        unsigned A4Size;
-        int iDunno_0xAC;
-        int iDunno_0xB0;
-        int iDunno_0xB4;
-        bool bDunno_0xB8;
-        f32 pendingEnvironmentalDamage;
-        f32 timeSinceLastUpdate;
-        SubObjectID::EquipIdMaker equipIdMaker;
+    // f32 iDunno_0x8C; 0x8C hidden when debugging for unknown reasons, a f32 of -26.18375
+    int iDunno_0x90;
+    int iDunno_0x94;
+    bool bDunno_0x98;
+    int iDunno_0x9C;
+    f32 Dunno_0xA0;
+    int* iDunno_0xA4; // struct size 0x28
+    unsigned A4Size;
+    int iDunno_0xAC;
+    int iDunno_0xB0;
+    int iDunno_0xB4;
+    bool bDunno_0xB8;
+    f32 pendingEnvironmentalDamage;
+    f32 timeSinceLastUpdate;
+    SubObjectID::EquipIdMaker equipIdMaker;
 };

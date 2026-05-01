@@ -3,9 +3,9 @@
 
 class CECounterMeasureDropper : public CELauncher
 {
-    public:
-    IMPORT virtual ~CECounterMeasureDropper();
-    IMPORT virtual bool Update(f32, u32);
+  public:
+    IMPORT ~CECounterMeasureDropper() override;
+    IMPORT bool Update(f32, u32) override;
 
     IMPORT static CECounterMeasureDropper* cast(CEquip*);
     IMPORT static const CECounterMeasureDropper* cast(const CEquip*);

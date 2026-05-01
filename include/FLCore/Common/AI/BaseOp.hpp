@@ -4,7 +4,5 @@
 namespace pub
 {
     namespace AI
-    {
-
-    }
-}
+    {}
+} // namespace pub

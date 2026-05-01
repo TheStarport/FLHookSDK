@@ -185,22 +185,22 @@ enum class MessageFormat
 
 struct StringHash
 {
-        using hash_type = std::hash<std::string_view>;
-        using is_transparent = void;
+    using hash_type = std::hash<std::string_view>;
+    using is_transparent = void;
 
-        std::size_t operator()(const char* str) const { return hash_type{}(str); }
-        std::size_t operator()(const std::string_view str) const { return hash_type{}(str); }
-        std::size_t operator()(const std::string& str) const { return hash_type{}(str); }
+    std::size_t operator()(const char* str) const { return hash_type{}(str); }
+    std::size_t operator()(const std::string_view str) const { return hash_type{}(str); }
+    std::size_t operator()(const std::string& str) const { return hash_type{}(str); }
 };
 
 struct WStringHash
 {
-        using hash_type = std::hash<std::wstring_view>;
-        using is_transparent = void;
+    using hash_type = std::hash<std::wstring_view>;
+    using is_transparent = void;
 
-        std::size_t operator()(const wchar_t* str) const { return hash_type{}(str); }
-        std::size_t operator()(const std::wstring_view str) const { return hash_type{}(str); }
-        std::size_t operator()(const std::wstring& str) const { return hash_type{}(str); }
+    std::size_t operator()(const wchar_t* str) const { return hash_type{}(str); }
+    std::size_t operator()(const std::wstring_view str) const { return hash_type{}(str); }
+    std::size_t operator()(const std::wstring& str) const { return hash_type{}(str); }
 };
 
 constexpr size_t Hash(const char* str)
@@ -209,7 +209,7 @@ constexpr size_t Hash(const char* str)
     long long current_multiplier = 1;
     for (int i = 0; str[i] != '\0'; ++i)
     {
-        constexpr long long m = 4294967291;
+        constexpr long long m = 4'294'967'291;
         constexpr long long p = 131;
         total = (total + current_multiplier * str[i]) % m;
         current_multiplier = current_multiplier * p % m;
@@ -222,52 +222,52 @@ constexpr size_t Hash(const char* str)
 
 class StringUtils
 {
-        // ReSharper disable CppExplicitSpecializationInNonNamespaceScope
+    // ReSharper disable CppExplicitSpecializationInNonNamespaceScope
 
-        template <typename CharT,
-                  typename C1 = std::conditional_t<IsStringViewConvertable<CharT>, std::string_view,
-                                                   std::conditional_t<std::is_convertible_v<char, CharT>, char, const char*>>,
-                  typename C2 = std::conditional_t<IsStringViewConvertable<CharT>, std::wstring_view,
-                                                   std::conditional_t<std::is_convertible_v<wchar_t, CharT>, wchar_t, const wchar_t*>>>
-        static constexpr CharT NarrowOrWide(C1, C2) = delete;
+    template <typename CharT,
+              typename C1 = std::conditional_t<IsStringViewConvertable<CharT>, std::string_view,
+                                               std::conditional_t<std::is_convertible_v<char, CharT>, char, const char*>>,
+              typename C2 = std::conditional_t<IsStringViewConvertable<CharT>, std::wstring_view,
+                                               std::conditional_t<std::is_convertible_v<wchar_t, CharT>, wchar_t, const wchar_t*>>>
+    static constexpr CharT NarrowOrWide(C1, C2) = delete;
 
-        template <>
-        static constexpr const char* NarrowOrWide<const char*>(const char* c, const wchar_t*)
-        {
-            return c;
-        }
+    template <>
+    static constexpr const char* NarrowOrWide<const char*>(const char* c, const wchar_t*)
+    {
+        return c;
+    }
 
-        template <>
-        static constexpr wchar_t NarrowOrWide<wchar_t>(char, wchar_t w)
-        {
-            return w;
-        }
+    template <>
+    static constexpr wchar_t NarrowOrWide<wchar_t>(char, wchar_t w)
+    {
+        return w;
+    }
 
-        template <>
-        static constexpr char NarrowOrWide<char>(char c, wchar_t)
-        {
-            return c;
-        }
+    template <>
+    static constexpr char NarrowOrWide<char>(char c, wchar_t)
+    {
+        return c;
+    }
 
-        template <>
-        static constexpr const wchar_t* NarrowOrWide<const wchar_t*>(const char*, const wchar_t* w)
-        {
-            return w;
-        }
+    template <>
+    static constexpr const wchar_t* NarrowOrWide<const wchar_t*>(const char*, const wchar_t* w)
+    {
+        return w;
+    }
 
-        template <>
-        static constexpr std::string_view NarrowOrWide<std::string_view>(std::string_view c, std::wstring_view)
-        {
-            // ReSharper disable once CppDFALocalValueEscapesFunction
-            return { c };
-        }
+    template <>
+    static constexpr std::string_view NarrowOrWide<std::string_view>(std::string_view c, std::wstring_view)
+    {
+        // ReSharper disable once CppDFALocalValueEscapesFunction
+        return { c };
+    }
 
-        template <>
-        static constexpr std::wstring_view NarrowOrWide<std::wstring_view>(std::string_view, std::wstring_view w)
-        {
-            // ReSharper disable once CppDFALocalValueEscapesFunction
-            return { w };
-        }
+    template <>
+    static constexpr std::wstring_view NarrowOrWide<std::wstring_view>(std::string_view, std::wstring_view w)
+    {
+        // ReSharper disable once CppDFALocalValueEscapesFunction
+        return { w };
+    }
 
 #define TOWSTRING1(x)               L##x
 #define TOWSTRING(x)                TOWSTRING1(x)
@@ -276,634 +276,633 @@ class StringUtils
 #define NARROW_OR_WIDE(C, STR)      NarrowOrWide<C>((STR), TOWSTRING(STR))
 #define NARROW_OR_WIDE_VIEW(C, STR) NarrowOrWide<C>((STR##sv), TOWSTRINGVIEW1(STR))
 
-    public:
-        StringUtils() = delete;
+  public:
+    StringUtils() = delete;
 
-        // TODO: add support to cast to optionally return a boolean to handle conversion errors
-        template <typename Ret, typename T,
-                  typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>>
-            requires IsStringViewConvertable<T> && (std::is_integral_v<Ret> || std::is_floating_point_v<Ret> || std::is_same_v<Ret, bool>)
-        static Ret Cast(const T& str)
+    // TODO: add support to cast to optionally return a boolean to handle conversion errors
+    template <typename Ret, typename T,
+              typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>>
+        requires IsStringViewConvertable<T> && (std::is_integral_v<Ret> || std::is_floating_point_v<Ret> || std::is_same_v<Ret, bool>)
+    static Ret Cast(const T& str)
+    {
+        View view = str;
+        constexpr auto IsWide = std::is_same_v<View, std::wstring_view>;
+        if constexpr (std::is_same_v<Ret, bool>)
         {
-            View view = str;
-            constexpr auto IsWide = std::is_same_v<View, std::wstring_view>;
-            if constexpr (std::is_same_v<Ret, bool>)
-            {
-                if constexpr (IsWide)
-                {
-                    return view == L"1" || view == L"true";
-                }
-                else
-                {
-                    return view == "1" || view == "true";
-                }
-            }
-
-            // Construct explicit string to prevent partial-view buffer overflow when passing into the C functions
-            View trimmed{ Trim(view, NARROW_OR_WIDE_VIEW(View, "{}")) };
-            if (trimmed.empty() || !IsNumeric(trimmed))
-            {
-                return Ret();
-            }
-
-            std::string_view numberView;
             if constexpr (IsWide)
             {
-                static std::string data = StringUtils::wstos(trimmed);
-                numberView = data;
+                return view == L"1" || view == L"true";
             }
             else
             {
-                numberView = trimmed;
+                return view == "1" || view == "true";
             }
-
-            Ret result;
-            auto [ptr, ec] = std::from_chars(numberView.data(), numberView.data() + numberView.size(), result);
-
-            // TODO: Pass error code back to the user?
-            if (ec != std::errc())
-            {
-                return Ret();
-            }
-
-            return result;
         }
 
-        template <typename View>
-            requires IsStringViewConvertable<View>
-        static bool IsValidHex(const View& input)
+        // Construct explicit string to prevent partial-view buffer overflow when passing into the C functions
+        View trimmed{ Trim(view, NARROW_OR_WIDE_VIEW(View, "{}")) };
+        if (trimmed.empty() || !IsNumeric(trimmed))
         {
-            constexpr auto characters = NARROW_OR_WIDE_VIEW(View, "1234567890ABCDEFabcdf");
-            return input.find_first_not_of(characters) == std::string::npos;
+            return Ret();
         }
 
-        //! Converts numeric value with a metric suffix to the full value, eg 10k translates to 10000
-        template <typename T, typename View>
-            requires IsStringViewConvertable<View> && std::is_integral_v<T> || std::is_floating_point_v<T>
-                     static T MultiplyBySuffix(const View& valueString)
+        std::string_view numberView;
+        if constexpr (IsWide)
         {
-            const T value = Cast<T>(valueString);
-            const auto lastChar = valueString.back();
-
-            if (lastChar == *L"k" || lastChar == *L"K")
-            {
-                return value * 1000;
-            }
-
-            if (lastChar == *L"m" || lastChar == *L"M")
-            {
-                return value * 1000000;
-            }
-
-            return value;
+            static std::string data = StringUtils::wstos(trimmed);
+            numberView = data;
+        }
+        else
+        {
+            numberView = trimmed;
         }
 
-        template <typename T,
-                  typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>,
-                  typename Str = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string, std::wstring>>
-            requires IsStringViewConvertable<T>
-        static Str XmlText(const T& text)
-        {
-            View data = text;
-            Str ret;
-            for (unsigned i = 0; i < data.length(); i++)
-            {
-                if (data[i] == NARROW_OR_WIDE(typename Str::value_type, '<'))
-                {
-                    ret.append(NARROW_OR_WIDE_VIEW(View, "&#60;"));
-                }
-                else if (data[i] == NARROW_OR_WIDE(typename Str::value_type, '>'))
-                {
-                    ret.append(NARROW_OR_WIDE_VIEW(View, "&#62;"));
-                }
-                else if (data[i] == NARROW_OR_WIDE(typename Str::value_type, '&'))
-                {
-                    ret.append(NARROW_OR_WIDE_VIEW(View, "&#38;"));
-                }
-                else
-                {
-                    ret.append(1, data[i]);
-                }
-            }
+        Ret result;
+        auto [ptr, ec] = std::from_chars(numberView.data(), numberView.data() + numberView.size(), result);
 
-            return ret;
+        // TODO: Pass error code back to the user?
+        if (ec != std::errc())
+        {
+            return Ret();
         }
 
-        template <typename T>
-            requires std::convertible_to<T, std::string_view>
-        static std::wstring stows(const T& text)
+        return result;
+    }
+
+    template <typename View>
+        requires IsStringViewConvertable<View>
+    static bool IsValidHex(const View& input)
+    {
+        constexpr auto characters = NARROW_OR_WIDE_VIEW(View, "1234567890ABCDEFabcdf");
+        return input.find_first_not_of(characters) == std::string::npos;
+    }
+
+    //! Converts numeric value with a metric suffix to the full value, eg 10k translates to 10000
+    template <typename T, typename View>
+        requires IsStringViewConvertable<View> && std::is_integral_v<T> || std::is_floating_point_v<T>
+                 static T MultiplyBySuffix(const View& valueString)
+    {
+        const T value = Cast<T>(valueString);
+        const auto lastChar = valueString.back();
+
+        if (lastChar == *L"k" || lastChar == *L"K")
         {
-            const std::string_view view = text;
-
-            // Statically allocate buffer to prevent reallocations
-            static std::array<wchar_t, 8192> buffer;
-            std::memset(buffer.data(), 0, buffer.size());
-
-            const int size = MultiByteToWideChar(CP_UTF8, 0, view.data(), static_cast<int>(view.size()), buffer.data(), buffer.size());
-
-            if (!size)
-            {
-                return L"";
-            }
-
-            // Only copy the byes we need
-            auto end = buffer.begin();
-            std::advance(end, size);
-
-            return { buffer.begin(), end };
+            return value * 1000;
         }
 
-        template <typename T>
-            requires std::convertible_to<T, std::wstring_view>
-        static std::string wstos(const T& text)
+        if (lastChar == *L"m" || lastChar == *L"M")
         {
-            const std::wstring_view view = text;
-
-            // Statically allocate buffer to prevent reallocations
-            static std::array<char, 8192> buffer;
-            std::memset(buffer.data(), 0, buffer.size());
-
-            const int size =
-                WideCharToMultiByte(CP_UTF8, 0, view.data(), static_cast<int>(view.size()), buffer.data(), buffer.size(), nullptr, nullptr);
-
-            if (!size)
-            {
-                return "";
-            }
-            // Only copy the byes we need
-            auto end = buffer.begin();
-            std::advance(end, size);
-
-            return { buffer.begin(), end };
+            return value * 1'000'000;
         }
 
-        static std::wstring ToHex(const std::wstring_view input)
-        {
-            std::wostringstream output;
+        return value;
+    }
 
-            for (const auto& c : input)
+    template <typename T,
+              typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>,
+              typename Str = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string, std::wstring>>
+        requires IsStringViewConvertable<T>
+    static Str XmlText(const T& text)
+    {
+        View data = text;
+        Str ret;
+        for (unsigned i = 0; i < data.length(); i++)
+        {
+            if (data[i] == NARROW_OR_WIDE(typename Str::value_type, '<'))
             {
-                const auto val = static_cast<long>(c);
-                output << std::uppercase << std::setfill(L'0') << std::setw(4) << std::hex << val;
+                ret.append(NARROW_OR_WIDE_VIEW(View, "&#60;"));
             }
-            return output.str();
-        }
-
-        template <typename Str>
-            requires StringRestriction<Str> || IsStringViewConvertable<Str>
-        static bool IsAscii(Str str)
-        {
-            return !std::any_of(str.begin(), str.end(), [](auto c) { return static_cast<unsigned char>(c) > 127; });
-        }
-
-        template <typename Str>
-            requires StringRestriction<Str> || IsStringViewConvertable<Str>
-        static bool IsNumeric(Str str)
-        {
-            if (str.empty())
+            else if (data[i] == NARROW_OR_WIDE(typename Str::value_type, '>'))
             {
-                return false;
+                ret.append(NARROW_OR_WIDE_VIEW(View, "&#62;"));
             }
-
-            constexpr bool isWide = std::is_convertible_v<Str, std::wstring_view>;
-            constexpr auto minus = isWide ? L'-' : '-';
-            using ViewType = std::conditional_t<isWide, std::wstring_view, std::string_view>;
-
-            bool isFirstMinusSign = *str.begin() == minus;
-            ViewType view{ isFirstMinusSign ? str.begin() + 1 : str.begin(), str.end() };
-
-            bool hasDot = false;
-            if constexpr (!isWide)
+            else if (data[i] == NARROW_OR_WIDE(typename Str::value_type, '&'))
             {
-                return std::ranges::all_of(view,
-                                           [&hasDot](const char c)
-                                           {
-                                               if (c == '.')
-                                               {
-                                                   if (hasDot)
-                                                   {
-                                                       return FALSE;
-                                                   }
-                                                   hasDot = true;
-                                                   return TRUE;
-                                               }
-                                               return isdigit(c);
-                                           });
+                ret.append(NARROW_OR_WIDE_VIEW(View, "&#38;"));
             }
             else
             {
-                return std::ranges::all_of(view,
-                                           [&hasDot](const wchar_t c)
-                                           {
-                                               if (c == L'.')
-                                               {
-                                                   if (hasDot)
-                                                   {
-                                                       return FALSE;
-                                                   }
-                                                   hasDot = true;
-                                                   return TRUE;
-                                               }
-                                               return iswdigit(c);
-                                           });
+                ret.append(1, data[i]);
             }
         }
 
-        template <typename T,
-                  typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>,
-                  typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
-            requires IsStringViewConvertable<T>
-        static Str ToLower(const T& str)
-        {
-            Str retStr;
-            retStr.reserve(str.size());
+        return ret;
+    }
 
-            // If we are a string view we need to convert it back.
-            // String views use an explicit constructor
-            auto before = Str(str);
-            std::ranges::copy(before | std::ranges::views::transform([](auto c) { return std::tolower(c); }), std::back_inserter(retStr));
-            return retStr;
+    template <typename T>
+        requires std::convertible_to<T, std::string_view>
+    static std::wstring stows(const T& text)
+    {
+        const std::string_view view = text;
+
+        // Statically allocate buffer to prevent reallocations
+        static std::array<wchar_t, 8192> buffer;
+        std::memset(buffer.data(), 0, buffer.size());
+
+        const int size = MultiByteToWideChar(CP_UTF8, 0, view.data(), static_cast<int>(view.size()), buffer.data(), buffer.size());
+
+        if (!size)
+        {
+            return L"";
         }
 
-        // clang-format off
+        // Only copy the byes we need
+        auto end = buffer.begin();
+        std::advance(end, size);
+
+        return { buffer.begin(), end };
+    }
+
+    template <typename T>
+        requires std::convertible_to<T, std::wstring_view>
+    static std::string wstos(const T& text)
+    {
+        const std::wstring_view view = text;
+
+        // Statically allocate buffer to prevent reallocations
+        static std::array<char, 8192> buffer;
+        std::memset(buffer.data(), 0, buffer.size());
+
+        const int size =
+            WideCharToMultiByte(CP_UTF8, 0, view.data(), static_cast<int>(view.size()), buffer.data(), buffer.size(), nullptr, nullptr);
+
+        if (!size)
+        {
+            return "";
+        }
+        // Only copy the byes we need
+        auto end = buffer.begin();
+        std::advance(end, size);
+
+        return { buffer.begin(), end };
+    }
+
+    static std::wstring ToHex(const std::wstring_view input)
+    {
+        std::wostringstream output;
+
+        for (const auto& c : input)
+        {
+            const auto val = static_cast<long>(c);
+            output << std::uppercase << std::setfill(L'0') << std::setw(4) << std::hex << val;
+        }
+        return output.str();
+    }
+
+    template <typename Str>
+        requires StringRestriction<Str> || IsStringViewConvertable<Str>
+    static bool IsAscii(Str str)
+    {
+        return !std::any_of(str.begin(), str.end(), [](auto c) { return static_cast<unsigned char>(c) > 127; });
+    }
+
+    template <typename Str>
+        requires StringRestriction<Str> || IsStringViewConvertable<Str>
+    static bool IsNumeric(Str str)
+    {
+        if (str.empty())
+        {
+            return false;
+        }
+
+        constexpr bool isWide = std::is_convertible_v<Str, std::wstring_view>;
+        constexpr auto minus = isWide ? L'-' : '-';
+        using ViewType = std::conditional_t<isWide, std::wstring_view, std::string_view>;
+
+        bool isFirstMinusSign = *str.begin() == minus;
+        ViewType view{ isFirstMinusSign ? str.begin() + 1 : str.begin(), str.end() };
+
+        bool hasDot = false;
+        if constexpr (!isWide)
+        {
+            return std::ranges::all_of(view,
+                                       [&hasDot](const char c)
+                                       {
+                                           if (c == '.')
+                                           {
+                                               if (hasDot)
+                                               {
+                                                   return FALSE;
+                                               }
+                                               hasDot = true;
+                                               return TRUE;
+                                           }
+                                           return isdigit(c);
+                                       });
+        }
+        else
+        {
+            return std::ranges::all_of(view,
+                                       [&hasDot](const wchar_t c)
+                                       {
+                                           if (c == L'.')
+                                           {
+                                               if (hasDot)
+                                               {
+                                                   return FALSE;
+                                               }
+                                               hasDot = true;
+                                               return TRUE;
+                                           }
+                                           return iswdigit(c);
+                                       });
+        }
+    }
+
+    template <typename T,
+              typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>,
+              typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
+        requires IsStringViewConvertable<T>
+    static Str ToLower(const T& str)
+    {
+        Str retStr;
+        retStr.reserve(str.size());
+
+        // If we are a string view we need to convert it back.
+        // String views use an explicit constructor
+        auto before = Str(str);
+        std::ranges::copy(before | std::ranges::views::transform([](auto c) { return std::tolower(c); }), std::back_inserter(retStr));
+        return retStr;
+    }
+
+    // clang-format off
         template <typename Str>
             requires (IsStringViewConvertable<Str> && !std::is_pointer_v<Str>)
         static bool CompareCaseInsensitive(const Str& str1, const Str& str2)
-        // clang-format on
+    // clang-format on
+    {
+        if (str1.size() != str2.size())
         {
-            if (str1.size() != str2.size())
+            return false;
+        }
+
+        for (int i = 0; i < str1.size(); ++i)
+        {
+            if (std::tolower(str1[i]) != std::tolower(str2[i]))
             {
                 return false;
             }
-
-            for (int i = 0; i < str1.size(); ++i)
-            {
-                if (std::tolower(str1[i]) != std::tolower(str2[i]))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-        template <typename T,
-                  typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>,
-                  typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
-            requires IsStringViewConvertable<T>
-        static View Trim(const T& stringInput, View extraTrimChars = View{})
-        {
-            View str = stringInput;
-            if (str.empty())
-            {
-                return str;
-            }
-
-            View defaultTrimmable = NARROW_OR_WIDE_VIEW(View, " \n\r\0\t");
-            Str trimmable = std::format(NARROW_OR_WIDE_VIEW(View, "{}{}"), defaultTrimmable, extraTrimChars);
-
-            size_t start = 0;
-            for (; start < str.size() && trimmable.find(str[start]) != std::string_view::npos; ++start)
-                ;
-
-            size_t end = str.size();
-            for (; end > start && trimmable.find(str[end - 1]) != std::string_view::npos; --end)
-                ;
-
-            return View(&str[start], end - start);
         }
 
-        template <typename T,
-                  typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>,
-                  typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
-            requires IsStringViewConvertable<View>
-        static Str ExpandEnvironmentVariables(const T& input)
+        return true;
+    }
+    template <typename T,
+              typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>,
+              typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
+        requires IsStringViewConvertable<T>
+    static View Trim(const T& stringInput, View extraTrimChars = View{})
+    {
+        View str = stringInput;
+        if (str.empty())
         {
-            std::string accumulator;
-            std::string output;
-            bool percentFound = false;
+            return str;
+        }
 
-            for (unsigned i = 0; i < input.length(); i++)
+        View defaultTrimmable = NARROW_OR_WIDE_VIEW(View, " \n\r\0\t");
+        Str trimmable = std::format(NARROW_OR_WIDE_VIEW(View, "{}{}"), defaultTrimmable, extraTrimChars);
+
+        size_t start = 0;
+        for (; start < str.size() && trimmable.find(str[start]) != std::string_view::npos; ++start)
+            ;
+
+        size_t end = str.size();
+        for (; end > start && trimmable.find(str[end - 1]) != std::string_view::npos; --end)
+            ;
+
+        return View(&str[start], end - start);
+    }
+
+    template <typename T,
+              typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>,
+              typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
+        requires IsStringViewConvertable<View>
+    static Str ExpandEnvironmentVariables(const T& input)
+    {
+        std::string accumulator;
+        std::string output;
+        bool percentFound = false;
+
+        for (unsigned i = 0; i < input.length(); i++)
+        {
+            if (const auto ch = input[i]; ch == '%')
             {
-                if (const auto ch = input[i]; ch == '%')
+                if (percentFound || input[i + 1] != '%')
                 {
-                    if (percentFound || input[i + 1] != '%')
+                    percentFound = !percentFound;
+                    if (percentFound)
                     {
-                        percentFound = !percentFound;
-                        if (percentFound)
-                        {
-                            accumulator.clear();
-                        }
-                        else
-                        {
-                            auto var = std::getenv(accumulator.c_str());
-                            accumulator = var ? var : accumulator;
-                            output += accumulator;
-                        }
+                        accumulator.clear();
                     }
                     else
                     {
-                        i++; // Extra percentage sign, escape it.
+                        auto var = std::getenv(accumulator.c_str());
+                        accumulator = var ? var : accumulator;
+                        output += accumulator;
                     }
                 }
                 else
                 {
-                    if (percentFound)
-                    {
-                        accumulator += ch;
-                    }
-                    else
-                    {
-                        output += ch;
-                    }
+                    i++; // Extra percentage sign, escape it.
                 }
-            }
-
-            if constexpr (std::is_same_v<View, std::string_view>)
-            {
-                return Trim(output);
             }
             else
             {
-                auto ret = Trim(stows(output));
-                return ret;
-            }
-        }
-
-        static std::wstring_view GetParam(IsConvertibleRangeOf<std::wstring_view> auto view, int pos)
-        {
-            return GetParam<decltype(view), std::wstring_view>(view, pos);
-        }
-
-        template <typename TStr, typename TChar>
-        static auto GetParams(const TStr& line, TChar splitChar)
-            requires IsStringViewConvertable<TStr> && (std::is_same_v<TChar, char> || std::is_same_v<TChar, wchar_t>)
-        {
-            using ViewType = std::conditional_t<std::is_same_v<TChar, char>, std::string_view, std::wstring_view>;
-            std::vector<ViewType> result;
-
-            int indexCommaToLeftOfColumn = 0;
-            int indexCommaToRightOfColumn = -1;
-
-            for (int i = 0; i < static_cast<int>(line.size()); i++)
-            {
-                if (line[i] == splitChar)
+                if (percentFound)
                 {
-                    indexCommaToLeftOfColumn = indexCommaToRightOfColumn;
-                    indexCommaToRightOfColumn = i;
-                    int index = indexCommaToLeftOfColumn + 1;
-                    const int length = indexCommaToRightOfColumn - index;
-                    ViewType column(line.data() + index, length);
-                    result.push_back(column);
-                }
-            }
-
-            const ViewType finalColumn(line.data() + indexCommaToRightOfColumn + 1, line.size() - indexCommaToRightOfColumn - 1);
-            result.emplace_back(finalColumn);
-            return result;
-        }
-
-        // TODO: Fix this template error
-        template <typename TTransformView, typename TViewType>
-        static TViewType GetParamToEnd(TTransformView view, unsigned pos)
-        {
-            if (pos == 0)
-            {
-                return TViewType();
-            }
-
-            // If specified pos is over the max amount of items return an empty string
-            if (static_cast<int>(pos) >= std::distance(view.begin(), view.end()))
-            {
-                return TViewType();
-            }
-
-            auto offset = view.begin();
-            std::advance(offset, pos);
-
-            auto newRange = std::ranges::views::counted(offset, std::distance(offset, view.end()));
-            auto finalRange = newRange | std::ranges::views::take(std::distance(offset, view.end())) | std::ranges::views::join;
-            return TViewType(&*finalRange.begin(), std::ranges::distance(finalRange) + 1);
-        }
-
-        template <typename TString, typename TChar>
-        static TString GetParamToEnd(TString line, TChar splitChar, unsigned pos)
-        {
-            if (pos == 0)
-            {
-                return line;
-            }
-
-            auto params = GetParams(line, splitChar);
-            using TViewType = decltype(params);
-            return GetParamToEnd<TViewType, TString>(params, pos);
-        }
-
-        template <typename T,
-                  typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>,
-                  typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
-            requires IsStringViewConvertable<T> && IsStringViewConvertable<View>
-        static Str ReplaceStr(const T& source, View searchForRaw, View replaceWithRaw)
-        {
-            unsigned lPos, sPos = 0;
-
-            Str result = source;
-            while ((lPos = static_cast<unsigned>(result.find(searchForRaw, sPos))) != UINT_MAX)
-            {
-                result.replace(lPos, searchForRaw.length(), replaceWithRaw);
-                sPos = lPos + replaceWithRaw.length();
-
-                if (lPos == sPos)
-                {
-                    break;
-                }
-            }
-
-            return result;
-        }
-
-        template <typename Str, typename T>
-            requires(std::is_integral_v<T> || std::is_floating_point_v<T>) &&
-                    (std::is_same_v<Str, std::string> || std::is_same_v<Str, std::wstring>)
-        static Str ToMoneyStr(const T& cash)
-        {
-            std::conditional_t<std::is_same_v<Str, std::string>, std::stringstream, std::wstringstream> ss;
-            ss.imbue(std::locale(""));
-            ss << std::fixed << cash;
-            return ss.str();
-        }
-
-        static unsigned RgbToBgr(const unsigned color)
-        {
-            return color & 0xFF000000 | (color & 0xFF0000) >> 16 | color & 0x00FF00 | (color & 0x0000FF) << 16;
-        };
-
-        template <typename T>
-            requires StringRestriction<T>
-        static T unsignedToHexString(const unsigned number, const unsigned width, const bool addPrefix = false)
-        {
-            using CharType = std::conditional_t<std::is_convertible_v<T, std::string>, char, wchar_t>;
-            using CharPtrType = std::conditional_t<std::is_convertible_v<T, std::string>, const char*, const wchar_t*>;
-            std::conditional_t<std::is_convertible_v<T, std::string>, std::stringstream, std::wstringstream> stream;
-            if (addPrefix)
-            {
-                stream << NARROW_OR_WIDE(CharPtrType, "0x");
-            }
-
-            stream << std::setfill(NARROW_OR_WIDE(CharType, '0')) << std::setw(width) << std::hex << number;
-            return stream.str();
-        }
-
-        template <typename T, typename TStr = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string, std::wstring>>
-            requires IsStringViewConvertable<T>
-        static TStr FormatMsg(MessageColor color, MessageFormat format, T msg)
-        {
-            using namespace std::string_view_literals;
-            using CharType = std::conditional_t<std::is_convertible_v<T, std::string_view>, const char*, const wchar_t*>;
-
-            const unsigned bgrColor = RgbToBgr(static_cast<unsigned>(color));
-            const TStr tra = unsignedToHexString<TStr>(bgrColor, 6, true) + unsignedToHexString<TStr>(static_cast<unsigned>(format), 2);
-
-            return std::format(NARROW_OR_WIDE(CharType, "<TRA data=\"{}\" mask=\"-1\"/><TEXT>{}</TEXT>"),
-                               tra,
-                               ReplaceStr(XmlText(msg), NARROW_OR_WIDE_VIEW(T, "\n"), NARROW_OR_WIDE_VIEW(T, "</TEXT><PARA/><TEXT>")));
-        }
-
-        /**
-         * @brief Match a string against a wildcard pattern, where an '*' matches one or more characters and '?' matches any one character
-         * @tparam Str A type that is convertible to an std::string_view or std::wstring_view
-         * @param input The input string that will be compared against
-         * @param pattern The wildcard pattern, e.g. Kin*Jam?S = King James
-         * @param partialString If true only checks that any part of the string matches (as if placing an asterix at the start and end)
-         * @param caseSensitive if true strings must match case to return a successful match
-         * @code{.cpp}
-         *    MatchStr("Dave The Brave"sv, "Dave*Brave"sv, false) == true;
-         *    MatchStr("Dave The Brave"sv, "The"sv) == true;
-         *    MatchStr("Dave The Brave"sv, "*Dave"sv, false) == false;
-         *    MatchStr("Jeff"sv, "Dave"sv) == false;
-         *    MatchStr("Jeff The Brave"sv, "Jeff"sv, false) == false;
-         *    MatchStr("Jeff The Brave"sv, "jeff"sv, true, true) == false;
-         * @endcode
-         * @return True if the string matches
-         */
-        template <typename Str, typename Str2, bool IsWide = std::convertible_to<Str, std::wstring_view>,
-                  bool IsWide2 = std::convertible_to<Str2, std::wstring_view>>
-            requires(IsWide == IsWide2) &&
-                    ((std::convertible_to<Str, std::string_view> || IsWide) && (std::convertible_to<Str2, std::string_view> || IsWide2))
-        static bool WildcardMatch(const Str& input, const Str2& pattern, const bool partialString = true, const bool caseSensitive = false)
-        {
-            if (input.empty() || pattern.empty())
-            {
-                return false;
-            }
-
-            using ViewType = std::conditional_t<std::convertible_to<Str, std::string_view>, std::string_view, std::wstring_view>;
-            using CharType = std::conditional_t<std::convertible_to<Str, std::string_view>, char, wchar_t>;
-            constexpr auto multiWildcardCharacter = static_cast<CharType>('*');
-            constexpr auto singularWildcardCharacter = static_cast<CharType>('?');
-
-            ViewType inputView = input;
-            ViewType patternView = pattern;
-
-            static const auto compareChar = [caseSensitive](const CharType a, const CharType b)
-            {
-                if constexpr (std::is_same_v<char, CharType>)
-                {
-                    return caseSensitive ? a == b : std::tolower(a) == std::tolower(b);
+                    accumulator += ch;
                 }
                 else
                 {
-                    return caseSensitive ? a == b : std::towlower(a) == std::towlower(b);
+                    output += ch;
                 }
-            };
+            }
+        }
 
-            bool matched = !partialString;
-            int wildCardCharactersMatched = 0;
+        if constexpr (std::is_same_v<View, std::string_view>)
+        {
+            return Trim(output);
+        }
+        else
+        {
+            auto ret = Trim(stows(output));
+            return ret;
+        }
+    }
 
-            // If the first character is an asterix, it's effectively a partial string match
-            if (pattern.front() == multiWildcardCharacter)
+    static std::wstring_view GetParam(IsConvertibleRangeOf<std::wstring_view> auto view, int pos)
+    {
+        return GetParam<decltype(view), std::wstring_view>(view, pos);
+    }
+
+    template <typename TStr, typename TChar>
+    static auto GetParams(const TStr& line, TChar splitChar)
+        requires IsStringViewConvertable<TStr> && (std::is_same_v<TChar, char> || std::is_same_v<TChar, wchar_t>)
+    {
+        using ViewType = std::conditional_t<std::is_same_v<TChar, char>, std::string_view, std::wstring_view>;
+        std::vector<ViewType> result;
+
+        int indexCommaToLeftOfColumn = 0;
+        int indexCommaToRightOfColumn = -1;
+
+        for (int i = 0; i < static_cast<int>(line.size()); i++)
+        {
+            if (line[i] == splitChar)
             {
-                matched = true;
-                wildCardCharactersMatched++;
+                indexCommaToLeftOfColumn = indexCommaToRightOfColumn;
+                indexCommaToRightOfColumn = i;
+                int index = indexCommaToLeftOfColumn + 1;
+                const int length = indexCommaToRightOfColumn - index;
+                ViewType column(line.data() + index, length);
+                result.push_back(column);
+            }
+        }
+
+        const ViewType finalColumn(line.data() + indexCommaToRightOfColumn + 1, line.size() - indexCommaToRightOfColumn - 1);
+        result.emplace_back(finalColumn);
+        return result;
+    }
+
+    // TODO: Fix this template error
+    template <typename TTransformView, typename TViewType>
+    static TViewType GetParamToEnd(TTransformView view, unsigned pos)
+    {
+        if (pos == 0)
+        {
+            return TViewType();
+        }
+
+        // If specified pos is over the max amount of items return an empty string
+        if (static_cast<int>(pos) >= std::distance(view.begin(), view.end()))
+        {
+            return TViewType();
+        }
+
+        auto offset = view.begin();
+        std::advance(offset, pos);
+
+        auto newRange = std::ranges::views::counted(offset, std::distance(offset, view.end()));
+        auto finalRange = newRange | std::ranges::views::take(std::distance(offset, view.end())) | std::ranges::views::join;
+        return TViewType(&*finalRange.begin(), std::ranges::distance(finalRange) + 1);
+    }
+
+    template <typename TString, typename TChar>
+    static TString GetParamToEnd(TString line, TChar splitChar, unsigned pos)
+    {
+        if (pos == 0)
+        {
+            return line;
+        }
+
+        auto params = GetParams(line, splitChar);
+        using TViewType = decltype(params);
+        return GetParamToEnd<TViewType, TString>(params, pos);
+    }
+
+    template <typename T,
+              typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>,
+              typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
+        requires IsStringViewConvertable<T> && IsStringViewConvertable<View>
+    static Str ReplaceStr(const T& source, View searchForRaw, View replaceWithRaw)
+    {
+        unsigned lPos, sPos = 0;
+
+        Str result = source;
+        while ((lPos = static_cast<unsigned>(result.find(searchForRaw, sPos))) != UINT_MAX)
+        {
+            result.replace(lPos, searchForRaw.length(), replaceWithRaw);
+            sPos = lPos + replaceWithRaw.length();
+
+            if (lPos == sPos)
+            {
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    template <typename Str, typename T>
+        requires(std::is_integral_v<T> || std::is_floating_point_v<T>) &&
+                (std::is_same_v<Str, std::string> || std::is_same_v<Str, std::wstring>)
+    static Str ToMoneyStr(const T& cash)
+    {
+        std::conditional_t<std::is_same_v<Str, std::string>, std::stringstream, std::wstringstream> ss;
+        ss.imbue(std::locale(""));
+        ss << std::fixed << cash;
+        return ss.str();
+    }
+
+    static unsigned RgbToBgr(const unsigned color)
+    {
+        return color & 0xFF000000 | (color & 0xFF0000) >> 16 | color & 0x00FF00 | (color & 0x0000FF) << 16;
+    };
+
+    template <typename T>
+        requires StringRestriction<T>
+    static T unsignedToHexString(const unsigned number, const unsigned width, const bool addPrefix = false)
+    {
+        using CharType = std::conditional_t<std::is_convertible_v<T, std::string>, char, wchar_t>;
+        using CharPtrType = std::conditional_t<std::is_convertible_v<T, std::string>, const char*, const wchar_t*>;
+        std::conditional_t<std::is_convertible_v<T, std::string>, std::stringstream, std::wstringstream> stream;
+        if (addPrefix)
+        {
+            stream << NARROW_OR_WIDE(CharPtrType, "0x");
+        }
+
+        stream << std::setfill(NARROW_OR_WIDE(CharType, '0')) << std::setw(width) << std::hex << number;
+        return stream.str();
+    }
+
+    template <typename T, typename TStr = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string, std::wstring>>
+        requires IsStringViewConvertable<T>
+    static TStr FormatMsg(MessageColor color, MessageFormat format, T msg)
+    {
+        using namespace std::string_view_literals;
+        using CharType = std::conditional_t<std::is_convertible_v<T, std::string_view>, const char*, const wchar_t*>;
+
+        const unsigned bgrColor = RgbToBgr(static_cast<unsigned>(color));
+        const TStr tra = unsignedToHexString<TStr>(bgrColor, 6, true) + unsignedToHexString<TStr>(static_cast<unsigned>(format), 2);
+
+        return std::format(NARROW_OR_WIDE(CharType, "<TRA data=\"{}\" mask=\"-1\"/><TEXT>{}</TEXT>"),
+                           tra,
+                           ReplaceStr(XmlText(msg), NARROW_OR_WIDE_VIEW(T, "\n"), NARROW_OR_WIDE_VIEW(T, "</TEXT><PARA/><TEXT>")));
+    }
+
+    /**
+     * @brief Match a string against a wildcard pattern, where an '*' matches one or more characters and '?' matches any one character
+     * @tparam Str A type that is convertible to an std::string_view or std::wstring_view
+     * @param input The input string that will be compared against
+     * @param pattern The wildcard pattern, e.g. Kin*Jam?S = King James
+     * @param partialString If true only checks that any part of the string matches (as if placing an asterix at the start and end)
+     * @param caseSensitive if true strings must match case to return a successful match
+     * @code{.cpp}
+     *    MatchStr("Dave The Brave"sv, "Dave*Brave"sv, false) == true;
+     *    MatchStr("Dave The Brave"sv, "The"sv) == true;
+     *    MatchStr("Dave The Brave"sv, "*Dave"sv, false) == false;
+     *    MatchStr("Jeff"sv, "Dave"sv) == false;
+     *    MatchStr("Jeff The Brave"sv, "Jeff"sv, false) == false;
+     *    MatchStr("Jeff The Brave"sv, "jeff"sv, true, true) == false;
+     * @endcode
+     * @return True if the string matches
+     */
+    template <typename Str, typename Str2, bool IsWide = std::convertible_to<Str, std::wstring_view>,
+              bool IsWide2 = std::convertible_to<Str2, std::wstring_view>>
+        requires(IsWide == IsWide2) &&
+                ((std::convertible_to<Str, std::string_view> || IsWide) && (std::convertible_to<Str2, std::string_view> || IsWide2))
+    static bool WildcardMatch(const Str& input, const Str2& pattern, const bool partialString = true, const bool caseSensitive = false)
+    {
+        if (input.empty() || pattern.empty())
+        {
+            return false;
+        }
+
+        using ViewType = std::conditional_t<std::convertible_to<Str, std::string_view>, std::string_view, std::wstring_view>;
+        using CharType = std::conditional_t<std::convertible_to<Str, std::string_view>, char, wchar_t>;
+        constexpr auto multiWildcardCharacter = static_cast<CharType>('*');
+        constexpr auto singularWildcardCharacter = static_cast<CharType>('?');
+
+        ViewType inputView = input;
+        ViewType patternView = pattern;
+
+        static const auto compareChar = [caseSensitive](const CharType a, const CharType b)
+        {
+            if constexpr (std::is_same_v<char, CharType>)
+            {
+                return caseSensitive ? a == b : std::tolower(a) == std::tolower(b);
+            }
+            else
+            {
+                return caseSensitive ? a == b : std::towlower(a) == std::towlower(b);
+            }
+        };
+
+        bool matched = !partialString;
+        int wildCardCharactersMatched = 0;
+
+        // If the first character is an asterix, it's effectively a partial string match
+        if (pattern.front() == multiWildcardCharacter)
+        {
+            matched = true;
+            wildCardCharactersMatched++;
+        }
+
+        int patternIndex = 0;
+        for (int inputIndex = 0; inputIndex < inputView.size(); inputIndex++)
+        {
+            if (patternIndex >= pattern.size())
+            {
+                // If we are trying to match a full string and the pattern ran out, ensure that it ends with a asterix or it's not a match
+                if (!partialString && patternView.back() != multiWildcardCharacter)
+                {
+                    matched = false;
+                }
+
+                break;
             }
 
-            int patternIndex = 0;
-            for (int inputIndex = 0; inputIndex < inputView.size(); inputIndex++)
-            {
-                if (patternIndex >= pattern.size())
-                {
-                    // If we are trying to match a full string and the pattern ran out, ensure that it ends with a asterix or it's not a match
-                    if (!partialString && patternView.back() != multiWildcardCharacter)
-                    {
-                        matched = false;
-                    }
+            CharType currentChar = inputView[inputIndex];
+            CharType patternChar = patternView[patternIndex];
 
+            // If we encounter a '?', skip the character
+            if (patternChar == singularWildcardCharacter)
+            {
+                matched = true;
+                patternIndex++;
+                continue;
+            }
+
+            // We have encountered our asterix
+            if (patternChar == multiWildcardCharacter)
+            {
+                matched = true;
+
+                if (patternIndex + 1 == patternView.size())
+                {
                     break;
                 }
 
-                CharType currentChar = inputView[inputIndex];
-                CharType patternChar = patternView[patternIndex];
+                if (CharType nextPatternChar = patternView[patternIndex + 1];
+                    wildCardCharactersMatched++ > 0 && compareChar(currentChar, nextPatternChar))
+                {
+                    patternIndex++;
+                    // The asterix will 'eat' the character we are trying to match
+                    inputIndex--;
+                }
 
-                // If we encounter a '?', skip the character
-                if (patternChar == singularWildcardCharacter)
+                continue;
+            }
+
+            wildCardCharactersMatched = 0;
+
+            // If we haven't started matching, go until we find a character that matches
+            if (!matched)
+            {
+                if (compareChar(currentChar, patternChar))
                 {
                     matched = true;
                     patternIndex++;
-                    continue;
                 }
 
-                // We have encountered our asterix
-                if (patternChar == multiWildcardCharacter)
-                {
-                    matched = true;
-
-                    if (patternIndex + 1 == patternView.size())
-                    {
-                        break;
-                    }
-
-                    if (CharType nextPatternChar = patternView[patternIndex + 1];
-                        wildCardCharactersMatched++ > 0 && compareChar(currentChar, nextPatternChar))
-                    {
-                        patternIndex++;
-                        // The asterix will 'eat' the character we are trying to match
-                        inputIndex--;
-                    }
-
-                    continue;
-                }
-
-                wildCardCharactersMatched = 0;
-
-                // If we haven't started matching, go until we find a character that matches
-                if (!matched)
-                {
-                    if (compareChar(currentChar, patternChar))
-                    {
-                        matched = true;
-                        patternIndex++;
-                    }
-
-                    continue;
-                }
-
-                // If we have matched, ensure that we still match
-                matched = compareChar(currentChar, patternChar);
-                patternIndex++;
-
-                if (!matched)
-                {
-                    break;
-                }
+                continue;
             }
 
-            if (patternIndex != patternView.size() &&
-                (patternIndex != patternView.size() - 1 && patternView.back() != multiWildcardCharacter))
+            // If we have matched, ensure that we still match
+            matched = compareChar(currentChar, patternChar);
+            patternIndex++;
+
+            if (!matched)
             {
-                matched = false;
+                break;
             }
-
-            return matched;
         }
+
+        if (patternIndex != patternView.size() && (patternIndex != patternView.size() - 1 && patternView.back() != multiWildcardCharacter))
+        {
+            matched = false;
+        }
+
+        return matched;
+    }
 };
 
 #undef TOWSTRING

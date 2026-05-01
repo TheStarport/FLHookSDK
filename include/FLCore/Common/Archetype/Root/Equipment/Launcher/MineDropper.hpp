@@ -12,7 +12,7 @@ namespace Archetype
         IMPORT ClassType get_class_type() const override;
         IMPORT HpAttachmentType get_hp_type() const override;
 
-        public:
+      public:
         // no fields here
     };
-}
+} // namespace Archetype

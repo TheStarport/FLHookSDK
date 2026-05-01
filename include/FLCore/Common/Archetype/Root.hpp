@@ -33,12 +33,12 @@ namespace Archetype
         IMPORT virtual bool load();
         IMPORT virtual ClassType get_class_type() const;
 
-        protected:
+      protected:
         void free_physical_representation();
         IMPORT virtual void free_resources();
         bool init_physical_representation();
 
-        public:
+      public:
         /*  1 */ unsigned unknown;
         /*  2 */ Id archId;
         /*  3 */ char* name;
@@ -57,4 +57,4 @@ namespace Archetype
         /* 17 */ AnimObject* anim;
         /* 18 */ unsigned array[5]; // not sure about this.
     };
-}
+} // namespace Archetype

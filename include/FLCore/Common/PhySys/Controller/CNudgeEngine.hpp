@@ -4,10 +4,10 @@
 
 class CNudgeEngine : public CPhysControllerEquip
 {
-    public:
-    IMPORT virtual ~CNudgeEngine();
-    IMPORT virtual void do_simulation_controller(IVP_Event_Sim*, IVP_U_Vector<IVP_Core>*);
-    IMPORT virtual bool EnableController();
+  public:
+    IMPORT ~CNudgeEngine() override;
+    IMPORT void do_simulation_controller(IVP_Event_Sim*, IVP_U_Vector<IVP_Core>*) override;
+    IMPORT bool EnableController() override;
 
     IMPORT CNudgeEngine(const CNudgeEngine&);
     IMPORT CNudgeEngine();
@@ -18,12 +18,12 @@ class CNudgeEngine : public CPhysControllerEquip
     IMPORT void SetNudgeVec(const Vector&);
     IMPORT void SetOwner(struct CShip*);
 
-    protected:
+  protected:
     IMPORT static const f32 NUDGE_CHANGE_THRESHOLD;
     //@@@
 
-    public:
-    ulong dunno10[3];   // 151
+  public:
+    ulong dunno10[3]; // 151
     struct CShip* owner;
     bool isActive;
     Vector nudgeVector; // 157

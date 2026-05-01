@@ -11,7 +11,7 @@ struct Solar : public EqObj
 
     static Solar* Cast(IObjInspectImpl* iobj)
     {
-        if(iobj->cobject()->objectClass == CObject::CSOLAR_OBJECT)
+        if (iobj->cobject()->objectClass == CObject::CSOLAR_OBJECT)
         {
             return reinterpret_cast<Solar*>(iobj);
         }

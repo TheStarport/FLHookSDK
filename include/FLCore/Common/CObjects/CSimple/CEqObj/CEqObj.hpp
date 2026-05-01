@@ -24,116 +24,115 @@ enum ObjActivateResult
 
 struct CEqObj : CSimple
 {
-        struct IMPORT CreateParms
-        {
-                CreateParms();
-                CreateParms& operator=(const CreateParms&);
+    struct IMPORT CreateParms
+    {
+        CreateParms();
+        CreateParms& operator=(const CreateParms&);
 
-                u8 data[OBJECT_DATA_SIZE];
-        };
+        u8 data[OBJECT_DATA_SIZE];
+    };
 
-        IMPORT virtual ~CEqObj();                                                         // 56
-        IMPORT virtual int update(f32, u32);                                   // 80
-        IMPORT virtual void disable_controllers();                                        // 92
-        IMPORT virtual void enable_controllers();                                         // 96
-        IMPORT virtual void unmake_physical();                                            // 116
-        IMPORT virtual void remake_physical(const PhySys::CreateParms&, f32);           // 120
-        IMPORT virtual u32 get_name() const;                                     // 136
-        IMPORT virtual bool is_targetable() const;                                        // 140
-        IMPORT virtual void connect(IObjDB*);                                             // 144
-        IMPORT virtual void disconnect(IObjDB*);                                          // 148
-        IMPORT virtual void init(const CreateParms&);                                     // 160
-        IMPORT virtual void load_equip_and_cargo(const struct EquipDescVector&, bool);    // 164
-        IMPORT virtual void clear_equip_and_cargo();                                      // 168
-        IMPORT virtual void get_equip_desc_list(EquipDescVector&) const;                  // 172
-        IMPORT virtual bool add_item(const EquipDesc&);                                   // 176
-        IMPORT virtual ObjActivateResult activate(bool, u32);                    // 180
-        IMPORT virtual bool get_activate_state(st6::vector<bool, st6::allocator<bool>>&); // 184
-        IMPORT virtual void disconnect(INotify*);                                         // 188
-        IMPORT virtual void disconnect(IObjRW*);                                          // 192
-        IMPORT virtual void connect(INotify*);                                            // 196
-        IMPORT virtual void notify(INotify::Event, void*);                                // 200
-        IMPORT virtual void flush_animations();                                           // 204
-        IMPORT virtual f32 get_total_hit_pts() const;                                   // 208
-        IMPORT virtual f32 get_total_max_hit_pts() const;                               // 212
-        IMPORT virtual f32 get_total_relative_health() const;                           // 216
-        IMPORT virtual bool get_sub_obj_velocity(u16, Vector&) const;          // 220
-        IMPORT virtual bool get_sub_obj_center_of_mass(u16, Vector&) const;    // 224
-        IMPORT virtual bool get_sub_obj_hit_pts(u16, f32&) const;            // 228
-        IMPORT virtual bool set_sub_obj_hit_pts(u16, f32);                   // 232
-        IMPORT virtual bool get_sub_obj_max_hit_pts(u16, f32&) const;        // 236
-        IMPORT virtual bool get_sub_obj_relative_health(u16, f32&) const;    // 240
-        IMPORT virtual u16 inst_to_subobj_id(long) const;                      // 244
-        IMPORT virtual long sub_obj_id_to_inst(u16) const;                     // 248
-        IMPORT virtual void destroy_sub_objs(const DamageList&, bool);                    // 252
-        IMPORT virtual int enumerate_sub_objs() const;                                    // 256
-        IMPORT virtual CEquip* alloc_equip(u16, Archetype::Equipment*, bool);  // 260
-        IMPORT virtual void link_shields();                                               // 264
+    IMPORT ~CEqObj() override;                                                         // 56
+    IMPORT int update(f32, u32) override;                                              // 80
+    IMPORT void disable_controllers() override;                                        // 92
+    IMPORT void enable_controllers() override;                                         // 96
+    IMPORT void unmake_physical() override;                                            // 116
+    IMPORT void remake_physical(const PhySys::CreateParms&, f32) override;             // 120
+    IMPORT u32 get_name() const override;                                              // 136
+    IMPORT bool is_targetable() const override;                                        // 140
+    IMPORT void connect(IObjDB*) override;                                             // 144
+    IMPORT void disconnect(IObjDB*) override;                                          // 148
+    IMPORT virtual void init(const CreateParms&);                                     // 160
+    IMPORT virtual void load_equip_and_cargo(const struct EquipDescVector&, bool);    // 164
+    IMPORT virtual void clear_equip_and_cargo();                                      // 168
+    IMPORT virtual void get_equip_desc_list(EquipDescVector&) const;                  // 172
+    IMPORT virtual bool add_item(const EquipDesc&);                                   // 176
+    IMPORT virtual ObjActivateResult activate(bool, u32);                             // 180
+    IMPORT virtual bool get_activate_state(st6::vector<bool, st6::allocator<bool>>&); // 184
+    IMPORT virtual void disconnect(INotify*);                                         // 188
+    IMPORT virtual void disconnect(IObjRW*);                                          // 192
+    IMPORT virtual void connect(INotify*);                                            // 196
+    IMPORT virtual void notify(INotify::Event, void*);                                // 200
+    IMPORT virtual void flush_animations();                                           // 204
+    IMPORT virtual f32 get_total_hit_pts() const;                                     // 208
+    IMPORT virtual f32 get_total_max_hit_pts() const;                                 // 212
+    IMPORT virtual f32 get_total_relative_health() const;                             // 216
+    IMPORT virtual bool get_sub_obj_velocity(u16, Vector&) const;                     // 220
+    IMPORT virtual bool get_sub_obj_center_of_mass(u16, Vector&) const;               // 224
+    IMPORT virtual bool get_sub_obj_hit_pts(u16, f32&) const;                         // 228
+    IMPORT virtual bool set_sub_obj_hit_pts(u16, f32);                                // 232
+    IMPORT virtual bool get_sub_obj_max_hit_pts(u16, f32&) const;                     // 236
+    IMPORT virtual bool get_sub_obj_relative_health(u16, f32&) const;                 // 240
+    IMPORT virtual u16 inst_to_subobj_id(long) const;                                 // 244
+    IMPORT virtual long sub_obj_id_to_inst(u16) const;                                // 248
+    IMPORT virtual void destroy_sub_objs(const DamageList&, bool);                    // 252
+    IMPORT virtual int enumerate_sub_objs() const;                                    // 256
+    IMPORT virtual CEquip* alloc_equip(u16, Archetype::Equipment*, bool);             // 260
+    IMPORT virtual void link_shields();                                               // 264
 
-        struct IMPORT DockAnimInfo
-        {
-                DockAnimInfo();
-                DockAnimInfo& operator=(const DockAnimInfo&);
+    struct IMPORT DockAnimInfo
+    {
+        DockAnimInfo();
+        DockAnimInfo& operator=(const DockAnimInfo&);
 
-                u8 data[OBJECT_DATA_SIZE];
-        };
+        u8 data[OBJECT_DATA_SIZE];
+    };
 
-        IMPORT CEqObj(const CEqObj&);
-        IMPORT CEqObj(Class);
-        IMPORT void attaching_damaged_obj(const CacheString&);
-        IMPORT f32 attitude_towards(const CEqObj*) const;
-        IMPORT void attitude_towards_symmetrical(f32&, const CEqObj*, f32&) const;
-        IMPORT void clear_arch_groups();
-        IMPORT IBehaviorManager* create_behavior_interface(IObjRW*, int);
-        IMPORT Archetype::EqObj* eqobjarch() const;
-        IMPORT u32 get_base() const;
-        IMPORT u32 get_base_name() const;
-        IMPORT IBehaviorManager* get_behavior_interface();
-        IMPORT f32 get_cloak_percentage() const;
-        IMPORT void get_collision_group_description(st6::list<CollisionGroupDesc>&) const;
-        IMPORT const u32& get_dock_target() const;
-        IMPORT bool get_explosion_dmg_bounding_sphere(f32&, Vector&) const;
-        IMPORT f32 get_max_power() const;
-        IMPORT f32 get_power() const;
-        IMPORT f32 get_power_ratio() const;
-        IMPORT int get_vibe() const;
-        IMPORT bool is_base() const;
-        IMPORT int is_cloaked() const;
-        IMPORT bool is_control_excluded(u32) const;
-        IMPORT bool is_damaged_obj_attached(const CacheString&) const;
-        IMPORT bool is_dock() const;
-        IMPORT bool launch_pos(Vector&, Matrix&, int) const;
-        IMPORT void load_arch_groups(const st6::list<CollisionGroupDesc>&);
-        IMPORT void set_control_exclusion(u32);
-        IMPORT void set_power(f32);
-        IMPORT bool sync_cargo(const EquipDescList&);
-        IMPORT bool add_cargo_item(const EquipDesc&);
-        IMPORT bool add_equipped_item(const EquipDesc&);
-        IMPORT void compute_explosion_dmg_bounding_sphere(f32&, Vector&) const;
-        IMPORT void init_docking_points(u32);
-        IMPORT void update_docking_animations(f32);
+    IMPORT CEqObj(const CEqObj&);
+    IMPORT CEqObj(Class);
+    IMPORT void attaching_damaged_obj(const CacheString&);
+    IMPORT f32 attitude_towards(const CEqObj*) const;
+    IMPORT void attitude_towards_symmetrical(f32&, const CEqObj*, f32&) const;
+    IMPORT void clear_arch_groups();
+    IMPORT IBehaviorManager* create_behavior_interface(IObjRW*, int);
+    IMPORT Archetype::EqObj* eqobjarch() const;
+    IMPORT u32 get_base() const;
+    IMPORT u32 get_base_name() const;
+    IMPORT IBehaviorManager* get_behavior_interface();
+    IMPORT f32 get_cloak_percentage() const;
+    IMPORT void get_collision_group_description(st6::list<CollisionGroupDesc>&) const;
+    IMPORT const u32& get_dock_target() const;
+    IMPORT bool get_explosion_dmg_bounding_sphere(f32&, Vector&) const;
+    IMPORT f32 get_max_power() const;
+    IMPORT f32 get_power() const;
+    IMPORT f32 get_power_ratio() const;
+    IMPORT int get_vibe() const;
+    IMPORT bool is_base() const;
+    IMPORT int is_cloaked() const;
+    IMPORT bool is_control_excluded(u32) const;
+    IMPORT bool is_damaged_obj_attached(const CacheString&) const;
+    IMPORT bool is_dock() const;
+    IMPORT bool launch_pos(Vector&, Matrix&, int) const;
+    IMPORT void load_arch_groups(const st6::list<CollisionGroupDesc>&);
+    IMPORT void set_control_exclusion(u32);
+    IMPORT void set_power(f32);
+    IMPORT bool sync_cargo(const EquipDescList&);
+    IMPORT bool add_cargo_item(const EquipDesc&);
+    IMPORT bool add_equipped_item(const EquipDesc&);
+    IMPORT void compute_explosion_dmg_bounding_sphere(f32&, Vector&) const;
+    IMPORT void init_docking_points(u32);
+    IMPORT void update_docking_animations(f32);
 
-        CEquipManager equipManager;                        // 57
-        int repVibe;                                       // 65
-        Costume commCostume;                               // 66
-        unsigned voiceId;                                      // 79
-        f32 cloakPercentage;                             // 80
-        CArchGroupManager archGroupManager;                // 81
-        bool isDead;                                       // 87
-        Id dockTargetId;                                   // 88
-        Id dockTargetId2;                                  // 89
-        uint iDunnoEqObj23;                                // 90
-        bool boundingExplosionBool;                        // 91
-        f32 boundingExplosionFloat;                      // 92
-        Vector boundingExplosionVector;                    // 93
-        st6::vector<DockAnimInfo> dockingAnimationsVector; // 96 could be st6::vector<IAnimation2>
-        unsigned controlExcludedDunno;                         // 100
-        IBehaviorManager* behaviorManager;                 // 101
-        f32 power;                                       // 102
-        f32 maxPower;                                    // 103
-        unsigned iDunnoEqObj;                                  // 104 0xffffffff for all solars except those docking on lands you on a base, then it's 6?
+    CEquipManager equipManager;                        // 57
+    int repVibe;                                       // 65
+    Costume commCostume;                               // 66
+    unsigned voiceId;                                  // 79
+    f32 cloakPercentage;                               // 80
+    CArchGroupManager archGroupManager;                // 81
+    bool isDead;                                       // 87
+    Id dockTargetId;                                   // 88
+    Id dockTargetId2;                                  // 89
+    uint iDunnoEqObj23;                                // 90
+    bool boundingExplosionBool;                        // 91
+    f32 boundingExplosionFloat;                        // 92
+    Vector boundingExplosionVector;                    // 93
+    st6::vector<DockAnimInfo> dockingAnimationsVector; // 96 could be st6::vector<IAnimation2>
+    unsigned controlExcludedDunno;                     // 100
+    IBehaviorManager* behaviorManager;                 // 101
+    f32 power;                                         // 102
+    f32 maxPower;                                      // 103
+    unsigned iDunnoEqObj; // 104 0xffffffff for all solars except those docking on lands you on a base, then it's 6?
 
-    private:
-        void destroy_equipment(const DamageList&, bool);
+  private:
+    void destroy_equipment(const DamageList&, bool);
 };
-

@@ -3,9 +3,9 @@
 
 class CEAttachedFX : public CExternalEquip
 {
-    public:
-    IMPORT virtual ~CEAttachedFX();
-    IMPORT virtual void NotifyArchGroupDestroyed(u16);
+  public:
+    IMPORT ~CEAttachedFX() override;
+    IMPORT void NotifyArchGroupDestroyed(u16) override;
 
     IMPORT static CEAttachedFX* cast(CEquip*);
     IMPORT static const CEAttachedFX* cast(const CEquip*);

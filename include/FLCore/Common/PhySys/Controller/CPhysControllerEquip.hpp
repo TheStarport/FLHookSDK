@@ -5,8 +5,8 @@
 
 class CPhysControllerEquip : public PhySys::Controller
 {
-    public:
-    IMPORT virtual ~CPhysControllerEquip();
+  public:
+    IMPORT ~CPhysControllerEquip() override;
     IMPORT virtual bool EnableController();
     IMPORT virtual bool DisableController();
     IMPORT virtual bool IsControllerEnabled() const;
@@ -16,6 +16,6 @@ class CPhysControllerEquip : public PhySys::Controller
     IMPORT CPhysControllerEquip();
     IMPORT CPhysControllerEquip& operator=(const CPhysControllerEquip&);
 
-    public:
+  public:
     bool isEnabled;
 };

@@ -6,7 +6,7 @@ struct CacheString
 {
     IMPORT void clear();
 
-    public:
+  public:
     char* value;
 };
 
@@ -16,6 +16,6 @@ struct ID_String
     IMPORT void clear();
     IMPORT const char* get_string() const;
 
-    public:
+  public:
     unsigned id;
 };

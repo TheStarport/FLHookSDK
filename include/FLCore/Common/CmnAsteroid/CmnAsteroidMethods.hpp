@@ -12,4 +12,4 @@ namespace CmnAsteroid
     IMPORT int closest_cube_coord(int, int, int);
     IMPORT ulong compute_cube_id(const Vector&);
     IMPORT bool compute_cube_orientation(ulong, Matrix*, const struct AxisRotations&, f32);
-}
+} // namespace CmnAsteroid

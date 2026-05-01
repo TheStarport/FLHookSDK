@@ -5,14 +5,14 @@
 
 class CECargo : public CInternalEquip
 {
-    public:
-    IMPORT virtual ~CECargo();
-    IMPORT virtual bool IsDestroyed() const;
-    IMPORT virtual bool GetEquipDesc(EquipDesc&) const;
-    IMPORT virtual void Destroy();
-    IMPORT virtual f32 GetHitPoints() const;
-    IMPORT virtual void SetHitPoints(f32);
-    IMPORT virtual u32 GetType() const;                       // 88
+  public:
+    IMPORT ~CECargo() override;
+    IMPORT bool IsDestroyed() const override;
+    IMPORT bool GetEquipDesc(EquipDesc&) const override;
+    IMPORT void Destroy() override;
+    IMPORT f32 GetHitPoints() const override;
+    IMPORT void SetHitPoints(f32) override;
+    IMPORT virtual u32 GetType() const;                     // 88
     IMPORT virtual void Init(f32, u32, const CacheString&); // 92
 
     IMPORT static CECargo* cast(CEquip*);

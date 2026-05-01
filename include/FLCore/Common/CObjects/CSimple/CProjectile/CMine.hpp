@@ -15,12 +15,12 @@ struct CMine : CProjectile
         u8 data[OBJECT_DATA_SIZE];
     };
 
-    IMPORT virtual ~CMine();
-    IMPORT virtual int update(f32, u32);
-    IMPORT virtual u32 get_name() const;
-    IMPORT virtual void init_physics(const Vector&, const Vector&);
+    IMPORT ~CMine() override;
+    IMPORT int update(f32, u32) override;
+    IMPORT u32 get_name() const override;
+    IMPORT void init_physics(const Vector&, const Vector&) override;
     IMPORT virtual void init(const CreateParms&);
-    IMPORT virtual void expire_safe_time();
+    IMPORT void expire_safe_time() override;
 
     IMPORT CMine(const CMine&);
     IMPORT CMine(Class);

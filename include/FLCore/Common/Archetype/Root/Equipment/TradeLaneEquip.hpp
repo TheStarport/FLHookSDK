@@ -11,7 +11,7 @@ namespace Archetype
         IMPORT TradeLaneEquip& operator=(const TradeLaneEquip&);
         IMPORT ClassType get_class_type() const override;
 
-        public:
+      public:
         // no new fields
     };
-}
+} // namespace Archetype

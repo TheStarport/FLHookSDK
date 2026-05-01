@@ -38,7 +38,7 @@ namespace NewChar
     // ReSharper disable once CppPolymorphicClassWithNonVirtualPublicDestructor
     class IDatabase // NOLINT
     {
-        public:
+      public:
         virtual Faction* FindFaction(unsigned faction);
         virtual Package* FindPackage(unsigned package);
         virtual Pilot* FindPilot(unsigned pilot);
@@ -56,4 +56,4 @@ namespace NewChar
     };
 
     IMPORT IDatabase* TheDB;
-}
+} // namespace NewChar

@@ -9,13 +9,13 @@ namespace Archetype
 
 class CEArmor : public CInternalEquip
 {
-    public:
-        IMPORT virtual ~CEArmor();
+  public:
+    IMPORT ~CEArmor() override;
 
-        IMPORT static CEArmor* cast(CEquip*);
-        IMPORT static const CEArmor* cast(const CEquip*);
+    IMPORT static CEArmor* cast(CEquip*);
+    IMPORT static const CEArmor* cast(const CEquip*);
 
-        IMPORT CEArmor(const CEArmor&);
-        IMPORT CEArmor(CEqObj*, u16, const Archetype::Armor*, bool);
-        IMPORT const Archetype::Armor* ArmorArch() const;
+    IMPORT CEArmor(const CEArmor&);
+    IMPORT CEArmor(CEqObj*, u16, const Archetype::Armor*, bool);
+    IMPORT const Archetype::Armor* ArmorArch() const;
 };

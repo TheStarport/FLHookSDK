@@ -34,4 +34,4 @@ namespace Archetype
         EquipmentClass linkedEquipType;
         f32 linkedEquipDamage;
     };
-}
+} // namespace Archetype

@@ -6,7 +6,7 @@ namespace CmnAsteroid
 {
     class CAsteroidSystem
     {
-        public:
+      public:
         IMPORT CAsteroidSystem(const CAsteroidSystem&);
         IMPORT CAsteroidSystem();
         IMPORT ~CAsteroidSystem();
@@ -20,7 +20,7 @@ namespace CmnAsteroid
         IMPORT void set_sys_id(u32);
         IMPORT void update(struct IObjDB*, f32);
 
-        public:
+      public:
         u8 data[OBJECT_DATA_SIZE];
     };
-}
+} // namespace CmnAsteroid

@@ -11,4 +11,4 @@ namespace Archetype
         /*  3 */ f32 acceleration;
         /*  4 */ f32 lifetime;
     };
-}
+} // namespace Archetype

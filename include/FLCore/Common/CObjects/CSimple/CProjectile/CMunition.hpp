@@ -3,8 +3,8 @@
 
 struct CMunition : public CProjectile
 {
-    public:
-    IMPORT virtual ~CMunition();
+  public:
+    IMPORT ~CMunition() override;
 
     IMPORT CMunition(const CMunition&);
     IMPORT CMunition(Class);

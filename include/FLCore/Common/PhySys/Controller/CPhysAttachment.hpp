@@ -3,7 +3,7 @@
 
 class CPhysAttachment
 {
-    public:
+  public:
     IMPORT virtual ~CPhysAttachment();
     IMPORT virtual long GetRootIndex() const;
     IMPORT virtual CObject* GetPhysicsOwner() const;
@@ -15,13 +15,13 @@ class CPhysAttachment
     IMPORT CPhysAttachment();
     IMPORT CPhysAttachment& operator=(const CPhysAttachment&);
 
-    public:
+  public:
     u8 data[OBJECT_DATA_SIZE];
 };
 
 class CNonPhysAttachment
 {
-    public:
+  public:
     IMPORT virtual ~CNonPhysAttachment();
     IMPORT virtual long GetRootIndex() const;
     IMPORT virtual CObject* GetPhysicsOwner() const;
@@ -33,6 +33,6 @@ class CNonPhysAttachment
     IMPORT CNonPhysAttachment();
     IMPORT CNonPhysAttachment& operator=(const CNonPhysAttachment&);
 
-    public:
+  public:
     u8 data[OBJECT_DATA_SIZE];
 };

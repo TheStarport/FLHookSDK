@@ -14,7 +14,7 @@ namespace Archetype
         IMPORT bool read(INI_Reader&) override;
         IMPORT void redefine(const Root&) override;
 
-        public:
+      public:
         /* 28 */ f32 repairRate;
     };
 
@@ -29,7 +29,7 @@ namespace Archetype
         IMPORT Equipment* get_loot_appearance() override;
         IMPORT bool read(INI_Reader&) override;
 
-        public:
+      public:
         /* 28 */ unsigned lootAppearanceId;
     };
 
@@ -44,7 +44,7 @@ namespace Archetype
         Equipment* get_loot_appearance() override;
         bool read(INI_Reader&) override;
 
-        public:
+      public:
         u8 data[OBJECT_DATA_SIZE];
     };
-}
+} // namespace Archetype

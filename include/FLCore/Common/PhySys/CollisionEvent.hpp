@@ -13,4 +13,4 @@ namespace PhySys
         Vector normal;
         Vector velocity;
     };
-}
+} // namespace PhySys

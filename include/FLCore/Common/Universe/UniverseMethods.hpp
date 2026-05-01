@@ -25,4 +25,4 @@ namespace Universe
     IMPORT const IZone* next_zone(const IZone*);
     IMPORT u32 num_bases();
     IMPORT u32 num_systems();
-}
+} // namespace Universe

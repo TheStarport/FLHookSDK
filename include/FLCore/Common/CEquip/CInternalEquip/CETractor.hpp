@@ -4,9 +4,9 @@
 struct CShip;
 class CETractor : public CInternalEquip
 {
-    public:
-    IMPORT virtual ~CETractor();
-    IMPORT virtual bool Update(f32, u32);
+  public:
+    IMPORT ~CETractor() override;
+    IMPORT bool Update(f32, u32) override;
 
     IMPORT static CETractor* cast(CEquip*);
     IMPORT static const CETractor* cast(const CEquip*);

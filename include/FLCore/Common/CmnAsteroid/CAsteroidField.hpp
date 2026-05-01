@@ -6,7 +6,7 @@ namespace CmnAsteroid
 {
     class CAsteroidField
     {
-        public:
+      public:
         IMPORT CAsteroidField(const CAsteroidField&);
         IMPORT CAsteroidField();
         IMPORT ~CAsteroidField();
@@ -33,11 +33,11 @@ namespace CmnAsteroid
         IMPORT void set_system(u32);
         IMPORT void set_zone(const Universe::IZone*);
 
-        private:
+      private:
         IMPORT void populate_asteroids_internal(const Vector&, const Vector&, f32);
         IMPORT void update(f32);
 
-        public:
+      public:
         unsigned dunno[10];
         /* 10 */ Universe::IZone* zone;
         /* 11 */ unsigned dunno4;
@@ -54,4 +54,4 @@ namespace CmnAsteroid
         /* 24 */ f32 rotY[4];
         /* 28 */ f32 rotZ[4];
     };
-}
+} // namespace CmnAsteroid

@@ -18,7 +18,7 @@ namespace Archetype
         IMPORT bool read(INI_Reader&) override;
         IMPORT void redefine(const Root&) override;
 
-        public:
+      public:
         /* 40 */ f32 dispersionAngle;
         /* 41 */ f32 turnRate;
         /* 42 */ f32 gunAzimuth[2];
@@ -28,4 +28,4 @@ namespace Archetype
         bool autoTurret;
         /* 47 */ unsigned hpTypes[4]; // st6::vector?
     };
-}
+} // namespace Archetype

@@ -6,15 +6,15 @@
 
 struct Guided : public GameObject
 {
-    public:
-        CGuided* cguided() { return reinterpret_cast<CGuided*>(cobject()); };
-        static Guided* Cast(IObjInspectImpl* iobj)
+  public:
+    CGuided* cguided() { return reinterpret_cast<CGuided*>(cobject()); };
+    static Guided* Cast(IObjInspectImpl* iobj)
+    {
+        if (iobj->cobject()->objectClass == CObject::CGUIDED_OBJECT)
         {
-            if (iobj->cobject()->objectClass == CObject::CGUIDED_OBJECT)
-            {
-                return reinterpret_cast<Guided*>(iobj);
-            }
-            return nullptr;
+            return reinterpret_cast<Guided*>(iobj);
         }
-        // TODO: Fields and methods
+        return nullptr;
+    }
+    // TODO: Fields and methods
 };

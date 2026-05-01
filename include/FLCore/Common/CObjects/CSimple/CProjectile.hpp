@@ -25,11 +25,11 @@ struct CProjectile : CSimple
         unsigned owner;
     };
 
-    IMPORT virtual ~CProjectile();                  // 56
-    IMPORT virtual int update(f32, u32); // 80
-    IMPORT virtual void init(const CreateParms&);   // 160
-    IMPORT virtual void set_dead();                 // 164
-    IMPORT virtual void expire_safe_time();         // 168
+    IMPORT ~CProjectile() override;                // 56
+    IMPORT int update(f32, u32) override;          // 80
+    IMPORT virtual void init(const CreateParms&); // 160
+    IMPORT virtual void set_dead();               // 164
+    IMPORT virtual void expire_safe_time();       // 168
 
     IMPORT CProjectile(const CProjectile&);
     IMPORT CProjectile(Class);
@@ -38,7 +38,7 @@ struct CProjectile : CSimple
     IMPORT bool is_owner_safe() const;
     IMPORT const Archetype::Projectile* projarch() const;
 
-    unsigned ownerId;                 // 57
+    unsigned ownerId;           // 57
     f32 remainingLifetime;      // 58
     f32 remainingOwnerSafeTime; // 59
 };

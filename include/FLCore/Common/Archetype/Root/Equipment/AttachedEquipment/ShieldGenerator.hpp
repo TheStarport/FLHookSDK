@@ -14,7 +14,7 @@ namespace Archetype
             ~ShieldLink();
             ShieldLink& operator=(const ShieldLink&);
 
-            public:
+          public:
             u8 data[0x18];
         };
 
@@ -29,7 +29,7 @@ namespace Archetype
         IMPORT void redefine(const Root&) override;
         ClassType get_class_type() const override { return ClassType::ShieldGenerator; }
 
-        public:
+      public:
         /* 34 */ unsigned hpType;
         /* 35 */ unsigned shieldTypeId;
         /* 36 */ f32 regenerationRate;
@@ -40,4 +40,4 @@ namespace Archetype
         f32 offlineRebuildTime;
         /* 41 */ unsigned hpShieldType[4]; // std6::vector?
     };
-}
+} // namespace Archetype

@@ -9,11 +9,11 @@
 template <auto FuncPtr>
 struct IObjVTableIndex;
 
-#define MAP_MEMBER(fn, val)                   \
-    template <>                               \
-    struct IObjVTableIndex<fn>                \
-    {                                         \
-            static constexpr u32 value = val; \
+#define MAP_MEMBER(fn, val)               \
+    template <>                           \
+    struct IObjVTableIndex<fn>            \
+    {                                     \
+        static constexpr u32 value = val; \
     }
 #define M_CAST(fn, type, val) MAP_MEMBER(type fn, val)
 
@@ -137,7 +137,9 @@ MAP_MEMBER(&IObjRW::can_deal_damage, 0x6CEF0B0);
 
 template <auto FuncPtr>
 u32 FetchIObjVTableAddress(u32 serverDllAddr)
-{ return serverDllAddr + (IObjVTableIndex_v<FuncPtr> - 0x6CE0000); }
+{
+    return serverDllAddr + (IObjVTableIndex_v<FuncPtr> - 0x6CE0000);
+}
 
 template <auto FuncPtr, typename CurIObjType, typename FuncPtrT = decltype(FuncPtr), typename ClsType = member_fn_ct<FuncPtrT>,
           typename Ret = member_fn_rt<FuncPtrT>, typename... Args>

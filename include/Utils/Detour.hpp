@@ -8,237 +8,242 @@
 
 class MemProtect
 {
-        void* addr;
-        unsigned size;
-        unsigned long flags;
-        bool released = false;
+    void* addr;
+    unsigned size;
+    unsigned long flags;
+    bool released = false;
 
-    public:
-        /// <summary>
-        /// Creates a protection object with the given arguments
-        /// </summary>
-        /// <param name="address">The address which should be affected</param>
-        /// <param name="size">The size of the memory which should be affected</param>
-        MemProtect(void* address, unsigned size) : addr(address), size(size), flags(0)
-        { VirtualProtect(addr, this->size, PAGE_EXECUTE_READWRITE, &this->flags); }
+  public:
+    /// <summary>
+    /// Creates a protection object with the given arguments
+    /// </summary>
+    /// <param name="address">The address which should be affected</param>
+    /// <param name="size">The size of the memory which should be affected</param>
+    MemProtect(void* address, unsigned size) : addr(address), size(size), flags(0)
+    {
+        VirtualProtect(addr, this->size, PAGE_EXECUTE_READWRITE, &this->flags);
+    }
 
-        /// <summary>
-        /// Destroys the protection object and automatically restores old flags
-        /// </summary>
-        ~MemProtect()
+    /// <summary>
+    /// Destroys the protection object and automatically restores old flags
+    /// </summary>
+    ~MemProtect()
+    {
+        if (!released)
         {
-            if (!released)
-            {
-                VirtualProtect(addr, size, flags, &flags);
-            }
+            VirtualProtect(addr, size, flags, &flags);
         }
+    }
 
-        /**
-         * @brief
-         * Mark this memory protection as released, or otherwise no longer valid.
-         * If released, destructing this object will no longer attempt to revert the protection
-         */
-        void Release() { released = true; }
+    /**
+     * @brief
+     * Mark this memory protection as released, or otherwise no longer valid.
+     * If released, destructing this object will no longer attempt to revert the protection
+     */
+    void Release() { released = true; }
 
-        [[nodiscard]]
-        void* GetAddr() const
-        { return addr; }
+    [[nodiscard]]
+    void* GetAddr() const
+    {
+        return addr;
+    }
 };
 
 template <typename CallSig>
 class FunctionDetour
 {
-        CallSig originalFunc;
-        CallSig detourFunc;
-        PBYTE data;
-        std::allocator<unsigned char> alloc;
-        bool detoured = false;
+    CallSig originalFunc;
+    CallSig detourFunc;
+    PBYTE data;
+    std::allocator<unsigned char> alloc;
+    bool detoured = false;
 
-        MemProtect protection;
+    MemProtect protection;
 
-    public:
-        template <typename... Args>
-            requires std::invocable<CallSig, Args...>
-        decltype(auto) CallOriginalFunc(Args&&... args)
+  public:
+    template <typename... Args>
+        requires std::invocable<CallSig, Args...>
+    decltype(auto) CallOriginalFunc(Args&&... args)
+    {
+        using RetType = std::invoke_result_t<CallSig, Args...>;
+        constexpr bool IsVoid = std::is_same_v<RetType, void>;
+        std::conditional_t<IsVoid, int, RetType> ret;
+
+        UnDetour();
+        if constexpr (IsVoid)
         {
-            using RetType = std::invoke_result_t<CallSig, Args...>;
-            constexpr bool IsVoid = std::is_same_v<RetType, void>;
-            std::conditional_t<IsVoid, int, RetType> ret;
-
-            UnDetour();
-            if constexpr (IsVoid)
-            {
-                std::invoke(originalFunc, std::forward<Args>(args)...);
-            }
-            else
-            {
-                ret = std::invoke(originalFunc, std::forward<Args>(args)...);
-            }
-
-            Detour(detourFunc);
-
-            if constexpr (!IsVoid)
-            {
-                return ret;
-            }
+            std::invoke(originalFunc, std::forward<Args>(args)...);
+        }
+        else
+        {
+            ret = std::invoke(originalFunc, std::forward<Args>(args)...);
         }
 
-        CallSig GetOriginalFunc() { return originalFunc; }
+        Detour(detourFunc);
 
-        explicit FunctionDetour(CallSig origFunc) : originalFunc(origFunc), protection(originalFunc, 5) { data = alloc.allocate(5); }
-        ~FunctionDetour()
+        if constexpr (!IsVoid)
         {
-            UnDetour();
-            alloc.deallocate(data, 5);
+            return ret;
+        }
+    }
+
+    CallSig GetOriginalFunc() { return originalFunc; }
+
+    explicit FunctionDetour(CallSig origFunc) : originalFunc(origFunc), protection(originalFunc, 5) { data = alloc.allocate(5); }
+    ~FunctionDetour()
+    {
+        UnDetour();
+        alloc.deallocate(data, 5);
+    }
+
+    FunctionDetour(const FunctionDetour&) = delete;
+    FunctionDetour& operator=(FunctionDetour) = delete;
+
+    /**
+     * @brief
+     * Release the underlying memory protection, preventing lockup if the hooked address is no longer valid
+     * It will also set the detour state to false, so the destructor will not attempt to remove the detour
+     */
+    void Release()
+    {
+        detoured = false;
+        protection.Release();
+    }
+
+    void Detour(const CallSig hookedFunc)
+    {
+        if (detoured)
+        {
+            return;
         }
 
-        FunctionDetour(const FunctionDetour&) = delete;
-        FunctionDetour& operator=(FunctionDetour) = delete;
+        detourFunc = hookedFunc;
+        detoured = true;
 
-        /**
-         * @brief
-         * Release the underlying memory protection, preventing lockup if the hooked address is no longer valid
-         * It will also set the detour state to false, so the destructor will not attempt to remove the detour
-         */
-        void Release()
+        std::array<unsigned char, 5> patch{}; // We need to change 5 bytes and I'm going to use memcpy so this is the simplest way.
+        patch[0] = 0xE9;                      // Set the first byte of the byte array to the op code for the JMP instruction.
+        unsigned long relativeAddress = (unsigned long)hookedFunc - (unsigned long)originalFunc - 5; // Calculate the relative JMP address.
+        memcpy(&patch[1], &relativeAddress, 4); // Copy the relative address to the byte array.
+        memcpy(data, originalFunc, 5);
+        memcpy(originalFunc, patch.data(), 5); // Change the first 5 bytes to the JMP instruction.
+    }
+
+    void UnDetour(bool release = false)
+    {
+        if (!detoured)
         {
-            detoured = false;
-            protection.Release();
-        }
-
-        void Detour(const CallSig hookedFunc)
-        {
-            if (detoured)
-            {
-                return;
-            }
-
-            detourFunc = hookedFunc;
-            detoured = true;
-
-            std::array<unsigned char, 5> patch{}; // We need to change 5 bytes and I'm going to use memcpy so this is the simplest way.
-            patch[0] = 0xE9;             // Set the first byte of the byte array to the op code for the JMP instruction.
-            unsigned long relativeAddress = (unsigned long)hookedFunc - (unsigned long)originalFunc - 5; // Calculate the relative JMP address.
-            memcpy(&patch[1], &relativeAddress, 4);                              // Copy the relative address to the byte array.
-            memcpy(data, originalFunc, 5);
-            memcpy(originalFunc, patch.data(), 5); // Change the first 5 bytes to the JMP instruction.
-        }
-
-        void UnDetour(bool release = false)
-        {
-            if (!detoured)
-            {
-                if (release)
-                {
-                    Release();
-                }
-                return;
-            }
-
-            detoured = false;
-
-            memcpy(originalFunc, data, 5);
-
             if (release)
             {
                 Release();
             }
+            return;
         }
+
+        detoured = false;
+
+        memcpy(originalFunc, data, 5);
+
+        if (release)
+        {
+            Release();
+        }
+    }
 };
 
 template <unsigned long Start, unsigned long End, unsigned long Count = (End - Start) / 4 + 1>
 class VTableHook final
 {
-        static constexpr unsigned long Size = End - Start + 4;
-        const char* dll;
+    static constexpr unsigned long Size = End - Start + 4;
+    const char* dll;
 
-        std::unique_ptr<MemProtect> memProtect;
+    std::unique_ptr<MemProtect> memProtect;
 
-        std::array<void*, Count> originals;
+    std::array<void*, Count> originals;
 
-    public:
-        explicit VTableHook(const char* dll) : dll(dll) { Init(); }
+  public:
+    explicit VTableHook(const char* dll) : dll(dll) { Init(); }
 
-        bool Init()
+    bool Init()
+    {
+        auto handle = reinterpret_cast<unsigned long>(GetModuleHandleA(dll));
+        if (!handle)
         {
-            auto handle = reinterpret_cast<unsigned long>(GetModuleHandleA(dll));
-            if (!handle)
-            {
-                return false;
-            }
-
-            memProtect = std::make_unique<MemProtect>(reinterpret_cast<void*>(handle + Start), Size);
-            memcpy_s(originals.data(), Size, reinterpret_cast<void*>(handle + Start), Size);
-            return true;
+            return false;
         }
 
-        // ReSharper disable once CppMemberFunctionMayBeStatic
-        void Hook(const unsigned short index, const void* replacementFunction)
-        {
-            const auto handle = reinterpret_cast<unsigned long>(GetModuleHandleA(dll));
-            if (!handle || (!memProtect && !Init()))
-            {
-                return;
-            }
+        memProtect = std::make_unique<MemProtect>(reinterpret_cast<void*>(handle + Start), Size);
+        memcpy_s(originals.data(), Size, reinterpret_cast<void*>(handle + Start), Size);
+        return true;
+    }
 
-            assert(index < Count);
-            memcpy_s(reinterpret_cast<void*>(handle + Start + index * 4), 4, replacementFunction, 4);
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    void Hook(const unsigned short index, const void* replacementFunction)
+    {
+        const auto handle = reinterpret_cast<unsigned long>(GetModuleHandleA(dll));
+        if (!handle || (!memProtect && !Init()))
+        {
+            return;
         }
 
-        /**
-         * @brief Gets a pointer to the original function with a given index
-         * @param index Index of the function that should be retrieved
-         * @returns Returns the function pointer casted into a given function type
-         **/
-        [[nodiscard]]
-        void* GetOriginal(const unsigned short index)
-        {
-            if (!memProtect && !Init())
-            {
-                return nullptr;
-            }
+        assert(index < Count);
+        memcpy_s(reinterpret_cast<void*>(handle + Start + index * 4), 4, replacementFunction, 4);
+    }
 
-            assert(index < Count);
-            return originals[index];
+    /**
+     * @brief Gets a pointer to the original function with a given index
+     * @param index Index of the function that should be retrieved
+     * @returns Returns the function pointer casted into a given function type
+     **/
+    [[nodiscard]]
+    void* GetOriginal(const unsigned short index)
+    {
+        if (!memProtect && !Init())
+        {
+            return nullptr;
         }
 
-        /**
-         * @brief Unhooks specific index
-         * @param index Index of the function that should be unhooked
-         **/
-        void Unhook(const unsigned short index)
-        {
-            auto handle = reinterpret_cast<unsigned long>(GetModuleHandleA(dll));
-            if (!handle || !memProtect)
-            {
-                return;
-            }
+        assert(index < Count);
+        return originals[index];
+    }
 
-            assert(index < Count);
-            auto original = GetOriginal(index);
-            memcpy_s(reinterpret_cast<void*>(handle + Start + index * 4), 4, &original, 4);
+    /**
+     * @brief Unhooks specific index
+     * @param index Index of the function that should be unhooked
+     **/
+    void Unhook(const unsigned short index)
+    {
+        auto handle = reinterpret_cast<unsigned long>(GetModuleHandleA(dll));
+        if (!handle || !memProtect)
+        {
+            return;
         }
 
-        ~VTableHook()
-        {
-            auto lib = GetModuleHandleA(dll);
-            if (!lib)
-            {
-                if (memProtect)
-                {
-                    memProtect->Release();
-                }
+        assert(index < Count);
+        auto original = GetOriginal(index);
+        memcpy_s(reinterpret_cast<void*>(handle + Start + index * 4), 4, &original, 4);
+    }
 
-                return;
+    ~VTableHook()
+    {
+        auto lib = GetModuleHandleA(dll);
+        if (!lib)
+        {
+            if (memProtect)
+            {
+                memProtect->Release();
             }
 
-            // in case of address mismatch (due to dll being reloaded), omit reapplying the protection and gracefully exit
-            if (const auto patchAddr = reinterpret_cast<void*>(reinterpret_cast<unsigned long>(lib) + Start); patchAddr == memProtect->GetAddr())
+            return;
+        }
+
+        // in case of address mismatch (due to dll being reloaded), omit reapplying the protection and gracefully exit
+        if (const auto patchAddr = reinterpret_cast<void*>(reinterpret_cast<unsigned long>(lib) + Start);
+            patchAddr == memProtect->GetAddr())
+        {
+            if (VirtualProtect(patchAddr, Size, PAGE_EXECUTE_READWRITE, nullptr))
             {
-                if (VirtualProtect(patchAddr, Size, PAGE_EXECUTE_READWRITE, nullptr))
-                {
-                    memcpy_s(patchAddr, Size, originals.data(), Size);
-                }
+                memcpy_s(patchAddr, Size, originals.data(), Size);
             }
         }
+    }
 };

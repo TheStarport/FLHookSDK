@@ -7,13 +7,13 @@ namespace Archetype
     {
         IMPORT Solar(const Solar&);
         IMPORT Solar(IClObj*);
-        IMPORT virtual ~Solar();
+        IMPORT ~Solar() override;
         IMPORT Solar& operator=(const Solar&);
-        IMPORT virtual ClassType get_class_type() const;
-        IMPORT virtual bool read(INI_Reader&);
-        IMPORT virtual void redefine(const Root&);
+        IMPORT ClassType get_class_type() const override;
+        IMPORT bool read(INI_Reader&) override;
+        IMPORT void redefine(const Root&) override;
 
-        public:
+      public:
         /* 37 */ bool destrutible;
         /* 38 */ f32 solarRadius;
         /* 39 */ unsigned toughness;
@@ -21,4 +21,4 @@ namespace Archetype
         /* 41 */ char* jumpOutHp;
         /* 42 */ unsigned loadoutId;
     };
-}
+} // namespace Archetype

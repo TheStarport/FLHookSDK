@@ -10,4 +10,4 @@ namespace PhySys
         Vector collision_velocity;
         unsigned dacomCRC32hash;
     };
-}
+} // namespace PhySys

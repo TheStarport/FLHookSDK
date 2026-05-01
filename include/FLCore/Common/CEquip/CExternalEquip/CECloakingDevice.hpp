@@ -3,10 +3,10 @@
 
 class CECloakingDevice : public CExternalEquip
 {
-    public:
-    IMPORT virtual ~CECloakingDevice();
-    IMPORT virtual bool Update(f32, u32);
-    IMPORT virtual bool Activate(bool);
+  public:
+    IMPORT ~CECloakingDevice() override;
+    IMPORT bool Update(f32, u32) override;
+    IMPORT bool Activate(bool) override;
 
     IMPORT static CECloakingDevice* cast(CEquip*);
     IMPORT static const CECloakingDevice* cast(const CEquip*);

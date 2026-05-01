@@ -13,22 +13,22 @@ namespace Archetype
         bool operator<(const DamageObjInfo&) const;
         bool operator>(const DamageObjInfo&) const;
 
-        public:
+      public:
         u8 data[OBJECT_DATA_SIZE];
     };
 
     class DamageObjInfoList
     {
-        public:
+      public:
         IMPORT DamageObjInfoList(const DamageObjInfoList&);
         IMPORT DamageObjInfoList();
         IMPORT ~DamageObjInfoList();
         IMPORT DamageObjInfoList& operator=(const DamageObjInfoList&);
         IMPORT bool IsValid();
 
-        public:
+      public:
         bool dunno1;
         void* dunnoPtr; // 16 byte size
         unsigned dunno2;
     };
-}
+} // namespace Archetype

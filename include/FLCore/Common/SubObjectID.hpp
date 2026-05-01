@@ -4,7 +4,7 @@ namespace SubObjectID
 {
     class IMPORT CollGroupIdMaker
     {
-        public:
+      public:
         CollGroupIdMaker();
         CollGroupIdMaker& operator=(const CollGroupIdMaker&);
         u16 CreateGroupID();
@@ -15,29 +15,29 @@ namespace SubObjectID
 
     class IMPORT EquipIdMaker
     {
-        public:
+      public:
         EquipIdMaker();
         EquipIdMaker& operator=(const EquipIdMaker&);
         u16 CreateEquipID();
         void Reset();
 
-        public:
+      public:
         short currSID;
     };
 
     class IMPORT ShieldIdMaker
     {
-        public:
+      public:
         ShieldIdMaker();
         ShieldIdMaker& operator=(const ShieldIdMaker&);
         u16 CreateShieldID();
         void Reset();
 
-        public:
+      public:
         short currSID;
     };
 
     IMPORT bool IsArchGroupID(u16);
     IMPORT bool IsEquipID(u16);
     IMPORT bool IsShieldEquipID(u16);
-}
+} // namespace SubObjectID

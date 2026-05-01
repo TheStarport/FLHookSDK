@@ -7,12 +7,12 @@ namespace Archetype
     {
         IMPORT DynamicAsteroid(const DynamicAsteroid&);
         IMPORT DynamicAsteroid(IClObj*);
-        IMPORT virtual ~DynamicAsteroid();
+        IMPORT ~DynamicAsteroid() override;
         IMPORT DynamicAsteroid& operator=(const DynamicAsteroid&);
-        IMPORT virtual ClassType get_class_type() const;
-        IMPORT virtual bool read(INI_Reader&);
+        IMPORT ClassType get_class_type() const override;
+        IMPORT bool read(INI_Reader&) override;
 
-        public:
+      public:
         // no fields
     };
-}
+} // namespace Archetype

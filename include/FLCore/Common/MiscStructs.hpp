@@ -14,18 +14,18 @@ struct Costume
     static Costume Trent()
     {
         return Costume{
-            .head = 2223155968, // pi_pirate5_head
-            .body = 3144214861,
-            .leftHand = 2479975689,
-            .rightHand = 2264565644,
+            .head = 2'223'155'968, // pi_pirate5_head
+            .body = 3'144'214'861,
+            .leftHand = 2'479'975'689,
+            .rightHand = 2'264'565'644,
         };
     }
 };
 
 class IMPORT CEquipmentObj : public CObject
 {
-    public:
-    virtual ~CEquipmentObj();
+  public:
+    ~CEquipmentObj() override;
 
     CEquipmentObj(const CEquipmentObj&);
     CEquipmentObj(Class);
@@ -35,6 +35,6 @@ class IMPORT CEquipmentObj : public CObject
 
 struct ImpactNormalVector
 {
-        Vector impactPosition;
-        Vector impactNormal;
+    Vector impactPosition;
+    Vector impactNormal;
 };

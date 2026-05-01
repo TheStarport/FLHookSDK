@@ -90,7 +90,7 @@ Transform Transform::get_general_inverse(f32& w) const
     Transform result(false);
 
     const f32 determinant = d[0][0] * (d[1][1] * d[2][2] - d[2][1] * d[1][2]) - d[0][1] * (d[1][0] * d[2][2] - d[2][0] * d[1][2]) +
-                              d[0][2] * (d[1][0] * d[2][1] - d[2][0] * d[1][1]);
+                            d[0][2] * (d[1][0] * d[2][1] - d[2][0] * d[1][1]);
 
     f32 dt;
     if (fabs(determinant) > MIN_DET)
@@ -126,8 +126,8 @@ Transform Transform::get_general_inverse(f32& w) const
                              d[0][0] * d[2][1] * translation.y - d[1][0] * d[0][1] * translation.z - d[2][0] * d[1][1] * translation.x) *
                            dt;
 
-    w = (d[0][0] * d[1][1] * d[2][2] + d[1][0] * d[2][1] * d[0][2] + d[2][0] * d[0][1] * d[1][2] - d[2][0] * d[1][1] * d[0][2] - d[0][0] * d[2][1] * d[1][2] -
-         d[1][0] * d[0][1] * d[2][2]) *
+    w = (d[0][0] * d[1][1] * d[2][2] + d[1][0] * d[2][1] * d[0][2] + d[2][0] * d[0][1] * d[1][2] - d[2][0] * d[1][1] * d[0][2] -
+         d[0][0] * d[2][1] * d[1][2] - d[1][0] * d[0][1] * d[2][2]) *
         dt;
 
     return result;
@@ -216,7 +216,10 @@ bool Transform::operator==(const Transform& t) const { return (0 == memcmp(this,
 bool Transform::operator!=(const Transform& t) const { return !(*this == t); }
 #endif
 
-bool Transform::equal(const Transform& t, const f32 tolerance) const { return translation.equal(t.translation, tolerance) && Matrix::equal(t, tolerance); }
+bool Transform::equal(const Transform& t, const f32 tolerance) const
+{
+    return translation.equal(t.translation, tolerance) && Matrix::equal(t, tolerance);
+}
 
 const Transform& Transform::operator*=(const Transform& t)
 {
@@ -293,5 +296,11 @@ Transform operator+(const Transform& t1, const Transform& t2) { return t1.add(t2
 
 Transform operator-(const Transform& t1, const Transform& t2) { return t1.subtract(t2); }
 
-Transform Transform::add(const Transform& m2) const { return { Matrix::add(*static_cast<const Matrix*>(&m2)), (translation + m2.translation) }; }
-Transform Transform::subtract(const Transform& m2) const { return { Matrix::subtract(*static_cast<const Matrix*>(&m2)), (translation - m2.translation) }; }
+Transform Transform::add(const Transform& m2) const
+{
+    return { Matrix::add(*static_cast<const Matrix*>(&m2)), (translation + m2.translation) };
+}
+Transform Transform::subtract(const Transform& m2) const
+{
+    return { Matrix::subtract(*static_cast<const Matrix*>(&m2)), (translation - m2.translation) };
+}

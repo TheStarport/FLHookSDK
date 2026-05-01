@@ -12,18 +12,18 @@ struct CEqObj;
 
 class CEPower : public CEquip
 {
-    public:
-        IMPORT virtual ~CEPower();
-        IMPORT virtual bool Update(f32, u32);
+  public:
+    IMPORT ~CEPower() override;
+    IMPORT bool Update(f32, u32) override;
 
-        IMPORT static CEPower* cast(CEquip*);
-        IMPORT static const CEPower* cast(const CEquip*);
+    IMPORT static CEPower* cast(CEquip*);
+    IMPORT static const CEPower* cast(const CEquip*);
 
-        IMPORT CEPower(const CEPower&);
-        IMPORT CEPower(CEqObj*, u16, const Archetype::Power*, bool);
+    IMPORT CEPower(const CEPower&);
+    IMPORT CEPower(CEqObj*, u16, const Archetype::Power*, bool);
 
-        IMPORT f32 GetCapacity() const;
-        IMPORT f32 GetChargeRate() const;
-        IMPORT f32 GetThrustCapacity() const;
-        IMPORT f32 GetThrustChargeRate() const;
+    IMPORT f32 GetCapacity() const;
+    IMPORT f32 GetChargeRate() const;
+    IMPORT f32 GetThrustCapacity() const;
+    IMPORT f32 GetThrustChargeRate() const;
 };

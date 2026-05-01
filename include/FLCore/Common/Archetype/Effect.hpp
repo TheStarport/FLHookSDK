@@ -10,4 +10,4 @@ namespace Archetype
         unsigned archId;
         f32 lifetime; // -1.0 if skipped in config
     };
-}
+} // namespace Archetype

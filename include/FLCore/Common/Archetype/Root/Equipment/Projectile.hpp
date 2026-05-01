@@ -14,11 +14,11 @@ namespace Archetype
         IMPORT bool read(INI_Reader&) override;
         IMPORT void redefine(const Root&) override;
 
-        public:
+      public:
         /* 28 */ f32 lifeTime;
         /* 29 */ f32 ownerSafeTime;
         /* 30 */ bool requiresAmmo;
         bool forceGunOri;
         /* 31 */ unsigned lootAppearanceId;
     };
-}
+} // namespace Archetype
