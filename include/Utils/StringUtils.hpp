@@ -225,10 +225,12 @@ class StringUtils
     // ReSharper disable CppExplicitSpecializationInNonNamespaceScope
 
     template <typename CharT,
-              typename C1 = std::conditional_t<IsStringViewConvertable<CharT>, std::string_view,
-                                               std::conditional_t<std::is_convertible_v<char, CharT>, char, const char*>>,
-              typename C2 = std::conditional_t<IsStringViewConvertable<CharT>, std::wstring_view,
-                                               std::conditional_t<std::is_convertible_v<wchar_t, CharT>, wchar_t, const wchar_t*>>>
+              typename C1 = std::conditional_t<
+                  IsStringViewConvertable<CharT>, std::string_view,
+                  std::conditional_t<std::is_convertible_v<char, CharT>, char, const char*>>,
+              typename C2 = std::conditional_t<
+                  IsStringViewConvertable<CharT>, std::wstring_view,
+                  std::conditional_t<std::is_convertible_v<wchar_t, CharT>, wchar_t, const wchar_t*>>>
     static constexpr CharT NarrowOrWide(C1, C2) = delete;
 
     template <>
@@ -281,8 +283,10 @@ class StringUtils
 
     // TODO: add support to cast to optionally return a boolean to handle conversion errors
     template <typename Ret, typename T,
-              typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>>
-        requires IsStringViewConvertable<T> && (std::is_integral_v<Ret> || std::is_floating_point_v<Ret> || std::is_same_v<Ret, bool>)
+              typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view,
+                                                 std::wstring_view>>
+        requires IsStringViewConvertable<T> &&
+                 (std::is_integral_v<Ret> || std::is_floating_point_v<Ret> || std::is_same_v<Ret, bool>)
     static Ret Cast(const T& str)
     {
         View view = str;
@@ -359,8 +363,10 @@ class StringUtils
     }
 
     template <typename T,
-              typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>,
-              typename Str = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string, std::wstring>>
+              typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view,
+                                                 std::wstring_view>,
+              typename Str =
+                  std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string, std::wstring>>
         requires IsStringViewConvertable<T>
     static Str XmlText(const T& text)
     {
@@ -399,7 +405,8 @@ class StringUtils
         static std::array<wchar_t, 8192> buffer;
         std::memset(buffer.data(), 0, buffer.size());
 
-        const int size = MultiByteToWideChar(CP_UTF8, 0, view.data(), static_cast<int>(view.size()), buffer.data(), buffer.size());
+        const int size = MultiByteToWideChar(
+            CP_UTF8, 0, view.data(), static_cast<int>(view.size()), buffer.data(), buffer.size());
 
         if (!size)
         {
@@ -423,8 +430,14 @@ class StringUtils
         static std::array<char, 8192> buffer;
         std::memset(buffer.data(), 0, buffer.size());
 
-        const int size =
-            WideCharToMultiByte(CP_UTF8, 0, view.data(), static_cast<int>(view.size()), buffer.data(), buffer.size(), nullptr, nullptr);
+        const int size = WideCharToMultiByte(CP_UTF8,
+                                             0,
+                                             view.data(),
+                                             static_cast<int>(view.size()),
+                                             buffer.data(),
+                                             buffer.size(),
+                                             nullptr,
+                                             nullptr);
 
         if (!size)
         {
@@ -453,7 +466,8 @@ class StringUtils
         requires StringRestriction<Str> || IsStringViewConvertable<Str>
     static bool IsAscii(Str str)
     {
-        return !std::any_of(str.begin(), str.end(), [](auto c) { return static_cast<unsigned char>(c) > 127; });
+        return !std::any_of(
+            str.begin(), str.end(), [](auto c) { return static_cast<unsigned char>(c) > 127; });
     }
 
     template <typename Str>
@@ -509,9 +523,11 @@ class StringUtils
         }
     }
 
-    template <typename T,
-              typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>,
-              typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
+    template <
+        typename T,
+        typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view,
+                                           std::wstring_view>,
+        typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
         requires IsStringViewConvertable<T>
     static Str ToLower(const T& str)
     {
@@ -521,7 +537,8 @@ class StringUtils
         // If we are a string view we need to convert it back.
         // String views use an explicit constructor
         auto before = Str(str);
-        std::ranges::copy(before | std::ranges::views::transform([](auto c) { return std::tolower(c); }), std::back_inserter(retStr));
+        std::ranges::copy(before | std::ranges::views::transform([](auto c) { return std::tolower(c); }),
+                          std::back_inserter(retStr));
         return retStr;
     }
 
@@ -546,9 +563,11 @@ class StringUtils
 
         return true;
     }
-    template <typename T,
-              typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>,
-              typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
+    template <
+        typename T,
+        typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view,
+                                           std::wstring_view>,
+        typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
         requires IsStringViewConvertable<T>
     static View Trim(const T& stringInput, View extraTrimChars = View{})
     {
@@ -572,9 +591,11 @@ class StringUtils
         return View(&str[start], end - start);
     }
 
-    template <typename T,
-              typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>,
-              typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
+    template <
+        typename T,
+        typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view,
+                                           std::wstring_view>,
+        typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
         requires IsStringViewConvertable<View>
     static Str ExpandEnvironmentVariables(const T& input)
     {
@@ -636,7 +657,8 @@ class StringUtils
 
     template <typename TStr, typename TChar>
     static auto GetParams(const TStr& line, TChar splitChar)
-        requires IsStringViewConvertable<TStr> && (std::is_same_v<TChar, char> || std::is_same_v<TChar, wchar_t>)
+        requires IsStringViewConvertable<TStr> &&
+                 (std::is_same_v<TChar, char> || std::is_same_v<TChar, wchar_t>)
     {
         using ViewType = std::conditional_t<std::is_same_v<TChar, char>, std::string_view, std::wstring_view>;
         std::vector<ViewType> result;
@@ -657,7 +679,8 @@ class StringUtils
             }
         }
 
-        const ViewType finalColumn(line.data() + indexCommaToRightOfColumn + 1, line.size() - indexCommaToRightOfColumn - 1);
+        const ViewType finalColumn(line.data() + indexCommaToRightOfColumn + 1,
+                                   line.size() - indexCommaToRightOfColumn - 1);
         result.emplace_back(finalColumn);
         return result;
     }
@@ -681,7 +704,8 @@ class StringUtils
         std::advance(offset, pos);
 
         auto newRange = std::ranges::views::counted(offset, std::distance(offset, view.end()));
-        auto finalRange = newRange | std::ranges::views::take(std::distance(offset, view.end())) | std::ranges::views::join;
+        auto finalRange =
+            newRange | std::ranges::views::take(std::distance(offset, view.end())) | std::ranges::views::join;
         return TViewType(&*finalRange.begin(), std::ranges::distance(finalRange) + 1);
     }
 
@@ -698,9 +722,11 @@ class StringUtils
         return GetParamToEnd<TViewType, TString>(params, pos);
     }
 
-    template <typename T,
-              typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view, std::wstring_view>,
-              typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
+    template <
+        typename T,
+        typename View = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string_view,
+                                           std::wstring_view>,
+        typename Str = std::conditional_t<std::is_same_v<View, std::string_view>, std::string, std::wstring>>
         requires IsStringViewConvertable<T> && IsStringViewConvertable<View>
     static Str ReplaceStr(const T& source, View searchForRaw, View replaceWithRaw)
     {
@@ -742,8 +768,10 @@ class StringUtils
     static T unsignedToHexString(const unsigned number, const unsigned width, const bool addPrefix = false)
     {
         using CharType = std::conditional_t<std::is_convertible_v<T, std::string>, char, wchar_t>;
-        using CharPtrType = std::conditional_t<std::is_convertible_v<T, std::string>, const char*, const wchar_t*>;
-        std::conditional_t<std::is_convertible_v<T, std::string>, std::stringstream, std::wstringstream> stream;
+        using CharPtrType =
+            std::conditional_t<std::is_convertible_v<T, std::string>, const char*, const wchar_t*>;
+        std::conditional_t<std::is_convertible_v<T, std::string>, std::stringstream, std::wstringstream>
+            stream;
         if (addPrefix)
         {
             stream << NARROW_OR_WIDE(CharPtrType, "0x");
@@ -753,19 +781,24 @@ class StringUtils
         return stream.str();
     }
 
-    template <typename T, typename TStr = std::conditional_t<std::is_convertible_v<T, std::string_view>, std::string, std::wstring>>
+    template <typename T, typename TStr = std::conditional_t<std::is_convertible_v<T, std::string_view>,
+                                                             std::string, std::wstring>>
         requires IsStringViewConvertable<T>
     static TStr FormatMsg(MessageColor color, MessageFormat format, T msg)
     {
         using namespace std::string_view_literals;
-        using CharType = std::conditional_t<std::is_convertible_v<T, std::string_view>, const char*, const wchar_t*>;
+        using CharType =
+            std::conditional_t<std::is_convertible_v<T, std::string_view>, const char*, const wchar_t*>;
 
         const unsigned bgrColor = RgbToBgr(static_cast<unsigned>(color));
-        const TStr tra = unsignedToHexString<TStr>(bgrColor, 6, true) + unsignedToHexString<TStr>(static_cast<unsigned>(format), 2);
+        const TStr tra = unsignedToHexString<TStr>(bgrColor, 6, true) +
+                         unsignedToHexString<TStr>(static_cast<unsigned>(format), 2);
 
         return std::format(NARROW_OR_WIDE(CharType, "<TRA data=\"{}\" mask=\"-1\"/><TEXT>{}</TEXT>"),
                            tra,
-                           ReplaceStr(XmlText(msg), NARROW_OR_WIDE_VIEW(T, "\n"), NARROW_OR_WIDE_VIEW(T, "</TEXT><PARA/><TEXT>")));
+                           ReplaceStr(XmlText(msg),
+                                      NARROW_OR_WIDE_VIEW(T, "\n"),
+                                      NARROW_OR_WIDE_VIEW(T, "</TEXT><PARA/><TEXT>")));
     }
 
     /**
@@ -787,16 +820,18 @@ class StringUtils
      */
     template <typename Str, typename Str2, bool IsWide = std::convertible_to<Str, std::wstring_view>,
               bool IsWide2 = std::convertible_to<Str2, std::wstring_view>>
-        requires(IsWide == IsWide2) &&
-                ((std::convertible_to<Str, std::string_view> || IsWide) && (std::convertible_to<Str2, std::string_view> || IsWide2))
-    static bool WildcardMatch(const Str& input, const Str2& pattern, const bool partialString = true, const bool caseSensitive = false)
+        requires(IsWide == IsWide2) && ((std::convertible_to<Str, std::string_view> || IsWide) &&
+                                        (std::convertible_to<Str2, std::string_view> || IsWide2))
+    static bool WildcardMatch(const Str& input, const Str2& pattern, const bool partialString = true,
+                              const bool caseSensitive = false)
     {
         if (input.empty() || pattern.empty())
         {
             return false;
         }
 
-        using ViewType = std::conditional_t<std::convertible_to<Str, std::string_view>, std::string_view, std::wstring_view>;
+        using ViewType = std::
+            conditional_t<std::convertible_to<Str, std::string_view>, std::string_view, std::wstring_view>;
         using CharType = std::conditional_t<std::convertible_to<Str, std::string_view>, char, wchar_t>;
         constexpr auto multiWildcardCharacter = static_cast<CharType>('*');
         constexpr auto singularWildcardCharacter = static_cast<CharType>('?');
@@ -896,7 +931,8 @@ class StringUtils
             }
         }
 
-        if (patternIndex != patternView.size() && (patternIndex != patternView.size() - 1 && patternView.back() != multiWildcardCharacter))
+        if (patternIndex != patternView.size() &&
+            (patternIndex != patternView.size() - 1 && patternView.back() != multiWildcardCharacter))
         {
             matched = false;
         }
@@ -904,6 +940,80 @@ class StringUtils
         return matched;
     }
 };
+
+// wraps a char array inside a constexpr object
+template <size_t N>
+struct LiteralString
+{
+    char data[N];
+    // implicit construction from a string, taking into account the null-terminating character
+    constexpr LiteralString(const char (&input)[N])
+    {
+        // compile-time copy if possible
+        std::ranges::copy_n(input, N, data);
+    }
+
+    constexpr size_t size() const { return N; }
+};
+// deduction guide to avoid having to pass the size
+template <std::size_t N>
+LiteralString(const char (&)[N]) -> LiteralString<N>;
+
+constexpr bool IsUpperChar(const char c) noexcept
+{
+    return c >= 'A' && c <= 'Z';
+}
+constexpr bool IsLowerChar(const char c) noexcept
+{
+    return c >= 'a' && c <= 'z';
+}
+constexpr char ToLowerConstChar(const char c) noexcept
+{
+    return IsUpperChar(c) ? static_cast<char>(c - 'A' + 'a') : c;
+}
+
+template <LiteralString src>
+constexpr std::string_view PascalToSnake()
+{
+    constexpr size_t N = src.size();
+    static std::array<char, 2 * N> buffer{};
+    auto inputLen = N - 1;
+    size_t outputIndex = 0;
+
+    for (std::size_t i = 0; i < inputLen; ++i)
+    {
+        char c = src.data[i];
+        if (IsUpperChar(c))
+        {
+            bool isLowerOrDigit = false;
+            if (i > 0)
+            {
+                const char prev = src.data[i - 1];
+                isLowerOrDigit = IsLowerChar(prev) || (prev >= '0' && prev <= '9');
+            }
+
+            bool nextIsLower = false;
+            if (i + 1 < inputLen)
+            {
+                nextIsLower = IsLowerChar(src.data[i + 1]);
+            }
+
+            if (i > 0 && (isLowerOrDigit || nextIsLower))
+            {
+                buffer[outputIndex++] = '_';
+            }
+
+            buffer[outputIndex++] = ToLowerConstChar(c);
+        }
+        else
+        {
+            // non-upper (lower, digit, underscore, etc.) copy directly (lowercase letters stay same)
+            buffer[outputIndex++] = c;
+        }
+    }
+
+    return std::string_view(buffer.data(), outputIndex);
+}
 
 #undef TOWSTRING
 #undef TOWSTRING1
