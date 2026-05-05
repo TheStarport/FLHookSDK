@@ -1,7 +1,8 @@
 #pragma once
 #include "../../../FLCoreDefs.hpp"
 
-class CSteering : public PhySys::Controller
+struct CEqObj;
+class CSteering : public CPhysControllerEquip
 {
   public:
     IMPORT CSteering(const CSteering&);
@@ -21,5 +22,7 @@ class CSteering : public PhySys::Controller
     IMPORT void do_simulation_controller(IVP_Event_Sim*, IVP_U_Vector<IVP_Core>*) override;
 
   public:
-    u8 data[OBJECT_DATA_SIZE];
+    bool isActive;
+    CEqObj* owner;
+    Vector axisThrottle;
 };

@@ -57,7 +57,7 @@ class CEEngine : public CInternalEquip, public CPhysControllerEquip
     IMPORT f32 GetThrust(f32) const;
     IMPORT bool IsCruiseEngaged() const;
 
-    /* 10 */ u32 dunno[4];
+    /* 10 */ u32 dunno;
     /* 14 */ st6::vector<ExhaustNozzleInfo> nozzleInfo;
     /* 18 */ u32 dunno2;
     /* 19 */ f32 targetSpeed;

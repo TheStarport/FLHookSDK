@@ -1,6 +1,14 @@
 #pragma once
 
 #include "../../PhySys/Controller/CPhysControllerEquip.hpp"
+#include "../CAttachedEquip.hpp"
+
+struct CEqObj;
+
+namespace Archetype
+{
+    struct Thruster;
+}
 
 class CEThruster : public CAttachedEquip, public CPhysControllerEquip
 {

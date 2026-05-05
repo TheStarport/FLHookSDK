@@ -27,5 +27,8 @@ namespace PhySys
         // virtual void create_instance(long); //??
         IMPORT virtual void do_simulation_controller(IVP_Event_Sim*, IVP_U_Vector<IVP_Core>*);
         IMPORT virtual IVP_CONTROLLER_PRIORITY get_controller_priority();
+
+      public:
+        u32 unk[3];
     };
 } // namespace PhySys

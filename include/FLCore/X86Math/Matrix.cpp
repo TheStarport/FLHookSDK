@@ -11,7 +11,10 @@ static constexpr f32 MIN_DET = 1e-8f;
     #define MUL_DEG_TO_RAD (PI / 180.0f)
 #endif
 
-Matrix::Matrix() : d() { set_identity(); }
+Matrix::Matrix() : d()
+{
+    set_identity();
+}
 
 Matrix::Matrix(const Vector& i, const Vector& j, const Vector& k)
 {
@@ -60,8 +63,8 @@ Matrix::Matrix(const Quaternion& q)
     d[2][2] = 1.0f - (xx + yy);
 }
 
-Matrix::Matrix(const f32 e00, const f32 e01, const f32 e02, const f32 e10, const f32 e11, const f32 e12, const f32 e20, const f32 e21,
-               const f32 e22)
+Matrix::Matrix(const f32 e00, const f32 e01, const f32 e02, const f32 e10, const f32 e11, const f32 e12,
+               const f32 e20, const f32 e21, const f32 e22)
 {
     d[0][0] = e00;
     d[0][1] = e01;
@@ -91,8 +94,8 @@ Matrix::Matrix(const PersistMatrix& src)
 
 f32 Matrix::det() const
 {
-    return (d[0][0] * d[1][1] * d[2][2] + d[0][1] * d[1][2] * d[2][0] + d[0][2] * d[1][0] * d[2][1] - d[0][0] * d[1][2] * d[2][1] -
-            d[0][1] * d[1][0] * d[2][2] - d[0][2] * d[1][1] * d[2][0]);
+    return (d[0][0] * d[1][1] * d[2][2] + d[0][1] * d[1][2] * d[2][0] + d[0][2] * d[1][0] * d[2][1] -
+            d[0][0] * d[1][2] * d[2][1] - d[0][1] * d[1][0] * d[2][2] - d[0][2] * d[1][1] * d[2][0]);
 }
 
 const Matrix& Matrix::set_identity()
@@ -183,7 +186,10 @@ const Matrix& Matrix::zero()
     return *this;
 }
 
-Matrix Matrix::get_transpose() const { return Matrix(d[0][0], d[1][0], d[2][0], d[0][1], d[1][1], d[2][1], d[0][2], d[1][2], d[2][2]); }
+Matrix Matrix::get_transpose() const
+{
+    return Matrix(d[0][0], d[1][0], d[2][0], d[0][1], d[1][1], d[2][1], d[0][2], d[1][2], d[2][2]);
+}
 
 Matrix Matrix::get_inverse() const
 {
@@ -237,7 +243,10 @@ const Matrix& Matrix::scale(const f32 s)
     return *this;
 }
 
-const Matrix& Matrix::scale_by_reciprocal(const f32 s) { return scale(1.0f / s); }
+const Matrix& Matrix::scale_by_reciprocal(const f32 s)
+{
+    return scale(1.0f / s);
+}
 
 const Matrix& Matrix::mul(const Matrix& m)
 {
@@ -288,16 +297,31 @@ const Matrix& Matrix::operator-=(const Matrix& m)
     return *this;
 }
 
-const Matrix& Matrix::operator*=(const f32 s) { return scale(s); }
+const Matrix& Matrix::operator*=(const f32 s)
+{
+    return scale(s);
+}
 
-const Matrix& Matrix::operator/=(const f32 s) { return scale_by_reciprocal(s); }
+const Matrix& Matrix::operator/=(const f32 s)
+{
+    return scale_by_reciprocal(s);
+}
 
-const Matrix& Matrix::operator*=(const Matrix& m) { return mul(m); }
+const Matrix& Matrix::operator*=(const Matrix& m)
+{
+    return mul(m);
+}
 
 #ifdef _INC_MEMORY
-bool Matrix::operator==(const Matrix& m) const { return (0 == memcmp(this, &m, sizeof(*this))); }
+bool Matrix::operator==(const Matrix& m) const
+{
+    return (0 == memcmp(this, &m, sizeof(*this)));
+}
 
-bool Matrix::operator!=(const Matrix& m) const { return !(*this == m); }
+bool Matrix::operator!=(const Matrix& m) const
+{
+    return !(*this == m);
+}
 #endif
 
 f32 Matrix::pow2(const f32 f)
@@ -362,11 +386,30 @@ Matrix Matrix::from_direction(Vector vec)
     return mat;
 }
 
-Vector Matrix::get_i() const { return Vector(d[0][0], d[1][0], d[2][0]); }
+Vector Matrix::get_i() const
+{
+    return Vector(d[0][0], d[1][0], d[2][0]);
+}
 
-Vector Matrix::get_j() const { return Vector(d[0][1], d[1][1], d[2][1]); }
+Vector Matrix::get_j() const
+{
+    return Vector(d[0][1], d[1][1], d[2][1]);
+}
 
-Vector Matrix::get_k() const { return Vector(d[0][2], d[1][2], d[2][2]); }
+Vector Matrix::get_k() const
+{
+    return Vector(d[0][2], d[1][2], d[2][2]);
+}
+
+Vector Matrix::get_reverse_dir() const
+{
+    return Vector{ d[0][2], d[1][1], d[2][1] };
+}
+
+Vector Matrix::get_forward_dir() const
+{
+    return -get_reverse_dir();
+}
 
 void Matrix::set_i(const Vector& i)
 {
@@ -535,14 +578,38 @@ void Matrix::z_rotate_right(const f32 angle) // roll
     }
 }
 
-Matrix operator+(const Matrix& m1, const Matrix& m2) { return m1.add(m2); }
-Matrix operator-(const Matrix& m1, const Matrix& m2) { return m1.subtract(m2); }
-Matrix operator*(const Matrix& m, const f32 s) { return m.mul(s); }
-Matrix operator*(const f32 s, const Matrix& m) { return m.mul(s); }
-Matrix operator/(const Matrix& m, const f32 s) { return m.mul(1.0f / s); }
-Vector operator*(const Matrix& m, const Vector& v) { return m.mul(v); }
-Vector operator*(const Vector& v, const Matrix& m) { return m.transpose_mul(v); }
-Matrix operator*(const Matrix& m1, const Matrix& m2) { return m1.mul(m2); }
+Matrix operator+(const Matrix& m1, const Matrix& m2)
+{
+    return m1.add(m2);
+}
+Matrix operator-(const Matrix& m1, const Matrix& m2)
+{
+    return m1.subtract(m2);
+}
+Matrix operator*(const Matrix& m, const f32 s)
+{
+    return m.mul(s);
+}
+Matrix operator*(const f32 s, const Matrix& m)
+{
+    return m.mul(s);
+}
+Matrix operator/(const Matrix& m, const f32 s)
+{
+    return m.mul(1.0f / s);
+}
+Vector operator*(const Matrix& m, const Vector& v)
+{
+    return m.mul(v);
+}
+Vector operator*(const Vector& v, const Matrix& m)
+{
+    return m.transpose_mul(v);
+}
+Matrix operator*(const Matrix& m1, const Matrix& m2)
+{
+    return m1.mul(m2);
+}
 
 Matrix Matrix::mul(const f32 s) const
 {
@@ -606,4 +673,7 @@ Matrix Matrix::subtract(const Matrix& m2) const
                   d[2][2] - m2.d[2][2]);
 }
 
-Matrix Matrix::dual(const Vector& v) const { return Matrix(0.0f, -v.z, v.y, v.z, 0.0f, -v.x, -v.y, v.x, 0.0f); }
+Matrix Matrix::dual(const Vector& v) const
+{
+    return Matrix(0.0f, -v.z, v.y, v.z, 0.0f, -v.x, -v.y, v.x, 0.0f);
+}

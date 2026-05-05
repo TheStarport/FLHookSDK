@@ -3,6 +3,7 @@
 
 #include <FLCore/Common/CEquip/CAttachedEquip.hpp>
 
+class CEShield;
 namespace Archetype
 {
     struct ShieldGenerator;

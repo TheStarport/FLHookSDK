@@ -2,9 +2,10 @@
 
 #include "../../../PhySys/Controller.hpp"
 
-#include "CEqObj.hpp"
 #include "../../../PhySys/Controller/CNudgeEngine.hpp"
+#include "../../../PhySys/Controller/CSteering.hpp"
 #include "../../../PhySys/Controller/CStrafeEngine.hpp"
+#include "CEqObj.hpp"
 
 class CStrafeEngine;
 class CNudgeEngine;
@@ -141,10 +142,8 @@ struct CShip : public CEqObj, public PhySys::Controller
     IMPORT f32 get_time_to_accelerate(f32, f32, f32, f32, f32) const;
     IMPORT void recalculate_formation_speed();
 
-    ulong dunno5[2];                          // 106
-    unsigned physicsPtr;                      // 108
     CPlayerGroup* playerGroup;                // 109
-    ulong dunno6;                             // 110
+    bool isThrusting;                         // 110 - Unknown, set to 1 in thruster controller simulation
     IObjRW* followLeader2;                    // 111
     unsigned dunno16;                         // 112
     Vector followOffset2;                     // 113
@@ -160,9 +159,7 @@ struct CShip : public CEqObj, public PhySys::Controller
     ulong targetId_unk;                       // 137
     u16 subTargetId;                          // 138
     ulong BayAnim;                            // 139
-    CSteering* cSteering;                     // 140
-    ulong dunno13[6];                         // 141
-    Vector axisThrottle;                      // 147
+    CSteering cSteering;                      // 140
     CNudgeEngine nudgeEngine;                 // 150
     CStrafeEngine strafeEngine;               // 160
     f32 throttle;                             // 167
@@ -174,7 +171,7 @@ struct CShip : public CEqObj, public PhySys::Controller
     unsigned dunnoCShip1;                     // 173
     f32 tradeLaneSpeed;                       // 174
     bool inTradeLane;                         // 175 (700)
-    bool isPlayer;                            // 175.25 (701)
+    bool isPlayer;                            //
     f32 angularDragFactor;                    // 176 (704)
     bool gunStatsDirty;                       // 177
     ShipGunStats shipGunStats;                // 178

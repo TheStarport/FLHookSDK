@@ -40,11 +40,14 @@ class FLSDK_IMPORT Matrix
     explicit Matrix(const Quaternion& q);
     Matrix(f32 e00, f32 e01, f32 e02, f32 e10, f32 e11, f32 e12, f32 e20, f32 e21, f32 e22);
     explicit Matrix(const PersistMatrix& src);
-    Matrix get_transpose() const; // For a rotation matrix, inverse == transpose, but not for general matrices.
+    Matrix get_transpose()
+        const; // For a rotation matrix, inverse == transpose, but not for general matrices.
     Matrix get_inverse() const;
     Vector get_i() const;
     Vector get_j() const;
     Vector get_k() const;
+    Vector get_reverse_dir() const;
+    Vector get_forward_dir() const;
     void set_i(const Vector& i);
     void set_j(const Vector& j);
     void set_k(const Vector& k);

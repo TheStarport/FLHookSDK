@@ -1,12 +1,13 @@
 #pragma once
 
 #include "../../CSimple.hpp"
-#include <FLCore/Common/CArchGroup.hpp>
-#include <FLCore/Common/CEquip/CEquipManager.hpp>
-#include <FLCore/Common/Damage.hpp>
-#include <FLCore/Common/EquipDesc.hpp>
-#include <FLCore/Common/MiscStructs.hpp>
-#include <FLCore/Common/Unknown.hpp>
+
+#include "../../../CArchGroup.hpp"
+#include "../../../CEquip/CEquipManager.hpp"
+#include "../../../Damage.hpp"
+#include "../../../EquipDesc.hpp"
+#include "../../../Events.hpp"
+#include "../../../MiscStructs.hpp"
 
 namespace Archetype
 {
@@ -22,6 +23,10 @@ enum ObjActivateResult
 {
 };
 
+struct IObjRW;
+class IObjDB;
+class IBehaviorManager;
+
 struct CEqObj : CSimple
 {
     struct IMPORT CreateParms
@@ -32,16 +37,16 @@ struct CEqObj : CSimple
         u8 data[OBJECT_DATA_SIZE];
     };
 
-    IMPORT ~CEqObj() override;                                                         // 56
-    IMPORT int update(f32, u32) override;                                              // 80
-    IMPORT void disable_controllers() override;                                        // 92
-    IMPORT void enable_controllers() override;                                         // 96
-    IMPORT void unmake_physical() override;                                            // 116
-    IMPORT void remake_physical(const PhySys::CreateParms&, f32) override;             // 120
-    IMPORT u32 get_name() const override;                                              // 136
-    IMPORT bool is_targetable() const override;                                        // 140
-    IMPORT void connect(IObjDB*) override;                                             // 144
-    IMPORT void disconnect(IObjDB*) override;                                          // 148
+    IMPORT ~CEqObj() override;                                                        // 56
+    IMPORT int update(f32, u32) override;                                             // 80
+    IMPORT void disable_controllers() override;                                       // 92
+    IMPORT void enable_controllers() override;                                        // 96
+    IMPORT void unmake_physical() override;                                           // 116
+    IMPORT void remake_physical(const PhySys::CreateParms&, f32) override;            // 120
+    IMPORT u32 get_name() const override;                                             // 136
+    IMPORT bool is_targetable() const override;                                       // 140
+    IMPORT void connect(IObjDB*) override;                                            // 144
+    IMPORT void disconnect(IObjDB*) override;                                         // 148
     IMPORT virtual void init(const CreateParms&);                                     // 160
     IMPORT virtual void load_equip_and_cargo(const struct EquipDescVector&, bool);    // 164
     IMPORT virtual void clear_equip_and_cargo();                                      // 168
@@ -131,7 +136,8 @@ struct CEqObj : CSimple
     IBehaviorManager* behaviorManager;                 // 101
     f32 power;                                         // 102
     f32 maxPower;                                      // 103
-    unsigned iDunnoEqObj; // 104 0xffffffff for all solars except those docking on lands you on a base, then it's 6?
+    // 0xffffffff for all solars except those docking on lands you on a base, then it's 6?
+    unsigned iDunnoEqObj; // 104
 
   private:
     void destroy_equipment(const DamageList&, bool);

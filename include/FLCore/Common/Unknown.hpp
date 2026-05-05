@@ -298,13 +298,6 @@ namespace Exclusion
 
 }; // namespace Exclusion
 
-struct INotify
-{
-    enum Event
-    {
-    };
-};
-
 class IVP_Core;
 class IVP_Event_Sim;
 
