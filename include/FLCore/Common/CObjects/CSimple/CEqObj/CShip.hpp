@@ -143,7 +143,7 @@ struct CShip : public CEqObj, public PhySys::Controller
     IMPORT void recalculate_formation_speed();
 
     CPlayerGroup* playerGroup;                // 109
-    bool isThrusting;                         // 110 - Unknown, set to 1 in thruster controller simulation
+    u32 dunno7;                               // 110
     IObjRW* followLeader2;                    // 111
     unsigned dunno16;                         // 112
     Vector followOffset2;                     // 113

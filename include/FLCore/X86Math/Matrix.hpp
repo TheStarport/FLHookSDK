@@ -43,11 +43,9 @@ class FLSDK_IMPORT Matrix
     Matrix get_transpose()
         const; // For a rotation matrix, inverse == transpose, but not for general matrices.
     Matrix get_inverse() const;
-    Vector get_i() const;
-    Vector get_j() const;
-    Vector get_k() const;
-    Vector get_reverse_dir() const;
-    Vector get_forward_dir() const;
+    Vector get_right() const;
+    Vector get_up() const;
+    Vector get_forwards() const;
     void set_i(const Vector& i);
     void set_j(const Vector& j);
     void set_k(const Vector& k);

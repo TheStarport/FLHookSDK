@@ -108,8 +108,8 @@ const Matrix& Matrix::set_identity()
 
 void Matrix::make_orthogonal()
 {
-    Vector i = get_i();
-    Vector j = get_j();
+    Vector i = get_right();
+    Vector j = get_up();
     i.fast_normalize();
     j.fast_normalize();
     Vector k = i.cross_product(j);
@@ -386,29 +386,19 @@ Matrix Matrix::from_direction(Vector vec)
     return mat;
 }
 
-Vector Matrix::get_i() const
+Vector Matrix::get_right() const
 {
     return Vector(d[0][0], d[1][0], d[2][0]);
 }
 
-Vector Matrix::get_j() const
+Vector Matrix::get_up() const
 {
     return Vector(d[0][1], d[1][1], d[2][1]);
 }
 
-Vector Matrix::get_k() const
+Vector Matrix::get_forwards() const
 {
-    return Vector(d[0][2], d[1][2], d[2][2]);
-}
-
-Vector Matrix::get_reverse_dir() const
-{
-    return Vector{ d[0][2], d[1][1], d[2][1] };
-}
-
-Vector Matrix::get_forward_dir() const
-{
-    return -get_reverse_dir();
+    return -Vector(d[0][2], d[1][2], d[2][2]);
 }
 
 void Matrix::set_i(const Vector& i)

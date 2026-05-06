@@ -32,4 +32,7 @@ class CEThruster : public CAttachedEquip, public CPhysControllerEquip
     IMPORT bool CouldThrust() const;
     IMPORT f32 GetPowerDraw() const;
     IMPORT f32 GetThrust() const;
+
+    u32 dunno[3];
+    bool canThrust;
 };
