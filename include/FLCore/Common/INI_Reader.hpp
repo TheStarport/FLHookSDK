@@ -83,6 +83,12 @@ class INI_Reader
         return GetInt(key, value, dummy, param);
     }
 
+    bool GetString(const std::string_view key, std::string& value, const int param = 0)
+    {
+        bool dummy;
+        return GetString(key, value, dummy, param);
+    }
+
     bool GetString(const std::string_view key, std::string& value, bool& found, const int param = 0)
     {
         if (!is_value(key.data()))
