@@ -26,4 +26,10 @@ class IMPORT CEShieldGenerator : public CAttachedEquip
     bool IsLinked() const;
     void LinkShield(CEShield*);
     void UnLinkShield();
+
+    CEShield* shield;
+    u32 unk2;
+    u32 unk3;
+    f32 time;
+    u32 unk5;
 };
