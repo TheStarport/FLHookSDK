@@ -47,6 +47,24 @@ class INI_Reader
     IMPORT u32 tell() const;
     IMPORT f64 value_num(u32);
 
+    bool GetBool(const std::string_view key, bool& value, bool& found, const int param = 0)
+    {
+        if (!is_value(key.data()))
+        {
+            return false;
+        }
+
+        found = true;
+        value = get_value_bool(param);
+        return true;
+    }
+
+    bool GetBool(const std::string_view key, bool& value, const int param = 0)
+    {
+        bool dummy;
+        return GetBool(key, value, dummy, param);
+    }
+
     bool GetFloat(const std::string_view key, f32& value, bool& found, const int param = 0)
     {
         if (!is_value(key.data()))
