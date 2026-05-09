@@ -22,6 +22,7 @@ namespace Archetype
         bool destroyParent;
         bool rootHealthProxy;
         f32 parentImpulse;
+        f32 childImpulse;
         f32 mass;
         bool hasRotationInertia;
         Vector rotationInertia;
