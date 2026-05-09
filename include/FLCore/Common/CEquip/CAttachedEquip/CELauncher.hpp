@@ -7,7 +7,7 @@
 struct Barrel
 {
     long index;
-    unsigned dunno[12];
+    Transform barrelOffset;
 };
 
 class CELauncher : public CAttachedEquip

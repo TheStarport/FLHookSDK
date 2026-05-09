@@ -2,6 +2,7 @@
 #include "../../../../FLCoreDefs.hpp"
 
 #include "../CELauncher.hpp"
+#include "../../../Unknown.hpp"
 
 namespace Archetype
 {
@@ -51,4 +52,16 @@ class CEGun : public CELauncher
 
   protected:
     bool GetTargetObjectPos(Vector&) const;
+
+    AnimDB::VChannel joint1;
+    AnimDB::VChannel joint2;
+    Matrix gunRot;
+    IObjRW* target;
+    uint gunDunno60;
+    ushort targetSubId;
+    uint gunDunno68;
+    uint gunDunno6C;
+    uint gunDunno70;
+    uint gunDunno74;
+    float timeOnTarget_Unused;
 };

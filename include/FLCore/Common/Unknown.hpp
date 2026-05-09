@@ -98,6 +98,15 @@ class IMPORT AmbientScriptProperties
 
 namespace AnimDB
 {
+    struct VChannel
+    {
+        virtual int Update(float);
+        CObject* owner;
+        void* dunnoPtr;
+        uint dunnoOne;
+        float dunnoFlt[2];
+        bool jointMovable;
+    };
     IMPORT void Add(int);
     IMPORT void Add(struct VChannel*);
     IMPORT u32 Count();
