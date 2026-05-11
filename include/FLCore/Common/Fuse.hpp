@@ -1,5 +1,13 @@
 #pragma once
+
 #include "../FLCoreDefs.hpp"
+
+#include "Strings.hpp"
+
+namespace Archetype
+{
+    class FuseIgnitionList;
+}
 
 class INI_Reader;
 

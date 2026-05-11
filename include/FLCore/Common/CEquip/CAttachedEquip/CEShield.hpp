@@ -1,6 +1,7 @@
 #pragma once
 #include "../../../FLCoreDefs.hpp"
 
+#include "../../Strings.hpp"
 #include "../CAttachedEquip.hpp"
 
 namespace Archetype
