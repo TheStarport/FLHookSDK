@@ -1575,11 +1575,11 @@ struct IMPORT ShipGunStats
     void clear();
 
   public:
-    unsigned activeGunCount;
+    u32 activeGunCount;
     f32 avgGunSpeed;
     f32 maxGunRange;
-    unsigned dunno1;
-    unsigned dunno2;
+    u32 activeMissileCount;
+    f32 maxActiveMissileRange;
 };
 
 struct IMPORT ShipPlaceInfo
