@@ -72,43 +72,44 @@ struct IObjInspectImpl
     IMPORT virtual bool is_player() const;                                                     // 188
     IMPORT virtual int get_hardpoint(const char*, Vector*, Matrix*) const;                     // 192
     IMPORT virtual bool has_dock_hardpoints() const;                                           // 196
-    IMPORT virtual int get_dock_hardpoints(int dockIndex, TERMINAL_TYPE* dockType, Transform* dockMount, Transform* dockPoint1,
-                                           Transform* dockPoint2,
-                                           f32* dockRadius) const;                                       // 200
-    IMPORT virtual f32 get_time_to_accelerate(f32, f32, f32, IObject::ThrustEquipType) const;            // 204
-    IMPORT virtual f32 get_distance_travelled(f32, f32, f32, IObject::ThrustEquipType) const;            // 208
-    IMPORT virtual f32 get_projected_throttle(f32, IObject::ThrustEquipType) const;                      // 212
-    IMPORT virtual f32 get_speed(f32, IObject::ThrustEquipType) const;                                   // 216
-    IMPORT virtual f32 get_initial_speed_to_coast_distance(f32, bool) const;                             // 220
-    IMPORT virtual f32 get_time_to_accelerate_angularly(f32, f32, f32) const;                            // 224
-    IMPORT virtual f32 get_time_to_accelerate_angularly(f32, f32, f32, f32) const;                       // 228
-    IMPORT virtual f32 get_angular_distance_travelled(f32, f32, f32) const;                              // 232
-    IMPORT virtual f32 get_angular_distance_travelled(f32, f32, f32, f32) const;                         // 236
-    IMPORT virtual f32 get_angular_speed_XY(f32, f32) const;                                             // 240
-    IMPORT virtual f32 get_angular_speed_Z(f32) const;                                                   // 244
-    IMPORT virtual f32 get_projected_axis_throttle_XY(f32) const;                                        // 248
-    IMPORT virtual f32 get_projected_axis_throttle_Z(f32) const;                                         // 252
-    IMPORT virtual f32 get_max_bank_angle() const;                                                       // 256
-    IMPORT virtual int get_scanlist(const struct ScanList*&, u32, bool) const;                           // 260
-    IMPORT virtual int get_tgt_lead_fire_pos(const u16&, Vector&) const;                                 // 264
-    IMPORT virtual int is_pointing_at(bool&, const u16&, f32) const;                                     // 268
-    IMPORT virtual int can_point_at(bool&, const u16&, const Vector&, f32) const;                        // 272
-    IMPORT virtual int find_equipment(u16* const, u32, u32) const;                                       // 276
-    IMPORT virtual int get_equipment_status(struct EquipStatus&, const u16&) const;                      // 280
-    IMPORT virtual int get_equipment_val(struct EquipmentVal&, const u16&, EquipmentValType, f32) const; // 284
-    IMPORT virtual int scan_cargo(IObjRW*, EquipDescVector&) const;                                      // 288
-    IMPORT virtual int enumerate_subtargets(IObjInspect::SubtargetEnumerator*) const;                    // 292
-    IMPORT virtual int get_lane_direction(const Transform&, bool*) const;                                // 296
-    IMPORT virtual int get_ring_side(const Transform&, bool*) const;                                     // 300
-    IMPORT virtual int traverse_rings(u32&, bool) const;                                                 // 304
-    IMPORT virtual int is_using_tradelane(bool*) const;                                                  // 308
-    IMPORT virtual int get_lane_start(const IObjInspect*, const IObjInspect*&, Vector&, Vector&) const;  // 312
-    IMPORT virtual bool generate_follow_offset(const IObjInspect*, Transform&) const;                    // 316
-    IMPORT virtual int get_atmosphere_range(f32&) const;                                                 // 320
-    IMPORT virtual int get_toughness() const;                                                            // 324
-    IMPORT virtual int get_behavior_id() const;                                                          // 328
-    IMPORT virtual int get_formation_followers(IObjRW** const, u32) const;                               // 332
-    IMPORT virtual CObject* cobject() const;                                                             // 336
+    IMPORT virtual int get_dock_hardpoints(int dockIndex, TERMINAL_TYPE* dockType, Transform* dockMount,
+                                           Transform* dockPoint1, Transform* dockPoint2,
+                                           f32* dockRadius) const;                               // 200
+    IMPORT virtual f32 get_time_to_accelerate(f32, f32, f32, IObject::ThrustEquipType) const;    // 204
+    IMPORT virtual f32 get_distance_travelled(f32, f32, f32, IObject::ThrustEquipType) const;    // 208
+    IMPORT virtual f32 get_projected_throttle(f32, IObject::ThrustEquipType) const;              // 212
+    IMPORT virtual f32 get_speed(f32, IObject::ThrustEquipType) const;                           // 216
+    IMPORT virtual f32 get_initial_speed_to_coast_distance(f32, bool) const;                     // 220
+    IMPORT virtual f32 get_time_to_accelerate_angularly(f32, f32, f32) const;                    // 224
+    IMPORT virtual f32 get_time_to_accelerate_angularly(f32, f32, f32, f32) const;               // 228
+    IMPORT virtual f32 get_angular_distance_travelled(f32, f32, f32) const;                      // 232
+    IMPORT virtual f32 get_angular_distance_travelled(f32, f32, f32, f32) const;                 // 236
+    IMPORT virtual f32 get_angular_speed_XY(f32, f32) const;                                     // 240
+    IMPORT virtual f32 get_angular_speed_Z(f32) const;                                           // 244
+    IMPORT virtual f32 get_projected_axis_throttle_XY(f32) const;                                // 248
+    IMPORT virtual f32 get_projected_axis_throttle_Z(f32) const;                                 // 252
+    IMPORT virtual f32 get_max_bank_angle() const;                                               // 256
+    IMPORT virtual int get_scanlist(const ScanList*&, u32 objectType, bool preserveCache) const; // 260
+    IMPORT virtual int get_tgt_lead_fire_pos(const u16&, Vector&) const;                         // 264
+    IMPORT virtual int is_pointing_at(bool&, const u16&, f32) const;                             // 268
+    IMPORT virtual int can_point_at(bool&, const u16&, const Vector&, f32) const;                // 272
+    IMPORT virtual int find_equipment(u16* const, u32, u32) const;                               // 276
+    IMPORT virtual int get_equipment_status(EquipStatus&, const u16&) const;                     // 280
+    IMPORT virtual int get_equipment_val(struct EquipmentVal&, const u16&, EquipmentValType,
+                                         f32) const;                                                    // 284
+    IMPORT virtual int scan_cargo(IObjRW*, EquipDescVector&) const;                                     // 288
+    IMPORT virtual int enumerate_subtargets(IObjInspect::SubtargetEnumerator*) const;                   // 292
+    IMPORT virtual int get_lane_direction(const Transform&, bool*) const;                               // 296
+    IMPORT virtual int get_ring_side(const Transform&, bool*) const;                                    // 300
+    IMPORT virtual int traverse_rings(u32&, bool) const;                                                // 304
+    IMPORT virtual int is_using_tradelane(bool*) const;                                                 // 308
+    IMPORT virtual int get_lane_start(const IObjInspect*, const IObjInspect*&, Vector&, Vector&) const; // 312
+    IMPORT virtual bool generate_follow_offset(const IObjInspect*, Transform&) const;                   // 316
+    IMPORT virtual int get_atmosphere_range(f32&) const;                                                // 320
+    IMPORT virtual int get_toughness() const;                                                           // 324
+    IMPORT virtual int get_behavior_id() const;                                                         // 328
+    IMPORT virtual int get_formation_followers(IObjRW** const, u32) const;                              // 332
+    IMPORT virtual CObject* cobject() const;                                                            // 336
 };
 
 struct IObjAffect
@@ -135,14 +136,16 @@ struct IObjAffect
     virtual int toggle_item(u16& sId, bool newState, int dunno);                                  // 76
     virtual int toggle_cruise(bool cruiseActive, bool disruptCruise, int dunno2);                 // 80
     virtual int toggle_thrusters(bool dunno, bool newState);                                      // 84
-    virtual int use_item(u16 sId, unsigned amount, int unused);                                   // 88 sub_6CE7210
-    virtual int request_event(unsigned eventType, unsigned requestTarget, unsigned param1, unsigned param2, unsigned dunno); // 92
-    virtual int request_cancel(unsigned eventType, unsigned param1, unsigned param2);                                        // 96
-    virtual int go_tradelane(const IObjInspect* startRing, const IObjInspect* nextRing, IObjRW* jumpingIObj, bool unk1,
-                             f32 unk2);           // 100
-    virtual int stop_tradelane();                 // 104 switch from one pair of tradelane to another midflight?
-    virtual int sub_6CEF350();                    // 108 null
-    virtual int sub_6D02000();                    // 112 unknown
+    virtual int use_item(u16 sId, unsigned amount, int unused); // 88 sub_6CE7210
+    virtual int request_event(unsigned eventType, unsigned requestTarget, unsigned param1, unsigned param2,
+                              unsigned dunno);                                        // 92
+    virtual int request_cancel(unsigned eventType, unsigned param1, unsigned param2); // 96
+    virtual int go_tradelane(const IObjInspect* startRing, const IObjInspect* nextRing, IObjRW* jumpingIObj,
+                             bool unk1,
+                             f32 unk2); // 100
+    virtual int stop_tradelane();       // 104 switch from one pair of tradelane to another midflight?
+    virtual int sub_6CEF350();          // 108 null
+    virtual int sub_6D02000();          // 112 unknown
     virtual int sub_6D02070(unsigned spaceObjId); // 116 sendmessage 0x26
 
     Watchable* watchable;
@@ -156,9 +159,10 @@ struct IObjDestructor
 struct IObjRW : public IObjInspectImpl
 {
     virtual ObjectType get_object_type() const; // 340
-    virtual bool ObjectDestroyed(DestroyType destroyType,
-                                 unsigned killerId);          // NakedShipDestroyed                                      //344 sub_6CE8080
-    virtual int Disconnect();                                 // 348 sub_6CE7C80
+    virtual bool ObjectDestroyed(
+        DestroyType destroyType,
+        unsigned killerId);   // NakedShipDestroyed                                      //344 sub_6CE8080
+    virtual int Disconnect(); // 348 sub_6CE7C80
     virtual bool get_dunno_0x40();                            // 352 sub_6CEE6D0
     virtual int InstantiateCobject(Archetype::Root* archPtr); // 356 sub_6D01040
     virtual bool SetCObjectById(unsigned cobjId);             // 360 sub_6D010A0
@@ -167,19 +171,24 @@ struct IObjRW : public IObjInspectImpl
     virtual int sub_6CEE810(void* PhySys_unk);                // 372 physics collsion handling?
     virtual void sub_6CEE980(int dunno);                      // 376 Behavior interface update
     virtual void sub_6CE9250(void* unk, DamageList*);         // 380
-    virtual void process_munition_impact(MunitionImpactData* unk, DamageList*);    // 384 sub_6CE9350
-    virtual void process_all_explosion_damage(ExplosionDamageEvent*, DamageList*); // calls methods 508-520         //388
-    virtual void apply_damage_list(DamageList*);                                   // 392 sub_6D01A10
-    virtual bool get_dunno_0x41();                                                 // 396
-    virtual void sub_6CEEFA0();                                                    // 400 sub_6CEEFA0
-    virtual void sub_6CEF0F0();                                                    // 404 sub_6CEF0F0
-    virtual bool is_player_vulnerable();                                           // 408 sub_6CE61A0
-    virtual bool is_invulnerable();                                                // 412 sub_6CE61B0
-    virtual f32 get_max_hp_loss();                                                 // 416 sub_6CE61C0
-    virtual bool process_collision_unk(void*);       // unknown data type, an object containing a IObjRW as 2nd element?? //420 sub_6CEE9F0
-    virtual CArchGroup* sethp_unk(DamageList*, f32); // set relative hp to all eq and colgrps to provided f32?  //424 sub_6CEB210
-    virtual int set_relative_health(f32 newHp);      // 428
-    virtual bool damage_hull(f32, DamageList*);      // NakedDamageHit                                                 //432 sub_6CEA3A0
-    virtual void apply_damage_entry(DamageEntry*);   // 436 sub_6CEEF70
-    virtual bool can_deal_damage(DamageList*);       // invokes get_dunno_0x39 and 0x38                                   //440 sub_6CEF0B0
+    virtual void process_munition_impact(MunitionImpactData* unk, DamageList*); // 384 sub_6CE9350
+    virtual void process_all_explosion_damage(ExplosionDamageEvent*,
+                                              DamageList*); // calls methods 508-520         //388
+    virtual void apply_damage_list(DamageList*);            // 392 sub_6D01A10
+    virtual bool get_dunno_0x41();                          // 396
+    virtual void sub_6CEEFA0();                             // 400 sub_6CEEFA0
+    virtual void sub_6CEF0F0();                             // 404 sub_6CEF0F0
+    virtual bool is_player_vulnerable();                    // 408 sub_6CE61A0
+    virtual bool is_invulnerable();                         // 412 sub_6CE61B0
+    virtual f32 get_max_hp_loss();                          // 416 sub_6CE61C0
+    virtual bool process_collision_unk(
+        void*); // unknown data type, an object containing a IObjRW as 2nd element?? //420 sub_6CEE9F0
+    virtual CArchGroup* sethp_unk(
+        DamageList*, f32); // set relative hp to all eq and colgrps to provided f32?  //424 sub_6CEB210
+    virtual int set_relative_health(f32 newHp); // 428
+    virtual bool damage_hull(
+        f32, DamageList*); // NakedDamageHit                                                 //432 sub_6CEA3A0
+    virtual void apply_damage_entry(DamageEntry*); // 436 sub_6CEEF70
+    virtual bool can_deal_damage(
+        DamageList*); // invokes get_dunno_0x39 and 0x38                                   //440 sub_6CEF0B0
 };
