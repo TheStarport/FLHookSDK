@@ -1511,7 +1511,6 @@ struct IMPORT ScanList
     void reset();
 
   public:
-    unsigned vftable;
     BaseWatcher objectArray[256];
     unsigned currSize;
     unsigned maxSize;

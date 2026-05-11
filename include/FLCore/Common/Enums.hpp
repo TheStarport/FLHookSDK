@@ -70,6 +70,9 @@ enum class ObjectType
     Mine = 1 << 26,
     Loot = 1 << 28,
     Asteroid = 1 << 29,
+
+    AllShips = Fighter | Freighter | Gunboat | Cruiser | Capital | Transport | Mining,
+    AllDockables = TradelaneRing | DockingRing | Station | JumpHole | JumpGate | AirlockGate
 };
 
 enum class EquipmentClass
