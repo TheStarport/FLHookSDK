@@ -59,9 +59,7 @@ class CEGun : public CELauncher
     IObjRW* target;
     uint gunDunno60;
     ushort targetSubId;
-    uint gunDunno68;
-    uint gunDunno6C;
-    uint gunDunno70;
-    uint gunDunno74;
+    Vector targetPoint;
+    float targetPointValidTime;
     float timeOnTarget_Unused;
 };
