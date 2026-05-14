@@ -6,6 +6,7 @@
 #include <FLCore/Common/CObjects/CObject.hpp>
 #include <FLCore/Server/IObject/IObjectInspect.hpp>
 
+class IBehaviorManager;
 struct _FILETIME;
 
 IMPORT bool operator!=(const Rect&, const Rect&);
@@ -91,7 +92,8 @@ IMPORT bool JointEnumCallback(long, long, const struct JointInfo*, void*);
 IMPORT f32 LOOT_OWNER_SAFE_TIME;
 IMPORT f32 LOOT_UNSEEN_LIFE_TIME;
 IMPORT f32 LOOT_UNSEEN_RADIUS;
-IMPORT bool LayoutRichText(TextRenderContext&, const RenderDisplayList&, int, RenderDisplayList&, int, int, bool, int*, bool);
+IMPORT bool LayoutRichText(TextRenderContext&, const RenderDisplayList&, int, RenderDisplayList&, int, int,
+                           bool, int*, bool);
 IMPORT void LoadBodypartDescriptions(const char*);
 IMPORT void LoadCostumeDescriptions(const char*);
 IMPORT Matrix LookMatrix(const Vector&);
@@ -129,12 +131,12 @@ IMPORT void RefreshLoadingProgress();
 IMPORT void RegisterLoadingScreen(class ILoadingScreen*);
 IMPORT void ReinitializeRichTextFonts();
 IMPORT Matrix RotateMatrix(const Vector&);
-//@@@TODO IMPORT u32 const  SMM_CHANGE_STATE;
-//@@@TODO IMPORT u32 const  SMM_TIMEOUT;
+IMPORT extern const u32 SMM_CHANGE_STATE;
+IMPORT extern const u32 SMM_TIMEOUT;
 IMPORT ID_String SND_CARGO_JETTISONED;
-//@@@TODO IMPORT u16 const  SUBOBJ_ID_NONE;
-//@@@TODO IMPORT u16 const  SUBOBJ_ID_POWER;
-//@@@TODO IMPORT u16 const  SUBOBJ_ID_ROOT;
+IMPORT extern const u16 SUBOBJ_ID_NONE;
+IMPORT extern const u16 SUBOBJ_ID_POWER;
+IMPORT extern const u16 SUBOBJ_ID_ROOT;
 IMPORT ulong SafeWaitForSingleObject(void*, ulong);
 IMPORT void SetIsMPServer(bool);
 IMPORT void SetMultPlayer(bool);
@@ -184,5 +186,11 @@ IMPORT u16* safe_wcscpy(u16*, int, const u16*);
 IMPORT ulong select_option_from_string(char*, const option_spec* const, int, const char*);
 IMPORT bool strequal(const char*, const char*);
 
-inline CObject* BaseWatcherToCObject(BaseWatcher* basewatcher) { return reinterpret_cast<CObject*>(basewatcher) + 2; }
-inline IObjRW* BaseWatcherToIObjRW(BaseWatcher* basewatcher) { return reinterpret_cast<IObjRW*>(basewatcher) - 2; };
+inline CObject* BaseWatcherToCObject(BaseWatcher* basewatcher)
+{
+    return reinterpret_cast<CObject*>(basewatcher) + 2;
+}
+inline IObjRW* BaseWatcherToIObjRW(BaseWatcher* basewatcher)
+{
+    return reinterpret_cast<IObjRW*>(basewatcher) - 2;
+};

@@ -18,6 +18,7 @@ struct HDC__;
 struct CLoot;
 struct CObject;
 class CETractor;
+class IBehaviorManager;
 namespace Archetype
 {
     struct Munition;
@@ -812,157 +813,6 @@ struct IMPORT IAction
     u8 data[OBJECT_DATA_SIZE];
 };
 
-struct IMPORT IDirectiveInfo
-{
-    bool init; // ? seems to be 1 after first time auto pilot takes over
-    void* vUnknown1;
-    pub::AI::OpType op;
-};
-
-// Size: 460 bytes
-// Constructor e.g. sub_62D2220
-// Hex numbers behind dunno variables or in a comment indicate hex offset
-class IMPORT IBehaviorManager
-{
-  public:
-    enum IBehaviorCameraMode
-    {
-        A,
-        B,
-        C,
-        D,
-        E
-    };
-
-    enum class CancelRequestType
-    {
-    };
-    enum class EvaluateResult
-    {
-    };
-
-    struct Behavior
-    {
-        virtual void dunno0();
-        virtual void dunno4();
-        virtual void dunno8();
-        virtual void dunnoC();
-        virtual void dunno10();
-        virtual void dunno14();
-        virtual void dunno18();
-        virtual void dunno1C();
-        virtual void dunno20();
-        virtual void dunno24();
-        virtual bool SetOp(int op);
-        virtual void dunno2C();
-        virtual void dunno30();
-        virtual void SetThrottle(f32 throttle);
-        virtual void SetCruise(bool cruiseState);
-        virtual void SetEngine(bool engineState);
-        virtual void SetThruster(bool thrusterState);
-        virtual void SetSlideStrafeBurst(StrafeDir dir);
-        virtual void SetBrakeReverse(bool newState);
-        virtual bool GetAllowHeadTracking();
-        virtual void dunno50();
-        virtual void dunno54();
-        virtual void dunno58();
-        virtual void dunno5C();
-        virtual IObjRW* GetDebuggerTarget();
-    };
-
-    bool allow_head_tracking();
-    bool cancel_behavior(CancelRequestType);
-    bool enable_all_maneuvers();
-    bool enable_maneuver(int, bool);
-    EvaluateResult external_player_evaluate(int);
-    bool get_camera_level_status();
-    f32 get_closest_trailing_ship() const;
-    const IDirectiveInfo* get_current_directive();
-    const IObjRW* get_debugger_target() const;
-    bool get_docking_port(const IObjRW*&, int&);
-    u32 get_parent_id();
-    void get_personality(pub::AI::Personality&);
-    pub::AI::ScanResponse get_scan_response(u32);
-    const Vector get_ship_up_direction();
-    const IStateGraph* get_state_graph();
-    class SystemManager* get_sys();
-    bool get_user_turning_input_state();
-    bool lock_maneuvers(bool);
-    void refresh_state_graph();
-    void reset_current_behavior_direction();
-    void set_camera_mode(IBehaviorCameraMode);
-    void set_content_callback(pub::AI::ContentCallback*);
-    bool set_current_directive(const IDirectiveInfo&, const pub::AI::BaseOp*);
-    void set_directive_callback(pub::AI::DirectiveCallback*);
-    pub::AI::OP_RTYPE set_directive_priority(pub::AI::DirectivePriority);
-    void set_personality(const pub::AI::Personality&);
-    void set_ship_up_direction(const Vector&);
-    void set_state_graph(int, bool);
-    void set_turn_sensitivity(f32);
-    void set_user_turning_input_state(bool);
-    void submit_camera_up(const Vector&);
-    void update_current_behavior_afterburner(bool);
-    void update_current_behavior_auto_avoidance(bool);
-    void update_current_behavior_auto_level(bool);
-    void update_current_behavior_brake_reverse(bool);
-    void update_current_behavior_cruise(bool);
-    void update_current_behavior_direction(const Vector&);
-    void update_current_behavior_engage_engine(bool);
-    void update_current_behavior_slide_strafe_burst(StrafeDir);
-    void update_current_behavior_throttle(f32);
-    void update_level_camera(bool);
-
-    struct BehaviorSwitchRatios
-    {
-        f32 percentage;
-        pub::AI::OpType type;
-    };
-
-  public:
-    int* vft;                        // 0x00
-    IStateGraph* stateGraphInternal; // 0x04
-    void* pDunno_0x08;
-    struct PathfindManager* pathfindManager; // 0xC
-    BehaviorSwitchRatios switchRatios[21];
-    int iEnabledManeuversFlag;               // 0xB8 - 0 = all enabled
-    bool bLockManeuvers;                     // 0xBC
-    pub::AI::OpType iCurrentBehaviourIndex;  // 0xC0 - -1 when no behaviour, otherwise index of behaviourArray
-    IDirectiveInfo* directiveInfo;           // 0xC4
-    int iDirectivePriority;                  // 0xC8
-    int iDirectiveOp;                        // 0xCC
-    f32 timeSinceLastDirectiveChange;        // 0xD0
-    f32 timeSinceLastDirectiveChangeAttempt; // 0xD4
-    byte forceDirectiveRefresh;              // 0xD8
-    f32 timeAlive;                           // 0xDC
-    f32 fDunno56_0xE0;
-    f32 fDunno57_0xE4;
-    int iDunnos58_0xE8[2];
-    BaseWatcher baseWatcher; // 0xF0
-    byte bDunno62_0xF8;
-    bool bCameraLevelStatusFlag;                       // 0xF9
-    pub::AI::DirectiveCallback* directiveCallbacks[5]; // 0xFC
-    pub::AI::ContentCallback* contentCallback;         // 0x110
-    int iDunnos_0x114[3];
-    pub::AI::OpType queuedBehaviourIndex; // 0x120
-    int iDunnos_0x124[3];
-    bool bDunno_0x130;
-    Vector shipUpDirection;   // 0x134
-    Vector cameraUpDirection; // 0x140
-    int iDunno_0x14C;
-    bool bUserTurningInputState;    // 0x150
-    IBehaviorCameraMode cameraMode; // 0x154
-    byte bDunno_0x158;
-    void* pDunno_0x15C;
-    int iDunnos_0x160;
-    f32 fTurnSensitivity; // 0x164
-    byte bDunno_0x168;
-    byte bDunno_0x169;
-    int iDunno_0x16C;
-    byte disableUpdates;
-    struct Behavior* behaviourArray[21]; // 0x174 - index 7 seems to be docking
-    byte bDunno_0x1C8;
-};
-
 struct IMPORT ICRSplineSegment
 {
     ICRSplineSegment();
@@ -1210,11 +1060,12 @@ struct IMPORT PathfindManager
     // size: 64 bytes
     struct UserZone
     {
-        int iZoneType;                // 0 = position, 1 = cuboid 2 = spaceobj
-        int iDunno_0x04;              // same as iDunno_0x10 from SetZoneBehaviorParams if iDunno_0x10 was 0 or 1
-        Vector vPosition;             // only used for iZoneType 0
-        f32 fRadius;                  // not used for iZoneType 1
-        Matrix mDunno_0x18;           // pub::AI::SubmitState sets this to identiy when SetZoneBehaviorParams is used and iZoneType is 1
+        int iZoneType;    // 0 = position, 1 = cuboid 2 = spaceobj
+        int iDunno_0x04;  // same as iDunno_0x10 from SetZoneBehaviorParams if iDunno_0x10 was 0 or 1
+        Vector vPosition; // only used for iZoneType 0
+        f32 fRadius;      // not used for iZoneType 1
+        Matrix
+            mDunno_0x18; // pub::AI::SubmitState sets this to identiy when SetZoneBehaviorParams is used and iZoneType is 1
         Vector vCuboidCenter;         // only used for iZoneType 1
         Vector vCuboidHalfEdgeLength; // only used for iZoneType 1
         int iSpaceObjId;              // only used for iZoneType 2
@@ -1393,8 +1244,8 @@ class IMPORT RoomData
 
   private:
     void add_set_script_Camera(ulong, const Csys&, const char*, const struct ThornCameraProperties*);
-    void add_set_script_Prop(const char*, const char*, int, const Csys&, bool, bool, bool, bool, u8, signed char, ulong, const char*, ulong,
-                             bool);
+    void add_set_script_Prop(const char*, const char*, int, const Csys&, bool, bool, bool, bool, u8,
+                             signed char, ulong, const char*, ulong, bool);
     void add_set_script_Setpoint(ulong, const Csys&, const char*, const struct ThornEntity*);
     void add_set_script_light(ulong, const Csys&, const struct ThornLightProperties*, u8);
     const SetpointInfo* apply_setpoint(const char*, char**, Csys*, const char*);
