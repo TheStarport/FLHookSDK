@@ -3,8 +3,7 @@
 #include <FLCore/Common/Unknown.hpp>
 #include <FLCore/FLCoreDefs.hpp>
 
-#include <FLCore/Common/CObjects/CObject.hpp>
-#include <FLCore/Server/IObject/IObjectInspect.hpp>
+#include "../IObj/Base.hpp"
 
 class IBehaviorManager;
 struct _FILETIME;

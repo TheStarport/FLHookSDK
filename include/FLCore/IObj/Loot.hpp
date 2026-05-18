@@ -1,17 +1,16 @@
 #pragma once
 
-#include "../../FLCoreDefs.hpp"
-#include "GameObject.hpp"
+#include "Base.hpp"
 
-struct Loot : public GameObject
+struct IObjServerLoot : ServerGameObject
 {
     CLoot* cloot() { return reinterpret_cast<CLoot*>(cobject()); };
 
-    static Loot* cast(IObjInspectImpl* iobj)
+    static IObjServerLoot* cast(IObjInspectImpl* iobj)
     {
         if (iobj->cobject()->objectClass == CObject::CLOOT_OBJECT)
         {
-            return reinterpret_cast<Loot*>(iobj);
+            return reinterpret_cast<IObjServerLoot*>(iobj);
         }
         return nullptr;
     }

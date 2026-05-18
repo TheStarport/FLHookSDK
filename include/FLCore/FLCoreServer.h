@@ -45,9 +45,11 @@ struct IMPORT IServerImpl
     virtual void ReqCollisionGroups(const st6::list<CollisionGroupDesc>& collisionGroups, uint client);
     virtual void ReqEquipment(const EquipDescList& edl, uint client);
     virtual void ReqCargo(const EquipDescList&, uint);
-    virtual void ReqAddItem(uint goodID, const char* hardpoint, int count, f32 status, bool mounted, uint client);
+    virtual void ReqAddItem(uint goodID, const char* hardpoint, int count, f32 status, bool mounted,
+                            uint client);
     virtual void ReqRemoveItem(ushort slotID, int count, uint client);
-    virtual void ReqModifyItem(ushort slotID, const char* hardpoint, int count, f32 status, bool mounted, uint client);
+    virtual void ReqModifyItem(ushort slotID, const char* hardpoint, int count, f32 status, bool mounted,
+                               uint client);
     virtual void ReqSetCash(int cash, uint client);
     virtual void ReqChangeCash(int cashAdd, uint client);
     virtual void BaseEnter(uint baseID, uint client);
@@ -79,7 +81,8 @@ struct IMPORT IServerImpl
     virtual void RequestEvent(int eventType, uint shipID, uint dockTarget, uint, ulong, uint client);
     // eventType: 0 = docking, 1 = formation
     virtual void RequestCancel(int eventType, uint shipID, uint, ulong, uint client);
-    virtual void MineAsteroid(uint systemID, const Vector& pos, uint crateID, uint lootID, uint count, uint client);
+    virtual void MineAsteroid(uint systemID, const Vector& pos, uint crateID, uint lootID, uint count,
+                              uint client);
     virtual void CommComplete(uint, uint, uint, CommResult);
     virtual void RequestCreateShip(uint client);
     virtual void SPScanCargo(const uint&, const uint&, uint);
@@ -313,7 +316,7 @@ namespace SrvAsteroid
         u8 data[OBJECT_DATA_SIZE];
     };
 
-    class MedAsteroid : public GameObject
+    class MedAsteroid : public ServerGameObject
     {
         virtual void sub_6CEF1C0();
         virtual void sub_6CEE630();
@@ -345,7 +348,7 @@ namespace SrvAsteroid
         // TODO: Fields
     };
 
-    class MedMine : public GameObject
+    class MedMine : public ServerGameObject
     {
         virtual void sub_6CEF1C0();
         virtual void sub_6CEE630();
@@ -384,7 +387,7 @@ struct MetaListNode
 {
     MetaListNode* next;
     MetaListNode* prev;
-    GameObject* value;
+    ServerGameObject* value;
 };
 
 struct MetaList
@@ -434,7 +437,8 @@ namespace SysDB
     // IMPORT std::map<u32, StarSystem, std::less<u32>, std::allocator<StarSystem>> SysMap;
     inline static st6::map<u32, StarSystem>* GetSysMap()
     {
-        static auto SysMap = reinterpret_cast<st6::map<u32, StarSystem>*>(u32(GetModuleHandleA("server")) + 0xADA2C);
+        static auto SysMap =
+            reinterpret_cast<st6::map<u32, StarSystem>*>(u32(GetModuleHandleA("server")) + 0xADA2C);
         return SysMap;
     }
 }; // namespace SysDB
@@ -658,7 +662,8 @@ namespace pub
         IMPORT int SetInitialOrnt(const u32&, const Matrix&);
         IMPORT int SetInitialPos(const u32&, const Vector&);
         IMPORT int SetMissionObjectiveState(const u32&, const u32&, int, u32);
-        IMPORT int SetMissionObjectives(const u32&, const u32&, const MissionObjective*, u32, const FmtStr&, u8, const FmtStr&);
+        IMPORT int SetMissionObjectives(const u32&, const u32&, const MissionObjective*, u32, const FmtStr&,
+                                        u8, const FmtStr&);
         IMPORT int SetMoneyNeededToNextRank(u32, int);
         IMPORT int SetMonkey(u32);
         IMPORT int SetMsnID(u32, u32, u32, bool, u32);
@@ -824,7 +829,8 @@ namespace pub
         IMPORT int GetCargoSpaceOccupied(const u32&, u32&);
         IMPORT int GetCenterOMass(const u32&, Vector&);
         IMPORT int GetDockingTarget(const u32&, u32&);
-        IMPORT int GetEmptyPos(const u32&, const Transform&, const f32&, const f32&, const PosSelectionType&, Vector&);
+        IMPORT int GetEmptyPos(const u32&, const Transform&, const f32&, const f32&, const PosSelectionType&,
+                               Vector&);
         IMPORT int GetGoodID(const u32&, u32&);
         IMPORT int GetHardpoint(const u32&, const char*, Vector*, Matrix*);
         IMPORT int GetHealth(const u32& SpaceObj, f32& CurrentHealth, f32& MaxHealth);
@@ -837,7 +843,8 @@ namespace pub
         IMPORT int GetRelativeHealth(const u32&, f32&);
         IMPORT int GetRep(u32, int&);
         IMPORT int GetScannerRange(u32, int&, int&);
-        IMPORT int GetShieldHealth(const u32& spaceObj, f32& currentShields, f32& maxShields, bool& shieldsUp);
+        IMPORT int GetShieldHealth(const u32& spaceObj, f32& currentShields, f32& maxShields,
+                                   bool& shieldsUp);
         IMPORT int GetSolarArchetypeID(u32, u32&);
         IMPORT int GetSolarArchetypeNickname(char*, int, u32);
         IMPORT int GetSolarParent(const u32&, u32&);

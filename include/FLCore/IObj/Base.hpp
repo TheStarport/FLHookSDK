@@ -1,12 +1,16 @@
 #pragma once
+#include "../FLCoreDefs.hpp"
 
-#include "../../FLCoreDefs.hpp"
-#include <FLCore/Common/CObjects/CSimple/CEqObj/CShip.hpp>
-#include <FLCore/Common/Enums.hpp>
+#include "../Common/CObjects/CSimple/CEqObj/CSolar.hpp"
+#include "../Common/Enums.hpp"
 
-typedef DockType TERMINAL_TYPE;
-
-struct GameObject;
+struct ActionDB;
+struct Watchable;
+struct EquipStatus;
+struct ScanList;
+enum class FORMATION_RTYPE;
+enum class TERMINAL_TYPE;
+struct IObjRW;
 struct IObjInspect
 {
     struct CargoEnumerator
@@ -112,30 +116,31 @@ struct IObjInspectImpl
     IMPORT virtual CObject* cobject() const;                                                            // 336
 };
 
+// This VTable exists on the client, but all the functions are nullops (all return -3)
 struct IObjAffect
 {
-    virtual int set_throttle(f32);                                                                // 0
-    virtual int set_axis_throttle(const Vector&);                                                 // 4
-    virtual int set_nudge_vec(const Vector&);                                                     // 8
-    virtual int set_strafe_dir(StrafeDir);                                                        // 12
-    virtual int basewatcher_setpointer(IObjInspect*);                                             // 16
-    virtual int basewatcher_removepointer(IObjInspect*);                                          // 20
-    virtual FORMATION_RTYPE add_formation_follower(IObjRW*);                                      // 24
-    virtual FORMATION_RTYPE remove_formation_follower(IObjRW*);                                   // 28
-    virtual int get_formation_follower_count();                                                   // 32
-    virtual int set_follow_leader(IObjRW*);                                                       // 36
-    virtual int set_follow_offset(const Vector&);                                                 // 40
-    virtual FORMATION_RTYPE add_follow_follower(IObjRW*);                                         // 44
-    virtual FORMATION_RTYPE remove_follow_follower(IObjRW*);                                      // 48
-    virtual int fire_weapons(u16 startIndex, u16 endIndex, void* unk, void* unk2);                // 52
-    virtual int jettison_cargo(u16 sID, u16 amount, void* unused);                                // 56
-    virtual int tractor_all(u16 tractorSId, st6::vector<GameObject*> tractorArray, int clientId); // 60
-    virtual int tractor_single(u16 sId, GameObject* loot, int clientId);                          // 64
-    virtual int set_gun_target(u16 gunSId, unsigned target, u16 targetSId, int flag);             // 68
-    virtual int set_target(IObjRW* target, u16 sId, int dunno);                                   // 72
-    virtual int toggle_item(u16& sId, bool newState, int dunno);                                  // 76
-    virtual int toggle_cruise(bool cruiseActive, bool disruptCruise, int dunno2);                 // 80
-    virtual int toggle_thrusters(bool dunno, bool newState);                                      // 84
+    virtual int set_throttle(f32);                                                            // 0
+    virtual int set_axis_throttle(const Vector&);                                             // 4
+    virtual int set_nudge_vec(const Vector&);                                                 // 8
+    virtual int set_strafe_dir(StrafeDir);                                                    // 12
+    virtual int basewatcher_setpointer(IObjInspect*);                                         // 16
+    virtual int basewatcher_removepointer(IObjInspect*);                                      // 20
+    virtual FORMATION_RTYPE add_formation_follower(IObjRW*);                                  // 24
+    virtual FORMATION_RTYPE remove_formation_follower(IObjRW*);                               // 28
+    virtual int get_formation_follower_count();                                               // 32
+    virtual int set_follow_leader(IObjRW*);                                                   // 36
+    virtual int set_follow_offset(const Vector&);                                             // 40
+    virtual FORMATION_RTYPE add_follow_follower(IObjRW*);                                     // 44
+    virtual FORMATION_RTYPE remove_follow_follower(IObjRW*);                                  // 48
+    virtual int fire_weapons(u16 startIndex, u16 endIndex, void* unk, void* unk2);            // 52
+    virtual int jettison_cargo(u16 sID, u16 amount, void* unused);                            // 56
+    virtual int tractor_all(u16 tractorSId, st6::vector<IObjRW*> tractorArray, int clientId); // 60
+    virtual int tractor_single(u16 sId, IObjRW* loot, int clientId);                          // 64
+    virtual int set_gun_target(u16 gunSId, unsigned target, u16 targetSId, int flag);         // 68
+    virtual int set_target(IObjRW* target, u16 sId, int dunno);                               // 72
+    virtual int toggle_item(u16& sId, bool newState, int dunno);                              // 76
+    virtual int toggle_cruise(bool cruiseActive, bool disruptCruise, int dunno2);             // 80
+    virtual int toggle_thrusters(bool dunno, bool newState);                                  // 84
     virtual int use_item(u16 sId, unsigned amount, int unused); // 88 sub_6CE7210
     virtual int request_event(unsigned eventType, unsigned requestTarget, unsigned param1, unsigned param2,
                               unsigned dunno);                                        // 92
@@ -153,10 +158,100 @@ struct IObjAffect
 
 struct IObjDestructor
 {
-    virtual struct IObjInspectImpl* DestroyIObj(bool deallocate);
+    virtual IObjInspectImpl* DestroyIObj(bool deallocate);
 };
 
-struct IObjRW : public IObjInspectImpl
+struct IObjRW : IObjInspectImpl, IObjAffect, IObjDestructor
+{
+    CSimple* csimple() { return reinterpret_cast<CSimple*>(cobject()); };
+    static IObjRW* Cast(IObjInspectImpl* iobj)
+    {
+        if ((iobj->cobject()->objectClass & CObject::CSIMPLE_MASK) == CObject::CSIMPLE_MASK)
+        {
+            return reinterpret_cast<IObjRW*>(iobj);
+        }
+        return nullptr;
+    }
+
+    bool IsStaticSolar()
+    {
+        if (!cobj)
+        {
+            return false;
+        }
+
+        if (!(cobj->objectClass & CObject::CSOLAR_OBJECT))
+        {
+            return false;
+        }
+
+        return !reinterpret_cast<CSolar*>(cobj)->isDynamic;
+    }
+
+    CObject* cobj;
+    IObjRW* next;
+};
+
+struct ClientGameObject : IObjRW
+{
+    // Return (collisionBitMask & 4) == 0; Only collide with certain things?
+    virtual bool sub_524E20(); // 340
+    // Return (collisionBitMask & 1) Collisions enabled?
+    virtual bool sub_524E30();                       // 344
+    virtual void enable_collisions(int unkBitField); // 348, sub_539C10
+    // Return (collisionBitMask & 2) == 0; Only collide with certain things?
+    virtual bool sub_524E40(); // 352
+    // Modify collisionBitMask: collisionBitMask ^= (collisionBitMask ^ (2 * a2)) & 2;
+    virtual void sub_539C40(int a2);                     // 356
+    virtual void create_instance(Archetype::Root* arch); // 360, sub_53F2F0
+    virtual bool nullopt0();                             // 364, sub_53F330
+
+    // Does something with explosions, not sure
+    virtual void sub_5426E0();                            // 368, sub_5426E0
+    virtual void update(f32 delta);                       // 372, sub_53F610
+    virtual f32 get_physical_radius_r(Vector&);           // 376, sub_539810
+    virtual void sub_539820(int unk, int unk2, int unk3); // 380
+    virtual void nullopt();                               // 384
+    virtual void sub_539B40(int unk);                     // 388
+    // Something to do with object textures, calls material pipeline
+    virtual void sub_539980(int unk, int unk2, int unk3, int unk4, int unk5); // 392
+
+    // Sets unk to equal dunnoFloat3, returns dunnoFloat2
+    virtual float sub_524E50(float* unk); // 396
+    // Set's dunnoFloat1-2-3 to 10.f, 0.f, 0.f
+    virtual void sub_524E60();                                      // 400
+    virtual void sub_53F690(int unk, int unk2, int unk3, int unk4); // 404
+    // If NOT singleplayer, iterate list, call CObject->SetHitPts if sId is ROOT?
+    virtual void sub_5474A0(EquipDescList list); // 408
+
+    // Calls set hitpoints 0 on the CObject, passes destroy type to sub_53A820
+    virtual void sub_547500(DestroyType destroyType); // 412
+    virtual void nullopt2(const Vector&);             // 416
+    virtual void nullopt3(uint, uint);                // 420
+    virtual void nullopt4(uint, uint);                // 424
+
+    // Will send packet via remoteserver / rpclocal. Returns cobject() on success
+    virtual CObject* process_collision(Vector& impactPos, i32 u2, ClientGameObject* collidingObject,
+                                       u16 sId); // 428, sub_53F790
+    //
+    virtual void sub_542870(Vector& pos);                 // 432, sub_542870
+    virtual void sub_53A4C0(int unk, int unk2, int unk3); // 436
+    virtual void nullopt5(uint);                          // 440
+    virtual ObjectType get_object_type();                 // 444, sub_52E130
+    virtual Matrix set_rotation_identity();               // 448, sub_5428A0
+
+    u32 dunno1;
+    void* unkObj; // referenced in sub_542870, unkObj+4 = st6::list<?>. Also referenced in sub_4FCEF0
+    ActionDB* actionDb;
+    u32 dunno2[4];
+    float dunnoFloat1;
+    float dunnoFloat2;
+    float dunnoFloat3;
+    void* unkThing;
+    int collisionBitMask;
+};
+
+struct ServerGameObject : IObjRW
 {
     virtual ObjectType get_object_type() const; // 340
     virtual bool ObjectDestroyed(
@@ -191,4 +286,23 @@ struct IObjRW : public IObjInspectImpl
     virtual void apply_damage_entry(DamageEntry*); // 436 sub_6CEEF70
     virtual bool can_deal_damage(
         DamageList*); // invokes get_dunno_0x39 and 0x38                                   //440 sub_6CEF0B0
+
+    int iDunnos_0x1C; // length of 0x1C
+    f64 timer;
+    StarSystem* starSystem; // has something to do with fuses
+    byte bDunno_0x2C;
+    void* pDunno_0x30;   // struct size: 20 bytes
+    int iDunno_0x34;     // length of 0x30
+    byte isInvulnerable; // not entirely sure on those two
+    byte isPlayerVulnerable;
+    f32 maxHpLoss;    // when invulnerable, allow HP to drop down to this percentage
+    byte bDunno_0x40; // is alive? Used when fetching IObjRW via sub_6D00670
+    byte bDunno_0x41;
+    byte bAlign_0x42; // probably not used
+    byte bAlign_0x43; // probably not used
+    byte bDunno_0x44;
+    void* pDunno_0x48; // struct size: 20 bytes
+    int iDunno_0x4C;   // size of 0x48
+    byte bDunno_0x50;
+    int iDunnos_0x54;
 };

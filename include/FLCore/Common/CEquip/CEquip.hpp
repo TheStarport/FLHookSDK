@@ -1,7 +1,7 @@
 #pragma once
 #include "../../FLCoreDefs.hpp"
 #include "../Events.hpp"
-#include "FLCore/Common/Enums.hpp"
+#include <FLCore/Common/Enums.hpp>
 
 namespace Archetype
 {

@@ -41,6 +41,7 @@ enum class StrafeDir
 
 enum class ObjectType
 {
+    Invalid = -3,
     None = 0,
     Moon = 1 << 0,
     Planet = 1 << 1,
@@ -99,7 +100,8 @@ enum class EquipmentClass
     TradeLaneEquip = 1 << 23,
     Armor = 1 << 24,
     ExternalEquipment = Mine | CM | Gun | ShieldGenerator | Thruster | CargoPod | CloakingDevice,
-    InternalEquipment = Engine | Power | Scanner | TractorBeam | RepairDroid | InternalFX | TradeLaneEquip | Armor,
+    InternalEquipment =
+        Engine | Power | Scanner | TractorBeam | RepairDroid | InternalFX | TradeLaneEquip | Armor,
 };
 
 enum HpAttachmentType

@@ -1,18 +1,18 @@
 #pragma once
 
-#include "../../FLCoreDefs.hpp"
-#include "../../Common/CObjects/CSimple/CProjectile/CGuided.hpp"
-#include "GameObject.hpp"
+#include "Base.hpp"
 
-struct Guided : public GameObject
+#include "../Common/CObjects/CSimple/CProjectile/CGuided.hpp"
+
+struct IObjServerGuided : ServerGameObject
 {
   public:
     CGuided* cguided() { return reinterpret_cast<CGuided*>(cobject()); };
-    static Guided* Cast(IObjInspectImpl* iobj)
+    static IObjServerGuided* Cast(IObjInspectImpl* iobj)
     {
         if (iobj->cobject()->objectClass == CObject::CGUIDED_OBJECT)
         {
-            return reinterpret_cast<Guided*>(iobj);
+            return reinterpret_cast<IObjServerGuided*>(iobj);
         }
         return nullptr;
     }

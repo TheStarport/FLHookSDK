@@ -1,18 +1,24 @@
 #pragma once
 
-#include "../../FLCoreDefs.hpp"
-#include "../../Common/SubObjectID.hpp"
 #include "EqObj.hpp"
 
-struct Ship : public EqObj
+#include "../Common/CObjects/CSimple/CEqObj/CShip.hpp"
+#include "../Common/SubObjectID.hpp"
+
+struct IObjClientShip : IObjClientEqObj
+{
+    CShip* cship() { return reinterpret_cast<CShip*>(cobject()); };
+};
+
+struct IObjServerShip : public IObjServerEqObj
 {
     CShip* cship() { return reinterpret_cast<CShip*>(cobject()); };
 
-    static Ship* Cast(IObjInspectImpl* iobj)
+    static IObjServerShip* Cast(IObjInspectImpl* iobj)
     {
         if (iobj->cobject()->objectClass == CObject::CSHIP_OBJECT)
         {
-            return reinterpret_cast<Ship*>(iobj);
+            return reinterpret_cast<IObjServerShip*>(iobj);
         }
         return nullptr;
     }

@@ -1,8 +1,8 @@
 #pragma once
 #include "../../../FLCoreDefs.hpp"
-#include "../CAttachedEquip.hpp"
 #include "../../Archetype/Root/Equipment/AttachedEquipment/Launcher.hpp"
 #include "../../Archetype/Root/Equipment/Projectile.hpp"
+#include "../CAttachedEquip.hpp"
 
 struct Barrel
 {
@@ -54,10 +54,10 @@ class CELauncher : public CAttachedEquip
     Barrel barrels[8];               // 21
 };
 
-class EqObj;
+struct IObjServerEqObj;
 struct SrvGun
 {
     void* vtable;
     CELauncher* launcher;
-    EqObj* owner;
+    IObjServerEqObj* owner;
 };

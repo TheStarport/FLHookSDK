@@ -3,8 +3,8 @@
 
 #include "EqObj.hpp"
 
-#include <Utils/TemplateHelpers.hpp>
 #include <Concepts.hpp>
+#include <Utils/TemplateHelpers.hpp>
 
 template <auto FuncPtr>
 struct IObjVTableIndex;
@@ -75,10 +75,14 @@ MAP_MEMBER(&IObjInspectImpl::get_distance_travelled, 0x06D5FDC2);
 MAP_MEMBER(&IObjInspectImpl::get_projected_throttle, 0x06D5FDBC);
 MAP_MEMBER(&IObjInspectImpl::get_speed, 0x06D5FDB6);
 MAP_MEMBER(&IObjInspectImpl::get_initial_speed_to_coast_distance, 0x06D5FDB0);
-M_CAST(&IObjInspectImpl::get_time_to_accelerate_angularly, (f32 (IObjInspectImpl::*)(f32, f32, f32) const), 0x06D5FDAA);
-M_CAST(&IObjInspectImpl::get_time_to_accelerate_angularly, (f32 (IObjInspectImpl::*)(f32, f32, f32, f32) const), 0x06D5FDA4);
-M_CAST(&IObjInspectImpl::get_angular_distance_travelled, (f32 (IObjInspectImpl::*)(f32, f32, f32) const), 0x06D5FD9E);
-M_CAST(&IObjInspectImpl::get_angular_distance_travelled, (f32 (IObjInspectImpl::*)(f32, f32, f32, f32) const), 0x06D5FD98);
+M_CAST(&IObjInspectImpl::get_time_to_accelerate_angularly, (f32 (IObjInspectImpl::*)(f32, f32, f32) const),
+       0x06D5FDAA);
+M_CAST(&IObjInspectImpl::get_time_to_accelerate_angularly,
+       (f32 (IObjInspectImpl::*)(f32, f32, f32, f32) const), 0x06D5FDA4);
+M_CAST(&IObjInspectImpl::get_angular_distance_travelled, (f32 (IObjInspectImpl::*)(f32, f32, f32) const),
+       0x06D5FD9E);
+M_CAST(&IObjInspectImpl::get_angular_distance_travelled, (f32 (IObjInspectImpl::*)(f32, f32, f32, f32) const),
+       0x06D5FD98);
 MAP_MEMBER(&IObjInspectImpl::get_angular_speed_XY, 0x06D5FD92);
 MAP_MEMBER(&IObjInspectImpl::get_angular_speed_Z, 0x06D5FD8C);
 MAP_MEMBER(&IObjInspectImpl::get_projected_axis_throttle_XY, 0x06D5FD86);
@@ -105,32 +109,32 @@ MAP_MEMBER(&IObjInspectImpl::get_behavior_id, 0x06D5FD0E);
 MAP_MEMBER(&IObjInspectImpl::get_formation_followers, 0x06D5FD08);
 MAP_MEMBER(&IObjInspectImpl::cobject, 0x06D5FD02);
 
-MAP_MEMBER(&IObjRW::get_object_type, 0x6CE61F0);
-MAP_MEMBER(&IObjRW::ObjectDestroyed, 0x6CE63F0);
-MAP_MEMBER(&IObjRW::Disconnect, 0x6CEE670);
-MAP_MEMBER(&IObjRW::get_dunno_0x40, 0x6CEE6D0);
-MAP_MEMBER(&IObjRW::InstantiateCobject, 0x6CE6200);
-MAP_MEMBER(&IObjRW::SetCObjectById, 0x6D02CB0);
-MAP_MEMBER(&IObjRW::Update, 0x6CE6280);
-MAP_MEMBER(&IObjRW::sub_6D01A60, 0x6CEE6E0);
-MAP_MEMBER(&IObjRW::sub_6CEE810, 0x6CEE810);
-MAP_MEMBER(&IObjRW::sub_6CEE980, 0x6CEE980);
-MAP_MEMBER(&IObjRW::sub_6CE9250, 0x6CF4230);
-MAP_MEMBER(&IObjRW::process_munition_impact, 0x6CF4230);
-MAP_MEMBER(&IObjRW::process_all_explosion_damage, 0x6CEEB80);
-MAP_MEMBER(&IObjRW::apply_damage_list, 0x6CEEE70);
-MAP_MEMBER(&IObjRW::get_dunno_0x41, 0x6CE6190);
-MAP_MEMBER(&IObjRW::sub_6CEEFA0, 0x6CEEFA0);
-MAP_MEMBER(&IObjRW::sub_6CEF0F0, 0x6CEF0F0);
-MAP_MEMBER(&IObjRW::is_player_vulnerable, 0x06CE61A0);
-MAP_MEMBER(&IObjRW::is_invulnerable, 0x6CE61B0);
-MAP_MEMBER(&IObjRW::get_max_hp_loss, 0x6CE61C0);
-MAP_MEMBER(&IObjRW::process_collision_unk, 0x6CEE9F0);
-MAP_MEMBER(&IObjRW::sethp_unk, 0x6CEEE20);
-MAP_MEMBER(&IObjRW::set_relative_health, 0x6CEF1E0);
-MAP_MEMBER(&IObjRW::damage_hull, 0x6CEEC90);
-MAP_MEMBER(&IObjRW::apply_damage_entry, 0x6CEEF70);
-MAP_MEMBER(&IObjRW::can_deal_damage, 0x6CEF0B0);
+MAP_MEMBER(&ServerGameObject::get_object_type, 0x6CE61F0);
+MAP_MEMBER(&ServerGameObject::ObjectDestroyed, 0x6CE63F0);
+MAP_MEMBER(&ServerGameObject::Disconnect, 0x6CEE670);
+MAP_MEMBER(&ServerGameObject::get_dunno_0x40, 0x6CEE6D0);
+MAP_MEMBER(&ServerGameObject::InstantiateCobject, 0x6CE6200);
+MAP_MEMBER(&ServerGameObject::SetCObjectById, 0x6D02CB0);
+MAP_MEMBER(&ServerGameObject::Update, 0x6CE6280);
+MAP_MEMBER(&ServerGameObject::sub_6D01A60, 0x6CEE6E0);
+MAP_MEMBER(&ServerGameObject::sub_6CEE810, 0x6CEE810);
+MAP_MEMBER(&ServerGameObject::sub_6CEE980, 0x6CEE980);
+MAP_MEMBER(&ServerGameObject::sub_6CE9250, 0x6CF4230);
+MAP_MEMBER(&ServerGameObject::process_munition_impact, 0x6CF4230);
+MAP_MEMBER(&ServerGameObject::process_all_explosion_damage, 0x6CEEB80);
+MAP_MEMBER(&ServerGameObject::apply_damage_list, 0x6CEEE70);
+MAP_MEMBER(&ServerGameObject::get_dunno_0x41, 0x6CE6190);
+MAP_MEMBER(&ServerGameObject::sub_6CEEFA0, 0x6CEEFA0);
+MAP_MEMBER(&ServerGameObject::sub_6CEF0F0, 0x6CEF0F0);
+MAP_MEMBER(&ServerGameObject::is_player_vulnerable, 0x06CE61A0);
+MAP_MEMBER(&ServerGameObject::is_invulnerable, 0x6CE61B0);
+MAP_MEMBER(&ServerGameObject::get_max_hp_loss, 0x6CE61C0);
+MAP_MEMBER(&ServerGameObject::process_collision_unk, 0x6CEE9F0);
+MAP_MEMBER(&ServerGameObject::sethp_unk, 0x6CEEE20);
+MAP_MEMBER(&ServerGameObject::set_relative_health, 0x6CEF1E0);
+MAP_MEMBER(&ServerGameObject::damage_hull, 0x6CEEC90);
+MAP_MEMBER(&ServerGameObject::apply_damage_entry, 0x6CEEF70);
+MAP_MEMBER(&ServerGameObject::can_deal_damage, 0x6CEF0B0);
 
 #undef MAP_MEMBER
 #undef M_CAST
@@ -141,9 +145,10 @@ u32 FetchIObjVTableAddress(u32 serverDllAddr)
     return serverDllAddr + (IObjVTableIndex_v<FuncPtr> - 0x6CE0000);
 }
 
-template <auto FuncPtr, typename CurIObjType, typename FuncPtrT = decltype(FuncPtr), typename ClsType = member_fn_ct<FuncPtrT>,
-          typename Ret = member_fn_rt<FuncPtrT>, typename... Args>
-    requires std::is_base_of_v<ClsType, CurIObjType> && (std::is_same_v<IObjInspectImpl, ClsType> || std::is_same_v<IObjRW, ClsType>) &&
+template <auto FuncPtr, typename CurIObjType, typename FuncPtrT = decltype(FuncPtr),
+          typename ClsType = member_fn_ct<FuncPtrT>, typename Ret = member_fn_rt<FuncPtrT>, typename... Args>
+    requires std::is_base_of_v<ClsType, CurIObjType> &&
+             (std::is_same_v<IObjInspectImpl, ClsType> || std::is_same_v<ServerGameObject, ClsType>) &&
              PackMatchesTuple<member_fn_pt<FuncPtrT>, Args...>
 Ret CallSpecificVTable(const u32 serverDllAddr, CurIObjType* obj, Args... args)
 {
