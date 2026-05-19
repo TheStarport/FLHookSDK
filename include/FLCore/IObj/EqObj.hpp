@@ -67,11 +67,11 @@ struct IObjServerEqObj : ServerGameObject
     virtual void process_perishable_cargo(f32 deltaTime);           // 588 sub_6CEC910
     CEqObj* ceqobj() { return reinterpret_cast<CEqObj*>(cobject()); };
 
-    static CEqObj* Cast(IObjInspectImpl* iobj)
+    static EqObj* Cast(IObjInspectImpl* iobj)
     {
         if ((iobj->cobject()->objectClass & CObject::CEQUIPMENT_OBJECT) == CObject::CEQUIPMENT_OBJECT)
         {
-            return reinterpret_cast<CEqObj*>(iobj);
+            return reinterpret_cast<EqObj*>(iobj);
         }
 
         return nullptr;
