@@ -1,6 +1,13 @@
 #pragma once
 #include <FLCore/FLCoreDefs.hpp>
 
+#include "../CProjectile.hpp"
+
+namespace Archetype
+{
+    struct Munition;
+}
+
 struct CBeam : public CProjectile
 {
   public:
