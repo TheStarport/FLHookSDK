@@ -12,6 +12,9 @@ struct IObjClientShip : IObjClientEqObj
 
 struct IObjServerShip : public IObjServerEqObj
 {
+    virtual bool GunTargetingLoop();
+    virtual void SetFireFailedSounds();
+
     CShip* cship() { return reinterpret_cast<CShip*>(cobject()); };
 
     static IObjServerShip* Cast(IObjInspectImpl* iobj)

@@ -1,13 +1,18 @@
 #pragma once
 
 #include "Base.hpp"
+#include <FLCore/Client/CliEquip.hpp>
 
 class CAttachedEquip;
 class CEShield;
+struct IObjClientEqObj;
 
 struct IObjClientEqObj : ClientGameObject
 {
     CEqObj* ceqobj() { return reinterpret_cast<CEqObj*>(cobject()); };
+
+    uint clEqObjDunno[27];
+    st6::list<CliEquip*> equipList;
 };
 
 struct IObjServerEqObj : ServerGameObject

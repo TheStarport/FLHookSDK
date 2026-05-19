@@ -234,7 +234,7 @@ struct ClientGameObject : IObjRW
     virtual CObject* process_collision(Vector& impactPos, i32 u2, ClientGameObject* collidingObject,
                                        u16 sId); // 428, sub_53F790
     //
-    virtual void sub_542870(Vector& pos);                 // 432, sub_542870
+    virtual void sub_542870(Vector* pos);                 // 432, sub_542870
     virtual void sub_53A4C0(int unk, int unk2, int unk3); // 436
     virtual void nullopt5(uint);                          // 440
     virtual ObjectType get_object_type();                 // 444, sub_52E130
