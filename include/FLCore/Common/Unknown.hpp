@@ -874,6 +874,12 @@ class IMPORT IBehaviorManager
                 virtual void dunno58();
                 virtual void dunno5C();
                 virtual IObjRW* GetDebuggerTarget();
+
+                uint dunno[185];
+                bool engineStateBoolUnk;
+                bool engineEngaged; // engine kill if false;
+                bool dunno2[2];
+                bool reverseBrake;
         };
 
         bool allow_head_tracking();
