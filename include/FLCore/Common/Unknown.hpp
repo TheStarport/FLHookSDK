@@ -43,12 +43,6 @@ namespace Universe
 }
 class IStateGraph;
 
-enum class TransactionType
-{
-    Sell = 0,
-    Buy = 1
-};
-
 enum class ExcludeObjectType
 {
 };
@@ -472,18 +466,6 @@ class IMPORT CRemotePhysicsSimulation
     u8 data[OBJECT_DATA_SIZE];
 };
 
-struct IMPORT CharPlaceInfo
-{
-    CharPlaceInfo();
-    ~CharPlaceInfo();
-    void clear();
-    void destroy();
-    bool is_named(const char*) const;
-
-  public:
-    u8 data[OBJECT_DATA_SIZE];
-};
-
 class IMPORT CharacterProperties
 {
   public:
@@ -902,23 +884,6 @@ struct IMPORT MPCritSec
     u8 data[OBJECT_DATA_SIZE];
 };
 
-struct IMPORT MarketGoodInfo
-{
-    MarketGoodInfo();
-    MarketGoodInfo& operator=(const MarketGoodInfo&);
-
-  public:
-    unsigned goodId;
-    f32 price;
-    int min;
-    int stock;
-    TransactionType transType;
-    f32 rank;
-    f32 rep;
-    // int quantity; Those two fields are not actually there? Where'd we get those from?
-    // f32 scale;
-};
-
 class IMPORT MarshalBuffer
 {
   public:
@@ -1172,18 +1137,6 @@ struct IMPORT RoomButtonInfo
     u8 data[OBJECT_DATA_SIZE];
 };
 
-struct IMPORT RoomCameraInfo
-{
-    RoomCameraInfo();
-    ~RoomCameraInfo();
-    RoomCameraInfo& operator=(const RoomCameraInfo&);
-    void clear();
-    void destroy();
-
-  public:
-    u8 data[OBJECT_DATA_SIZE];
-};
-
 struct Camera
 {
     char* vtable; // vftable
@@ -1219,82 +1172,6 @@ struct Camera
     f32 dunno5[9];
     f32 angularAcceleration;
     f32 cameraAccelerationPerFrame;
-};
-
-class IMPORT RoomData
-{
-  public:
-    RoomData(const RoomData&);
-    RoomData();
-    ~RoomData();
-    RoomData& operator=(const RoomData&);
-    void clear();
-    void destroy();
-    void enumerate_CharacterPlacement_ini(void (*)(int, INI_Reader*, void*), void*) const;
-    const RoomCameraInfo* find_camera(const char*, const char*) const;
-    const RoomCameraInfo* find_camera_generic(const char*, const char*) const;
-    const struct SetpointInfo* find_setpoint(const char*, const char*) const;
-    const SetpointInfo* find_setpoint_generic(const char*, const char*) const;
-    void fixup(long);
-    const RoomCameraInfo* get_camera_info() const;
-    void init(u32, u32, const char*, const char*);
-    void load();
-    void unfixup();
-    void unload();
-
-  private:
-    void add_set_script_Camera(ulong, const Csys&, const char*, const struct ThornCameraProperties*);
-    void add_set_script_Prop(const char*, const char*, int, const Csys&, bool, bool, bool, bool, u8,
-                             signed char, ulong, const char*, ulong, bool);
-    void add_set_script_Setpoint(ulong, const Csys&, const char*, const struct ThornEntity*);
-    void add_set_script_light(ulong, const Csys&, const struct ThornLightProperties*, u8);
-    const SetpointInfo* apply_setpoint(const char*, char**, Csys*, const char*);
-    CharPlaceInfo* find_CharacterPlacement(const char*);
-    void fixup_FlashLight_list(long, const HardpointSummary*);
-    static void make_setpoint_name_generic(const char*, char*);
-    void read_Camera_block(INI_Reader*);
-    void read_CharacterPlacement_block(INI_Reader*);
-    void read_FlashLightLine_block(INI_Reader*);
-    void read_FlashLightSet_block(INI_Reader*);
-    void read_ForSaleShipPlacement_block(INI_Reader*);
-    void read_Hotspot_block(INI_Reader*);
-    void read_PlayerShipPlacement_block(INI_Reader*);
-    void read_RoomInfo_block(INI_Reader*);
-    void read_Sound_block(INI_Reader*);
-    void read_ambient_script(INI_Reader*);
-    void read_from_ini(const char*);
-    void read_set_script(const char*);
-    void setup_Camera();
-    void unfixup_FlashLight_list();
-    void unsetup_Camera();
-    void warn(INI_Reader*, bool);
-
-  public:
-    u8 data[OBJECT_DATA_SIZE];
-};
-
-struct IMPORT RoomLightInfo
-{
-    RoomLightInfo();
-    ~RoomLightInfo();
-    RoomLightInfo& operator=(const RoomLightInfo&);
-    void clear();
-    void destroy();
-
-  public:
-    u8 data[OBJECT_DATA_SIZE];
-};
-
-struct IMPORT RoomPropInfo
-{
-    RoomPropInfo();
-    ~RoomPropInfo();
-    RoomPropInfo& operator=(const RoomPropInfo&);
-    void clear();
-    void destroy();
-
-  public:
-    u8 data[OBJECT_DATA_SIZE];
 };
 
 namespace RtcSlider
@@ -1747,73 +1624,6 @@ namespace Geometry
     struct Frustum;
     struct Sphere;
 }; // namespace Geometry
-
-struct IMPORT FlashLightSetInfo
-{
-    FlashLightSetInfo();
-    ~FlashLightSetInfo();
-    FlashLightSetInfo& operator=(const FlashLightSetInfo&);
-    void clear();
-    void destroy();
-    void fixup(long, const class HardpointSummary*, const RoomData*);
-    void unfixup();
-
-  private:
-    void add_light_csys(const Csys&);
-
-  public:
-    u8 data[OBJECT_DATA_SIZE];
-};
-
-class IMPORT BaseData
-{
-  public:
-    BaseData(const BaseData&);
-    BaseData();
-    ~BaseData();
-    BaseData& operator=(const BaseData&);
-    u32 get_base_id() const;
-    // const st6::list<class RoomData*>* get_const_room_data_list() const;
-    // const st6::map<u32, struct MarketGoodInfo, st6::less<u32>, st6::allocator<MarketGoodInfo>>* get_market() const;
-    // st6::list<RoomData*>* get_room_data_list();
-    //  commented out since they'd fail on the account of them being defined as 'std' in the game binaries. Use the fields below directly instead.
-    f32 get_price_variance() const;
-    f32 get_ship_repair_cost() const;
-    u32 get_start_location() const;
-    void read_from_ini(const char*, u32);
-    void set_market_good(u32, int, int, TransactionType, f32, f32, f32);
-
-  private:
-    void read_Base_block(class INI_Reader*);
-    void read_Room_block(INI_Reader*);
-
-  public:
-    unsigned dunno;
-    f32 startRoom;
-    f32 priceVariance;
-    f32 shipRepairCost;
-    st6::map<Id, MarketGoodInfo> marketMap;
-    st6::list<RoomData*> roomData;
-};
-
-class IMPORT BaseDataList
-{
-  public:
-    BaseDataList(const BaseDataList&);
-    BaseDataList();
-    ~BaseDataList();
-    BaseDataList& operator=(const BaseDataList&);
-    BaseData* get_base_data(u32) const;
-    st6::list<BaseData*>* get_base_data_list();
-    const st6::list<BaseData*>* get_const_base_data_list() const;
-    RoomData* get_room_data(u32) const;
-    RoomData* get_unloaded_room_data(u32) const;
-    void load();
-    void load_market_data(const char*);
-
-  public:
-    u8 data[OBJECT_DATA_SIZE];
-};
 
 struct Pilot
 {

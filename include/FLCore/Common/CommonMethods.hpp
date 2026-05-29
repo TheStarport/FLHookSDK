@@ -12,10 +12,6 @@ IMPORT bool operator!=(const Rect&, const Rect&);
 
 IMPORT void AppendMissionLogData(const FmtStr*, u8*&, int&, int);
 IMPORT u32 Arch2Good(u32);
-IMPORT void BaseDataList_destroy();
-IMPORT BaseDataList* BaseDataList_get();
-IMPORT void BaseDataList_load();
-IMPORT void BaseDataList_load_market_data(const char*);
 IMPORT void BuildDirectory(const char*);
 IMPORT f32 CHATTER_MAX_DIST;
 IMPORT f32 CHATTER_MAX_DIST_ATTEN;
