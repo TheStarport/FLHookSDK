@@ -875,8 +875,9 @@ class IMPORT IBehaviorManager
                 virtual void dunno5C();
                 virtual IObjRW* GetDebuggerTarget();
 
-                uint dunno[185];
-                bool engineStateBoolUnk;
+                uint dunno[184];
+                float thrust;
+                bool engineCruiseState;
                 bool engineEngaged; // engine kill if false;
                 bool dunno2[2];
                 bool reverseBrake;
