@@ -6,26 +6,26 @@
 
 struct IView
 {
-    virtual void __stdcall u00() = 0;
-    virtual void __stdcall u04() = 0;
-    virtual void __stdcall u08() = 0;
-    virtual Vector* __stdcall GetVector() = 0;
-    virtual Matrix* __stdcall GetMatrix1() = 0;
-    virtual Rect* __stdcall GetRect() = 0;
-    virtual void __stdcall u18() = 0;
-    virtual void __stdcall u1C() = 0;
-    virtual void __stdcall u20() = 0;
-    virtual void __stdcall u24() = 0;
-    virtual void __stdcall u28() = 0;
-    virtual void __stdcall u2C() = 0;
-    virtual void __stdcall u30() = 0;
-    virtual void __stdcall u34() = 0;
-    virtual void __stdcall ScreenToClient(Vector& Vector, float x, float y) = 0;
-    virtual void __stdcall u3C() = 0;
-    virtual Matrix* __stdcall GetMatrix2() = 0;
-    virtual void __stdcall u44() = 0;
-    virtual void __stdcall u48() = 0;
-    virtual void __stdcall u4C() = 0;
+    virtual void __stdcall u00();
+    virtual void __stdcall u04();
+    virtual void __stdcall u08();
+    virtual Vector* __stdcall GetVector();
+    virtual Matrix* __stdcall GetMatrix1();
+    virtual Rect* __stdcall GetRect();
+    virtual void __stdcall u18();
+    virtual void __stdcall u1C();
+    virtual void __stdcall u20();
+    virtual void __stdcall u24();
+    virtual void __stdcall u28();
+    virtual void __stdcall u2C();
+    virtual void __stdcall u30();
+    virtual void __stdcall u34();
+    virtual void __stdcall ScreenToClient(Vector& Vector, float x, float y);
+    virtual void __stdcall u3C();
+    virtual Matrix* __stdcall GetMatrix2();
+    virtual void __stdcall u44();
+    virtual void __stdcall u48();
+    virtual void __stdcall u4C();
 };
 
 struct Fl3d;
