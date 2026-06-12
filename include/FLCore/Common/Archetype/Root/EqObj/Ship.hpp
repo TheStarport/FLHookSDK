@@ -2,6 +2,7 @@
 
 #include "../EqObj.hpp"
 
+enum HpAttachmentType;
 namespace Archetype
 {
     struct Ship : EqObj

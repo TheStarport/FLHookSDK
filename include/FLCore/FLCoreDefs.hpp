@@ -13,15 +13,15 @@
 #undef PlaySound
 
 // Required includes for FreelancersSDK
-#include <cmath>
 #include <cctype>
-#include <memory>
-#include <vector>
+#include <cmath>
 #include <list>
 #include <map>
-#include <unordered_map>
-#include <type_traits>
+#include <memory>
 #include <string>
+#include <type_traits>
+#include <unordered_map>
+#include <vector>
 
 #include "../Typedefs.hpp"
 #include "st6.h"
@@ -41,10 +41,10 @@ class Matrix;
 class Vector;
 Matrix EulerMatrix(const Vector&);
 
-#include "X86Math/Vector.hpp"
-#include "X86Math/Quaternion.hpp"
 #include "X86Math/Matrix.hpp"
+#include "X86Math/Quaternion.hpp"
 #include "X86Math/Transform.hpp"
+#include "X86Math/Vector.hpp"
 
 template <int size>
 struct TString
@@ -53,4 +53,19 @@ struct TString
     char data[size + 1];
 
     TString() : len(0) { data[0] = 0; }
+};
+
+// Simple helper for debugging data we do not yet understand
+union UnkData {
+    u32 u32;
+    i32 i32;
+    f32 f32;
+    u16 u16;
+    i16 i16;
+    u8 u8;
+};
+
+struct UnkDataBlock
+{
+    UnkData data[1000];
 };

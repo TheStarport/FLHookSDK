@@ -1,8 +1,8 @@
 #pragma once
 #include "../../../../FLCoreDefs.hpp"
 
-#include "../CELauncher.hpp"
 #include "../../../Unknown.hpp"
+#include "../CELauncher.hpp"
 
 namespace Archetype
 {
@@ -53,6 +53,7 @@ class CEGun : public CELauncher
   protected:
     bool GetTargetObjectPos(Vector&) const;
 
+  public:
     AnimDB::VChannel joint1;
     AnimDB::VChannel joint2;
     Matrix gunRot;

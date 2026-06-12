@@ -4,10 +4,22 @@
 #include "../../Archetype/Root/Equipment/Projectile.hpp"
 #include "../CAttachedEquip.hpp"
 
+struct Fl3d;
 struct Barrel
 {
-    long index;
+    Fl3d* index;
     Transform barrelOffset;
+
+    explicit operator bool() const { return reinterpret_cast<i32>(index) != -1 && index != nullptr; }
+};
+
+struct IObjRW;
+struct ProjLaunchInfo
+{
+    Vector velocity;
+    Transform transform;
+    IObjRW* target;
+    ushort targetSubId;
 };
 
 class CELauncher : public CAttachedEquip
@@ -20,18 +32,18 @@ class CELauncher : public CAttachedEquip
     IMPORT bool Connect(const char*) override;
     IMPORT void Disconnect() override;
 
-    IMPORT virtual FireResult Fire(const Vector&);                                                   // 144
-    IMPORT virtual void ConsumeFireResources();                                                      // 148
-    IMPORT virtual void ComputeLaunchInfo(st6::vector<struct ProjLaunchInfo>&, const Vector&) const; // 152
-    IMPORT virtual f32 GetPowerDrawPerFire() const;                                                  // 156
-    IMPORT virtual int GetAmmoCount() const;                                                         // 160
-    IMPORT virtual bool AmmoNeedsMet() const;                                                        // 164
-    IMPORT virtual void ComputeLaunchInfo_OneBarrel(ProjLaunchInfo&, int, const Vector&) const;      // 168
-    IMPORT virtual FireResult CanFire(const Vector&) const;                                          // 172
-    IMPORT virtual bool PowerNeedsMet() const;                                                       // 176
-    IMPORT virtual void DrawPower(int);                                                              // 180
-    IMPORT virtual void DrawAmmoFromCargo(int);                                                      // 184
-    IMPORT virtual bool RefireDelayElapsed() const;                                                  // 188
+    IMPORT virtual FireResult Fire(const Vector&);                                              // 144
+    IMPORT virtual void ConsumeFireResources();                                                 // 148
+    IMPORT virtual void ComputeLaunchInfo(st6::vector<ProjLaunchInfo>&, const Vector&) const;   // 152
+    IMPORT virtual f32 GetPowerDrawPerFire() const;                                             // 156
+    IMPORT virtual int GetAmmoCount() const;                                                    // 160
+    IMPORT virtual bool AmmoNeedsMet() const;                                                   // 164
+    IMPORT virtual void ComputeLaunchInfo_OneBarrel(ProjLaunchInfo&, int, const Vector&) const; // 168
+    IMPORT virtual FireResult CanFire(const Vector&) const;                                     // 172
+    IMPORT virtual bool PowerNeedsMet() const;                                                  // 176
+    IMPORT virtual void DrawPower(int);                                                         // 180
+    IMPORT virtual void DrawAmmoFromCargo(int);                                                 // 184
+    IMPORT virtual bool RefireDelayElapsed() const;                                             // 188
 
     IMPORT CELauncher(const CELauncher&);
     IMPORT CELauncher(u32, CEqObj*, u16, const Archetype::Launcher*, bool);

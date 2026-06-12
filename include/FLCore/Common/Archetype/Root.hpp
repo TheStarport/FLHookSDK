@@ -1,10 +1,10 @@
 #pragma once
 #include "../../FLCoreDefs.hpp"
-#include <FLCore/FLCoreDALib.h>
 
 #include "ArchetypeMethods.hpp"
 
 struct IEngineInstance;
+struct AnimObject;
 namespace PhyArch
 {
     struct Part;
@@ -12,6 +12,8 @@ namespace PhyArch
 
 namespace Archetype
 {
+    struct CollisionGroup;
+
     struct Root
     {
         IMPORT Root(const Root&);

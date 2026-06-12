@@ -6,9 +6,8 @@
 #include "../IObj/Base.hpp"
 
 class IBehaviorManager;
+struct ViewRect;
 struct _FILETIME;
-
-IMPORT bool operator!=(const Rect&, const Rect&);
 
 IMPORT void AppendMissionLogData(const FmtStr*, u8*&, int&, int);
 IMPORT u32 Arch2Good(u32);
@@ -109,7 +108,6 @@ IMPORT void PetalDB_destroy();
 IMPORT const PetalInterfaceDatabase* PetalDB_get();
 IMPORT void PetalDB_load(const char*);
 IMPORT bool PlayerTrailAvailable;
-IMPORT Rect RECT_to_Rect(const tagRECT&);
 IMPORT Vector RandomVector(f32);
 IMPORT Vector random_inside_box(f32, f32, f32);
 IMPORT Vector random_inside_cylinder(f32, f32);
@@ -120,8 +118,6 @@ IMPORT Vector random_on_unit_sphere();
 IMPORT Vector random_sphere_constrained(const Vector&, f32);
 IMPORT Vector random_sphere_constrained_2(const Vector&, f32, f32);
 IMPORT bool ReadConstants(const char*);
-IMPORT tagRECT Rect_to_RECT(const Rect&);
-IMPORT struct ViewRect Rect_to_ViewRect(const Rect&);
 IMPORT void RefreshLoadingProgress();
 IMPORT void RegisterLoadingScreen(class ILoadingScreen*);
 IMPORT void ReinitializeRichTextFonts();
@@ -152,7 +148,6 @@ IMPORT Csys ThornScriptGetCsys(IScriptEngine*, const char*);
 IMPORT IScriptEngine* ThornScriptLoad(const char*);
 IMPORT void ToggleIceCap(bool);
 IMPORT f64 ValueNum(const char*, u32);
-IMPORT Rect ViewRect_to_Rect(const ViewRect&);
 IMPORT f32 WALLA_MAX_DIST;
 IMPORT f32 WALLA_MAX_DIST_ATTEN;
 IMPORT int WALLA_PRIORITY_CUTOFF;
@@ -172,8 +167,7 @@ IMPORT const char* malloc_strcpy(char**, const char*);
 IMPORT void malloc_strfree(char**);
 IMPORT const u16* malloc_wstrcpy(u16**, const u16*);
 IMPORT void malloc_wstrfree(u16**);
-IMPORT Rect rect_intersect(const Rect&, const Rect&);
-IMPORT Rect rect_union(const Rect&, const Rect&);
+
 IMPORT int remove_good_item(u32, int, GoodDescList*);
 IMPORT char* safe_strcat(char*, int, const char*);
 IMPORT char* safe_strcpy(char*, int, const char*);

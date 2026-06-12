@@ -1,0 +1,71 @@
+#pragma once
+
+#include "../FLCoreDefs.hpp"
+
+struct Rect;
+struct IRenderPipeline
+{
+    virtual void __stdcall u00() = 0;
+    virtual void __stdcall u04() = 0;
+    virtual void __stdcall u08() = 0;
+    virtual void __stdcall u0C() = 0;
+    virtual void __stdcall u10() = 0;
+    virtual void __stdcall u14() = 0;
+    virtual void __stdcall u18() = 0;
+    virtual void __stdcall u1C() = 0;
+    virtual void __stdcall u20() = 0;
+    virtual void __stdcall u24() = 0;
+    virtual void __stdcall u28() = 0;
+    virtual void __stdcall u2C() = 0;
+    virtual void __stdcall u30() = 0;
+    virtual void __stdcall u34() = 0;
+    virtual void __stdcall u38() = 0;
+    virtual void __stdcall SetRect(unsigned int U1_2, Rect Rect) = 0;
+    virtual void __stdcall u40() = 0;
+    virtual void __stdcall u44() = 0;
+    virtual void __stdcall u48() = 0;
+    virtual void __stdcall u4C() = 0;
+    virtual void __stdcall u50() = 0;
+    virtual void __stdcall u54() = 0;
+    virtual void __stdcall u58() = 0;
+    virtual void __stdcall u5C() = 0;
+    virtual void __stdcall u60() = 0;
+    virtual void __stdcall u64() = 0;
+    virtual void __stdcall u68() = 0;
+    virtual void __stdcall u6C() = 0;
+    virtual void __stdcall u70() = 0;
+    virtual void __stdcall u74() = 0;
+    virtual void __stdcall u78() = 0;
+    virtual void __stdcall u7C() = 0;
+    virtual void __stdcall u80() = 0;
+    virtual void __stdcall u84() = 0;
+    virtual void __stdcall u88() = 0;
+    virtual void __stdcall u8C() = 0;
+    virtual void __stdcall u90() = 0;
+    virtual void __stdcall u94() = 0;
+    virtual void __stdcall u98() = 0;
+    virtual void __stdcall u9C() = 0;
+    virtual void __stdcall uA0() = 0;
+    virtual void __stdcall uA4() = 0;
+    virtual void __stdcall uA8() = 0;
+    virtual void __stdcall uAC() = 0;
+    virtual void __stdcall uB0() = 0;
+    virtual void __stdcall uB4() = 0;
+    virtual void __stdcall uB8() = 0;
+    virtual void __stdcall uBC() = 0;
+    virtual void __stdcall uC0() = 0;
+    virtual void __stdcall uC4() = 0;
+    virtual void __stdcall uC8() = 0;
+    virtual void __stdcall uCC() = 0;
+    virtual void __stdcall uD0() = 0;
+    virtual void __stdcall uD4() = 0;
+    virtual void __stdcall uD8() = 0;
+    virtual void __stdcall uDC() = 0;
+    virtual void __stdcall uE0() = 0;
+    virtual void __stdcall uE4() = 0;
+    virtual void __stdcall uE8() = 0;
+    virtual void __stdcall uEC() = 0;
+    virtual unsigned int __stdcall UnknownF0(unsigned int a1, unsigned int a2) = 0;
+    virtual void __stdcall uF4() = 0;
+    virtual void __stdcall uF8() = 0;
+};

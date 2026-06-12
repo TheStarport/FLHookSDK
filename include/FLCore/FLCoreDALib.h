@@ -1,17 +1,4 @@
-﻿//////////////////////////////////////////////////////////////////////
-//	Project FLCoreSDK v1.1, modified for use in FLHook Plugin version
-//--------------------------
-//
-//	File:			FLCoreDALib.h
-//	Module:			FLCoreDALib.lib
-//	Description:	Interface to DALib.dll
-//
-//	Web: www.skif.be/flcoresdk.php
-//
-//
-//////////////////////////////////////////////////////////////////////
-#ifndef _FLCOREDALIB_H_
-#define _FLCOREDALIB_H_
+﻿#pragma once
 
 #include "FLCoreDefs.hpp"
 #include <vector>
@@ -187,57 +174,8 @@ class IMPORT CGunWrapper
     unsigned char data[OBJECT_DATA_SIZE];
 };
 
+struct IAnimation2;
 struct IAlchemy;
-
-enum class AnimationDirection
-{
-    Forwards = 0,
-    Backwards = 1,
-    Repeat = 2,
-    Cycle = 4
-};
-
-struct AnimObject
-{
-    void* vtable;
-    st6::map<uint, uint> map;
-};
-
-struct IAnimation2
-{
-    virtual void __stdcall func_00();
-    virtual void __stdcall func_04();
-    virtual void __stdcall func_08();
-    virtual void __stdcall func_0c();
-    virtual void __stdcall func_10();
-
-    virtual float __stdcall TotalTime(long);
-
-    virtual void __stdcall func_18();
-    virtual void __stdcall func_1c();
-    virtual float __stdcall GetFullAnimTime_unk(long id);
-
-    virtual long __stdcall Open(AnimObject* animObj, long parentOrSelfIndex, LPCSTR animationName, int, int);
-    virtual void __stdcall Close(long);
-    virtual void __stdcall Play(long id,                      // id - Open's return value
-                                AnimationDirection direction, // 1 = backwards, 2 = repeat, 4 = cycle
-                                float,                        // start pos (-2 = normal, -1 = end)
-                                float,                        // speed
-                                float,                        // time to run (seconds)
-                                float,                        // end pos
-                                float,                        // unknown (apparently unused)
-                                float);                       // unknown (apparently unused)
-
-    virtual void __stdcall func_30();
-    virtual void __stdcall func_34();
-
-    virtual void __stdcall Stop(long); // flush?
-
-    virtual void __stdcall func_3c();
-
-    virtual float __stdcall CurrentTime(long);
-};
-
 struct IChannel;
 struct ICOManager;
 struct IFileSystem;
@@ -333,5 +271,3 @@ class IMPORT MD5Hash
 
 IMPORT bool(__cdecl* CriticalWarningFn)(unsigned int, const char*);
 IMPORT void(__cdecl* FatalErrorFn)(unsigned int, const char*);
-
-#endif // _FLCOREDALIB_H_

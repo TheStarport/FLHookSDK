@@ -8,7 +8,8 @@ template <typename T>
 concept StringRestriction = std::is_convertible_v<T, std::string> || std::is_convertible_v<T, std::wstring>;
 
 template <typename T>
-concept IsStringViewConvertable = std::is_convertible_v<T, std::string_view> || std::is_convertible_v<T, std::wstring_view>;
+concept IsStringViewConvertable =
+    std::is_convertible_v<T, std::string_view> || std::is_convertible_v<T, std::wstring_view>;
 
 template <typename T>
 concept IsString = std::is_convertible_v<T, std::string> || std::is_convertible_v<T, std::string>;
@@ -58,4 +59,5 @@ template <typename _Tp>
 concept IsChronoDurationV = IsChronoDuration<_Tp>::value;
 
 template <typename Tuple, typename... Pack>
-concept PackMatchesTuple = std::is_same_v<tuple_map_t<std::remove_cvref_t, Tuple>, std::tuple<std::remove_cvref_t<Pack>...>>;
+concept PackMatchesTuple =
+    std::is_same_v<tuple_map_t<std::remove_cvref_t, Tuple>, std::tuple<std::remove_cvref_t<Pack>...>>;

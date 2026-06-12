@@ -1100,30 +1100,6 @@ class IMPORT PetalInterfaceDatabase
     u8 data[OBJECT_DATA_SIZE];
 };
 
-struct IMPORT Rect
-{
-    Rect(int, int, int, int);
-    Rect();
-    Rect& operator=(const Rect&);
-    int area() const;
-    int bottommost() const;
-    void clear();
-    void get_center(int*, int*) const;
-    int height() const;
-    void init(int, int, int, int);
-    void init_from_ltrb(int, int, int, int);
-    int leftmost() const;
-    bool nonnull() const;
-    bool null() const;
-    bool point_is_inside(int, int) const;
-    int rightmost() const;
-    int topmost() const;
-    int width() const;
-
-  public:
-    u8 data[OBJECT_DATA_SIZE];
-};
-
 ; // namespace Reputation
 
 struct IMPORT RoomButtonInfo

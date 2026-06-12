@@ -1,8 +1,13 @@
 #pragma once
+
 #include <FLCore/FLCoreDefs.hpp>
+
+#include "../EqObj.hpp"
 
 namespace Archetype
 {
+    enum class ClassType;
+
     struct Solar : public EqObj
     {
         IMPORT Solar(const Solar&);

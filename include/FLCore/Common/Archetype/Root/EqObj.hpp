@@ -1,11 +1,11 @@
 #pragma once
 
 #include "../Root.hpp"
-#include "../../CArchGroup.hpp"
-#include "../../Unknown.hpp"
 
 namespace Archetype
 {
+    struct CollisionGroupDesc;
+    struct DockHardpointInfo;
     struct EqObj : Root
     {
         IMPORT EqObj(const EqObj&);

@@ -1,6 +1,14 @@
 #pragma once
-#include <FLCore/FLCoreDefs.hpp>
 #include "../Projectile.hpp"
+#include <FLCore/FLCoreDefs.hpp>
+
+enum class SeekerType
+{
+    None,
+    Dumb,
+    Seeker
+};
+
 namespace Archetype
 {
     struct Munition : Projectile
@@ -27,7 +35,7 @@ namespace Archetype
         /* 33 */ f32 energyDamage;
         /* 34 */ unsigned weaponTypeId;
         /* 35 */ unsigned motorId;
-        /* 36 */ unsigned seeker; // 2 = lock, dumb = 1, ? = 0
+        /* 36 */ SeekerType seeker;
         /* 37 */ f32 timeToLock;
         /* 38 */ f32 seekerRange;
         /* 39 */ f32 seekerFovDeg;
