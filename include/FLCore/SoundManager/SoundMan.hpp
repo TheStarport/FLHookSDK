@@ -19,7 +19,6 @@
 #include "FLCore/Dacom/IProfileParser.hpp"
 #include "wavlib.hpp"
 
-using namespace std;
 struct SoundArchetype;
 struct SoundInstance;
 
@@ -127,9 +126,9 @@ struct SoundArchetype : public ISoundArchetype
 };
 
 typedef DAComponent<SoundArchetype> SOUND_ARCH;
-typedef map<u32, SOUND_ARCH*, less<u32>> ArchetypeMap;
-typedef list<SoundInstance> InstanceList;
-typedef list<ISoundSource*> SoundSourceList;
+typedef std::map<u32, SOUND_ARCH*, std::less<u32>> ArchetypeMap;
+typedef std::list<SoundInstance> InstanceList;
+typedef std::list<ISoundSource*> SoundSourceList;
 
 // typedef DAComponent<SoundArchetype> SOUND_ARCH;
 // typedef AllocLite<SOUND_ARCH *> SOUND_ARCH_ALLOC;
