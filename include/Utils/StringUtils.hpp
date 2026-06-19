@@ -732,16 +732,11 @@ class StringUtils
     {
         unsigned lPos, sPos = 0;
 
-        Str result = source;
+        Str result = Str{ source };
         while ((lPos = static_cast<unsigned>(result.find(searchForRaw, sPos))) != UINT_MAX)
         {
             result.replace(lPos, searchForRaw.length(), replaceWithRaw);
             sPos = lPos + replaceWithRaw.length();
-
-            if (lPos == sPos)
-            {
-                break;
-            }
         }
 
         return result;
