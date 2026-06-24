@@ -49,7 +49,7 @@ class INI_Reader
 
     bool GetBool(const std::string_view key, bool& value, bool& found, const int param = 0)
     {
-        if (!is_value(key.data()))
+        if (!is_value(key.data()) || is_value_empty(param))
         {
             return false;
         }
@@ -67,7 +67,7 @@ class INI_Reader
 
     bool GetFloat(const std::string_view key, f32& value, bool& found, const int param = 0)
     {
-        if (!is_value(key.data()))
+        if (!is_value(key.data()) || is_value_empty(param))
         {
             return false;
         }
@@ -85,7 +85,7 @@ class INI_Reader
 
     bool GetInt(const std::string_view key, int& value, bool& found, const int param = 0)
     {
-        if (!is_value(key.data()))
+        if (!is_value(key.data()) || is_value_empty(param))
         {
             return false;
         }
@@ -109,7 +109,7 @@ class INI_Reader
 
     bool GetString(const std::string_view key, std::string& value, bool& found, const int param = 0)
     {
-        if (!is_value(key.data()))
+        if (!is_value(key.data()) || is_value_empty(param))
         {
             return false;
         }
@@ -127,7 +127,7 @@ class INI_Reader
 
     bool GetWString(const std::string_view key, std::wstring& value, bool& found, const int param = 0)
     {
-        if (!is_value(key.data()))
+        if (!is_value(key.data()) || is_value_empty(param))
         {
             return false;
         }
@@ -144,7 +144,7 @@ class INI_Reader
 
     bool GetHash(const std::string_view key, Id& value, bool& found, const int param = 0)
     {
-        if (!is_value(key.data()))
+        if (!is_value(key.data()) || is_value_empty(param))
         {
             return false;
         }
