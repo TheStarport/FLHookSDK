@@ -20,7 +20,7 @@ struct IRenderPipeline
     virtual void __stdcall u30() = 0;
     virtual void __stdcall u34() = 0;
     virtual void __stdcall u38() = 0;
-    virtual void __stdcall SetRect(unsigned int U1_2, Rect Rect) = 0;
+    virtual void __stdcall SetRect(unsigned int U1_2, const Rect& Rect) = 0;
     virtual void __stdcall u40() = 0;
     virtual void __stdcall u44() = 0;
     virtual void __stdcall u48() = 0;

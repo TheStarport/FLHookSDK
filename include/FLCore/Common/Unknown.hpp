@@ -31,7 +31,7 @@ class CAttachedEquip;
 struct IObjRW;
 struct HardpointInfo
 {
-    unsigned dunno;
+    long index;
     Vector position;
     Matrix rotation;
     unsigned dunno2[5];
@@ -734,6 +734,7 @@ struct IMPORT FileMap
     u8 data[OBJECT_DATA_SIZE];
 };
 
+struct Fl3d;
 class IMPORT HardpointSummary
 {
   public:
@@ -762,7 +763,11 @@ class IMPORT HardpointSummary
     static void hardpoint_callback2(const char*, void*);
 
   public:
-    u8 data[OBJECT_DATA_SIZE];
+    int count;
+    char** hardpointArray;
+    HardpointInfo* hpInfoArray;
+    Fl3d* instances;
+    void* dunno[3];
 };
 
 struct IMPORT Heap

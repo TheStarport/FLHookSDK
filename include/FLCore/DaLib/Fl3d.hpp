@@ -43,6 +43,8 @@ struct Fl3d
     Vector unkVec;
 };
 
+static const Fl3d* NULL3D = (const Fl3d*)-1;
+
 struct Fl3db
 {
     void* vmt;
