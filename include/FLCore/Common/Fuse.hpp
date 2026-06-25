@@ -158,6 +158,15 @@ struct AleEffect
         unsigned dunno2[3];
     };
 
+    struct AlchemyEffectData
+    {
+        char* fxNickname;
+        uint dunno;
+        char* fxFilepath;
+        st6::vector<char*> textureFilepaths;
+        //possibly more
+    };
+
     virtual void Initialize(void* effectData);
     virtual void Cleanup();
     virtual void fdunno2();
@@ -169,7 +178,7 @@ struct AleEffect
     virtual void* Deallocate();
     virtual int SetIntensity2(f32);
 
-    void* ptrdunno;
+    AlchemyEffectData* ptrdunno;
     unsigned dunno;
     f32 fDunno1;
     Transform offset;
