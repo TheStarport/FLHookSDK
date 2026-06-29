@@ -3,6 +3,7 @@
 #include <Windows.h>
 
 #include "../FLCoreDefs.hpp"
+
 #include "Dacom.hpp"
 
 // Self-initializing structure used by clients to request a desired DA COM implementation

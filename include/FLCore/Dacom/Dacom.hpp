@@ -54,6 +54,8 @@ enum GENRESULT
         reinterpret_cast<decltype(&::free)>(_free)(ptr);                          \
     }
 
+#include "IdaComponent.hpp"
+
 namespace DACOM_CRC
 {
     IMPORT int CompareStringsI(const char*, const char*);
@@ -72,7 +74,11 @@ namespace LogStream
     IMPORT void Update(float);
 }; // namespace LogStream
 
-IMPORT void DACOM_Acquire();
-IMPORT void DACOM_GetDllVersion();
-IMPORT void DACOM_GetVersion();
-IMPORT void FDUMP();
+struct ICOManager;
+extern "C"
+{
+    IMPORT ICOManager* DACOM_Acquire();
+    IMPORT void DACOM_GetDllVersion(const char* dllName, u32& major, u32& minor, u32& patch);
+    IMPORT void DACOM_GetVersion(u32& major, u32& minor, u32& patch);
+    IMPORT void FDUMP(const char* text, ...);
+}

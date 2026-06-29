@@ -107,10 +107,10 @@ extern "C"
         float fMix; // linear factor, 0.0F to 1.0F
     } EAXBUFFER_REVERBPROPERTIES;
 
-#define EAX_REVERBMIX_USEDISTANCE                  \
-    -1.0F // out of normal range                 \ \
-          // signifies the reverb engine should  \ \
-          // calculate it's own reverb mix value \ \
+#define EAX_REVERBMIX_USEDISTANCE                    \
+    -1.0F // out of normal range                 \ \ \
+          // signifies the reverb engine should  \ \ \
+          // calculate it's own reverb mix value \ \ \
           // based on distance
 
 #ifdef __cplusplus

@@ -1,16 +1,9 @@
 ﻿#pragma once
 
+// clang-format of
+
 using st6_malloc_t = void* (*)(size_t);
 using st6_free_t = void (*)(void*);
-
-#ifdef FLUF_SDK
-    #include <ImportFluf.hpp>
-extern FLUF_API const st6_malloc_t st6_malloc;
-extern FLUF_API const st6_free_t st6_free;
-#else
-extern const st6_malloc_t st6_malloc;
-extern const st6_free_t st6_free;
-#endif
 
 #include <yvals.h>
 
@@ -43,6 +36,9 @@ namespace st6
         {
             _N = 0;
         }
+
+        static const st6_malloc_t st6_malloc =
+            (st6_malloc_t)GetProcAddress(GetModuleHandleA("msvcrt.dll"), "malloc");
         return ((_Ty*)st6_malloc((size_t)_N * sizeof(_Ty)));
     }
 
@@ -78,7 +74,11 @@ namespace st6
 
         char* _Charalloc(size_type _N) { return (_Allocate((difference_type)_N, (char*)0)); }
 
-        void deallocate(void* _P, size_type) { st6_free(_P); }
+        void deallocate(void* _P, size_type)
+        {
+            static auto st6_free = (st6_free_t)GetProcAddress(GetModuleHandleA("msvcrt.dll"), "free");
+            st6_free(_P);
+        }
         void construct(pointer _P, const _Ty& _V) { _Construct(_P, _V); }
         void destroy(pointer _P) { _Destroy(_P); }
 
@@ -146,7 +146,10 @@ namespace st6
 
         typedef const_iterator _It;
 
-        vector(_It _F, _It _L, const _A& _Al = _A()) : allocator(_Al), _First(0), _Last(0), _End(0) { insert(begin(), _F, _L); }
+        vector(_It _F, _It _L, const _A& _Al = _A()) : allocator(_Al), _First(0), _Last(0), _End(0)
+        {
+            insert(begin(), _F, _L);
+        }
 
         ~vector()
         {
@@ -350,7 +353,10 @@ namespace st6
 
         bool _Eq(const _Myt& _X) const { return (size() == _X.size() && equal(begin(), end(), _X.begin())); }
 
-        bool _Lt(const _Myt& _X) const { return (lexicographical_compare(begin(), end(), _X.begin(), _X.end())); }
+        bool _Lt(const _Myt& _X) const
+        {
+            return (lexicographical_compare(begin(), end(), _X.begin(), _X.end()));
+        }
 
         void swap(_Myt& _X)
         {
@@ -572,7 +578,8 @@ namespace st6
         typedef std::pair<iterator, bool> _Pairib;
         typedef std::pair<iterator, iterator> _Pairii;
         typedef std::pair<const_iterator, const_iterator> _Paircc;
-        explicit _Tree(const _Pr& _Parg, bool _Marg = true, const _A& _Al = _A()) : allocator(_Al), key_compare(_Parg), _Multi(_Marg)
+        explicit _Tree(const _Pr& _Parg, bool _Marg = true, const _A& _Al = _A())
+            : allocator(_Al), key_compare(_Parg), _Multi(_Marg)
         {
             _Init();
         }
@@ -683,7 +690,8 @@ namespace st6
             else
             {
                 iterator _Pb = _P;
-                if (key_compare(_Key((--_Pb)._Mynode()), _Kfn()(_V)) && key_compare(_Kfn()(_V), _Key(_P._Mynode())))
+                if (key_compare(_Key((--_Pb)._Mynode()), _Kfn()(_V)) &&
+                    key_compare(_Kfn()(_V), _Key(_P._Mynode())))
                 {
                     if (_Right(_Pb._Mynode()) == _Nil)
                     {
@@ -1240,7 +1248,10 @@ namespace st6
             friend class map<_K, _Ty, _Pr, _A>;
 
           public:
-            bool operator()(const value_type& _X, const value_type& _Y) const { return (comp(_X.first, _Y.first)); }
+            bool operator()(const value_type& _X, const value_type& _Y) const
+            {
+                return (comp(_X.first, _Y.first));
+            }
 
           protected:
             value_compare(_Pr _Pred) : comp(_Pred) {}
@@ -1293,7 +1304,10 @@ namespace st6
             typename _Imp::_Pairib _Ans = _Tr.insert(_X);
             return (_Pairib(_Ans.first, _Ans.second));
         }
-        iterator insert(iterator _P, const value_type& _X) { return (_Tr.insert((typename _Imp::iterator&)_P, _X)); }
+        iterator insert(iterator _P, const value_type& _X)
+        {
+            return (_Tr.insert((typename _Imp::iterator&)_P, _X));
+        }
         void insert(_It _F, _It _L)
         {
             for (; _F != _L; ++_F)
@@ -1302,7 +1316,10 @@ namespace st6
             }
         }
         iterator erase(iterator _P) { return (_Tr.erase((typename _Imp::iterator&)_P)); }
-        iterator erase(iterator _F, iterator _L) { return (_Tr.erase((typename _Imp::iterator&)_F, (typename _Imp::iterator&)_L)); }
+        iterator erase(iterator _F, iterator _L)
+        {
+            return (_Tr.erase((typename _Imp::iterator&)_F, (typename _Imp::iterator&)_L));
+        }
         size_type erase(const _K& _Kv) { return (_Tr.erase(_Kv)); }
         void clear() { _Tr.clear(); }
         void swap(_Myt& _X) { std::swap(_Tr, _X._Tr); }
@@ -1463,14 +1480,24 @@ namespace st6
             bool operator!=(const iterator& _X) const { return (!(*this == _X)); }
         };
         explicit list(const _A& _Al = _A()) : allocator(_Al), _Head(_Buynode()), _Size(0) {}
-        explicit list(size_type _N, const _Ty& _V = _Ty(), const _A& _Al = _A()) : allocator(_Al), _Head(_Buynode()), _Size(0)
+        explicit list(size_type _N, const _Ty& _V = _Ty(), const _A& _Al = _A())
+            : allocator(_Al), _Head(_Buynode()), _Size(0)
         {
             insert(begin(), _N, _V);
         }
-        list(const _Myt& _X) : allocator(_X.allocator), _Head(_Buynode()), _Size(0) { insert(begin(), _X.begin(), _X.end()); }
-        list(const _Ty* _F, const _Ty* _L, const _A& _Al = _A()) : allocator(_Al), _Head(_Buynode()), _Size(0) { insert(begin(), _F, _L); }
+        list(const _Myt& _X) : allocator(_X.allocator), _Head(_Buynode()), _Size(0)
+        {
+            insert(begin(), _X.begin(), _X.end());
+        }
+        list(const _Ty* _F, const _Ty* _L, const _A& _Al = _A()) : allocator(_Al), _Head(_Buynode()), _Size(0)
+        {
+            insert(begin(), _F, _L);
+        }
         typedef const_iterator _It;
-        list(_It _F, _It _L, const _A& _Al = _A()) : allocator(_Al), _Head(_Buynode()), _Size(0) { insert(begin(), _F, _L); }
+        list(_It _F, _It _L, const _A& _Al = _A()) : allocator(_Al), _Head(_Buynode()), _Size(0)
+        {
+            insert(begin(), _F, _L);
+        }
         ~list()
         {
             erase(begin(), end());
@@ -2051,8 +2078,14 @@ namespace st6
         typedef typename _A::const_pointer const_iterator;
         explicit basic_string(const _A& _Al = _A()) : allocator(_Al) { _Tidy(); }
         basic_string(const _Myt& _X) : allocator(_X.allocator) { _Tidy(), assign(_X, 0, npos); }
-        basic_string(const _Myt& _X, size_type _P, size_type _M, const _A& _Al = _A()) : allocator(_Al) { _Tidy(), assign(_X, _P, _M); }
-        basic_string(const _E* _S, size_type _N, const _A& _Al = _A()) : allocator(_Al) { _Tidy(), assign(_S, _N); }
+        basic_string(const _Myt& _X, size_type _P, size_type _M, const _A& _Al = _A()) : allocator(_Al)
+        {
+            _Tidy(), assign(_X, _P, _M);
+        }
+        basic_string(const _E* _S, size_type _N, const _A& _Al = _A()) : allocator(_Al)
+        {
+            _Tidy(), assign(_S, _N);
+        }
         basic_string(const _E* _S, const _A& _Al = _A()) : allocator(_Al) { _Tidy(), assign(_S); }
         basic_string(size_type _N, _E _C, const _A& _Al = _A()) : allocator(_Al) { _Tidy(), assign(_N, _C); }
         typedef const_iterator _It;
@@ -2144,7 +2177,8 @@ namespace st6
             {
                 erase((size_type)(_P + _N)), erase(0, _P);
             }
-            else if (0 < _N && _N == _X.size() && _Refcnt(_X.c_str()) < _FROZEN - 1 && allocator == _X.allocator)
+            else if (0 < _N && _N == _X.size() && _Refcnt(_X.c_str()) < _FROZEN - 1 &&
+                     allocator == _X.allocator)
             {
                 _Tidy(true);
                 _Ptr = (_E*)_X.c_str();
@@ -2292,7 +2326,10 @@ namespace st6
             erase(_M, _Pdif(_L, _F));
             return (_Psum(_Ptr, _M));
         }
-        _Myt& replace(size_type _P0, size_type _N0, const _Myt& _X) { return (replace(_P0, _N0, _X, 0, npos)); }
+        _Myt& replace(size_type _P0, size_type _N0, const _Myt& _X)
+        {
+            return (replace(_P0, _N0, _X, 0, npos));
+        }
         _Myt& replace(size_type _P0, size_type _N0, const _Myt& _X, size_type _P, size_type _M)
         {
             if (_Len < _P0 || _X.size() < _P)
@@ -2361,7 +2398,10 @@ namespace st6
             }
             return (*this);
         }
-        _Myt& replace(size_type _P0, size_type _N0, const _E* _S) { return (replace(_P0, _N0, _S, _Tr::length(_S))); }
+        _Myt& replace(size_type _P0, size_type _N0, const _E* _S)
+        {
+            return (replace(_P0, _N0, _S, _Tr::length(_S)));
+        }
         _Myt& replace(size_type _P0, size_type _N0, size_type _M, _E _C)
         {
             if (_Len < _P0)
@@ -2394,10 +2434,22 @@ namespace st6
             }
             return (*this);
         }
-        _Myt& replace(iterator _F, iterator _L, const _Myt& _X) { return (replace(_Pdif(_F, begin()), _Pdif(_L, _F), _X)); }
-        _Myt& replace(iterator _F, iterator _L, const _E* _S, size_type _M) { return (replace(_Pdif(_F, begin()), _Pdif(_L, _F), _S, _M)); }
-        _Myt& replace(iterator _F, iterator _L, const _E* _S) { return (replace(_Pdif(_F, begin()), _Pdif(_L, _F), _S)); }
-        _Myt& replace(iterator _F, iterator _L, size_type _M, _E _C) { return (replace(_Pdif(_F, begin()), _Pdif(_L, _F), _M, _C)); }
+        _Myt& replace(iterator _F, iterator _L, const _Myt& _X)
+        {
+            return (replace(_Pdif(_F, begin()), _Pdif(_L, _F), _X));
+        }
+        _Myt& replace(iterator _F, iterator _L, const _E* _S, size_type _M)
+        {
+            return (replace(_Pdif(_F, begin()), _Pdif(_L, _F), _S, _M));
+        }
+        _Myt& replace(iterator _F, iterator _L, const _E* _S)
+        {
+            return (replace(_Pdif(_F, begin()), _Pdif(_L, _F), _S));
+        }
+        _Myt& replace(iterator _F, iterator _L, size_type _M, _E _C)
+        {
+            return (replace(_Pdif(_F, begin()), _Pdif(_L, _F), _M, _C));
+        }
         _Myt& replace(iterator _F1, iterator _L1, _It _F2, _It _L2)
         {
             size_type _P0 = _Pdif(_F1, begin());
@@ -2521,7 +2573,8 @@ namespace st6
             if (_P < _Len && _N <= (_Nm = _Len - _P))
             {
                 const _E *_U, *_V;
-                for (_Nm -= _N - 1, _V = _Ptr + _P; (_U = _Tr::find(_V, _Nm, *_S)) != 0; _Nm -= _U - _V + 1, _V = _U + 1)
+                for (_Nm -= _N - 1, _V = _Ptr + _P; (_U = _Tr::find(_V, _Nm, *_S)) != 0;
+                     _Nm -= _U - _V + 1, _V = _U + 1)
                 {
                     if (_Tr::compare(_U, _S, _N) == 0)
                     {
@@ -2533,7 +2586,10 @@ namespace st6
         }
         size_type find(const _E* _S, size_type _P = 0) const { return (find(_S, _P, _Tr::length(_S))); }
         size_type find(_E _C, size_type _P = 0) const { return (find((const _E*)&_C, _P, 1)); }
-        size_type rfind(const _Myt& _X, size_type _P = npos) const { return (rfind(_X.c_str(), _P, _X.size())); }
+        size_type rfind(const _Myt& _X, size_type _P = npos) const
+        {
+            return (rfind(_X.c_str(), _P, _X.size()));
+        }
         size_type rfind(const _E* _S, size_type _P, size_type _N) const
         {
             if (_N == 0)
@@ -2558,7 +2614,10 @@ namespace st6
         }
         size_type rfind(const _E* _S, size_type _P = npos) const { return (rfind(_S, _P, _Tr::length(_S))); }
         size_type rfind(_E _C, size_type _P = npos) const { return (rfind((const _E*)&_C, _P, 1)); }
-        size_type find_first_of(const _Myt& _X, size_type _P = 0) const { return (find_first_of(_X.c_str(), _P, _X.size())); }
+        size_type find_first_of(const _Myt& _X, size_type _P = 0) const
+        {
+            return (find_first_of(_X.c_str(), _P, _X.size()));
+        }
         size_type find_first_of(const _E* _S, size_type _P, size_type _N) const
         {
             if (0 < _N && _P < _Len)
@@ -2574,9 +2633,15 @@ namespace st6
             }
             return (npos);
         }
-        size_type find_first_of(const _E* _S, size_type _P = 0) const { return (find_first_of(_S, _P, _Tr::length(_S))); }
+        size_type find_first_of(const _E* _S, size_type _P = 0) const
+        {
+            return (find_first_of(_S, _P, _Tr::length(_S)));
+        }
         size_type find_first_of(_E _C, size_type _P = 0) const { return (find((const _E*)&_C, _P, 1)); }
-        size_type find_last_of(const _Myt& _X, size_type _P = npos) const { return (find_last_of(_X.c_str(), _P, _X.size())); }
+        size_type find_last_of(const _Myt& _X, size_type _P = npos) const
+        {
+            return (find_last_of(_X.c_str(), _P, _X.size()));
+        }
         size_type find_last_of(const _E* _S, size_type _P, size_type _N) const
         {
             if (0 < _N && 0 < _Len)
@@ -2595,9 +2660,15 @@ namespace st6
             }
             return (npos);
         }
-        size_type find_last_of(const _E* _S, size_type _P = npos) const { return (find_last_of(_S, _P, _Tr::length(_S))); }
+        size_type find_last_of(const _E* _S, size_type _P = npos) const
+        {
+            return (find_last_of(_S, _P, _Tr::length(_S)));
+        }
         size_type find_last_of(_E _C, size_type _P = npos) const { return (rfind((const _E*)&_C, _P, 1)); }
-        size_type find_first_not_of(const _Myt& _X, size_type _P = 0) const { return (find_first_not_of(_X.c_str(), _P, _X.size())); }
+        size_type find_first_not_of(const _Myt& _X, size_type _P = 0) const
+        {
+            return (find_first_not_of(_X.c_str(), _P, _X.size()));
+        }
         size_type find_first_not_of(const _E* _S, size_type _P, size_type _N) const
         {
             if (_P < _Len)
@@ -2613,9 +2684,18 @@ namespace st6
             }
             return (npos);
         }
-        size_type find_first_not_of(const _E* _S, size_type _P = 0) const { return (find_first_not_of(_S, _P, _Tr::length(_S))); }
-        size_type find_first_not_of(_E _C, size_type _P = 0) const { return (find_first_not_of((const _E*)&_C, _P, 1)); }
-        size_type find_last_not_of(const _Myt& _X, size_type _P = npos) const { return (find_last_not_of(_X.c_str(), _P, _X.size())); }
+        size_type find_first_not_of(const _E* _S, size_type _P = 0) const
+        {
+            return (find_first_not_of(_S, _P, _Tr::length(_S)));
+        }
+        size_type find_first_not_of(_E _C, size_type _P = 0) const
+        {
+            return (find_first_not_of((const _E*)&_C, _P, 1));
+        }
+        size_type find_last_not_of(const _Myt& _X, size_type _P = npos) const
+        {
+            return (find_last_not_of(_X.c_str(), _P, _X.size()));
+        }
         size_type find_last_not_of(const _E* _S, size_type _P, size_type _N) const
         {
             if (0 < _Len)
@@ -2634,11 +2714,20 @@ namespace st6
             }
             return (npos);
         }
-        size_type find_last_not_of(const _E* _S, size_type _P = npos) const { return (find_last_not_of(_S, _P, _Tr::length(_S))); }
-        size_type find_last_not_of(_E _C, size_type _P = npos) const { return (find_last_not_of((const _E*)&_C, _P, 1)); }
+        size_type find_last_not_of(const _E* _S, size_type _P = npos) const
+        {
+            return (find_last_not_of(_S, _P, _Tr::length(_S)));
+        }
+        size_type find_last_not_of(_E _C, size_type _P = npos) const
+        {
+            return (find_last_not_of((const _E*)&_C, _P, 1));
+        }
         _Myt substr(size_type _P = 0, size_type _M = npos) const { return (_Myt(*this, _P, _M)); }
         int compare(const _Myt& _X) const { return (compare(0, _Len, _X.c_str(), _X.size())); }
-        int compare(size_type _P0, size_type _N0, const _Myt& _X) const { return (compare(_P0, _N0, _X, 0, npos)); }
+        int compare(size_type _P0, size_type _N0, const _Myt& _X) const
+        {
+            return (compare(_P0, _N0, _X, 0, npos));
+        }
         int compare(size_type _P0, size_type _N0, const _Myt& _X, size_type _P, size_type _M) const
         {
             if (_X.size() < _P)
@@ -2652,7 +2741,10 @@ namespace st6
             return (compare(_P0, _N0, _X.c_str() + _P, _M));
         }
         int compare(const _E* _S) const { return (compare(0, _Len, _S, _Tr::length(_S))); }
-        int compare(size_type _P0, size_type _N0, const _E* _S) const { return (compare(_P0, _N0, _S, _Tr::length(_S))); }
+        int compare(size_type _P0, size_type _N0, const _E* _S) const
+        {
+            return (compare(_P0, _N0, _S, _Tr::length(_S)));
+        }
         int compare(size_type _P0, size_type _N0, const _E* _S, size_type _M) const
         {
             if (_Len < _P0)
@@ -2799,7 +2891,8 @@ namespace st6
     inline const typename _A::size_type basic_string<_E, _Tr, _A>::npos = typename _A::size_type(-1);
 
     template <class _E, class _Tr, class _A>
-    inline basic_string<_E, _Tr, _A> __cdecl operator+(const basic_string<_E, _Tr, _A>& _L, const basic_string<_E, _Tr, _A>& _R)
+    inline basic_string<_E, _Tr, _A> __cdecl operator+(const basic_string<_E, _Tr, _A>& _L,
+                                                       const basic_string<_E, _Tr, _A>& _R)
     {
         return (basic_string<_E, _Tr, _A>(_L) += _R);
     }

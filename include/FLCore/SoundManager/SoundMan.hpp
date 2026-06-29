@@ -39,7 +39,7 @@ typedef struct _REVERBINFO
     f32 damping;
 } REVERBINFO;
 
-struct GenericDSoundBuffer
+struct FLSDK_IMPORT GenericDSoundBuffer
 {
     LPDIRECTSOUNDBUFFER pBuffer;
     DSBUFFERDESC desc;
@@ -49,7 +49,7 @@ struct GenericDSoundBuffer
 };
 
 // SoundInstance
-struct SoundInstance
+struct FLSDK_IMPORT SoundInstance
 {
     ISoundSource* soundSource;
     LPDIRECTSOUNDBUFFER m_lpSoundBuffer;
@@ -85,7 +85,7 @@ struct SoundInstance
 };
 
 // SoundArchetype implementation
-struct SoundArchetype : public ISoundArchetype
+struct FLSDK_IMPORT SoundArchetype : public ISoundArchetype
 {
     SoundFile m_soundFile;
     u32 m_msDuration;
@@ -105,30 +105,32 @@ struct SoundArchetype : public ISoundArchetype
     SoundArchetype();
     ~SoundArchetype();
 
-    virtual void __stdcall get_sound_format(SoundFormat*);
-    virtual u32 __stdcall get_samples(void* samples);
-    virtual u32 __stdcall get_sample_count();
-    virtual f32 __stdcall get_base_attenuation();
-    virtual u32 __stdcall get_num_channels();
-    virtual u32 __stdcall get_duration();
-    virtual bool __stdcall is_loopable();
-    virtual void __stdcall get_loop_params(u32* loop_start, u32* loop_end);
+    void __stdcall get_sound_format(SoundFormat*) override;
+    u32 __stdcall get_samples(void* samples) override;
+    u32 __stdcall get_sample_count() override;
+    f32 __stdcall get_base_attenuation() override;
+    u32 __stdcall get_num_channels() override;
+    u32 __stdcall get_duration() override;
+    bool __stdcall is_loopable() override;
+    void __stdcall get_loop_params(u32* loop_start, u32* loop_end) override;
 
-    virtual void __stdcall set_samples(void* samples, u32 length);
-    virtual GENRESULT __stdcall set_base_attenuation(f32 attenuation);
+    void __stdcall set_samples(void* samples, u32 length) override;
+    GENRESULT __stdcall set_base_attenuation(f32 attenuation) override;
 
     GENRESULT set_sound_data(const SoundFormat* sourceData, u32 length, u32 loop_start, u32 loop_end,
                              void* sample_buffer, LPDIRECTSOUND lpds, u32 options);
-    GENRESULT set_sound_data_from_file(IFileSystem* sourceFile, LPDIRECTSOUND lpds, u32 options);
+
+    // Commented out because wavlib not implemented
+    // GENRESULT set_sound_data_from_file(IFileSystem* sourceFile, LPDIRECTSOUND lpds, u32 options);
 
     void add_instance_hw_buffer();
     void release_instance_hw_buffer();
 };
 
 typedef DAComponent<SoundArchetype> SOUND_ARCH;
-typedef std::map<u32, SOUND_ARCH*, std::less<u32>> ArchetypeMap;
-typedef std::list<SoundInstance> InstanceList;
-typedef std::list<ISoundSource*> SoundSourceList;
+typedef st6::map<u32, SOUND_ARCH*> ArchetypeMap;
+typedef st6::list<SoundInstance> InstanceList;
+typedef st6::list<ISoundSource*> SoundSourceList;
 
 // typedef DAComponent<SoundArchetype> SOUND_ARCH;
 // typedef AllocLite<SOUND_ARCH *> SOUND_ARCH_ALLOC;
@@ -145,15 +147,13 @@ typedef std::list<ISoundSource*> SoundSourceList;
 
 #define ISOUNDMANAGER_VERSION 1
 #define IID_ISoundManager     DACOM_MAKE_IID("ISoundManager")
-struct SoundManager : public ISoundManager, ISoundManagerStatus, IAggregateComponent
+struct FLSDK_IMPORT SoundManager : public ISoundManager, ISoundManagerStatus, IAggregateComponent
 {
-  protected:
+  public:
     HWND m_hWnd;
     ArchetypeMap m_archetypeMap;
 
-#ifdef DA_THREAD_SAFE
     CRITICAL_SECTION m_archetypeLock;
-#endif
 
     CRITICAL_SECTION m_loopThreadLock;
 
@@ -224,88 +224,89 @@ struct SoundManager : public ISoundManager, ISoundManagerStatus, IAggregateCompo
     DA_HEAP_DEFINE_NEW_OPERATOR(SoundManager);
 
     // ISoundManager methods
-    virtual GENRESULT __stdcall set_sound_format(SoundFormat* soundFormat) override;
-    virtual GENRESULT __stdcall get_sound_format(SoundFormat* soundFormat) override;
+    GENRESULT __stdcall set_sound_format(SoundFormat* soundFormat) override;
+    GENRESULT __stdcall get_sound_format(SoundFormat* soundFormat) override;
 
-    virtual GENRESULT __stdcall set_master_attenuation(const f32 attenuation) override;
-    virtual GENRESULT __stdcall set_maximum_channels(const u32 numChannels) override;
-    virtual GENRESULT __stdcall set_speaker_configuration(const u32 speakerConfiguration) override;
+    GENRESULT __stdcall set_master_attenuation(const f32 attenuation) override;
+    GENRESULT __stdcall set_maximum_channels(const u32 numChannels) override;
+    GENRESULT __stdcall set_speaker_configuration(const u32 speakerConfiguration) override;
 
-    virtual f32 __stdcall get_master_attenuation() override;
-    virtual u32 __stdcall get_maximum_channels() override;
-    virtual u32 __stdcall get_speaker_configuration() override;
+    f32 __stdcall get_master_attenuation() override;
+    u32 __stdcall get_maximum_channels() override;
+    u32 __stdcall get_speaker_configuration() override;
 
-    virtual GENRESULT __stdcall set_master_reverb(const u32 baseEnv, const f32 vol, const f32 decay,
-                                                  const f32 damping) override;
-    virtual void __stdcall get_master_reverb(u32* baseEnv, f32* vol, f32* decay, f32* damping) override;
+    GENRESULT __stdcall set_master_reverb(const u32 baseEnv, const f32 vol, const f32 decay,
+                                          const f32 damping) override
+    {
+        return GR_OK;
+    }
+
+    void __stdcall get_master_reverb(u32* baseEnv, f32* vol, f32* decay, f32* damping) override;
 
     // These need to be removed as soon as Freelancer implements an ISoundListener begin remove
-    virtual GENRESULT __stdcall set_ear_orientation(const Matrix* orientation) override;
-    virtual GENRESULT __stdcall set_ear_orientation(const Vector*, const Vector*) override;
-    virtual GENRESULT __stdcall set_ear_position(const Vector*) override;
-    virtual GENRESULT __stdcall set_ear_velocity(const Vector*) override;
-    virtual GENRESULT __stdcall set_ear_distance_factor(const f32) override;
-    virtual GENRESULT __stdcall set_ear_doppler_factor(const f32) override;
-    virtual GENRESULT __stdcall set_ear_rolloff_factor(const f32) override;
+    GENRESULT __stdcall set_ear_orientation(const Matrix* orientation) override;
+    GENRESULT __stdcall set_ear_orientation(const Vector*, const Vector*) override;
+    GENRESULT __stdcall set_ear_position(const Vector*) override;
+    GENRESULT __stdcall set_ear_velocity(const Vector*) override;
+    GENRESULT __stdcall set_ear_distance_factor(const f32) override;
+    GENRESULT __stdcall set_ear_doppler_factor(const f32) override;
+    GENRESULT __stdcall set_ear_rolloff_factor(const f32) override;
 
-    virtual void __stdcall get_ear_orientation(Matrix* orientation) override;
-    virtual void __stdcall get_ear_orientation(Vector*, Vector*) override;
-    virtual Vector __stdcall get_ear_position() override;
-    virtual Vector __stdcall get_ear_velocity() override;
-    virtual f32 __stdcall get_ear_distance_factor() override;
-    virtual f32 __stdcall get_ear_doppler_factor() override;
-    virtual f32 __stdcall get_ear_rolloff_factor() override;
+    void __stdcall get_ear_orientation(Matrix* orientation) override;
+    void __stdcall get_ear_orientation(Vector*, Vector*) override;
+    Vector __stdcall get_ear_position() override;
+    Vector __stdcall get_ear_velocity() override;
+    f32 __stdcall get_ear_distance_factor() override;
+    f32 __stdcall get_ear_doppler_factor() override;
+    f32 __stdcall get_ear_rolloff_factor() override;
     // end of remove
 
     // generic property set extensions to allow getting/setting of new properties not currently supported
-    virtual GENRESULT __stdcall get_property(ISoundSource* sound, REFGUID propGUID, const u32 propID,
-                                             void* propData, const u32 sizeOfPropData,
-                                             u32* sizeOfDataWritten) override;
-    virtual GENRESULT __stdcall get_global_property(REFGUID propGUID, const u32 propID, void* propData,
-                                                    const u32 sizeOfPropData,
-                                                    u32* sizeOfDataWritten) override;
-    virtual GENRESULT __stdcall set_property(ISoundSource* sound, REFGUID propGUID, const u32 propID,
-                                             void* propData, const u32 sizeOfPropData) override;
-    virtual GENRESULT __stdcall set_global_property(REFGUID propGUID, const u32 propID, void* propData,
-                                                    const u32 sizeOfPropData) override;
+    GENRESULT __stdcall get_property(ISoundSource* sound, REFGUID propGUID, const u32 propID, void* propData,
+                                     const u32 sizeOfPropData, u32* sizeOfDataWritten) override;
+    GENRESULT __stdcall get_global_property(REFGUID propGUID, const u32 propID, void* propData,
+                                            const u32 sizeOfPropData, u32* sizeOfDataWritten) override;
+    GENRESULT __stdcall set_property(ISoundSource* sound, REFGUID propGUID, const u32 propID, void* propData,
+                                     const u32 sizeOfPropData) override;
+    GENRESULT __stdcall set_global_property(REFGUID propGUID, const u32 propID, void* propData,
+                                            const u32 sizeOfPropData) override;
 
     // archetype creation/destruction methods
-    virtual i32 __stdcall create_archetype_from_raw_data(const SoundFormat&, u32 length, u32 loop_start,
-                                                         u32 loop_end, void* sample_buffer,
-                                                         u32 options) override;
-    virtual i32 __stdcall create_archetype_from_soundfile(const SoundFile& sourceData, u32 options) override;
-    virtual i32 __stdcall create_archetype(IFileSystem* sourceFile, u32 options) override;
-    virtual GENRESULT __stdcall destroy_archetype(i32 archetype) override;
+    i32 __stdcall create_archetype_from_raw_data(const SoundFormat&, u32 length, u32 loop_start, u32 loop_end,
+                                                 void* sample_buffer, u32 options) override;
+    i32 __stdcall create_archetype_from_soundfile(const SoundFile& sourceData, u32 options) override;
+    i32 __stdcall create_archetype(IFileSystem* sourceFile, u32 options) override;
+    GENRESULT __stdcall destroy_archetype(i32 archetype) override;
 
     // sound instance management methods
-    virtual GENRESULT __stdcall add_active_sound(ISoundSource* sound, u32 index) override; // add a single
-    virtual GENRESULT __stdcall remove_active_sound(
+    GENRESULT __stdcall add_active_sound(ISoundSource* sound, u32 index) override; // add a single
+    GENRESULT __stdcall remove_active_sound(
         ISoundSource* sound) override; // remove a sound from the active list
-    virtual GENRESULT __stdcall set_active_sounds(ISoundSource* sounds[],
-                                                  u32 count) override; // this is the list.
-    virtual u32 __stdcall get_active_sound_count() override;
-    virtual u32 __stdcall get_playing_sound_count() override;
+    GENRESULT __stdcall set_active_sounds(ISoundSource* sounds[],
+                                          u32 count) override; // this is the list.
+    u32 __stdcall get_active_sound_count() override;
+    u32 __stdcall get_playing_sound_count() override;
 
     // SoundManager methods
     GENRESULT init(AGGDESC* desc);
     GENRESULT __stdcall Initialize() override;
     GENRESULT initialize_direct_sound();
-    virtual GENRESULT __stdcall startup(HWND hWnd, u32 options) override;
-    virtual GENRESULT __stdcall shutdown() override;
-    virtual GENRESULT __stdcall get_directsound_interface(void**) override;
-    virtual u32 get_current_time_ms() override;
-    virtual GENRESULT get_device_info(SM_DEVICEINFO*) override;
-    virtual void __stdcall update(
-        ISoundListener* IEar) override; // syncs the need_to_play properties to the active sound properties.
-    virtual GENRESULT __stdcall unknownA(
+    GENRESULT __stdcall startup(HWND hWnd, u32 options) override { return GR_OK; }
+    GENRESULT __stdcall shutdown() override;
+    GENRESULT __stdcall get_directsound_interface(void**) override;
+    u32 get_current_time_ms() override;
+    GENRESULT get_device_info(SM_DEVICEINFO*) override;
+    // syncs the need_to_play properties to the active sound properties.
+    void __stdcall update(ISoundListener* IEar) override {};
+    GENRESULT __stdcall unknownA(
         void* value) override; // #TODO unsure what this is (seems to be called when pressing F1 to open menu)
-    virtual GENRESULT __stdcall unknownB(void* value)
+    GENRESULT __stdcall unknownB(void* value)
         override; // #TODO unsure what this is (seems to be called when pressing F1 to close menu)
     static GENRESULT write_data_to_buffer(SoundFile* sourceData, LPDIRECTSOUNDBUFFER lpdsBuffer,
                                           u32 length = 0);
 
     // SoundArchetype indexed methods
-    virtual GENRESULT __stdcall get_archetype_interface(i32 archetype, void** archInterface) override;
+    GENRESULT __stdcall get_archetype_interface(i32 archetype, void** archInterface) override;
     virtual void __stdcall get_sound_format(i32 archetype, SoundFormat*);
     virtual u32 __stdcall get_samples(i32 archetype, void* samples);
     virtual u32 __stdcall get_sample_count(i32 archetype);
@@ -315,40 +316,39 @@ struct SoundManager : public ISoundManager, ISoundManagerStatus, IAggregateCompo
     virtual bool __stdcall is_loopable(i32 archetype);
 
     // --- ISoundManagerStatus methods
-    virtual GENRESULT __stdcall get_playing_sound_status(int which, SoundStatus& playingStatus) override;
+    GENRESULT __stdcall get_playing_sound_status(int which, SoundStatus& playingStatus) override;
 
-    /*protected:
-      // internal methods
-      void report_audio_options();
-      i32 get_next_archetype_index();
-      GENRESULT create_instance(SoundInstance& instance, SoundInstance& newInstance);
-      GENRESULT delete_instance(ISoundSource* sound, u32 index);
-      u32 exists_in_list(const ISoundSource* source, InstanceList& checkList,
-                         InstanceList::iterator* returnItr = NULL);
-      bool need_to_play(SoundInstance& instance);
-      bool finished(const SoundInstance& instance);
-      bool in_range(SoundInstance& instance);
-      void update_instance_data(SoundInstance& instance);
-      bool update_position(SoundInstance& instance);
-      void set_listener_parameters();
-      void update_listener_parameters(ISoundListener* IEar);
-      GENRESULT create_hardware_buffer(SoundInstance& instance);
-      void check_hardware_buffer_status(SoundInstance& instance);
-      bool restore_lost_buffer(SoundInstance& instance);
-      i32 add_archetype(SOUND_ARCH* nu);
+    // internal methods
+    void report_audio_options();
+    i32 get_next_archetype_index();
+    GENRESULT create_instance(SoundInstance& instance, SoundInstance& newInstance);
+    GENRESULT delete_instance(ISoundSource* sound, u32 index);
+    u32 exists_in_list(const ISoundSource* source, InstanceList& checkList,
+                       InstanceList::iterator* returnItr = NULL);
+    bool need_to_play(SoundInstance& instance);
+    bool finished(const SoundInstance& instance);
+    bool in_range(SoundInstance& instance);
+    // void update_instance_data(SoundInstance& instance);
+    bool update_position(SoundInstance& instance);
+    void set_listener_parameters();
+    void update_listener_parameters(ISoundListener* IEar);
+    GENRESULT create_hardware_buffer(SoundInstance& instance);
+    void check_hardware_buffer_status(SoundInstance& instance);
+    bool restore_lost_buffer(SoundInstance& instance);
+    i32 add_archetype(SOUND_ARCH* nu);
 
-      static DWORD WINAPI loop_notification_thread_loop(LPVOID);
-      bool start_looping_sound_with_markers(SoundInstance& instance);
+    static DWORD WINAPI loop_notification_thread_loop(LPVOID);
+    bool start_looping_sound_with_markers(SoundInstance& instance);
 
-      // EMAURER trashes instances that were referring to 'archetype'
-      void clean_archetype_references(u32 archetype);
+    // EMAURER trashes instances that were referring to 'archetype'
+    void clean_archetype_references(u32 archetype);
 
-      // EMAURER zap all of the archetypes in the database.
-      void erase_archetypes(void);
+    // EMAURER zap all of the archetypes in the database.
+    void erase_archetypes(void);
 
-      // EMAURER like QueryInterface, if result is true the reference count of 'output'
-      // has been increased by 1. call Release () when done.
-      bool query_archetype(i32 archetype, SOUND_ARCH*& output);
+    // EMAURER like QueryInterface, if result is true the reference count of 'output'
+    // has been increased by 1. call Release () when done.
+    bool query_archetype(i32 archetype, SOUND_ARCH*& output);
 
-      static float calculate_frequency_factor(float frequency);*/
+    static float calculate_frequency_factor(float frequency);
 };
