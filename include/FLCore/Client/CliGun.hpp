@@ -44,7 +44,7 @@ struct CliGun : public CliEquip
         return true;
     }
 
-    bool FireMuzzleOverride(Vector& pos, float muzzleCone)
+    bool FireMuzzleOverride(Vector& pos, f32 muzzleCone)
     {
         auto gun = GetGun();
         auto result = gun->CanFire(pos);
@@ -61,13 +61,22 @@ struct CliGun : public CliEquip
         Vector barrelPos = gun->GetAvgBarrelPosWS();
         Vector posDiff = pos - barrelPos;
 
-        float magnitude = posDiff.magnitude();
+        f32 magnitude = posDiff.magnitude();
         posDiff = posDiff.normalize();
 
         Vector barrelDir = gun->GetBarrelDirWS(0);
 
-        auto theta = acos(barrelDir.dot_product(pos.normalize()));
-        float interpolationParam = (muzzleCone / (180.f / PI)) / theta;
+        f32 dot = barrelDir.dot_product(posDiff);
+        dot = std::clamp(dot, -1.f, 1.f);
+        f32 theta = acos(dot);
+
+        if (theta < 0.0001f)
+        {
+            return FireWithSound(pos);
+        }
+
+        f32 coneAngleRad = muzzleCone / (180.f / PI);
+        f32 interpolationParam = std::min(1.f, coneAngleRad / theta);
 
         Vector slerp1 = barrelDir * (sinf((1.f - interpolationParam) * theta) / sinf(theta));
         Vector slerp2 = posDiff * (sinf(interpolationParam * theta) / sinf(theta));
