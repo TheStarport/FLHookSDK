@@ -65,11 +65,3 @@ class CELauncher : public CAttachedEquip
     f32 refireDelayElapsed;          // 20
     Barrel barrels[8];               // 21
 };
-
-struct IObjServerEqObj;
-struct SrvGun
-{
-    void* vtable;
-    CELauncher* launcher;
-    IObjServerEqObj* owner;
-};

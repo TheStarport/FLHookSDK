@@ -6,6 +6,7 @@
 class CAttachedEquip;
 class CEShield;
 struct IObjClientEqObj;
+struct SrvEquip;
 
 struct IObjClientEqObj : ClientGameObject
 {
@@ -74,7 +75,7 @@ struct IObjServerEqObj : ServerGameObject
 
     static IObjServerEqObj* Cast(IObjInspectImpl* iobj)
     {
-        if ((iobj->cobject()->objectClass & CObject::CEQUIPMENT_OBJECT) == CObject::CEQUIPMENT_OBJECT)
+        if ((iobj->cobject()->objectClass & CObject::CEQOBJ_MASK) == CObject::CEQOBJ_MASK)
         {
             return reinterpret_cast<IObjServerEqObj*>(iobj);
         }
@@ -88,9 +89,7 @@ struct IObjServerEqObj : ServerGameObject
     void* pDunno_0x64; // struct size: 16 bytes
     int iDunnos_0x68;  // 0x64 size
     f32 fdunno_0x6C;
-    byte bDunno_0x70;
-    void* pDunno_0x74; // struct size: 12 bytes twodirectional list that loops
-    int iDunno_0x78;   // length of 0x74 chain
+    st6::list<SrvEquip*> equipList;
     byte bDunno_0x7C;
     void* pDunno_0x80; // struct size: 68 bytes list of fuses?
     int iDunno_0x84;   // 0x80 length
