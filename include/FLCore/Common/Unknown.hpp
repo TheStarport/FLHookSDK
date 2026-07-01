@@ -13,8 +13,6 @@
 
 struct HDC__;
 
-#pragma comment(lib, "FLCoreCommon.lib")
-
 struct CLoot;
 struct CObject;
 class CETractor;
